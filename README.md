@@ -1,2 +1,2 @@
 # avcall-component-ios
-It includes the audio/video call component on iOS
+It includes the basic audio/video call samples app on iOS

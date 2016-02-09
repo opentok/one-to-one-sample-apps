@@ -1,0 +1,151 @@
+package com.opentok.android.avsample.ui;
+
+
+import android.app.Fragment;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+
+import com.opentok.android.avsample.MainActivity;
+import com.opentok.android.avsample.R;
+
+public class RemoteControlFragment extends Fragment {
+
+    private static final String LOGTAG = "remote-control-fragment";
+    private static final int ANIMATION_DURATION = 7000;
+
+    private Context mContext;
+    private MainActivity mActivity;
+
+    private RelativeLayout mContainer;
+    private View mRootView;
+    private ImageButton mAudioBtn;
+    private ImageButton mVideoBtn;
+
+    private RemoteControlCallbacks mControlCallbacks = remoteCallbacks;
+
+    public interface RemoteControlCallbacks {
+
+        public void onMuteRemoteAudio(boolean audio);
+
+        public void onMuteRemoteVideo(boolean video);
+
+    }
+
+    private static RemoteControlCallbacks remoteCallbacks = new RemoteControlCallbacks() {
+
+        @Override
+        public void onMuteRemoteAudio(boolean audio) {
+
+        }
+
+        @Override
+        public void onMuteRemoteVideo(boolean video) {
+
+        }
+
+    };
+
+    private View.OnClickListener mBtnClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.remoteAudio:
+                    updateRemoteAudio();
+                    break;
+
+                case R.id.remoteVideo:
+                    updateRemoteVideo();
+                    break;
+            }
+        }
+    };
+
+
+    @Override
+    public void onAttach(Context context) {
+        Log.i(LOGTAG, "OnAttach RemoteControlFragment");
+
+        super.onAttach(context);
+
+        this.mContext = context;
+        this.mActivity = (MainActivity) context;
+        this.mControlCallbacks = (RemoteControlCallbacks) context;
+    }
+
+    @Override
+    public void onDetach() {
+        Log.i(LOGTAG, "OnDetach RemoteControlFragment");
+
+        super.onDetach();
+
+        mControlCallbacks = remoteCallbacks;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.i(LOGTAG, "OnCreate RemoteControlFragment");
+
+        mRootView = inflater.inflate(R.layout.remote_actionbar_fragment, container, false);
+
+        mContainer = (RelativeLayout) this.mActivity.findViewById(R.id.actionbar_remote_fragment_container);
+        mAudioBtn = (ImageButton) mRootView.findViewById(R.id.remoteAudio);
+        mVideoBtn = (ImageButton) mRootView.findViewById(R.id.remoteVideo);
+
+        mAudioBtn.setOnClickListener(mBtnClickListener);
+        mVideoBtn.setOnClickListener(mBtnClickListener);
+
+        mAudioBtn.setImageResource(mActivity.getComm().getRemoteAudio()
+                ? R.drawable.audio
+                : R.drawable.no_audio);
+
+        mVideoBtn.setImageResource(mActivity.getComm().getRemoteVideo()
+                ? R.drawable.video_icon
+                : R.drawable.no_video_icon);
+
+        return mRootView;
+    }
+
+    public void updateRemoteAudio(){
+
+        if(!mActivity.getComm().getRemoteAudio()){
+            mControlCallbacks.onMuteRemoteAudio(true);
+            mAudioBtn.setImageResource(R.drawable.audio);
+        }
+        else {
+            mControlCallbacks.onMuteRemoteAudio(false);
+            mAudioBtn.setImageResource(R.drawable.no_audio);
+        }
+    }
+
+    public void updateRemoteVideo(){
+
+        if(!mActivity.getComm().getRemoteVideo()){
+            mControlCallbacks.onMuteRemoteVideo(true);
+            mVideoBtn.setImageResource(R.drawable.video_icon);
+        }
+        else {
+            mControlCallbacks.onMuteRemoteVideo(false);
+            mVideoBtn.setImageResource(R.drawable.no_video_icon);
+        }
+    }
+
+    public void show(){
+
+        mContainer.setVisibility(View.VISIBLE);
+        mRootView.setVisibility(View.VISIBLE);
+
+        mContainer.postDelayed(new Runnable() {
+            public void run() {
+                mContainer.setVisibility(View.INVISIBLE);
+            }
+        }, ANIMATION_DURATION);
+    }
+
+}

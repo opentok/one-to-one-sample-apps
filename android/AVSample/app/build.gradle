@@ -25,5 +25,4 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.+'
     compile 'com.android.support:design:23.+'
     compile files('libs/opentok-android-sdk-2.7.0.jar')
-    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

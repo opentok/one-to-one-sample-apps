@@ -361,7 +361,6 @@ public class AVCommunication implements
         setRemoteAudioOnly(true); //show audio only view
 
         if (reason.equals("quality")) {   //show  quality alert
-            //marinas
             final TextView alert = (TextView) mRemoteView.getChildAt(0);
             alert.setVisibility(View.VISIBLE);
             alert.setBackgroundResource(R.color.quality_alert);

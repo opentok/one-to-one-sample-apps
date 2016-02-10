@@ -1,8 +1,10 @@
 package com.opentok.android.avsample.ui;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -18,9 +20,7 @@ import com.opentok.android.avsample.R;
 public class PreviewCameraFragment extends Fragment {
 
     private static final String LOGTAG = "local-camera-fragment";
-
-    private Context mContext;
-    private MainActivity mActivity;
+ private MainActivity mActivity;
 
     private RelativeLayout mContainer;
     private View mRootView;
@@ -55,9 +55,21 @@ public class PreviewCameraFragment extends Fragment {
 
         super.onAttach(context);
 
-        this.mContext = context;
         this.mActivity = (MainActivity) context;
         this.mCameraCallbacks = (PreviewCameraCallbacks) context;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+
+            this.mActivity = (MainActivity) activity;
+            this.mCameraCallbacks = (PreviewCameraCallbacks) activity;
+        }
+
     }
 
     @Override

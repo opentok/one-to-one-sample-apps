@@ -1,8 +1,10 @@
 package com.opentok.android.avsample.ui;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -20,7 +22,6 @@ public class PreviewControlFragment extends Fragment {
 
     private static final String LOGTAG = "local-control-fragment";
 
-    private Context mContext;
     private MainActivity mActivity;
 
     private RelativeLayout mContainer;
@@ -85,9 +86,20 @@ public class PreviewControlFragment extends Fragment {
 
         super.onAttach(context);
 
-        this.mContext = context;
         this.mActivity = (MainActivity) context;
         this.mControlCallbacks = (PreviewControlCallbacks) context;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+
+            this.mActivity = (MainActivity) activity;
+            this.mControlCallbacks = (PreviewControlCallbacks) activity;
+        }
     }
 
     @Override

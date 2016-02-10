@@ -174,14 +174,14 @@ public class PreviewControlFragment extends Fragment {
     }
 
     public void setEnabled(boolean enabled) {
-
-        if (enabled){
-            mAudioBtn.setOnClickListener(mBtnClickListener);
-            mVideoBtn.setOnClickListener(mBtnClickListener);
-        }
-        else {
-            mAudioBtn.setOnClickListener(null);
-            mVideoBtn.setOnClickListener(null);
+        if (mVideoBtn  != null && mAudioBtn != null) {
+            if (enabled) {
+                mAudioBtn.setOnClickListener(mBtnClickListener);
+                mVideoBtn.setOnClickListener(mBtnClickListener);
+            } else {
+                mAudioBtn.setOnClickListener(null);
+                mVideoBtn.setOnClickListener(null);
+            }
         }
     }
 }

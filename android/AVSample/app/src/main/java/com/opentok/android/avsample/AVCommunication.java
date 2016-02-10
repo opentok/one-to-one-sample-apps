@@ -188,11 +188,11 @@ public class AVCommunication implements
 
     public void reloadViews(){
 
-        if( mPublisher != null ){
+        if( mPublisher != null  && mPreviewView!= null){
             mPreviewView.removeView(mPublisher.getView());
             attachPublisherView(!isRemote);
         }
-        if( isRemote ){
+        if( isRemote && mRemoteView != null && mSubscriber != null ){
             mRemoteView.removeView(mSubscriber.getView());
             attachPublisherView(false); //NO FULL SCREEN FOR PREVIEW
             attachSubscriberView(mSubscriber);
@@ -361,10 +361,17 @@ public class AVCommunication implements
         setRemoteAudioOnly(true); //show audio only view
 
         if (reason.equals("quality")) {   //show  quality alert
-            mRemoteView.getChildAt(0).setVisibility(View.VISIBLE);
-            TextView warningView = (TextView) mRemoteView.getChildAt(0);
-            warningView.setBackgroundResource(R.color.quality_alert);
-            warningView.setTextColor(mContext.getResources().getColor(R.color.white));
+            //marinas
+            final TextView alert = (TextView) mRemoteView.getChildAt(0);
+            alert.setVisibility(View.VISIBLE);
+            alert.setBackgroundResource(R.color.quality_alert);
+            alert.setTextColor(mContext.getResources().getColor(R.color.white));
+
+            alert.postDelayed(new Runnable() {
+                public void run() {
+                    alert.setVisibility(View.GONE);
+                }
+            }, 7000);
         }
     }
 
@@ -380,11 +387,16 @@ public class AVCommunication implements
     @Override
     public void onVideoDisableWarning(SubscriberKit subscriberKit) {
         //show quality warning
-        mRemoteView.getChildAt(0).setVisibility(View.VISIBLE);
-        TextView warningView = (TextView) mRemoteView.getChildAt(0);
-        warningView.setBackgroundResource(R.color.quality_warning);
-        warningView.setTextColor(mContext.getResources().getColor(R.color.warning_text));
+        final TextView alert = (TextView) mRemoteView.getChildAt(0);
+        alert.setBackgroundResource(R.color.quality_warning);
+        alert.setTextColor(mContext.getResources().getColor(R.color.warning_text));
 
+        alert.setVisibility(View.VISIBLE);
+        alert.postDelayed(new Runnable() {
+            public void run() {
+                alert.setVisibility(View.GONE);
+            }
+        }, 7000);
     }
 
     @Override

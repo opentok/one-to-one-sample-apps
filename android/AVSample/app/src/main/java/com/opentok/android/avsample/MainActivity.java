@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.opentok.android.avsample.ui.PreviewCameraFragment;
 import com.opentok.android.avsample.ui.PreviewControlFragment;
 import com.opentok.android.avsample.ui.RemoteControlFragment;
@@ -154,7 +153,9 @@ public class MainActivity extends Activity implements PreviewControlFragment.Pre
             cleanViewsAndControls();
         } else {
             mComm.start();
-            mPreviewFragment.setEnabled(true);
+            if (mPreviewFragment != null){
+                mPreviewFragment.setEnabled(true);
+            }
         }
     }
 

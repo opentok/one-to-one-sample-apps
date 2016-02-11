@@ -12,9 +12,11 @@
 
 	<!-- JS -->
 	<!-- <script src="https://static.opentok.com/v2/js/opentok.min.js" type="text/javascript" defer></script> -->
-	<script src="js/opentok.js" type="text/javascript" defer></script>
 	<!-- <script src="https://code.jquery.com/jquery-1.10.2.js" defer></script> -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" defer></script> -->
+	<script src="js/opentok.js" type="text/javascript" defer></script>
 	<script src="js/jquery.js" defer></script>
+	<script src="js/underscore.js" type="text/javascript" defer></script>
 	<script src="js/components/call.js" type="text/javascript" defer></script>
 	<script src="js/app.js" type="text/javascript" defer></script>
 
@@ -27,6 +29,13 @@
 
 			<div id="videoHolderBig" class="video-wrap secondary-video"></div>
 			<div id="videoHolderSmall" class="video-wrap primary-video"></div>
+			<div id="video-control-panel">
+				<div class="video-control enabled" id="toggle-local-video"></div>
+				<div class="video-control" id="start-end-call"></div>
+				<div class="video-control enabled" id="toggle-local-audio"></div>
+			</div>
+
+
 			
 		</div>	
 

@@ -8,9 +8,7 @@ html, body {
 }
 
 #main-container {
-	height: 600px;
-	width: 80%;
-	min-width: 800px;
+	width: 90%;
 	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;
@@ -20,13 +18,18 @@ html, body {
 	flex-direction: column;
 	margin: 35px auto;
 	border: 1px solid #0099cc;
-	background-color: #d1d9dd;
+	padding: 10px;
 }
 
 #video-container {
 	position: relative;
-	height: 100%;
-	padding: 15px 10px;
+	width: 768px;
+	height: 570px;
+}
+
+#videoHolderSmall {
+	background-image: url("../images/background.png");
+	background-size: contain;
 }
 
 .secondary-video {
@@ -48,3 +51,68 @@ html, body {
 	overflow: hidden;
 	-webkit-mask-image: -webkit-radial-gradient(circle,white 100%,black 100%);
 }
+
+
+#video-control-panel {
+	height: 60px;
+	width: 100%;
+	background-image: url("../images/control-bar.png");
+	background-size: contain;
+	position: absolute;
+	bottom: 0;
+	border-radius: 0 0 6px 6px;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-align-items: center;
+	align-items: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+}
+
+.video-control {
+	height: 50px;
+	width: 50px;
+	background-repeat: no-repeat;
+	background-position: center;
+	border: 1px solid rgba(128, 128, 128, .5);
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.video-control:hover {
+	border: 1px solid rgba(128, 128, 128, 1);
+}
+
+#start-end-call {
+	background-color: rgba(87, 193, 228, .85);
+	background-image: url("../images/call.png");
+	margin: 0 15px;
+}
+
+#start-end-call:hover {
+	background-color: rgba(87, 193, 228, 1);
+}
+
+#start-end-call.active {
+	background-color: red;
+	background-image: url("../images/hang-up.png");
+}
+
+#toggle-local-video {
+	background-image: url("../images/video-icon.png");
+}
+
+#toggle-local-video.disabled, #toggle-local-video:hover {
+	background-image: url("../images/no-video-icon.png");
+}
+
+#toggle-local-audio {
+	background-image: url("../images/mic.png");
+}
+
+#toggle-local-audio.disabled, #toggle-local-audio:hover  {
+	background-image: url("../images/muted-mic.png");
+}
+

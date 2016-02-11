@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Widget">
+            <connections>
+                <outlet property="callHolder" destination="fh8-0j-QU9" id="cWd-uF-KEc"/>
+                <outlet property="connectingLabel" destination="a0z-WZ-e0w" id="6tl-lD-q2z"/>
+                <outlet property="errorMessage" destination="YSM-sr-qPv" id="yYv-wn-ySd"/>
+                <outlet property="micHolder" destination="QBU-v8-r5b" id="ycq-0X-cei"/>
+                <outlet property="publisherView" destination="Rf0-da-4aa" id="eIg-rM-Cm5"/>
+                <outlet property="subscriberView" destination="hid-a7-u24" id="qrQ-BU-ghP"/>
+                <outlet property="toggleCallButton" destination="ugS-CN-zjK" id="Je7-id-cpl"/>
+                <outlet property="videoHolder" destination="fQ9-tw-dTb" id="0A2-s6-5xU"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="hid-a7-u24">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </view>
+                <view contentMode="scaleAspectFit" id="Rf0-da-4aa">
+                    <rect key="frame" x="222" y="385" width="90" height="80"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                </view>
+                <view contentMode="scaleToFill" id="S1E-Ie-PH2">
+                    <rect key="frame" x="40" y="495" width="240" height="65"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <view alpha="0.5" contentMode="scaleToFill" id="fQ9-tw-dTb">
+                            <rect key="frame" x="8" y="7" width="52" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LxH-Pl-dMg" userLabel="toggleCam">
+                                    <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="videoIcon.png"/>
+                                    <connections>
+                                        <action selector="videoButton:" destination="-1" eventType="touchUpInside" id="fKQ-i4-1Ot"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="fh8-0j-QU9">
+                            <rect key="frame" x="94" y="7" width="52" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ugS-CN-zjK" userLabel="toggleCall">
+                                    <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="startCall.png"/>
+                                    <connections>
+                                        <action selector="callButton:" destination="-1" eventType="touchUpInside" id="8HA-7N-3cj"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.41568627450000001" green="0.67843137249999996" blue="0.74901960779999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                        <view alpha="0.5" contentMode="scaleToFill" id="QBU-v8-r5b">
+                            <rect key="frame" x="180" y="7" width="52" height="52"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="yRo-hU-buM" userLabel="toggleMic">
+                                    <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="mic.png"/>
+                                    <connections>
+                                        <action selector="micButton:" destination="-1" eventType="touchUpInside" id="i4j-wJ-NGY"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                        </view>
+                    </subviews>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cjf-oB-49V" userLabel="audioButton">
+                    <rect key="frame" x="8" y="87" width="23" height="23"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="audio.png"/>
+                    <connections>
+                        <action selector="toggleSubscriberAudio:" destination="-1" eventType="touchUpInside" id="Yq4-zt-PKa"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5EF-an-OrQ" userLabel="videoButton">
+                    <rect key="frame" x="8" y="135" width="25" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="videoIcon.png"/>
+                    <connections>
+                        <action selector="toggleSubscriberVideo:" destination="-1" eventType="touchUpInside" id="YLZ-nI-mo8"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UrY-Mm-JUg" userLabel="SwitchCamButton">
+                    <rect key="frame" x="283" y="77" width="29" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="reverse cameras.png"/>
+                    <connections>
+                        <action selector="switchCamera:" destination="-1" eventType="touchUpInside" id="HDr-lS-kWd"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting... " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a0z-WZ-e0w">
+                    <rect key="frame" x="90" y="274" width="140" height="21"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="YSM-sr-qPv" userLabel="Error Message">
+                    <rect key="frame" x="0.0" y="21" width="320" height="29"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.80392156862745101" green="0.11764705882352941" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                    <state key="normal">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <point key="canvasLocation" x="549" y="369"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="audio.png" width="25" height="25"/>
+        <image name="mic.png" width="21" height="26"/>
+        <image name="reverse cameras.png" width="55" height="39"/>
+        <image name="startCall.png" width="16" height="30"/>
+        <image name="videoIcon.png" width="24" height="14"/>
+    </resources>
+</document>

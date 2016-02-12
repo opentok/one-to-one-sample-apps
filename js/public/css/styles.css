@@ -18,7 +18,7 @@ div {
     min-width: 720px;
     min-height: calc(720px/(1024/760));
     margin: 35px auto;
-    border: 1px solid #0099cc;
+    border: 1px solid rgba(87, 193, 228, .85);
     padding: 15px;
 }
 

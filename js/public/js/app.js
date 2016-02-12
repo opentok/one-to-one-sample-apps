@@ -11,12 +11,24 @@ var app = (function(){
 	var _theirVideo = document.getElementById('videoHolderBig')
   var _call;
   var toggleCall = document.getElementById('start-end-call');
+  var _secondaryControls = document.querySelector('.secondary-controls');
 
   _callProperties = {};
   _callElements = {
     toggleLocalAudio: document.getElementById('toggle-local-audio'),
-    toggleLocalVideo: document.getElementById('toggle-local-video')   
+    toggleLocalVideo: document.getElementById('toggle-local-video'),
+    toggleRemoteAudio: document.getElementById('toggle-remote-audio'),
+    toggleRemoteVideo: document.getElementById('toggle-remote-video'),   
   };
+
+  var show = function (element) {
+    element.classList.remove('hidden');
+  };
+
+  var hide = function (element) {
+    element.classList.add('hidden');
+  };
+
 
   var options = {
          apiKey: _apiKey,
@@ -48,13 +60,17 @@ var app = (function(){
 
     var _swapVideoPositions = function(event, type) {
 
-    	if ( type === 'joined') {
+    	if ( type === 'joined' && !!_callProperties.active) {
     		
     		_myVideo.classList.add('secondary-video');
     		_myVideo.classList.remove('primary-video');
 
     		_theirVideo.classList.remove('secondary-video');
     		_theirVideo.classList.add('primary-video');
+
+        show(_secondaryControls);
+
+
 
     	} else if ( type === 'left') {
     		
@@ -63,6 +79,8 @@ var app = (function(){
 
     		_myVideo.classList.remove('secondary-video');
     		_myVideo.classList.add('primary-video');
+
+        hide(_secondaryControls);
 
     	} 
 
@@ -79,9 +97,6 @@ var app = (function(){
 
     };
 
-    // var _toggleAudioVideo = function () {
-    //   _call.enableLocalAudio(false) 
-    // }
 
     var _initCall = function(options) {
       
@@ -94,9 +109,17 @@ var app = (function(){
     };
 
     var _addEventListeners = function () {
+
+      // Call events
+      _call.onParticipantJoined = function (event) { _swapVideoPositions(event, 'joined'); }
+      _call.onParticipantLeft = function (event) { _swapVideoPositions(event, 'left'); }
+
+      // User interaction
       toggleCall.onclick = _connectCall;
       _callElements.toggleLocalAudio.onclick = function() { _toggleMediaProperties('LocalAudio'); }
       _callElements.toggleLocalVideo.onclick = function() { _toggleMediaProperties('LocalVideo'); }
+      _callElements.toggleRemoteAudio.onclick = function() { _toggleMediaProperties('RemoteAudio'); }
+      _callElements.toggleRemoteVideo.onclick = function() { _toggleMediaProperties('RemoteVideo'); }
       // toggleRemoteAudio.onclick = _toggleMedia.call('LocalVideo');
       // toggleRemoteVideo.onclick = _toggleMedia.call('LocalVideo');
       // toggleCallButton.onclick = _connectCall;
@@ -107,8 +130,6 @@ var app = (function(){
       _callProperties.active = true;
       toggleCall.classList.add('active');
       _myVideo.classList.add('active');
-      _call.onParticipantJoined = function (event) { _swapVideoPositions(event, 'joined'); }
-      _call.onParticipantLeft = function (event) { _swapVideoPositions(event, 'left'); }
       !!_call.options.subscribers.length && _swapVideoPositions(null, 'joined');
     };
 

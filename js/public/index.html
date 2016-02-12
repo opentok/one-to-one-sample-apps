@@ -23,16 +23,23 @@
 </head>
 <body>
 
-	<div id="main-container">
+	<div class="main-container">
 		
-		<div id="video-container">
+		<div class="video-container">
 
+			<div class="secondary-controls hidden">
+				<div class="video-control audio" id="toggle-remote-audio"></div>
+				<div class="video-control video" id="toggle-remote-video"></div>
+			</div>
+			
 			<div id="videoHolderBig" class="video-wrap secondary-video"></div>
+
 			<div id="videoHolderSmall" class="video-wrap primary-video video-background"></div>
-			<div id="video-control-panel">
-				<div class="video-control enabled" id="toggle-local-video"></div>
-				<div class="video-control" id="start-end-call"></div>
-				<div class="video-control enabled" id="toggle-local-audio"></div>
+			
+			<div class="primary-controls">
+				<div class="video-control circle video enabled" id="toggle-local-video"></div>
+				<div class="video-control circle call" id="start-end-call"></div>
+				<div class="video-control circle microphone enabled" id="toggle-local-audio"></div>
 			</div>
 
 

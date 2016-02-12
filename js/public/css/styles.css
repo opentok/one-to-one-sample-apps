@@ -1,27 +1,29 @@
-* {
-	box-sizing: border-box;
-}
-
 html, body {
 	margin: 0;
 	padding: 0;
 }
 
-#main-container {
+div {
+	box-sizing: border-box;
+}
+
+.hidden {
+	display: none;
+}
+
+.main-container {
 	width: 90%;
 	display: -webkit-box;
 	display: -moz-box;
-	display: -ms-flexbox;
 	display: flex;
 	-webkit-flex-direction: column;
-	-ms-flex-direction: column;
 	flex-direction: column;
 	margin: 35px auto;
 	border: 1px solid #0099cc;
 	padding: 10px;
 }
 
-#video-container {
+.video-container {
 	position: relative;
 	width: 768px;
 	height: 570px;
@@ -45,6 +47,13 @@ html, body {
 	border: 1px solid rgba(255,255,255,.8);
 }
 
+.secondary-controls {
+	position: absolute;
+	top: 25px;
+	left: 25px;
+	z-index: 100;
+}
+
 .primary-video {
 	width: 100%;
 	height: 100%;
@@ -56,8 +65,7 @@ html, body {
 	-webkit-mask-image: -webkit-radial-gradient(circle,white 100%,black 100%);
 }
 
-
-#video-control-panel {
+.primary-controls {
 	height: 60px;
 	width: 100%;
 	background-image: url("../images/control-bar.png");
@@ -67,7 +75,6 @@ html, body {
 	border-radius: 0 0 6px 6px;
 	display: -webkit-box;
 	display: -moz-box;
-	display: -ms-flexbox;
 	display: flex;
 	-webkit-align-items: center;
 	align-items: center;
@@ -80,12 +87,16 @@ html, body {
 	width: 50px;
 	background-repeat: no-repeat;
 	background-position: center;
-	border: 1px solid rgba(128, 128, 128, .5);
-	border-radius: 50%;
 	cursor: pointer;
 }
 
-.video-control:hover {
+.video-control.circle {
+	border: 1px solid rgba(128, 128, 128, .5);
+	border-radius: 50%;
+}
+
+
+.video-control.circle:hover {
 	border: 1px solid rgba(128, 128, 128, 1);
 }
 
@@ -104,19 +115,27 @@ html, body {
 	background-image: url("../images/hang-up.png");
 }
 
-#toggle-local-video {
+.video-control.video {
 	background-image: url("../images/video-icon.png");
 }
 
-#toggle-local-video.disabled, #toggle-local-video:hover {
+.video-control.video.disabled, .video-control.video:hover {
 	background-image: url("../images/no-video-icon.png");
 }
 
-#toggle-local-audio {
+.video-control.audio {
+	background-image: url("../images/audio.png");
+}
+
+.video-control.audio.disabled, .video-control.audio:hover {
+	background-image: url("../images/no-audio.png");
+}
+
+.video-control.microphone {
 	background-image: url("../images/mic.png");
 }
 
-#toggle-local-audio.disabled, #toggle-local-audio:hover  {
+.video-control.microphone.disabled, .video-control.microphone:hover  {
 	background-image: url("../images/muted-mic.png");
 }
 

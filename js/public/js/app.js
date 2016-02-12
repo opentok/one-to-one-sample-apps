@@ -45,141 +45,158 @@ var app = (function() {
     enableRemoteVideo : true
   };
 
+// DOM helper functions
+var _show = function() {
 
-  // DOM helper functions
-  var _show = function(element) {
+  elements = Array.prototype.slice.call(arguments);
+
+  elements.forEach(function(element) {
     element.classList.remove('hidden');
-  };
+  });
+};
 
-  var _hide = function(element) {
+var _hide = function() {
+
+  elements = Array.prototype.slice.call(arguments);
+
+  elements.forEach(function(element) {
     element.classList.add('hidden');
+  });
+};
+
+var _updateClassList = function(element, className, add) {
+  element.classList[add ? 'add' : 'remove'](className);
+};
+
+var _toggleClass = function(element, className) {
+  element.classList.toggle(className);
+};
+
+// Swap positions of the small and large video elements when participant joins or leaves call 
+var _swapVideoPositions = function(type) {
+
+  if (type === 'start' || type === 'joined') {
+
+    _toggleClass(_callElements.localVideo, 'secondary-video');
+    _toggleClass(_callElements.localVideo, 'primary-video');
+    _toggleClass(_callElements.remoteVideo, 'secondary-video');
+    _toggleClass(_callElements.remoteVideo, 'primary-video');
+
+    _show(_callElements.remoteControls);
+
+
+  } else if (type === 'end' || type === 'left') {
+
+    _toggleClass(_callElements.remoteVideo, 'secondary-video');
+    _toggleClass(_callElements.remoteVideo, 'primary-video');
+    _toggleClass(_callElements.localVideo, 'secondary-video');
+    _toggleClass(_callElements.localVideo, 'primary-video');
+
+    _hide(_callElements.remoteControls);
+
+  }
+
+};
+
+// Toggle local or remote audio/video
+var _toggleMediaProperties = function(type) {
+
+  _callProperties[type] = !_callProperties[type];
+
+  _call[type](_callProperties[type]);
+
+  _updateClassList(_callElements[type], 'disabled', !_callProperties[type]);
+
+};
+
+var _addEventListeners = function() {
+
+  // Call events
+  _call.onParticipantJoined = function(event) {
+
+    // Not doing anything with the event
+    _callProperties.remoteParticipant = true;
+    _callProperties.callActive && _swapVideoPositions('joined');
+
   };
 
-  var _updateClassList = function(element, className, add) {
-    element.classList[add ? 'add' : 'remove'](className);
+  _call.onParticipantLeft = function(event) {
+    // Not doing anything with the event  
+    _callProperties.remoteParticipant = false;
+    _callProperties.callActive && _swapVideoPositions('left');
+
   };
 
-  var _toggleClass = function(element, className) {
-    element.classList.toggle(className);
-  };
-
-  // Swap positions of the small and large video elements when participant joins or leaves call 
-  var _swapVideoPositions = function(type) {
-
-    if (type === 'start' || type === 'joined') {
-
-      _toggleClass(_callElements.localVideo, 'secondary-video');
-      _toggleClass(_callElements.localVideo, 'primary-video');
-      _toggleClass(_callElements.remoteVideo, 'secondary-video');
-      _toggleClass(_callElements.remoteVideo, 'primary-video');
-
-      _show(_callElements.remoteControls);
-
-
-    } else if (type === 'end' || type === 'left') {
-
-      _toggleClass(_callElements.remoteVideo, 'secondary-video');
-      _toggleClass(_callElements.remoteVideo, 'primary-video');
-      _toggleClass(_callElements.localVideo, 'secondary-video');
-      _toggleClass(_callElements.localVideo, 'primary-video');
-
-      _hide(_callElements.remoteControls);
-
+  // Click events for enabling/disabling local/remote audio/video
+  Object.keys(_callProperties).forEach(function(control) {
+    if (control.slice(0, 6) !== 'enable') {
+      return;
     }
-
-  };
-
-  // Toggle local or remote audio/video
-  var _toggleMediaProperties = function(type) {
-
-    _callProperties[type] = !_callProperties[type];
-
-    _call[type](_callProperties[type]);
-
-    _updateClassList(_callElements[type], 'disabled', !_callProperties[type]);
-
-  };
-
-  var _addEventListeners = function() {
-
-    // Call events
-    _call.onParticipantJoined = function(event) {
-
-      // Not doing anything with the event
-      _callProperties.remoteParticipant = true;
-      _callProperties.callActive && _swapVideoPositions('joined');
-
+    document.getElementById(control).onclick = function() {
+      _toggleMediaProperties(control);
     };
+  });
 
-    _call.onParticipantLeft = function(event) {
-      // Not doing anything with the event  
-      _callProperties.remoteParticipant = false;
-      _callProperties.callActive && _swapVideoPositions('left');
+  // Start or end call
+  _callElements.startEndCall.onclick = _connectCall;
 
-    };
+};
 
-    // Click events for enabling/disabling local/remote audio/video
-    Object.keys(_callProperties).forEach(function(control) {
-      if (control.slice(0, 6) !== 'enable') {
-        return;
-      }
-      document.getElementById(control).onclick = function() {
-        _toggleMediaProperties(control);
-      };
-    });
+var _startCall = function() {
 
-    // Start or end call
-    _callElements.startEndCall.onclick = _connectCall;
-
-  };
-
-  var _startCall = function() {
-
-    // Start call
-    _call.start();
-    _callProperties.callActive = true;
+  // Start call
+  _call.start();
+  _callProperties.callActive = true;
 
 
-    // Update UI
-    [_callElements.startEndCall, _callElements.localVideo].forEach(function(element) {
-      _updateClassList(element, 'active', true);
-    })
+  // Update UI
+  [_callElements.startEndCall, _callElements.localVideo].forEach(function(element) {
+    _updateClassList(element, 'active', true);
+  })
 
-    // !!_call._options.subscribers.length && _swapVideoPositions('start');
-    _callProperties.remoteParticipant && _swapVideoPositions('start');
-  };
+  _show(_callElements.enableLocalAudio, _callElements.enableLocalVideo);
 
-  var _endCall = function() {
-    _call.end();
-    _callProperties.callActive = false;
-    _toggleClass(_callElements.startEndCall, 'active');
-    !!(_callProperties.callActive || _callProperties.remoteParticipant) && _swapVideoPositions('end');
-  };
+  _callProperties.remoteParticipant && _swapVideoPositions('start');
+};
 
-  var _connectCall = function() {
+var _endCall = function() {
 
-    !_callProperties.callActive ? _startCall() : _endCall();
+  // End call
+  _call.end();
+  _callProperties.callActive = false;
 
-  };
+  // Update UI    
+  _toggleClass(_callElements.startEndCall, 'active');
 
-  var init = function() {
+  _hide(_callElements.enableLocalAudio, _callElements.enableLocalVideo);
 
-    // Get session
-    _options.session = OT.initSession(_options.apiKey, _options.sessionId);
+  !!(_callProperties.callActive || _callProperties.remoteParticipant) && _swapVideoPositions('end');
+};
 
-    // Connect
-    _options.session.connect(_options.token, function(error) {
-      if (error) {
-        console.log('Session failed to connect');
-      } else {
-        _call = new Call(_options)
-        _addEventListeners();
-      }
-    });
+var _connectCall = function() {
 
-  };
+  !_callProperties.callActive ? _startCall() : _endCall();
 
-  return init;
+};
+
+var init = function() {
+
+  // Get session
+  _options.session = OT.initSession(_options.apiKey, _options.sessionId);
+
+  // Connect
+  _options.session.connect(_options.token, function(error) {
+    if (error) {
+      console.log('Session failed to connect');
+    } else {
+      _call = new Call(_options)
+      _addEventListeners();
+    }
+  });
+
+};
+
+return init;
 
 })();
 

@@ -27,18 +27,22 @@ html, body {
 	height: 570px;
 }
 
-#videoHolderSmall {
+.video-background {
 	background-image: url("../images/background.png");
 	background-size: contain;
 }
 
 .secondary-video {
 	position: absolute;
-	top: 30px;
+	bottom: 75px;
 	right: 30px;
 	width: 174px;
 	height: 150px;
 	z-index: 1001;
+}
+
+.secondary-video.active {
+	border: 1px solid rgba(255,255,255,.8);
 }
 
 .primary-video {

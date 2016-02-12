@@ -106,8 +106,10 @@ var app = (function(){
       _call.start();
       _callProperties.active = true;
       toggleCall.classList.add('active');
+      _myVideo.classList.add('active');
       _call.onParticipantJoined = function (event) { _swapVideoPositions(event, 'joined'); }
       _call.onParticipantLeft = function (event) { _swapVideoPositions(event, 'left'); }
+      !!_call.options.subscribers.length && _swapVideoPositions(null, 'joined');
     };
 
     var _endCall = function () {

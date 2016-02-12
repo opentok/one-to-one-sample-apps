@@ -4,168 +4,185 @@ var app = (function(){
 	var _apiKey = '100';
 	var _sessionId = '2_MX4xMDB-fjE0NTUxMzMzMTg1NTJ-VHpJU0dKaEpZbENhNTNMZ25sNWs5SURYfn4';
 	var _token = 'T1==cGFydG5lcl9pZD0xMDAmc2RrX3ZlcnNpb249dGJwaHAtdjAuOTEuMjAxMS0wNy0wNSZzaWc9YWI2ZjM0YTU2YzBjNmVlMmM0MTUxYTRjZTIyOTUzNWRjYTU0YTY0ZDpzZXNzaW9uX2lkPTJfTVg0eE1EQi1makUwTlRVeE16TXpNVGcxTlRKLVZIcEpVMGRLYUVwWmJFTmhOVE5NWjI1c05XczVTVVJZZm40JmNyZWF0ZV90aW1lPTE0NTUxMzE0Mzkmcm9sZT1wdWJsaXNoZXImbm9uY2U9MTQ1NTEzMTQzOS4yMDQ4MTI0NTIwNTg3MiZleHBpcmVfdGltZT0xNDU3NzIzNDM5';
-	var _session;
 
-	var _localVideo = document.getElementById('videoHolderSmall')
-	var _remoteVideo = document.getElementById('videoHolderBig')
+	// Call component
   var _call;
-  var toggleCall = document.getElementById('start-end-call');
-  var _secondaryControls = document.querySelector('.secondary-controls');
 
-  _callProperties = {};
-  _callElements = {
-    toggleLocalAudio: document.getElementById('toggle-local-audio'),
-    toggleLocalVideo: document.getElementById('toggle-local-video'),
-    toggleRemoteAudio: document.getElementById('toggle-remote-audio'),
-    toggleRemoteVideo: document.getElementById('toggle-remote-video'),   
+  var _options = {
+    apiKey: _apiKey,
+    sessionId: _sessionId,
+    token: _token,
+    publishers: {},
+    subscribers: [],
+    streams: [],
+    localCallProperties: {
+      insertMode: 'append',
+      width: '100%',
+      height: '100%',
+      showControls: false,
+      style: {
+          buttonDisplayMode: 'off'
+      }
+    }
   };
 
-  var show = function (element) {
+  var _callElements = {
+    startEndCall      : document.getElementById('callActive'),
+    localVideo        : document.getElementById('videoHolderSmall'),
+    remoteVideo       : document.getElementById('videoHolderBig'),
+    remoteControls    : document.getElementById('remoteControls'),
+    enableLocalAudio  : document.getElementById('enableLocalAudio'),
+    enableLocalVideo  : document.getElementById('enableLocalVideo'),
+    enableRemoteAudio : document.getElementById('enableRemoteAudio'),
+    enableRemoteVideo : document.getElementById('enableRemoteVideo')
+  };
+
+  var _callProperties = {
+    callActive          : false,
+    remoteParticipant   : false,
+    enableLocalAudio    : true,
+    enableLocalVideo    : true,
+    enableRemoteAudio   : true,
+    enableRemoteVideo   : true
+  };
+
+
+  // DOM helper functions
+  var _show = function (element) {
     element.classList.remove('hidden');
   };
 
-  var hide = function (element) {
+  var _hide = function (element) {
     element.classList.add('hidden');
   };
 
+  var _updateClassList = function (element, className, add) {
+    element.classList[add ? 'add' : 'remove'](className);
+  };
 
-  var options = {
-         apiKey: _apiKey,
-         sessionId: _sessionId,
-         token: _token,
-         publishers: {},
-         subscribers: [],
-         streams: [],
-         onWMSStarted: function() {
-             console.log('AV Solution widget STARTED');
-         },
-         onWMSEnded: function() {
-             console.log('Wealth Management Solution widget ENDED');
-         },
-         onWMSError: function(error) {
-             console.log('There is an error loading the Wealth Management Solution widget: ' + error.message);
-         },
-         el: document.getElementById('video-container'),
-         localCallProperties: {
-              insertMode: 'append',
-              width: '100%',
-              height: '100%',
-              showControls: false,
-              style: {
-                  buttonDisplayMode: 'off'
-              }
-          }
-     };
+  var _toggleClass = function(element, className) {
+    element.classList.toggle(className);
+  };
 
-    var _swapVideoPositions = function(event, type) {
+    // Swap positions of the small and large video elements when participant joins or leaves call 
+    var _swapVideoPositions = function(type) {
 
-    	if ( type === 'joined' && !!_callProperties.active) {
-    		
-    		_localVideo.classList.add('secondary-video');
-    		_localVideo.classList.remove('primary-video');
+    	if ( type === 'start' || type === 'joined' ) {
 
-    		_remoteVideo.classList.remove('secondary-video');
-    		_remoteVideo.classList.add('primary-video');
+        _toggleClass(_callElements.localVideo, 'secondary-video');
+        _toggleClass(_callElements.localVideo, 'primary-video');
+        _toggleClass(_callElements.remoteVideo, 'secondary-video');
+        _toggleClass(_callElements.remoteVideo, 'primary-video');
 
-        show(_secondaryControls);
+        _show(_callElements.remoteControls);
 
 
-    	} else if ( type === 'left') {
-    		
-    		_remoteVideo.classList.add('secondary-video');
-    		_remoteVideo.classList.remove('primary-video');
+    	} else if ( type === 'end' || type === 'left') {
 
-    		_localVideo.classList.remove('secondary-video');
-    		_localVideo.classList.add('primary-video');
+        _toggleClass(_callElements.remoteVideo, 'secondary-video');
+        _toggleClass(_callElements.remoteVideo, 'primary-video');
+        _toggleClass(_callElements.localVideo, 'secondary-video');
+        _toggleClass(_callElements.localVideo, 'primary-video');
 
-        hide(_secondaryControls);
+        _hide(_callElements.remoteControls);
 
     	} 
 
     };
 
+    // Toggle local or remote audio/video
     var _toggleMediaProperties = function(type) {
 
       _callProperties[type] = !_callProperties[type];
+      
+      _call[type](_callProperties[type]);
 
-      var enabled = _callProperties[type]
-      _call['enable' + type](enabled);
-
-      _callElements['toggle' + type].classList[!enabled ? 'add' : 'remove']('disabled');
+      _updateClassList(_callElements[type], 'disabled', !_callProperties[type]);  
 
     };
 
-
-    var _initCall = function(options) {
-      
-      window._call = _call = new Call(options);
-
-      var props = ['LocalAudio', 'LocalVideo', 'RemoteAudio', 'RemoteVideo'];
-      props.forEach(function(prop){ _callProperties[prop] = true;})
-      _callProperties.active = false;
-
+    var _initCall = function() {
+      _call = new Call(_options);
     };
 
     var _addEventListeners = function () {
 
       // Call events
-      _call.onParticipantJoined = function (event) { _swapVideoPositions(event, 'joined'); }
-      _call.onParticipantLeft = function (event) { _swapVideoPositions(event, 'left'); }
+      _call.onParticipantJoined = function (event) { 
 
-      // Click events
-      toggleCall.onclick = _connectCall;
-      _callElements.toggleLocalAudio.onclick = function() { _toggleMediaProperties('LocalAudio'); }
-      _callElements.toggleLocalVideo.onclick = function() { _toggleMediaProperties('LocalVideo'); }
-      _callElements.toggleRemoteAudio.onclick = function() { _toggleMediaProperties('RemoteAudio'); }
-      _callElements.toggleRemoteVideo.onclick = function() { _toggleMediaProperties('RemoteVideo'); }
+        // Not doing anything with the event
+        _callProperties.remoteParticipant = true;
+        _callProperties.callActive && _swapVideoPositions('joined');
+      
+      };
+
+      _call.onParticipantLeft = function (event) { 
+        // Not doing anything with the event  
+        _callProperties.remoteParticipant = false;
+        _callProperties.callActive && _swapVideoPositions('left');
+      
+      };
+
+      // Click events for enabling/disabling local/remote audio/video
+      Object.keys(_callProperties).forEach(function(control) {
+        if ( control.slice(0,6) !== 'enable' ) { return; }
+        document.getElementById(control).onclick = function(){ _toggleMediaProperties(control); };
+      });
+
+      // Start or end call
+      _callElements.startEndCall.onclick = _connectCall;
 
     };
 
-    var _startCall = function () {
-      _call.start();
-      _callProperties.active = true;
-      toggleCall.classList.add('active');
-      _localVideo.classList.add('active');
-      !!_call.options.subscribers.length && _swapVideoPositions(null, 'joined');
-    };
-
-    var _endCall = function () {
-      _call.end();
-      _callProperties.active = false;
-      toggleCall.classList.remove('active');
-    };
-
-    var _connectCall = function() {
-
-      !_callProperties.active ? _startCall() : _endCall();
+  var _startCall = function () {
     
-    };
+    // Start call
+    _call.start();    
+    _callProperties.callActive = true;
+
+
+    // Update UI
+    [_callElements.startEndCall, _callElements.localVideo].forEach(function(element) {
+      _updateClassList(element, 'active', true);
+    })
+
+    // !!_call._options.subscribers.length && _swapVideoPositions('start');
+    _callProperties.remoteParticipant && _swapVideoPositions('start');
+  };
+
+  var _endCall = function () {
+    _call.end();
+    _callProperties.callActive = false;
+    _toggleClass(_callElements.startEndCall, 'active');
+    !!(_callProperties.callActive || _callProperties.remoteParticipant) && _swapVideoPositions('end');
+  };
+
+  var _connectCall = function() {
+
+    !_callProperties.callActive ? _startCall() : _endCall();
+  
+  };
 
 	var init = function(){
 
     // Get session
-		options.session = OT.initSession(options.apiKey, options.sessionId);
+		_options.session = OT.initSession(_options.apiKey, _options.sessionId);
 
     // Connect
-		options.session.connect(options.token, function(error) {
-			
+		_options.session.connect(_options.token, function(error) {
       if ( error ) { 
         console.log('Session failed to connect');
       } else {
-        _initCall(options);
+        _initCall(_options);
         _addEventListeners();
       }
-
-		})
+		});
 
 	};
 
   return init;
 
-
 })();
-
-
 
 app();
 

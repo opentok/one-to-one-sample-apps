@@ -43,7 +43,7 @@ div {
 	height: 100%;
 }
 
-.primary-controls {
+.local-controls {
 	height: 60px;
 	width: 100%;
 	background-image: url("../images/control-bar.png");
@@ -58,6 +58,7 @@ div {
 	align-items: center;
 	-webkit-justify-content: center;
 	justify-content: center;
+	z-index: 10;
 }
 
 .secondary-video {
@@ -66,20 +67,19 @@ div {
 	right: 30px;
 	width: 174px;
 	height: 150px;
-	z-index: 1001;
+	z-index: 11;
 }
 
 .secondary-video.active {
 	border: 1px solid rgba(255,255,255,.8);
 }
 
-.secondary-controls {
+.remote-controls {
 	position: absolute;
 	top: 25px;
 	left: 25px;
-	z-index: 100;
+	z-index: 12;
 }
-
 
 .video-control {
 	height: 50px;

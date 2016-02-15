@@ -25,11 +25,11 @@
             <subviews>
                 <view contentMode="scaleToFill" id="hid-a7-u24">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                 </view>
                 <view contentMode="scaleAspectFit" id="Rf0-da-4aa">
                     <rect key="frame" x="222" y="385" width="90" height="80"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                 </view>
                 <view contentMode="scaleToFill" id="S1E-Ie-PH2">
                     <rect key="frame" x="40" y="495" width="240" height="65"/>

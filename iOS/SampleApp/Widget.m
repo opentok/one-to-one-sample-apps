@@ -9,17 +9,6 @@
 #import "Widget.h"
 #import <Opentok/OpenTok.h>
 
-// otherwise no upside down rotation
-@interface UINavigationController (RotationAll)
-- (NSUInteger)supportedInterfaceOrientations;
-@end
-
-@implementation UINavigationController (RotationAll)
-- (NSUInteger)supportedInterfaceOrientations {
-  return UIInterfaceOrientationMaskAll;
-}
-@end
-
 @interface Widget () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
 @property (strong, nonatomic) IBOutlet UIView *publisherView;
 @property (strong, nonatomic) IBOutlet UIView *subscriberView;
@@ -42,12 +31,9 @@ OTSubscriber *_subscriber;
 // ===============================================================================================//
 // TOGGLE ICONS VARIABLES
 // ===============================================================================================//
-bool enable_mic = YES;
 bool enable_call = YES;
-bool enable_video = YES;
-bool subscriber_enable_video = YES;
-bool subscriber_enable_audio = YES;
-bool showing_cam_from = YES;
+// Change to NO to subscribe to streams other than your own.
+static bool subscribeToSelf = NO;
 // ===============================================================================================//
 
 -(id) initWithData:(NSMutableDictionary *)meetingInfo{
@@ -69,59 +55,54 @@ bool showing_cam_from = YES;
   [self makingBorder:_videoHolder need_background_transparent:YES];
 }
 
-- (BOOL)shouldAutorotate {
+
+- (BOOL)prefersStatusBarHidden {
   return YES;
 }
 
-- (void)willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-  [super willRotateToInterfaceOrientation: toInterfaceOrientation duration:duration];
-  UIInterfaceOrientation orientation = toInterfaceOrientation;
-  // adjust overlay views
-  if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) {
+- (BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation {
+  return YES;
+}
+
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+  [self adjustViewsForOrientation:toInterfaceOrientation];
+}
+
+- (void) adjustViewsForOrientation:(UIInterfaceOrientation)orientation {
+  if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight ||
+      orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+    
+    (_subscriber.view).frame = CGRectMake(0, 0, self.view.frame.size.height,self.view.frame.size.width);
+    
     self.subscriberView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin |
     UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
     UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-    
-    self.publisherView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin |
-    UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
-    UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
   }
 }
 
-- (void)doConnect {
-  [_connectingLabel setAlpha:1];
-  OTError *error = nil;
-  [_session connectWithToken:self.meetingInfo[@"token"] error:&error];
-  if (error)  {
-    NSLog(@"do connect error");
-    [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
-  }
-}
 
--(void)doDisconnect {
-  OTError *error = nil;
-  [_session disconnect:&error];
-  if (error) {
-    NSLog(@"disconnect failed with error: (%@)", error);
-    [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
-  }
-}
 # pragma mark - OTSession delegate callbacks
 
 -(void) sessionDidConnect:(OTSession*)session{
-  //Here we start calling the components, for now just gonna place here...
   [_connectingLabel setAlpha:0];
+  // We have successfully connected, now instantiate a publisher and
+  // begin pushing A/V streams into OpenTok.
   [self doPublish];
 }
 
 -(void) sessionDidDisconnect:(OTSession*)session{
-  //Here we start calling the components, for now just gonna place here...
-  [self removePublish];
+  // We have successfully disconnected, now stop a publisher and
+  // leave the app in status ready to reconnect if need.
+  [self doUnpublish];
 }
 
 -(void) session:(OTSession *)session streamCreated:(OTStream *)stream{
   NSLog(@"session streamCreated (%@)", stream.streamId);
-  [self doSubscribe:stream];
+  // (if NO == subscribeToSelf): Begin subscribing to a stream we
+  // have seen on the OpenTok session.
+  if (nil == _subscriber && !subscribeToSelf) {
+    [self doSubscribe:stream];
+  }
 }
 
 - (void)session:(OTSession*)session streamDestroyed:(OTStream *)stream {
@@ -155,9 +136,42 @@ bool showing_cam_from = YES;
   [self showErrorView:[NSString stringWithFormat: @"Problems when publishing"]];
 }
 
+#pragma mark - OpenTok methods
 
-///Methods that need to be in a component??? ===>
+/**
+ * Asynchronously begins the session connect process. Some time later, we will
+ * expect a delegate method to call us back with the results of this action.
+ */
+- (void)doConnect {
+  [_connectingLabel setAlpha:1];
+  OTError *error = nil;
+  [_session connectWithToken:self.meetingInfo[@"token"] error:&error];
+  if (error)  {
+    NSLog(@"do connect error");
+    [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
+  }
+}
 
+
+/**
+ * kills the current session
+ */
+-(void)doDisconnect {
+  OTError *error = nil;
+  [_session disconnect:&error];
+  if (error) {
+    NSLog(@"disconnect failed with error: (%@)", error);
+    [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
+  }
+  _session = nil;
+}
+
+
+/**
+ * Sets up an instance of OTPublisher to use with this session. OTPubilsher
+ * binds to the device camera and microphone, and will provide A/V streams
+ * to the OpenTok session.
+ */
 -(void) doPublish {
   if(!_publisher){
     _publisher = [[OTPublisher alloc] initWithDelegate:self name:[UIDevice currentDevice].name];
@@ -174,7 +188,11 @@ bool showing_cam_from = YES;
   (_publisher.view).frame = CGRectMake(0, 0, self.publisherView.bounds.size.width, self.publisherView.bounds.size.height);
 }
 
--(void) removePublish {
+/**
+ * Cleans up the publisher and its view. At this point, the publisher should not
+ * be attached to the session any more.
+ */
+-(void) doUnpublish {
   OTError* error = nil;
   if (_subscriber) {
     [_session unsubscribe:_subscriber error:&error];
@@ -186,9 +204,16 @@ bool showing_cam_from = YES;
   
   [_publisher.view removeFromSuperview];
   [_subscriber.view removeFromSuperview];
+  _publisher = nil;
+  _subscriber = nil;
 }
 
-
+/**
+ * Instantiates a subscriber for the given stream and asynchronously begins the
+ * process to begin receiving A/V content for this stream. Unlike doPublish,
+ * this method does not add the subscriber to the view hierarchy. Instead, we
+ * add the subscriber only after it has connected and begins receiving data.
+ */
 - (void)doSubscribe:(OTStream*)stream {
   _subscriber = [[OTSubscriber alloc] initWithStream:stream delegate:self];
 
@@ -200,13 +225,24 @@ bool showing_cam_from = YES;
   }
 }
 
-/// <------- End of Component Methods
+/**
+ * Cleans the subscriber from the view hierarchy, if any.
+ * NB: You do *not* have to call unsubscribe in your controller in response to
+ * a streamDestroyed event. Any subscribers (or the publisher) for a stream will
+ * be automatically removed from the session during cleanup of the stream.
+ */
+- (void)cleanupSubscriber {
+  [_subscriber.view removeFromSuperview];
+  _subscriber = nil;
+}
 
 -(void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
 }
 
+// ===============================================================================================//
+// Helps with the round borders on the interface buttons
 // ===============================================================================================//
 -(void) makingBorder: (UIView *)sendingView need_background_transparent: (BOOL)transparent {
   sendingView.layer.cornerRadius = (sendingView.bounds.size.width/2);
@@ -217,85 +253,63 @@ bool showing_cam_from = YES;
 }
 
 // ===============================================================================================//
+// Action buttons for the Interface
+// ===============================================================================================//
 - (IBAction)micButton:(UIButton *)sender {
-  UIImage *onMic = [UIImage imageNamed:@"mic"];
-  UIImage *offMic = [UIImage imageNamed:@"mutedMicLineCopy"];
-  if(enable_mic) {
-    [sender setImage:offMic forState: UIControlStateNormal];
-    _publisher.publishAudio = NO;
-    enable_mic = NO;
+  _publisher.publishAudio = !_publisher.publishAudio;
+  if(_publisher.publishAudio) {
+    [sender setImage:[UIImage imageNamed:@"mutedMicLineCopy"] forState: UIControlStateNormal];
   } else {
-    [sender setImage:onMic forState: UIControlStateNormal];
-    _publisher.publishAudio = YES;
-    enable_mic = YES;
+    [sender setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
   }
 }
 - (IBAction)callButton:(UIButton *)sender {
-  UIImage *onCall = [UIImage imageNamed:@"startCall"];
-  UIImage *offCall = [UIImage imageNamed:@"hangUp"];
   if(enable_call) {
     //BLUE SIDE
-    [sender setImage:offCall forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"hangUp"] forState: UIControlStateNormal];
     enable_call = NO;
     _callHolder.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor; //red background
     [self doConnect];
   } else {
     // RED SIDE
-    [sender setImage:onCall forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"startCall"] forState: UIControlStateNormal];
     enable_call = YES;
     _callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor; //blue background
     [self doDisconnect];
   }
 }
 - (IBAction)videoButton:(UIButton *)sender {
-  UIImage *onVideo = [UIImage imageNamed:@"videoIcon"];
-  UIImage *offVideo = [UIImage imageNamed:@"noVideoIcon"];
-  if(enable_video) {
-    [sender setImage:offVideo forState: UIControlStateNormal];
-    _publisher.publishVideo = NO;
-    enable_video = NO;
+  _publisher.publishVideo = !_publisher.publishVideo;
+  if(_publisher.publishVideo) {
+    [sender setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
   } else {
-    [sender setImage:onVideo forState: UIControlStateNormal];
-    _publisher.publishVideo = YES;
-    enable_video = YES;
+    [sender setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
   }
 }
 // ===============================================================================================//
 // SUBSCRIBER ACTIONS
 // ===============================================================================================//
 - (IBAction)toggleSubscriberVideo:(UIButton *)sender {
-  UIImage *onVideo = [UIImage imageNamed:@"videoIcon"];
-  UIImage *offVideo = [UIImage imageNamed:@"noVideoIcon"];
-  if(subscriber_enable_video) {
-    [sender setImage:offVideo forState: UIControlStateNormal];
-    _subscriber.subscribeToVideo = NO;
-    subscriber_enable_video = NO;
+  _subscriber.subscribeToVideo = !_subscriber.subscribeToVideo;
+  if(_subscriber.subscribeToVideo) {
+    [sender setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
   } else {
-    [sender setImage:onVideo forState: UIControlStateNormal];
-    _subscriber.subscribeToVideo = YES;
-    subscriber_enable_video = YES;
+    [sender setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
   }
 }
 - (IBAction)toggleSubscriberAudio:(UIButton *)sender {
-  UIImage *onAudio = [UIImage imageNamed:@"audio"];
-  UIImage *offAudio = [UIImage imageNamed:@"noSoundCopy"];
-  if(subscriber_enable_video) {
-    [sender setImage:offAudio forState: UIControlStateNormal];
-    _subscriber.subscribeToAudio = NO;
-    subscriber_enable_video = NO;
+  _subscriber.subscribeToAudio = !_subscriber.subscribeToAudio;
+  if(_subscriber.subscribeToAudio) {
+    [sender setImage:[UIImage imageNamed:@"noSoundCopy"] forState: UIControlStateNormal];
   } else {
-    [sender setImage:onAudio forState: UIControlStateNormal];
-    _subscriber.subscribeToAudio = YES;
-    subscriber_enable_video = YES;
+    [sender setImage:[UIImage imageNamed:@"audio"] forState: UIControlStateNormal];
   }
 }
 - (IBAction)switchCamera:(UIButton *)sender {
-  if (showing_cam_from) {
-    _publisher.cameraPosition = AVCaptureDevicePositionBack;
-    showing_cam_from = NO;
-  } else {
+  if (_publisher.cameraPosition == AVCaptureDevicePositionBack) {
     _publisher.cameraPosition = AVCaptureDevicePositionFront;
-    showing_cam_from = YES;
+  } else {
+    _publisher.cameraPosition = AVCaptureDevicePositionBack;
   }
 }
 

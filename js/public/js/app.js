@@ -1,16 +1,12 @@
 var app = (function() {
 
-  var _apiKey = '100';
-  var _sessionId = '2_MX4xMDB-fjE0NTUxMzMzMTg1NTJ-VHpJU0dKaEpZbENhNTNMZ25sNWs5SURYfn4';
-  var _token = 'T1==cGFydG5lcl9pZD0xMDAmc2RrX3ZlcnNpb249dGJwaHAtdjAuOTEuMjAxMS0wNy0wNSZzaWc9YWI2ZjM0YTU2YzBjNmVlMmM0MTUxYTRjZTIyOTUzNWRjYTU0YTY0ZDpzZXNzaW9uX2lkPTJfTVg0eE1EQi1makUwTlRVeE16TXpNVGcxTlRKLVZIcEpVMGRLYUVwWmJFTmhOVE5NWjI1c05XczVTVVJZZm40JmNyZWF0ZV90aW1lPTE0NTUxMzE0Mzkmcm9sZT1wdWJsaXNoZXImbm9uY2U9MTQ1NTEzMTQzOS4yMDQ4MTI0NTIwNTg3MiZleHBpcmVfdGltZT0xNDU3NzIzNDM5';
-
   // Call component
   var _call;
 
   var _options = {
-    apiKey: _apiKey,
-    sessionId: _sessionId,
-    token: _token,
+    apiKey: '', // Replace with your OpenTok API Key
+    sessionId: '', // Replace with a generated Session ID
+    token: '', // Replace with a generated token (from the dashboard or using an OpenTok server SDK)
     publishers: {},
     subscribers: [],
     streams: [],

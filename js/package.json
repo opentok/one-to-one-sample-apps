@@ -1,0 +1,15 @@
+{
+  "name": "av-sample-app",
+  "version": "1.0.0",
+  "description": "//JS Audio-video sample 1-1",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "adrice727@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}

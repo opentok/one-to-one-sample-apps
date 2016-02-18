@@ -42,7 +42,7 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LxH-Pl-dMg" userLabel="toggleCam">
                                     <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" image="videoIcon.png"/>
+                                    <state key="normal" image="assets/videoIcon.png"/>
                                     <connections>
                                         <action selector="videoButton:" destination="-1" eventType="touchUpInside" id="fKQ-i4-1Ot"/>
                                     </connections>
@@ -57,7 +57,7 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ugS-CN-zjK" userLabel="toggleCall">
                                     <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" image="startCall.png"/>
+                                    <state key="normal" image="assets/startCall.png"/>
                                     <connections>
                                         <action selector="callButton:" destination="-1" eventType="touchUpInside" id="8HA-7N-3cj"/>
                                     </connections>
@@ -72,7 +72,7 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="yRo-hU-buM" userLabel="toggleMic">
                                     <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" image="mic.png"/>
+                                    <state key="normal" image="assets/mic.png"/>
                                     <connections>
                                         <action selector="micButton:" destination="-1" eventType="touchUpInside" id="i4j-wJ-NGY"/>
                                     </connections>
@@ -86,7 +86,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cjf-oB-49V" userLabel="audioButton">
                     <rect key="frame" x="8" y="87" width="23" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="audio.png"/>
+                    <state key="normal" image="assets/audio.png"/>
                     <connections>
                         <action selector="toggleSubscriberAudio:" destination="-1" eventType="touchUpInside" id="Yq4-zt-PKa"/>
                     </connections>
@@ -94,7 +94,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5EF-an-OrQ" userLabel="videoButton">
                     <rect key="frame" x="8" y="135" width="25" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="videoIcon.png"/>
+                    <state key="normal" image="assets/videoIcon.png"/>
                     <connections>
                         <action selector="toggleSubscriberVideo:" destination="-1" eventType="touchUpInside" id="YLZ-nI-mo8"/>
                     </connections>
@@ -102,7 +102,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UrY-Mm-JUg" userLabel="SwitchCamButton">
                     <rect key="frame" x="283" y="77" width="29" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="reverse cameras.png"/>
+                    <state key="normal" image="assets/reverse cameras.png"/>
                     <connections>
                         <action selector="switchCamera:" destination="-1" eventType="touchUpInside" id="HDr-lS-kWd"/>
                     </connections>
@@ -130,10 +130,10 @@
         </view>
     </objects>
     <resources>
-        <image name="audio.png" width="25" height="25"/>
-        <image name="mic.png" width="21" height="26"/>
-        <image name="reverse cameras.png" width="55" height="39"/>
-        <image name="startCall.png" width="16" height="30"/>
-        <image name="videoIcon.png" width="24" height="14"/>
+        <image name="assets/audio.png" width="25" height="25"/>
+        <image name="assets/mic.png" width="21" height="26"/>
+        <image name="assets/reverse cameras.png" width="55" height="39"/>
+        <image name="assets/startCall.png" width="16" height="30"/>
+        <image name="assets/videoIcon.png" width="24" height="14"/>
     </resources>
 </document>

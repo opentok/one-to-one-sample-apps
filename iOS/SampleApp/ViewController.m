@@ -23,7 +23,9 @@ static NSString* const kSessionId = @"";
 // Replace with your generated token
 static NSString* const kToken = @"";
 // ===============================================================================================//
-static NSString* const kTextChatType = @"AVCommunication";
+// Change to NO to subscribe to streams other than your own.
+static bool subscribeToSelf = NO;
+
 
 @implementation ViewController
 
@@ -36,7 +38,8 @@ NSMutableDictionary *configInfo;
                     dictionaryWithDictionary: @{
                                                @"api": kApiKey,
                                                @"sessionId": kSessionId,
-                                               @"token": kToken
+                                               @"token": kToken,
+                                               @"subscribeToSelf": @(subscribeToSelf)
                                                }];
 }
 

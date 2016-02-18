@@ -32,8 +32,7 @@ OTSubscriber *_subscriber;
 // TOGGLE ICONS VARIABLES
 // ===============================================================================================//
 bool enable_call = YES;
-// Change to NO to subscribe to streams other than your own.
-static bool subscribeToSelf = NO;
+bool subscribeToSelf;
 // ===============================================================================================//
 
 -(id) initWithData:(NSMutableDictionary *)configInfo{
@@ -50,6 +49,7 @@ static bool subscribeToSelf = NO;
   _session = [[OTSession alloc] initWithApiKey:self.configInfo[@"api"]
                                      sessionId:self.configInfo[@"sessionId"]
                                       delegate:self];
+  subscribeToSelf = self.configInfo[@"subscribeToSelf"];
   [self makingBorder:_micHolder need_background_transparent:YES];
   [self makingBorder:_callHolder need_background_transparent:NO];
   [self makingBorder:_videoHolder need_background_transparent:YES];

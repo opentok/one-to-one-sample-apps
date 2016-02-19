@@ -1,6 +1,5 @@
 package com.opentok.android.avsample.ui;
 
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -47,19 +46,13 @@ public class PreviewControlFragment extends Fragment {
 
 
         @Override
-        public void onMuteLocalAudio(boolean audio) {
-
-        }
+        public void onMuteLocalAudio(boolean audio) { }
 
         @Override
-        public void onMuteLocalVideo(boolean video) {
-
-        }
+        public void onMuteLocalVideo(boolean video) { }
 
         @Override
-        public void onCall() {
-
-        }
+        public void onCall() { }
     };
 
     private View.OnClickListener mBtnClickListener = new View.OnClickListener() {
@@ -148,31 +141,29 @@ public class PreviewControlFragment extends Fragment {
 
     }
 
-    public void updateLocalAudio(){
+    public void updateLocalAudio() {
 
-        if(!mActivity.getComm().getLocalAudio()){
+        if (!mActivity.getComm().getLocalAudio()) {
             mControlCallbacks.onMuteLocalAudio(true);
             mAudioBtn.setImageResource(R.drawable.mic_icon);
-        }
-        else {
+        } else {
             mControlCallbacks.onMuteLocalAudio(false);
             mAudioBtn.setImageResource(R.drawable.muted_mic_icon);
         }
     }
 
-    public void updateLocalVideo(){
+    public void updateLocalVideo() {
 
-        if(!mActivity.getComm().getLocalVideo()){
+        if (!mActivity.getComm().getLocalVideo()) {
             mControlCallbacks.onMuteLocalVideo(true);
             mVideoBtn.setImageResource(R.drawable.video_icon);
-        }
-        else {
+        } else {
             mControlCallbacks.onMuteLocalVideo(false);
             mVideoBtn.setImageResource(R.drawable.no_video_icon);
         }
     }
 
-    public void updateCall(){
+    public void updateCall() {
 
         mCallBtn.setImageResource(!mActivity.getComm().isStarted()
                 ? R.drawable.hang_up
@@ -186,7 +177,7 @@ public class PreviewControlFragment extends Fragment {
     }
 
     public void setEnabled(boolean enabled) {
-        if (mVideoBtn  != null && mAudioBtn != null) {
+        if (mVideoBtn != null && mAudioBtn != null) {
             if (enabled) {
                 mAudioBtn.setOnClickListener(mBtnClickListener);
                 mVideoBtn.setOnClickListener(mBtnClickListener);

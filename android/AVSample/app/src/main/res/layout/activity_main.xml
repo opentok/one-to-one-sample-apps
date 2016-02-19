@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradien_backg"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity"
-    android:background="@drawable/gradien_backg">
+    tools:context=".MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,8 +16,8 @@
             android:id="@+id/subscriberview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
             android:clickable="false"
+            android:gravity="center_horizontal"
             android:onClick="showRemoteControlBar">
 
             <TextView
@@ -25,12 +25,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/alert_bar_height"
                 android:background="@color/quality_warning"
-                android:textSize="@dimen/alert_text"
                 android:gravity="center"
-                android:textColor="@color/warning_text"
                 android:text="@string/network_quality"
-                android:visibility="gone">
-            </TextView>
+                android:textColor="@color/warning_text"
+                android:textSize="@dimen/alert_text"
+                android:visibility="gone"></TextView>
 
             <RelativeLayout
                 android:id="@+id/audioOnlyView"
@@ -38,7 +37,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/avatar"
@@ -47,7 +46,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="30dp"
-                    android:src="@drawable/avatar"/>
+                    android:src="@drawable/avatar" />
 
             </RelativeLayout>
 
@@ -56,8 +55,7 @@
         <RelativeLayout
             android:id="@+id/publisherview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">s
-        </RelativeLayout>
+            android:layout_height="match_parent">s</RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/actionbar_preview_fragment_container"
@@ -65,30 +63,27 @@
             android:layout_height="@dimen/action_bar_height"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:visibility="visible">
-        </RelativeLayout>
+            android:visibility="visible"></RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/camera_preview_fragment_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:layout_marginRight="21.5dp"
             android:layout_marginTop="37.5dp"
-            android:visibility="visible">
-        </RelativeLayout>
+            android:visibility="visible"></RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/actionbar_remote_fragment_container"
             android:layout_width="@dimen/action_bar_width"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="37.5dp"
+            android:layout_alignParentTop="true"
             android:layout_marginLeft="21.5dp"
-            android:visibility="visible">
-        </RelativeLayout>
+            android:layout_marginTop="37.5dp"
+            android:visibility="visible"></RelativeLayout>
     </RelativeLayout>
 
 

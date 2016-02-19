@@ -1,6 +1,5 @@
 package com.opentok.android.avsample.ui;
 
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -20,7 +19,7 @@ import com.opentok.android.avsample.R;
 public class PreviewCameraFragment extends Fragment {
 
     private static final String LOGTAG = "local-camera-fragment";
- private MainActivity mActivity;
+    private MainActivity mActivity;
 
     private RelativeLayout mContainer;
     private View mRootView;
@@ -37,15 +36,13 @@ public class PreviewCameraFragment extends Fragment {
     private static PreviewCameraCallbacks cameraCallbacks = new PreviewCameraCallbacks() {
 
         @Override
-        public void onCameraSwap() {
-
-        }
+        public void onCameraSwap() {}
 
     };
 
     private View.OnClickListener mBtnClickListener = new View.OnClickListener() {
         public void onClick(View v) {
-           cameraSwap();
+            cameraSwap();
         }
     };
 
@@ -96,7 +93,7 @@ public class PreviewCameraFragment extends Fragment {
         return mRootView;
     }
 
-    public void cameraSwap(){
+    public void cameraSwap() {
         mCameraCallbacks.onCameraSwap();
     }
 

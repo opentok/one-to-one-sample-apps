@@ -1,6 +1,5 @@
 package com.opentok.android.avsample.ui;
 
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -42,14 +41,10 @@ public class RemoteControlFragment extends Fragment {
     private static RemoteControlCallbacks remoteCallbacks = new RemoteControlCallbacks() {
 
         @Override
-        public void onMuteRemoteAudio(boolean audio) {
-
-        }
+        public void onMuteRemoteAudio(boolean audio) { }
 
         @Override
-        public void onMuteRemoteVideo(boolean video) {
-
-        }
+        public void onMuteRemoteVideo(boolean video) { }
 
     };
 

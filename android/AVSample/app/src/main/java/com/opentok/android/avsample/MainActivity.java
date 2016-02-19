@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.opentok.android.avsample.ui.PreviewCameraFragment;
 import com.opentok.android.avsample.ui.PreviewControlFragment;
@@ -24,8 +23,7 @@ public class MainActivity extends Activity implements PreviewControlFragment.Pre
 
     private RelativeLayout mPreviewViewContainer;
     private RelativeLayout mRemoteViewContainer;
-    private RelativeLayout remoteAudioOnly;
-    private TextView qualityWarning;
+
 
     private AVCommunication mComm;
 
@@ -45,8 +43,6 @@ public class MainActivity extends Activity implements PreviewControlFragment.Pre
 
         mPreviewViewContainer = (RelativeLayout) findViewById(R.id.publisherview);
         mRemoteViewContainer = (RelativeLayout) findViewById(R.id.subscriberview);
-        remoteAudioOnly = (RelativeLayout) findViewById(R.id.audioOnlyView);
-        qualityWarning = (TextView) findViewById(R.id.quality_warning);
 
         //request Marshmallow camera permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -91,23 +87,23 @@ public class MainActivity extends Activity implements PreviewControlFragment.Pre
         }
 
         if (mComm != null) {
-            mComm.reloadViews(); //reload the local preview and the remote view
+            mComm.reloadViews(); //reload the local preview and the remote views
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int permsRequestCode, String[] permissions,
+                                           int[] grantResults) {
+
+        switch (permsRequestCode) {
+
+            case 200:
+                boolean video = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                boolean audio = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                break;
         }
-
-        @Override
-        public void onRequestPermissionsResult ( int permsRequestCode, String[] permissions,
-        int[] grantResults){
-
-            switch (permsRequestCode) {
-
-                case 200:
-                    boolean video = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean audio = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                    break;
-            }
-        }
+    }
 
     private void initPreviewFragment() {
         mPreviewFragment = new PreviewControlFragment();
@@ -153,7 +149,7 @@ public class MainActivity extends Activity implements PreviewControlFragment.Pre
             cleanViewsAndControls();
         } else {
             mComm.start();
-            if (mPreviewFragment != null){
+            if (mPreviewFragment != null) {
                 mPreviewFragment.setEnabled(true);
             }
         }
@@ -170,7 +166,6 @@ public class MainActivity extends Activity implements PreviewControlFragment.Pre
     @Override
     public void onMuteRemoteVideo(boolean video) {
         if (mComm != null) {
-          //  setRemoteAudioOnly(!video);
             mComm.enableRemoteMedia(AVCommunication.MediaType.VIDEO, video);
         }
     }
@@ -188,10 +183,9 @@ public class MainActivity extends Activity implements PreviewControlFragment.Pre
             mComm.swapCamera();
         }
     }
-    
+
     //cleans views and controls
     private void cleanViewsAndControls() {
-        //setRemoteAudioOnly(false); //clean views
         mPreviewFragment.setEnabled(false);
     }
 }

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Widget">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AVCommunication">
             <connections>
                 <outlet property="callHolder" destination="fh8-0j-QU9" id="cWd-uF-KEc"/>
                 <outlet property="connectingLabel" destination="a0z-WZ-e0w" id="6tl-lD-q2z"/>
                 <outlet property="errorMessage" destination="YSM-sr-qPv" id="yYv-wn-ySd"/>
-                <outlet property="micHolder" destination="QBU-v8-r5b" id="ycq-0X-cei"/>
+                <outlet property="micHolder" destination="QBU-v8-r5b" id="VUo-1a-Dvy"/>
                 <outlet property="publisherView" destination="Rf0-da-4aa" id="eIg-rM-Cm5"/>
                 <outlet property="subscriberView" destination="hid-a7-u24" id="qrQ-BU-ghP"/>
-                <outlet property="toggleCallButton" destination="ugS-CN-zjK" id="Je7-id-cpl"/>
-                <outlet property="videoHolder" destination="fQ9-tw-dTb" id="0A2-s6-5xU"/>
+                <outlet property="toggleCallButton" destination="ugS-CN-zjK" id="Rnt-CN-cl7"/>
+                <outlet property="videoHolder" destination="fQ9-tw-dTb" id="0r3-i0-bts"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -35,16 +34,16 @@
                     <rect key="frame" x="40" y="495" width="240" height="65"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <view alpha="0.5" contentMode="scaleToFill" id="fQ9-tw-dTb">
+                        <view alpha="0.5" contentMode="scaleToFill" id="fQ9-tw-dTb" userLabel="Video Holder">
                             <rect key="frame" x="8" y="7" width="52" height="52"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LxH-Pl-dMg" userLabel="toggleCam">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LxH-Pl-dMg" userLabel="publisherVideoButton">
                                     <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" image="assets/videoIcon.png"/>
                                     <connections>
-                                        <action selector="videoButton:" destination="-1" eventType="touchUpInside" id="fKQ-i4-1Ot"/>
+                                        <action selector="publisherVideoButtonPressed:" destination="-1" eventType="touchUpInside" id="guP-bt-7Du"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -54,64 +53,64 @@
                             <rect key="frame" x="94" y="7" width="52" height="52"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ugS-CN-zjK" userLabel="toggleCall">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ugS-CN-zjK" userLabel="publisherCallButton">
                                     <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" image="assets/startCall.png"/>
                                     <connections>
-                                        <action selector="callButton:" destination="-1" eventType="touchUpInside" id="8HA-7N-3cj"/>
+                                        <action selector="publisherCallButtonPressed:" destination="-1" eventType="touchUpInside" id="Vov-zo-neM"/>
                                     </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" red="0.41568627450000001" green="0.67843137249999996" blue="0.74901960779999999" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
-                        <view alpha="0.5" contentMode="scaleToFill" id="QBU-v8-r5b">
+                        <view alpha="0.5" contentMode="scaleToFill" id="QBU-v8-r5b" userLabel="Mic Holder">
                             <rect key="frame" x="180" y="7" width="52" height="52"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="yRo-hU-buM" userLabel="toggleMic">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="yRo-hU-buM" userLabel="publisherMicButton">
                                     <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" image="assets/mic.png"/>
                                     <connections>
-                                        <action selector="micButton:" destination="-1" eventType="touchUpInside" id="i4j-wJ-NGY"/>
+                                        <action selector="publisherMicrophoneButtonPressed:" destination="-1" eventType="touchUpInside" id="Qwe-rn-4wZ"/>
                                     </connections>
                                 </button>
                             </subviews>
-                            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                         </view>
                     </subviews>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cjf-oB-49V" userLabel="audioButton">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cjf-oB-49V" userLabel="subscriberAudioButton">
                     <rect key="frame" x="8" y="87" width="23" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="assets/audio.png"/>
                     <connections>
-                        <action selector="toggleSubscriberAudio:" destination="-1" eventType="touchUpInside" id="Yq4-zt-PKa"/>
+                        <action selector="subscriberAudioButtonPressed:" destination="-1" eventType="touchUpInside" id="VHH-Qw-31g"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5EF-an-OrQ" userLabel="videoButton">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5EF-an-OrQ" userLabel="subscriberVideoButton">
                     <rect key="frame" x="8" y="135" width="25" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="assets/videoIcon.png"/>
                     <connections>
-                        <action selector="toggleSubscriberVideo:" destination="-1" eventType="touchUpInside" id="YLZ-nI-mo8"/>
+                        <action selector="subscriberVideoButtonPressed:" destination="-1" eventType="touchUpInside" id="OBj-9N-gdu"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UrY-Mm-JUg" userLabel="SwitchCamButton">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UrY-Mm-JUg" userLabel="publisherCameraButton">
                     <rect key="frame" x="283" y="77" width="29" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="assets/reverse cameras.png"/>
                     <connections>
-                        <action selector="switchCamera:" destination="-1" eventType="touchUpInside" id="HDr-lS-kWd"/>
+                        <action selector="publisherCameraButtonPressed:" destination="-1" eventType="touchUpInside" id="d73-Ua-15W"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting... " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a0z-WZ-e0w">
                     <rect key="frame" x="90" y="274" width="140" height="21"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="YSM-sr-qPv" userLabel="Error Message">

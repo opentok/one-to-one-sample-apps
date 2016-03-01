@@ -123,18 +123,16 @@ var _addEventListeners = function() {
 
   };
 
-  // Click events for enabling/disabling local/remote audio/video
-  Object.keys(_callProperties).forEach(function(control) {
-    if (control.slice(0, 6) !== 'enable') {
-      return;
-    }
+  // Start or end call
+  _callElements.startEndCall.onclick = _connectCall;
+
+  // Click events for enabling/disabling audio/video
+  var controls = ['enableLocalAudio', 'enableLocalVideo', 'enableRemoteAudio', 'enableRemoteAudio'];
+  controls.forEach(function(control) {
     document.getElementById(control).onclick = function() {
       _toggleMediaProperties(control);
     };
   });
-
-  // Start or end call
-  _callElements.startEndCall.onclick = _connectCall;
 
 };
 

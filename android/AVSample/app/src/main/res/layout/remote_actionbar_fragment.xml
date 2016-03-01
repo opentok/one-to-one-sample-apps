@@ -16,19 +16,19 @@
             android:id="@+id/remoteVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/video_icon"
+            android:background="@null"
             android:enabled="false"
-            android:background="@null"/>
+            android:src="@drawable/video_icon" />
 
         <ImageButton
             android:id="@+id/remoteAudio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/audio"
-            android:enabled="false"
-            android:layout_marginTop="25dp"
             android:layout_below="@+id/remoteVideo"
-            android:background="@null"/>
+            android:layout_marginTop="25dp"
+            android:background="@null"
+            android:enabled="false"
+            android:src="@drawable/audio" />
 
     </RelativeLayout>
 

@@ -1,15 +1,15 @@
 //
-//  Widget.m
+//  AVCommunication.m
 //  SampleApp
 //
 //  Created by Esteban Cordero on 2/8/16.
 //  Copyright © 2016 AgilityFeat. All rights reserved.
 //
 
-#import "Widget.h"
+#import "AVCommunication.h"
 #import <Opentok/OpenTok.h>
 
-@interface Widget () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
+@interface AVCommunication () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
 @property (strong, nonatomic) IBOutlet UIView *publisherView;
 @property (strong, nonatomic) IBOutlet UIView *subscriberView;
 
@@ -22,7 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *errorMessage;
 @end
 
-@implementation Widget
+@implementation AVCommunication
 
 OTSession *_session;
 OTPublisher *_publisher;
@@ -32,14 +32,13 @@ OTSubscriber *_subscriber;
 // TOGGLE ICONS VARIABLES
 // ===============================================================================================//
 bool enable_call = YES;
-// Change to NO to subscribe to streams other than your own.
-static bool subscribeToSelf = NO;
+bool subscribeToSelf;
 // ===============================================================================================//
 
--(id) initWithData:(NSMutableDictionary *)meetingInfo{
+-(id) initWithData:(NSMutableDictionary *)configInfo{
   //NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-  if( self = [self initWithNibName:@"Widget" bundle:[NSBundle mainBundle]]) {
-    self.meetingInfo = meetingInfo;
+  if( self = [self initWithNibName:@"AVCommunication" bundle:[NSBundle mainBundle]]) {
+    self.configInfo = configInfo;
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
   }
   return self;
@@ -47,9 +46,10 @@ static bool subscribeToSelf = NO;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  _session = [[OTSession alloc] initWithApiKey:self.meetingInfo[@"api"]
-                                     sessionId:self.meetingInfo[@"sessionId"]
+  _session = [[OTSession alloc] initWithApiKey:self.configInfo[@"api"]
+                                     sessionId:self.configInfo[@"sessionId"]
                                       delegate:self];
+  subscribeToSelf = self.configInfo[@"subscribeToSelf"];
   [self makingBorder:_micHolder need_background_transparent:YES];
   [self makingBorder:_callHolder need_background_transparent:NO];
   [self makingBorder:_videoHolder need_background_transparent:YES];
@@ -145,7 +145,7 @@ static bool subscribeToSelf = NO;
 - (void)doConnect {
   [_connectingLabel setAlpha:1];
   OTError *error = nil;
-  [_session connectWithToken:self.meetingInfo[@"token"] error:&error];
+  [_session connectWithToken:self.configInfo[@"token"] error:&error];
   if (error)  {
     NSLog(@"do connect error");
     [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
@@ -258,21 +258,21 @@ static bool subscribeToSelf = NO;
 - (IBAction)micButton:(UIButton *)sender {
   _publisher.publishAudio = !_publisher.publishAudio;
   if(_publisher.publishAudio) {
-    [sender setImage:[UIImage imageNamed:@"mutedMicLineCopy"] forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"assets/mutedMicLineCopy"] forState: UIControlStateNormal];
   } else {
-    [sender setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"assets/mic"] forState: UIControlStateNormal];
   }
 }
 - (IBAction)callButton:(UIButton *)sender {
   if(enable_call) {
     //BLUE SIDE
-    [sender setImage:[UIImage imageNamed:@"hangUp"] forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"assets/hangUp"] forState: UIControlStateNormal];
     enable_call = NO;
     _callHolder.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor; //red background
     [self doConnect];
   } else {
     // RED SIDE
-    [sender setImage:[UIImage imageNamed:@"startCall"] forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"assets/startCall"] forState: UIControlStateNormal];
     enable_call = YES;
     _callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor; //blue background
     [self doDisconnect];
@@ -281,9 +281,9 @@ static bool subscribeToSelf = NO;
 - (IBAction)videoButton:(UIButton *)sender {
   _publisher.publishVideo = !_publisher.publishVideo;
   if(_publisher.publishVideo) {
-    [sender setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"assets/noVideoIcon"] forState: UIControlStateNormal];
   } else {
-    [sender setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"assets/videoIcon"] forState: UIControlStateNormal];
   }
 }
 // ===============================================================================================//
@@ -292,17 +292,17 @@ static bool subscribeToSelf = NO;
 - (IBAction)toggleSubscriberVideo:(UIButton *)sender {
   _subscriber.subscribeToVideo = !_subscriber.subscribeToVideo;
   if(_subscriber.subscribeToVideo) {
-    [sender setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"assets/noVideoIcon"] forState: UIControlStateNormal];
   } else {
-    [sender setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"assets/videoIcon"] forState: UIControlStateNormal];
   }
 }
 - (IBAction)toggleSubscriberAudio:(UIButton *)sender {
   _subscriber.subscribeToAudio = !_subscriber.subscribeToAudio;
   if(_subscriber.subscribeToAudio) {
-    [sender setImage:[UIImage imageNamed:@"noSoundCopy"] forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"assets/noSoundCopy"] forState: UIControlStateNormal];
   } else {
-    [sender setImage:[UIImage imageNamed:@"audio"] forState: UIControlStateNormal];
+    [sender setImage:[UIImage imageNamed:@"assets/audio"] forState: UIControlStateNormal];
   }
 }
 - (IBAction)switchCamera:(UIButton *)sender {

@@ -7,10 +7,10 @@
 //
 
 #import "ViewController.h"
-#import "Widget.h"
+#import "AVCommunication.h"
 
 @interface ViewController ()
-@property Widget *widgetController;
+@property AVCommunication *avcommunicationController;
 @end
 
 // ===============================================================================================//
@@ -23,27 +23,30 @@ static NSString* const kSessionId = @"";
 // Replace with your generated token
 static NSString* const kToken = @"";
 // ===============================================================================================//
-static NSString* const kTextChatType = @"A/V Call";
+// Change to NO to subscribe to streams other than your own.
+static bool subscribeToSelf = NO;
+
 
 @implementation ViewController
 
-NSMutableDictionary *connectionInfo;
+NSMutableDictionary *configInfo;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  connectionInfo = [NSMutableDictionary
+  configInfo = [NSMutableDictionary
                     dictionaryWithDictionary: @{
                                                @"api": kApiKey,
                                                @"sessionId": kSessionId,
-                                               @"token": kToken
+                                               @"token": kToken,
+                                               @"subscribeToSelf": @(subscribeToSelf)
                                                }];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-  if(connectionInfo){
-    self.widgetController = [[Widget alloc] initWithData:connectionInfo];
-    [self presentViewController:self.widgetController animated:YES completion:nil];
+  if(configInfo){
+    self.avcommunicationController = [[AVCommunication alloc] initWithData:configInfo];
+    [self presentViewController:self.avcommunicationController animated:YES completion:nil];
   }
 }
 

@@ -1,4 +1,4 @@
-package com.opentok.android.avsample.ui;
+package com.opentok.android.sample.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import com.opentok.android.avsample.MainActivity;
+import com.opentok.android.sample.MainActivity;
 import com.opentok.android.avsample.R;
 
 public class RemoteControlFragment extends Fragment {
@@ -31,21 +31,17 @@ public class RemoteControlFragment extends Fragment {
     private RemoteControlCallbacks mControlCallbacks = remoteCallbacks;
 
     public interface RemoteControlCallbacks {
-
         public void onMuteRemoteAudio(boolean audio);
 
         public void onMuteRemoteVideo(boolean video);
-
     }
 
     private static RemoteControlCallbacks remoteCallbacks = new RemoteControlCallbacks() {
-
         @Override
         public void onMuteRemoteAudio(boolean audio) { }
 
         @Override
         public void onMuteRemoteVideo(boolean video) { }
-
     };
 
     private View.OnClickListener mBtnClickListener = new View.OnClickListener() {
@@ -61,7 +57,6 @@ public class RemoteControlFragment extends Fragment {
             }
         }
     };
-
 
     @Override
     public void onAttach(Context context) {
@@ -120,7 +115,6 @@ public class RemoteControlFragment extends Fragment {
     }
 
     public void updateRemoteAudio(){
-
         if(!mActivity.getComm().getRemoteAudio()){
             mControlCallbacks.onMuteRemoteAudio(true);
             mAudioBtn.setImageResource(R.drawable.audio);
@@ -132,7 +126,6 @@ public class RemoteControlFragment extends Fragment {
     }
 
     public void updateRemoteVideo(){
-
         if(!mActivity.getComm().getRemoteVideo()){
             mControlCallbacks.onMuteRemoteVideo(true);
             mVideoBtn.setImageResource(R.drawable.video_icon);
@@ -144,7 +137,6 @@ public class RemoteControlFragment extends Fragment {
     }
 
     public void show(){
-
         mContainer.setVisibility(View.VISIBLE);
         mRootView.setVisibility(View.VISIBLE);
 

@@ -1,11 +1,10 @@
-package com.opentok.android.avsample;
+package com.opentok.android.sample;
 
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.opentok.android.BaseVideoRenderer;
 import com.opentok.android.OpentokError;
@@ -15,15 +14,15 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
-import com.opentok.android.avsample.config.OpenTokConfig;
+import com.opentok.android.avsample.R;
+import com.opentok.android.sample.config.OpenTokConfig;
 
 import java.util.ArrayList;
 
-public class AVCommunication implements
+public class OneToOneComm implements
         Session.SessionListener, Publisher.PublisherListener, Subscriber.SubscriberListener, Subscriber.VideoListener {
 
-    private static final String LOGTAG = "opentok-avcommunication";
-
+    private static final String LOGTAG = "opentok-1to1-comm";
     private Context mContext;
 
     private Session mSession;
@@ -42,6 +41,7 @@ public class AVCommunication implements
 
     private boolean isRemote = false;
 
+    protected Listener mListener;
     /**
      * Defines values for the {@link #enableLocalMedia(MediaType, boolean)}
      * and {@link #enableRemoteMedia(MediaType, boolean)} methods.
@@ -49,21 +49,35 @@ public class AVCommunication implements
     public enum MediaType {
         AUDIO,
         VIDEO
+    };
+
+    /**
+     * Monitors OpenTok actions which should be notified to the activity.
+     *
+     */
+    public static interface Listener {
+        void onError(String error);
+        void onQualityWarning(boolean warning);
+        void onAudioOnly(boolean enabled);
     }
 
-    ;
-
-    public AVCommunication(Context context) {
+    public OneToOneComm(Context context) {
         this.mContext = context;
 
         mStreams = new ArrayList<Stream>();
     }
 
     /**
+     * Set 1to1 communication listener.
+     */
+    public void setListener(Listener listener) {
+        mListener = listener;
+    }
+
+    /**
      * Start the communication.
      */
     public void start() {
-
         if (mSession == null) {
             mSession = new Session(mContext,
                     OpenTokConfig.API_KEY, OpenTokConfig.SESSION_ID);
@@ -219,7 +233,6 @@ public class AVCommunication implements
     }
 
     public void reloadViews() {
-
         if (mPublisher != null && mPreviewView != null) {
             mPreviewView.removeView(mPublisher.getView());
             attachPublisherView(!isRemote);
@@ -233,11 +246,12 @@ public class AVCommunication implements
 
     private void subscribeToStream(Stream stream) {
         mSubscriber = new Subscriber(mContext, stream);
-        mSubscriber.setVideoListener(this); //TODO IQC Listeners
+        mSubscriber.setVideoListener(this);
+        mSubscriber.setSubscriberListener(this);
         mSession.subscribe(mSubscriber);
     }
 
-    private void unsubscriberFromStream(Stream stream) {
+    private void unsubscribeFromStream(Stream stream) {
         mStreams.remove(stream);
         if (mSubscriber.getStream().equals(stream)) {
             mRemoteView.removeView(mSubscriber.getView());
@@ -249,7 +263,6 @@ public class AVCommunication implements
     }
 
     private void attachPublisherView(boolean fullScreen) {
-
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
@@ -289,10 +302,10 @@ public class AVCommunication implements
     private void setRemoteAudioOnly(boolean audioOnly) {
         if (!audioOnly) {
             mSubscriber.getView().setVisibility(View.VISIBLE);
-            mRemoteView.getChildAt(1).setVisibility(View.GONE);
+            mListener.onAudioOnly(false);
         } else {
             mSubscriber.getView().setVisibility(View.GONE);
-            mRemoteView.getChildAt(1).setVisibility(View.VISIBLE);
+            mListener.onAudioOnly(true);
         }
     }
 
@@ -309,13 +322,15 @@ public class AVCommunication implements
     @Override
     public void onStreamDestroyed(PublisherKit publisherKit, Stream stream) {
         if (OpenTokConfig.SUBSCRIBE_TO_SELF && mSubscriber != null) {
-            unsubscriberFromStream(stream);
+            unsubscribeFromStream(stream);
         }
     }
 
     @Override
     public void onError(PublisherKit publisherKit, OpentokError opentokError) {
         Log.i(LOGTAG, "Error publishing: " + opentokError.getErrorCode() + "-" + opentokError.getMessage());
+        mListener.onError(opentokError.getErrorCode() + " - " + opentokError.getMessage());
+        restartComm();
     }
 
     @Override
@@ -325,7 +340,7 @@ public class AVCommunication implements
         isStarted = true;
 
         if (mPublisher == null) {
-            mPublisher = new Publisher(mContext, "publisher");
+            mPublisher = new Publisher(mContext, "myPublisher");
             mPublisher.setPublisherListener(this);
             if (mStreams != null && mStreams.size() >= 1) {
                 attachPublisherView(false);
@@ -352,10 +367,7 @@ public class AVCommunication implements
                     .getView());
             mRemoteView.setClickable(false);
         }
-        mSubscriber = null;
-        mPublisher = null;
-        mStreams.clear();
-        mSession = null;
+        restartComm();
     }
 
     @Override
@@ -391,11 +403,14 @@ public class AVCommunication implements
     @Override
     public void onError(Session session, OpentokError opentokError) {
         Log.i(LOGTAG, "Session error: " + opentokError.getErrorCode() + "-" + opentokError.getMessage());
+        mListener.onError(opentokError.getErrorCode() + " - " + opentokError.getMessage());
+        restartComm();
     }
 
     @Override
     public void onConnected(SubscriberKit subscriberKit) {
         Log.i(LOGTAG, "Subscriber connected.");
+
     }
 
     @Override
@@ -407,6 +422,8 @@ public class AVCommunication implements
     @Override
     public void onError(SubscriberKit subscriberKit, OpentokError opentokError) {
         Log.i(LOGTAG, "Error subscribing: " + opentokError.getErrorCode() + "-" + opentokError.getMessage());
+        mListener.onError(opentokError.getErrorCode() + " - " + opentokError.getMessage());
+        restartComm();
     }
 
     @Override
@@ -421,32 +438,17 @@ public class AVCommunication implements
     public void onVideoDisabled(SubscriberKit subscriberKit, String reason) {
         Log.i(LOGTAG,
                 "Video disabled:" + reason);
-
         setRemoteAudioOnly(true); //show audio only view
-
-        if (reason.equals("quality")) {   //show  quality alert
-            final TextView alert = (TextView) mRemoteView.getChildAt(0);
-            alert.setVisibility(View.VISIBLE);
-            alert.setBackgroundResource(R.color.quality_alert);
-            alert.setTextColor(mContext.getResources().getColor(R.color.white));
-
-            alert.postDelayed(new Runnable() {
-                public void run() {
-                    alert.setVisibility(View.GONE);
-                }
-            }, 7000);
+        if (reason.equals("quality")) {  //show  quality alert
+            mListener.onQualityWarning(false);
         }
     }
 
     @Override
     public void onVideoEnabled(SubscriberKit subscriberKit, String reason) {
         Log.i(LOGTAG, "Video enabled:" + reason);
-
-        setRemoteAudioOnly(false); //hide audio only view
-
-        if (reason.equals("quality")) {   //hide  quality alert
-            mRemoteView.getChildAt(0).setVisibility(View.GONE);
-        }
+        //hide audio only view
+        setRemoteAudioOnly(false);
     }
 
     @Override
@@ -454,24 +456,12 @@ public class AVCommunication implements
         Log.i(LOGTAG, "Video may be disabled soon due to network quality degradation.");
 
         //show quality warning
-        final TextView alert = (TextView) mRemoteView.getChildAt(0);
-        alert.setBackgroundResource(R.color.quality_warning);
-        alert.setTextColor(mContext.getResources().getColor(R.color.warning_text));
-
-        alert.setVisibility(View.VISIBLE);
-        alert.postDelayed(new Runnable() {
-            public void run() {
-                alert.setVisibility(View.GONE);
-            }
-        }, 7000);
+        mListener.onQualityWarning(true);
     }
 
     @Override
     public void onVideoDisableWarningLifted(SubscriberKit subscriberKit) {
         Log.i(LOGTAG, "Video may no longer be disabled as stream quality improved.");
-
-        //hide quality warning
-        mRemoteView.getChildAt(0).setVisibility(View.GONE);
     }
 
     /**
@@ -484,4 +474,13 @@ public class AVCommunication implements
         double screenDensity = mContext.getResources().getDisplayMetrics().density;
         return (int) (screenDensity * (double) dp);
     }
+
+    private void restartComm(){
+        mSubscriber = null;
+        mPublisher = null;
+        mStreams.clear();
+        mSession = null;
+    }
+
+
 }

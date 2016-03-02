@@ -1,4 +1,4 @@
-package com.opentok.android.avsample.ui;
+package com.opentok.android.sample.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import com.opentok.android.avsample.MainActivity;
+import com.opentok.android.sample.MainActivity;
 import com.opentok.android.avsample.R;
 
 
@@ -43,8 +43,6 @@ public class PreviewControlFragment extends Fragment {
     }
 
     private static PreviewControlCallbacks previewCallbacks = new PreviewControlCallbacks() {
-
-
         @Override
         public void onMuteLocalAudio(boolean audio) { }
 
@@ -142,7 +140,6 @@ public class PreviewControlFragment extends Fragment {
     }
 
     public void updateLocalAudio() {
-
         if (!mActivity.getComm().getLocalAudio()) {
             mControlCallbacks.onMuteLocalAudio(true);
             mAudioBtn.setImageResource(R.drawable.mic_icon);
@@ -153,7 +150,6 @@ public class PreviewControlFragment extends Fragment {
     }
 
     public void updateLocalVideo() {
-
         if (!mActivity.getComm().getLocalVideo()) {
             mControlCallbacks.onMuteLocalVideo(true);
             mVideoBtn.setImageResource(R.drawable.video_icon);
@@ -164,7 +160,6 @@ public class PreviewControlFragment extends Fragment {
     }
 
     public void updateCall() {
-
         mCallBtn.setImageResource(!mActivity.getComm().isStarted()
                 ? R.drawable.hang_up
                 : R.drawable.start_call);
@@ -184,7 +179,17 @@ public class PreviewControlFragment extends Fragment {
             } else {
                 mAudioBtn.setOnClickListener(null);
                 mVideoBtn.setOnClickListener(null);
+                mAudioBtn.setImageResource(R.drawable.mic_icon);
+                mVideoBtn.setImageResource(R.drawable.video_icon);
             }
+        }
+    }
+
+    public void restartFragment(boolean restart){
+        if ( restart ) {
+            setEnabled(false);
+            mCallBtn.setBackgroundResource(R.drawable.initiate_call_button);
+            mCallBtn.setImageResource(R.drawable.start_call);
         }
     }
 }

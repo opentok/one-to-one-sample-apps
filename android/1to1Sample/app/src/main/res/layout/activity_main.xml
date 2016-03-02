@@ -6,11 +6,21 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradien_backg"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context="com.opentok.android.sample.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/quality_warning"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alert_bar_height"
+            android:background="@color/quality_warning"
+            android:gravity="center"
+            android:text="@string/network_quality"
+            android:textColor="@color/warning_text"
+            android:textSize="@dimen/alert_text"
+            android:visibility="gone"></TextView>
 
         <RelativeLayout
             android:id="@+id/subscriberview"
@@ -19,17 +29,6 @@
             android:clickable="false"
             android:gravity="center_horizontal"
             android:onClick="showRemoteControlBar">
-
-            <TextView
-                android:id="@+id/quality_warning"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/alert_bar_height"
-                android:background="@color/quality_warning"
-                android:gravity="center"
-                android:text="@string/network_quality"
-                android:textColor="@color/warning_text"
-                android:textSize="@dimen/alert_text"
-                android:visibility="gone"></TextView>
 
             <RelativeLayout
                 android:id="@+id/audioOnlyView"

@@ -1,4 +1,4 @@
-package com.opentok.android.avsample.config;
+package com.opentok.android.sample.config;
 
 public class OpenTokConfig {
 

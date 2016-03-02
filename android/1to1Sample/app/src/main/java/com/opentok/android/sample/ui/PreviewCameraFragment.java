@@ -1,4 +1,4 @@
-package com.opentok.android.avsample.ui;
+package com.opentok.android.sample.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import com.opentok.android.avsample.MainActivity;
+import com.opentok.android.sample.MainActivity;
 import com.opentok.android.avsample.R;
 
 public class PreviewCameraFragment extends Fragment {
@@ -28,13 +28,10 @@ public class PreviewCameraFragment extends Fragment {
     private PreviewCameraCallbacks mCameraCallbacks = cameraCallbacks;
 
     public interface PreviewCameraCallbacks {
-
         public void onCameraSwap();
-
     }
 
     private static PreviewCameraCallbacks cameraCallbacks = new PreviewCameraCallbacks() {
-
         @Override
         public void onCameraSwap() {}
 

@@ -49,7 +49,7 @@ bool subscribeToSelf;
   _session = [[OTSession alloc] initWithApiKey:self.configInfo[@"api"]
                                      sessionId:self.configInfo[@"sessionId"]
                                       delegate:self];
-  subscribeToSelf = self.configInfo[@"subscribeToSelf"];
+  subscribeToSelf = [self.configInfo[@"subscribeToSelf"] boolValue];
   [self makingBorder:_micHolder need_background_transparent:YES];
   [self makingBorder:_callHolder need_background_transparent:NO];
   [self makingBorder:_videoHolder need_background_transparent:YES];
@@ -100,7 +100,7 @@ bool subscribeToSelf;
   NSLog(@"session streamCreated (%@)", stream.streamId);
   // (if NO == subscribeToSelf): Begin subscribing to a stream we
   // have seen on the OpenTok session.
-  if (nil == _subscriber && !subscribeToSelf) {
+  if (!subscribeToSelf) {
     [self doSubscribe:stream];
   }
 }

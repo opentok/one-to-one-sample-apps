@@ -1,7 +1,7 @@
 package com.opentok.android.sample.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.opentok.android.sample.MainActivity;
-import com.opentok.android.avsample.R;
+import com.opentok.android.sample.R;
 
 public class RemoteControlFragment extends Fragment {
 
@@ -31,17 +31,17 @@ public class RemoteControlFragment extends Fragment {
     private RemoteControlCallbacks mControlCallbacks = remoteCallbacks;
 
     public interface RemoteControlCallbacks {
-        public void onMuteRemoteAudio(boolean audio);
+        public void onDisableRemoteAudio(boolean audio);
 
-        public void onMuteRemoteVideo(boolean video);
+        public void onDisableRemoteVideo(boolean video);
     }
 
     private static RemoteControlCallbacks remoteCallbacks = new RemoteControlCallbacks() {
         @Override
-        public void onMuteRemoteAudio(boolean audio) { }
+        public void onDisableRemoteAudio(boolean audio) { }
 
         @Override
-        public void onMuteRemoteVideo(boolean video) { }
+        public void onDisableRemoteVideo(boolean video) { }
     };
 
     private View.OnClickListener mBtnClickListener = new View.OnClickListener() {
@@ -116,22 +116,22 @@ public class RemoteControlFragment extends Fragment {
 
     public void updateRemoteAudio(){
         if(!mActivity.getComm().getRemoteAudio()){
-            mControlCallbacks.onMuteRemoteAudio(true);
+            mControlCallbacks.onDisableRemoteAudio(true);
             mAudioBtn.setImageResource(R.drawable.audio);
         }
         else {
-            mControlCallbacks.onMuteRemoteAudio(false);
+            mControlCallbacks.onDisableRemoteAudio(false);
             mAudioBtn.setImageResource(R.drawable.no_audio);
         }
     }
 
     public void updateRemoteVideo(){
         if(!mActivity.getComm().getRemoteVideo()){
-            mControlCallbacks.onMuteRemoteVideo(true);
+            mControlCallbacks.onDisableRemoteVideo(true);
             mVideoBtn.setImageResource(R.drawable.video_icon);
         }
         else {
-            mControlCallbacks.onMuteRemoteVideo(false);
+            mControlCallbacks.onDisableRemoteVideo(false);
             mVideoBtn.setImageResource(R.drawable.no_video_icon);
         }
     }

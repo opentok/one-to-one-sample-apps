@@ -1,7 +1,7 @@
 package com.opentok.android.sample.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.opentok.android.sample.MainActivity;
-import com.opentok.android.avsample.R;
+import com.opentok.android.sample.R;
 
 
 public class PreviewControlFragment extends Fragment {
@@ -34,9 +34,9 @@ public class PreviewControlFragment extends Fragment {
 
     public interface PreviewControlCallbacks {
 
-        public void onMuteLocalAudio(boolean audio);
+        public void onDisableLocalAudio(boolean audio);
 
-        public void onMuteLocalVideo(boolean video);
+        public void onDisableLocalVideo(boolean video);
 
         public void onCall();
 
@@ -44,10 +44,10 @@ public class PreviewControlFragment extends Fragment {
 
     private static PreviewControlCallbacks previewCallbacks = new PreviewControlCallbacks() {
         @Override
-        public void onMuteLocalAudio(boolean audio) { }
+        public void onDisableLocalAudio(boolean audio) { }
 
         @Override
-        public void onMuteLocalVideo(boolean video) { }
+        public void onDisableLocalVideo(boolean video) { }
 
         @Override
         public void onCall() { }
@@ -141,20 +141,20 @@ public class PreviewControlFragment extends Fragment {
 
     public void updateLocalAudio() {
         if (!mActivity.getComm().getLocalAudio()) {
-            mControlCallbacks.onMuteLocalAudio(true);
+            mControlCallbacks.onDisableLocalAudio(true);
             mAudioBtn.setImageResource(R.drawable.mic_icon);
         } else {
-            mControlCallbacks.onMuteLocalAudio(false);
+            mControlCallbacks.onDisableLocalAudio(false);
             mAudioBtn.setImageResource(R.drawable.muted_mic_icon);
         }
     }
 
     public void updateLocalVideo() {
         if (!mActivity.getComm().getLocalVideo()) {
-            mControlCallbacks.onMuteLocalVideo(true);
+            mControlCallbacks.onDisableLocalVideo(true);
             mVideoBtn.setImageResource(R.drawable.video_icon);
         } else {
-            mControlCallbacks.onMuteLocalVideo(false);
+            mControlCallbacks.onDisableLocalVideo(false);
             mVideoBtn.setImageResource(R.drawable.no_video_icon);
         }
     }

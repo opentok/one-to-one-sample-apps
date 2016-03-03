@@ -1,7 +1,7 @@
 package com.opentok.android.sample.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.opentok.android.sample.MainActivity;
-import com.opentok.android.avsample.R;
+import com.opentok.android.sample.R;
 
 public class PreviewCameraFragment extends Fragment {
 

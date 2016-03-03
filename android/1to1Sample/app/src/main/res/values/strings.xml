@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">AVSample</string>
+    <string name="app_name">1to1Sample</string>
     <string name="network_quality">Network connection is unstable.</string>
 </resources>

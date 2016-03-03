@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.opentok.android.avsample"
+        applicationId "com.opentok.android.sample"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1

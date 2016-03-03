@@ -1,30 +1,33 @@
 package com.opentok.android.sample;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.opentok.android.avsample.R;
+import com.opentok.android.sample.R;
 import com.opentok.android.sample.ui.PreviewCameraFragment;
 import com.opentok.android.sample.ui.PreviewControlFragment;
 import com.opentok.android.sample.ui.RemoteControlFragment;
 
 
-public class MainActivity extends Activity implements OneToOneComm.Listener, PreviewControlFragment.PreviewControlCallbacks, RemoteControlFragment.RemoteControlCallbacks, PreviewCameraFragment.PreviewCameraCallbacks {
+public class MainActivity extends AppCompatActivity implements OneToOneCommunication.Listener, PreviewControlFragment.PreviewControlCallbacks, RemoteControlFragment.RemoteControlCallbacks, PreviewCameraFragment.PreviewCameraCallbacks {
     private final String LOGTAG = "opentok-1to1-sample";
 
-    private final String[] permissions = {"android.permission.RECORD_AUDIO", "android.permission.CAMERA"};
+    private final String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
     private final int permsRequestCode = 200;
 
-    private OneToOneComm mComm;
+    //OpenTok calls
+    private OneToOneCommunication mComm;
 
     private RelativeLayout mPreviewViewContainer;
     private RelativeLayout mRemoteViewContainer;
@@ -56,17 +59,16 @@ public class MainActivity extends Activity implements OneToOneComm.Listener, Pre
         }
 
         //init 1to1 communication object
-        mComm = new OneToOneComm(MainActivity.this);
+        mComm = new OneToOneCommunication(MainActivity.this);
+        //set listener to receive the communication events, and add UI to these events
         mComm.setListener(this);
-        mComm.setPreviewView(mPreviewViewContainer);
-        mComm.setRemoteView(mRemoteViewContainer);
 
         //init controls fragments
         if (savedInstanceState == null) {
-            mFragmentTransaction = getFragmentManager().beginTransaction();
-            initCameraFragment();
-            initPreviewFragment();
-            initRemoteFragment();
+            mFragmentTransaction = getSupportFragmentManager().beginTransaction();
+            initCameraFragment(); //to swap camera
+            initPreviewFragment(); //to enable/disable local media
+            initRemoteFragment(); //to enable/disable remote media
             mFragmentTransaction.commitAllowingStateLoss();
         }
     }
@@ -76,19 +78,19 @@ public class MainActivity extends Activity implements OneToOneComm.Listener, Pre
         super.onConfigurationChanged(newConfig);
 
         if (mCameraFragment != null) {
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .remove(mCameraFragment).commit();
             initCameraFragment();
         }
 
         if (mPreviewFragment != null) {
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .remove(mPreviewFragment).commit();
             initPreviewFragment();
         }
 
         if (mRemoteFragment != null) {
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .remove(mRemoteFragment).commit();
             initRemoteFragment();
         }
@@ -113,38 +115,38 @@ public class MainActivity extends Activity implements OneToOneComm.Listener, Pre
 
     private void initPreviewFragment() {
         mPreviewFragment = new PreviewControlFragment();
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.actionbar_preview_fragment_container, mPreviewFragment).commit();
     }
 
     private void initRemoteFragment() {
         mRemoteFragment = new RemoteControlFragment();
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.actionbar_remote_fragment_container, mRemoteFragment).commit();
     }
 
     private void initCameraFragment() {
         mCameraFragment = new PreviewCameraFragment();
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.camera_preview_fragment_container, mCameraFragment).commit();
     }
 
-    public OneToOneComm getComm() {
+    public OneToOneCommunication getComm() {
         return mComm;
     }
 
     //Local control callbacks
     @Override
-    public void onMuteLocalAudio(boolean audio) {
+    public void onDisableLocalAudio(boolean audio) {
         if (mComm != null) {
-            mComm.enableLocalMedia(OneToOneComm.MediaType.AUDIO, audio);
+            mComm.enableLocalMedia(OneToOneCommunication.MediaType.AUDIO, audio);
         }
     }
 
     @Override
-    public void onMuteLocalVideo(boolean video) {
+    public void onDisableLocalVideo(boolean video) {
         if (mComm != null) {
-            mComm.enableLocalMedia(OneToOneComm.MediaType.VIDEO, video);
+            mComm.enableLocalMedia(OneToOneCommunication.MediaType.VIDEO, video);
         }
     }
 
@@ -163,16 +165,16 @@ public class MainActivity extends Activity implements OneToOneComm.Listener, Pre
 
     //Remote control callbacks
     @Override
-    public void onMuteRemoteAudio(boolean audio) {
+    public void onDisableRemoteAudio(boolean audio) {
         if (mComm != null) {
-            mComm.enableRemoteMedia(OneToOneComm.MediaType.AUDIO, audio);
+            mComm.enableRemoteMedia(OneToOneCommunication.MediaType.AUDIO, audio);
         }
     }
 
     @Override
-    public void onMuteRemoteVideo(boolean video) {
+    public void onDisableRemoteVideo(boolean video) {
         if (mComm != null) {
-            mComm.enableRemoteMedia(OneToOneComm.MediaType.VIDEO, video);
+            mComm.enableRemoteMedia(OneToOneCommunication.MediaType.VIDEO, video);
         }
     }
 
@@ -195,11 +197,12 @@ public class MainActivity extends Activity implements OneToOneComm.Listener, Pre
         mPreviewFragment.restartFragment(true);
     }
 
+    //OneToOneCommunication callbacks
     @Override
     public void onError(String error) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-        mComm.end();
-        cleanViewsAndControls();
+        mComm.end(); //end communication
+        cleanViewsAndControls(); //restart views
     }
 
     @Override
@@ -231,7 +234,44 @@ public class MainActivity extends Activity implements OneToOneComm.Listener, Pre
     }
 
     @Override
-    public void onParticipantJoined() {
+    public void onPreviewReady(View preview) {
+        mPreviewViewContainer.removeAllViews();
+        if (preview != null) {
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
+            if (mComm.isRemote()) {
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
+                        RelativeLayout.TRUE);
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,
+                        RelativeLayout.TRUE);
+                layoutParams.width = (int) getResources().getDimension(R.dimen.preview_width);
+                layoutParams.height = (int) getResources().getDimension(R.dimen.preview_height);
+                layoutParams.rightMargin = (int) getResources().getDimension(R.dimen.preview_rightMargin);
+                layoutParams.bottomMargin = (int) getResources().getDimension(R.dimen.preview_bottomMargin);
+                preview.setBackgroundResource(R.drawable.preview);
+            } else {
+                preview.setBackground(null);
+            }
+            mPreviewViewContainer.addView(preview, layoutParams);
+        }
+    }
+
+    @Override
+    public void onRemoteViewReady(View remoteView) {
+        //update preview when a new participant joined to the communication
+        onPreviewReady(mPreviewViewContainer.getChildAt(0)); //main preview view
+        if (remoteView == null ){
+            mRemoteViewContainer.removeAllViews();
+            mRemoteViewContainer.setClickable(false);
+        }
+        else {
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+                    this.getResources().getDisplayMetrics().widthPixels, this.getResources()
+                    .getDisplayMetrics().heightPixels);
+            mRemoteViewContainer.removeView(remoteView);
+            mRemoteViewContainer.addView(remoteView, layoutParams);
+            mRemoteViewContainer.setClickable(true);
+        }
     }
 }

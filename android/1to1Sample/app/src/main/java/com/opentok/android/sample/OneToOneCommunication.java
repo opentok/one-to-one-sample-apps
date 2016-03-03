@@ -3,8 +3,6 @@ package com.opentok.android.sample;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.opentok.android.BaseVideoRenderer;
 import com.opentok.android.OpentokError;
@@ -14,12 +12,12 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
-import com.opentok.android.avsample.R;
+import com.opentok.android.sample.R;
 import com.opentok.android.sample.config.OpenTokConfig;
 
 import java.util.ArrayList;
 
-public class OneToOneComm implements
+public class OneToOneCommunication implements
         Session.SessionListener, Publisher.PublisherListener, Subscriber.SubscriberListener, Subscriber.VideoListener {
 
     private static final String LOGTAG = "opentok-1to1-comm";
@@ -29,9 +27,6 @@ public class OneToOneComm implements
     private Publisher mPublisher;
     private Subscriber mSubscriber;
     private ArrayList<Stream> mStreams;
-
-    private ViewGroup mPreviewView;
-    private ViewGroup mRemoteView;
 
     private boolean isStarted = false;
     private boolean mLocalAudio = true;
@@ -56,12 +51,46 @@ public class OneToOneComm implements
      *
      */
     public static interface Listener {
+        /**
+         * Invoked when there is an error trying to connect to the session, publishing or subscribing.
+         *
+         * @param error The error code and error message.
+         */
         void onError(String error);
+
+        /**
+         * Invoked when the quality of the network is not really good
+         *
+         * @param warning Indicates if the platform has run an alert (quality really wrong and video is disabled)
+         *                or a warning (quality is poor but the video is not disabled).
+         */
         void onQualityWarning(boolean warning);
+
+        /**
+         * Invoked when the remote video is disabled.
+         * Reasons: the remote stops to publish the video, the quality is wrong and the platform has disabled the video
+         *          or the video remote control has disabled.
+         *
+         * @param enabled Indicates the status of the remote video.
+         */
         void onAudioOnly(boolean enabled);
+
+        /**
+         * Invoked when the preview (publisher view) is ready to be added to the container.
+         *
+         * @param preview Indicates the publisher view.
+         */
+        void onPreviewReady(View preview);
+
+        /**
+         * Invoked when the remote (subscriber view) is ready to be added to the container.
+         *
+         * @param remoteView Indicates the subscriber view.
+         */
+        void onRemoteViewReady(View remoteView);
     }
 
-    public OneToOneComm(Context context) {
+    public OneToOneCommunication(Context context) {
         this.mContext = context;
 
         mStreams = new ArrayList<Stream>();
@@ -165,20 +194,6 @@ public class OneToOneComm implements
     }
 
     /**
-     * Add the view container for the publisher/preview
-     */
-    public void setPreviewView(ViewGroup previewView) {
-        this.mPreviewView = previewView;
-    }
-
-    /**
-     * Add the view container for the remote view
-     */
-    public void setRemoteView(ViewGroup remoteView) {
-        this.mRemoteView = remoteView;
-    }
-
-    /**
      * Check if the communication started
      *
      * @return true if the session is connected; false if it is not.
@@ -233,13 +248,10 @@ public class OneToOneComm implements
     }
 
     public void reloadViews() {
-        if (mPublisher != null && mPreviewView != null) {
-            mPreviewView.removeView(mPublisher.getView());
-            attachPublisherView(!isRemote);
+        if (mPublisher != null) {
+            attachPublisherView();
         }
-        if (isRemote && mRemoteView != null && mSubscriber != null) {
-            mRemoteView.removeView(mSubscriber.getView());
-            attachPublisherView(false); //NO FULL SCREEN FOR PREVIEW
+        if (isRemote && mSubscriber != null) {
             attachSubscriberView(mSubscriber);
         }
     }
@@ -253,50 +265,27 @@ public class OneToOneComm implements
 
     private void unsubscribeFromStream(Stream stream) {
         mStreams.remove(stream);
+        isRemote = false;
         if (mSubscriber.getStream().equals(stream)) {
-            mRemoteView.removeView(mSubscriber.getView());
             mSubscriber = null;
             if (!mStreams.isEmpty()) {
                 subscribeToStream(mStreams.get(0));
             }
         }
+        mListener.onRemoteViewReady(null);
     }
 
-    private void attachPublisherView(boolean fullScreen) {
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
+    private void attachPublisherView() {
         mPublisher.setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
                 BaseVideoRenderer.STYLE_VIDEO_FILL);
-
-        mPreviewView.removeView(mPublisher.getRenderer().getView());
-
-        if (!fullScreen) {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
-                    RelativeLayout.TRUE);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,
-                    RelativeLayout.TRUE);
-            layoutParams.width = dpToPx(90);
-            layoutParams.height = dpToPx(78);
-            layoutParams.rightMargin = dpToPx(24);
-            layoutParams.bottomMargin = dpToPx(75);
-            mPublisher.getView().setBackgroundResource(R.drawable.preview);
-        } else {
-            mPublisher.getView().setBackgroundDrawable(null);
-        }
-        mPreviewView.addView(mPublisher.getView(), layoutParams);
+        mListener.onPreviewReady(mPublisher.getView());
     }
 
     private void attachSubscriberView(Subscriber subscriber) {
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                mContext.getResources().getDisplayMetrics().widthPixels, mContext.getResources()
-                .getDisplayMetrics().heightPixels);
-        mRemoteView.removeView(mSubscriber.getView());
-        mRemoteView.addView(mSubscriber.getView(), layoutParams);
         subscriber.setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
                 BaseVideoRenderer.STYLE_VIDEO_FILL);
         isRemote = true;
-        mRemoteView.setClickable(true);
+        mListener.onRemoteViewReady(subscriber.getView());
     }
 
     private void setRemoteAudioOnly(boolean audioOnly) {
@@ -307,6 +296,13 @@ public class OneToOneComm implements
             mSubscriber.getView().setVisibility(View.GONE);
             mListener.onAudioOnly(true);
         }
+    }
+
+    private void restartComm(){
+        mSubscriber = null;
+        mPublisher = null;
+        mStreams.clear();
+        mSession = null;
     }
 
     @Override
@@ -342,11 +338,7 @@ public class OneToOneComm implements
         if (mPublisher == null) {
             mPublisher = new Publisher(mContext, "myPublisher");
             mPublisher.setPublisherListener(this);
-            if (mStreams != null && mStreams.size() >= 1) {
-                attachPublisherView(false);
-            } else {
-                attachPublisherView(true); //preview in full screen
-            }
+            attachPublisherView();
             mSession.publish(mPublisher);
         }
 
@@ -356,17 +348,8 @@ public class OneToOneComm implements
     public void onDisconnected(Session session) {
         Log.i(LOGTAG, "Disconnected to the session.");
         isStarted = false;
-
-        if (mPublisher != null) {
-            mPreviewView.removeView(mPublisher.getRenderer()
-                    .getView());
-        }
-
-        if (mSubscriber != null) {
-            mRemoteView.removeView(mSubscriber.getRenderer()
-                    .getView());
-            mRemoteView.setClickable(false);
-        }
+        mListener.onPreviewReady(null);
+        mListener.onRemoteViewReady(null);
         restartComm();
     }
 
@@ -386,17 +369,7 @@ public class OneToOneComm implements
         Log.i(LOGTAG, "Remote left the communication");
         mStreams.remove(stream);
         if (!OpenTokConfig.SUBSCRIBE_TO_SELF) {
-            if (mSubscriber != null
-                    && mSubscriber.getStream().getStreamId()
-                    .equals(stream.getStreamId())) {
-                mRemoteView.removeView(mSubscriber.getView());
-                isRemote = false;
-                mSubscriber = null;
-                if (!mStreams.isEmpty()) {
-                    subscribeToStream(mStreams.get(0));
-                }
-                attachPublisherView(true);
-            }
+            unsubscribeFromStream(stream);
         }
     }
 
@@ -416,7 +389,6 @@ public class OneToOneComm implements
     @Override
     public void onDisconnected(SubscriberKit subscriberKit) {
         Log.i(LOGTAG, "Subscriber disconnected.");
-        attachPublisherView(true); //adjust preview view to full screen
     }
 
     @Override
@@ -429,8 +401,6 @@ public class OneToOneComm implements
     @Override
     public void onVideoDataReceived(SubscriberKit subscriber) {
         Log.i(LOGTAG, "First frame received");
-
-        attachPublisherView(false); //adjust preview view
         attachSubscriberView(mSubscriber);
     }
 
@@ -438,8 +408,8 @@ public class OneToOneComm implements
     public void onVideoDisabled(SubscriberKit subscriberKit, String reason) {
         Log.i(LOGTAG,
                 "Video disabled:" + reason);
-        setRemoteAudioOnly(true); //show audio only view
-        if (reason.equals("quality")) {  //show  quality alert
+        setRemoteAudioOnly(true); //enable audio only status
+        if (reason.equals("quality")) {  //network quality alert
             mListener.onQualityWarning(false);
         }
     }
@@ -447,15 +417,14 @@ public class OneToOneComm implements
     @Override
     public void onVideoEnabled(SubscriberKit subscriberKit, String reason) {
         Log.i(LOGTAG, "Video enabled:" + reason);
-        //hide audio only view
+        //disable audio only status
         setRemoteAudioOnly(false);
     }
 
     @Override
     public void onVideoDisableWarning(SubscriberKit subscriberKit) {
         Log.i(LOGTAG, "Video may be disabled soon due to network quality degradation.");
-
-        //show quality warning
+        //network quality warning
         mListener.onQualityWarning(true);
     }
 
@@ -463,24 +432,4 @@ public class OneToOneComm implements
     public void onVideoDisableWarningLifted(SubscriberKit subscriberKit) {
         Log.i(LOGTAG, "Video may no longer be disabled as stream quality improved.");
     }
-
-    /**
-     * Converts dp to real pixels, according to the screen density.
-     *
-     * @param dp A number of density-independent pixels.
-     * @return The equivalent number of real pixels.
-     */
-    private int dpToPx(int dp) {
-        double screenDensity = mContext.getResources().getDisplayMetrics().density;
-        return (int) (screenDensity * (double) dp);
-    }
-
-    private void restartComm(){
-        mSubscriber = null;
-        mPublisher = null;
-        mStreams.clear();
-        mSession = null;
-    }
-
-
 }

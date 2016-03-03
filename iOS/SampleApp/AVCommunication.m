@@ -255,15 +255,20 @@ bool subscribeToSelf;
 // ===============================================================================================//
 // Action buttons for the Interface
 // ===============================================================================================//
-- (IBAction)micButton:(UIButton *)sender {
-  _publisher.publishAudio = !_publisher.publishAudio;
+
+
+// ===============================================================================================//
+// PUBLISHER ACTIONS
+// ===============================================================================================//
+- (IBAction)publisherMicrophoneButtonPressed:(UIButton *)sender {
   if(_publisher.publishAudio) {
     [sender setImage:[UIImage imageNamed:@"assets/mutedMicLineCopy"] forState: UIControlStateNormal];
   } else {
     [sender setImage:[UIImage imageNamed:@"assets/mic"] forState: UIControlStateNormal];
   }
+  _publisher.publishAudio = !_publisher.publishAudio;
 }
-- (IBAction)callButton:(UIButton *)sender {
+- (IBAction)publisherCallButtonPressed:(UIButton *)sender {
   if(enable_call) {
     //BLUE SIDE
     [sender setImage:[UIImage imageNamed:@"assets/hangUp"] forState: UIControlStateNormal];
@@ -278,39 +283,40 @@ bool subscribeToSelf;
     [self doDisconnect];
   }
 }
-- (IBAction)videoButton:(UIButton *)sender {
-  _publisher.publishVideo = !_publisher.publishVideo;
+- (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
   if(_publisher.publishVideo) {
     [sender setImage:[UIImage imageNamed:@"assets/noVideoIcon"] forState: UIControlStateNormal];
   } else {
     [sender setImage:[UIImage imageNamed:@"assets/videoIcon"] forState: UIControlStateNormal];
   }
+  _publisher.publishVideo = !_publisher.publishVideo;
+}
+
+- (IBAction)publisherCameraButtonPressed:(UIButton *)sender {
+    if (_publisher.cameraPosition == AVCaptureDevicePositionBack) {
+        _publisher.cameraPosition = AVCaptureDevicePositionFront;
+    } else {
+        _publisher.cameraPosition = AVCaptureDevicePositionBack;
+    }
 }
 // ===============================================================================================//
 // SUBSCRIBER ACTIONS
 // ===============================================================================================//
-- (IBAction)toggleSubscriberVideo:(UIButton *)sender {
-  _subscriber.subscribeToVideo = !_subscriber.subscribeToVideo;
+- (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
   if(_subscriber.subscribeToVideo) {
     [sender setImage:[UIImage imageNamed:@"assets/noVideoIcon"] forState: UIControlStateNormal];
   } else {
     [sender setImage:[UIImage imageNamed:@"assets/videoIcon"] forState: UIControlStateNormal];
   }
+  _subscriber.subscribeToVideo = !_subscriber.subscribeToVideo;
 }
-- (IBAction)toggleSubscriberAudio:(UIButton *)sender {
-  _subscriber.subscribeToAudio = !_subscriber.subscribeToAudio;
+- (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
   if(_subscriber.subscribeToAudio) {
     [sender setImage:[UIImage imageNamed:@"assets/noSoundCopy"] forState: UIControlStateNormal];
   } else {
     [sender setImage:[UIImage imageNamed:@"assets/audio"] forState: UIControlStateNormal];
   }
-}
-- (IBAction)switchCamera:(UIButton *)sender {
-  if (_publisher.cameraPosition == AVCaptureDevicePositionBack) {
-    _publisher.cameraPosition = AVCaptureDevicePositionFront;
-  } else {
-    _publisher.cameraPosition = AVCaptureDevicePositionBack;
-  }
+  _subscriber.subscribeToAudio = !_subscriber.subscribeToAudio;
 }
 
 // ===============================================================================================//

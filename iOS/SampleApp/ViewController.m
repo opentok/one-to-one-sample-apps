@@ -39,7 +39,7 @@ NSMutableDictionary *configInfo;
                                                @"api": kApiKey,
                                                @"sessionId": kSessionId,
                                                @"token": kToken,
-                                               @"subscribeToSelf": @(subscribeToSelf)
+                                               @"subscribeToSelf": [NSNumber numberWithBool:subscribeToSelf]
                                                }];
 }
 

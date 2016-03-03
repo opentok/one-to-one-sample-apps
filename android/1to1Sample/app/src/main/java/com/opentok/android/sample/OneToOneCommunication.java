@@ -12,6 +12,8 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
+import com.opentok.android.logging.OTKAnalytics;
+import com.opentok.android.logging.OTKAnalyticsData;
 import com.opentok.android.sample.R;
 import com.opentok.android.sample.config.OpenTokConfig;
 
@@ -305,6 +307,16 @@ public class OneToOneCommunication implements
         mSession = null;
     }
 
+    private void addLogEvent(String connectionId){
+        String sessionID = OpenTokConfig.SESSION_ID;
+        String partnerId = OpenTokConfig.API_KEY;
+
+        OTKAnalyticsData data = new OTKAnalyticsData.Builder(sessionID, partnerId, connectionId, OpenTokConfig.LOG_CLIENT_VERSION).build();
+        OTKAnalytics logging = new OTKAnalytics(data);
+
+        logging.logEvent(OpenTokConfig.LOG_ACTION, OpenTokConfig.LOG_VARIATION);
+    }
+
     @Override
     public void onStreamCreated(PublisherKit publisherKit, Stream stream) {
         if (OpenTokConfig.SUBSCRIBE_TO_SELF) {
@@ -334,6 +346,9 @@ public class OneToOneCommunication implements
 
         Log.i(LOGTAG, "Connected to the session.");
         isStarted = true;
+
+        //add analytics log
+        addLogEvent(session.getConnection().getConnectionId());
 
         if (mPublisher == null) {
             mPublisher = new Publisher(mContext, "myPublisher");

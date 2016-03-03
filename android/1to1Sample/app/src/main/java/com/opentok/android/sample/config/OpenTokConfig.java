@@ -15,4 +15,9 @@ public class OpenTokConfig {
     // to other clients' streams only.
     public static final boolean SUBSCRIBE_TO_SELF = false;
 
+    // Analytics log entry data. Please, do not replace it.
+    public static final String LOG_ACTION = "one-to-one-sample-app";
+    public static final String LOG_VARIATION = "";
+    public static final String LOG_CLIENT_VERSION = "1.0";
+
 }

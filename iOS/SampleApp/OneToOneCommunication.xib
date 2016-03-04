@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AVCommunication">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OneToOneCommunication">
             <connections>
                 <outlet property="callHolder" destination="fh8-0j-QU9" id="cWd-uF-KEc"/>
                 <outlet property="connectingLabel" destination="a0z-WZ-e0w" id="6tl-lD-q2z"/>

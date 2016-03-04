@@ -1,46 +1,35 @@
 //
-//  AVCommunication.m
+//  OneToOneCommunication.m
 //  SampleApp
 //
 //  Created by Esteban Cordero on 2/8/16.
 //  Copyright © 2016 AgilityFeat. All rights reserved.
 //
 
-#import "AVCommunication.h"
+#import "OneToOneCommunication.h"
 #import <Opentok/OpenTok.h>
 
-@interface AVCommunication () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
-@property (strong, nonatomic) IBOutlet UIView *publisherView;
-@property (strong, nonatomic) IBOutlet UIView *subscriberView;
-
-@property (strong, nonatomic) IBOutlet UIView *videoHolder;
-@property (strong, nonatomic) IBOutlet UIView *callHolder;
-@property (strong, nonatomic) IBOutlet UIView *micHolder;
-
-@property (strong, nonatomic) IBOutlet UIButton *toggleCallButton;
-@property (strong, nonatomic) IBOutlet UILabel *connectingLabel;
-@property (strong, nonatomic) IBOutlet UIButton *errorMessage;
+@interface OneToOneCommunication () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
 @end
 
-@implementation AVCommunication
+@implementation OneToOneCommunication
 
 OTSession *_session;
-OTPublisher *_publisher;
-OTSubscriber *_subscriber;
 
 // ===============================================================================================//
 // TOGGLE ICONS VARIABLES
 // ===============================================================================================//
-bool enable_call = YES;
 bool subscribeToSelf;
 // ===============================================================================================//
 
--(id) initWithData:(NSMutableDictionary *)configInfo{
+-(id) initWithData:(NSMutableDictionary *)configInfo view:(id)viewController{
   //NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-  if( self = [self initWithNibName:@"AVCommunication" bundle:[NSBundle mainBundle]]) {
+  if( self = [self initWithNibName:@"OneToOneCommunication" bundle:[NSBundle mainBundle]]) {
     self.configInfo = configInfo;
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
   }
+  self.enable_call = YES;
+  self._viewController = viewController;
   return self;
 }
 
@@ -50,41 +39,13 @@ bool subscribeToSelf;
                                      sessionId:self.configInfo[@"sessionId"]
                                       delegate:self];
   subscribeToSelf = [self.configInfo[@"subscribeToSelf"] boolValue];
-  [self makingBorder:_micHolder need_background_transparent:YES];
-  [self makingBorder:_callHolder need_background_transparent:NO];
-  [self makingBorder:_videoHolder need_background_transparent:YES];
 }
-
-
-- (BOOL)prefersStatusBarHidden {
-  return YES;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation {
-  return YES;
-}
-
-- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-  [self adjustViewsForOrientation:toInterfaceOrientation];
-}
-
-- (void) adjustViewsForOrientation:(UIInterfaceOrientation)orientation {
-  if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight ||
-      orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
-    
-    (_subscriber.view).frame = CGRectMake(0, 0, self.view.frame.size.height,self.view.frame.size.width);
-    
-    self.subscriberView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin |
-    UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
-    UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-  }
-}
-
 
 # pragma mark - OTSession delegate callbacks
 
 -(void) sessionDidConnect:(OTSession*)session{
-  [_connectingLabel setAlpha:0];
+    [self._viewController setConnectingLabelAlpha:0];
+  
   // We have successfully connected, now instantiate a publisher and
   // begin pushing A/V streams into OpenTok.
   [self doPublish];
@@ -122,7 +83,7 @@ bool subscribeToSelf;
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
    NSLog(@"session did failed with error: (%@)", error);
   [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
-  [_connectingLabel setAlpha:1];
+  [self._viewController setConnectingLabelAlpha:1];
   [self doConnect];
 }
 
@@ -143,7 +104,7 @@ bool subscribeToSelf;
  * expect a delegate method to call us back with the results of this action.
  */
 - (void)doConnect {
-  [_connectingLabel setAlpha:1];
+  [self._viewController setConnectingLabelAlpha:1];
   OTError *error = nil;
   [_session connectWithToken:self.configInfo[@"token"] error:&error];
   if (error)  {
@@ -235,90 +196,36 @@ bool subscribeToSelf;
   [_subscriber.view removeFromSuperview];
   _subscriber = nil;
 }
-
+//
 -(void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
 }
 
-// ===============================================================================================//
-// Helps with the round borders on the interface buttons
-// ===============================================================================================//
--(void) makingBorder: (UIView *)sendingView need_background_transparent: (BOOL)transparent {
-  sendingView.layer.cornerRadius = (sendingView.bounds.size.width/2);
-  if (transparent) {
-    sendingView.layer.borderWidth = 1;
-    sendingView.layer.borderColor = [UIColor whiteColor].CGColor;
-  }
-}
 
-// ===============================================================================================//
-// Action buttons for the Interface
-// ===============================================================================================//
-
-
-// ===============================================================================================//
-// PUBLISHER ACTIONS
-// ===============================================================================================//
 - (IBAction)publisherMicrophoneButtonPressed:(UIButton *)sender {
-  if(_publisher.publishAudio) {
-    [sender setImage:[UIImage imageNamed:@"assets/mutedMicLineCopy"] forState: UIControlStateNormal];
-  } else {
-    [sender setImage:[UIImage imageNamed:@"assets/mic"] forState: UIControlStateNormal];
-  }
-  _publisher.publishAudio = !_publisher.publishAudio;
+  [self._viewController publisherMicrophonePressed:sender];
 }
+
 - (IBAction)publisherCallButtonPressed:(UIButton *)sender {
-  if(enable_call) {
-    //BLUE SIDE
-    [sender setImage:[UIImage imageNamed:@"assets/hangUp"] forState: UIControlStateNormal];
-    enable_call = NO;
-    _callHolder.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor; //red background
-    [self doConnect];
-  } else {
-    // RED SIDE
-    [sender setImage:[UIImage imageNamed:@"assets/startCall"] forState: UIControlStateNormal];
-    enable_call = YES;
-    _callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor; //blue background
-    [self doDisconnect];
-  }
+    [self._viewController startCall:sender];
 }
+
 - (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
-  if(_publisher.publishVideo) {
-    [sender setImage:[UIImage imageNamed:@"assets/noVideoIcon"] forState: UIControlStateNormal];
-  } else {
-    [sender setImage:[UIImage imageNamed:@"assets/videoIcon"] forState: UIControlStateNormal];
-  }
-  _publisher.publishVideo = !_publisher.publishVideo;
+  [self._viewController publisherVideoPressed:sender];
 }
+
 
 - (IBAction)publisherCameraButtonPressed:(UIButton *)sender {
-    if (_publisher.cameraPosition == AVCaptureDevicePositionBack) {
-        _publisher.cameraPosition = AVCaptureDevicePositionFront;
-    } else {
-        _publisher.cameraPosition = AVCaptureDevicePositionBack;
-    }
-}
-// ===============================================================================================//
-// SUBSCRIBER ACTIONS
-// ===============================================================================================//
-- (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
-  if(_subscriber.subscribeToVideo) {
-    [sender setImage:[UIImage imageNamed:@"assets/noVideoIcon"] forState: UIControlStateNormal];
-  } else {
-    [sender setImage:[UIImage imageNamed:@"assets/videoIcon"] forState: UIControlStateNormal];
-  }
-  _subscriber.subscribeToVideo = !_subscriber.subscribeToVideo;
-}
-- (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
-  if(_subscriber.subscribeToAudio) {
-    [sender setImage:[UIImage imageNamed:@"assets/noSoundCopy"] forState: UIControlStateNormal];
-  } else {
-    [sender setImage:[UIImage imageNamed:@"assets/audio"] forState: UIControlStateNormal];
-  }
-  _subscriber.subscribeToAudio = !_subscriber.subscribeToAudio;
+  [self._viewController publisherCameraPressed:sender];
 }
 
+- (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
+  [self._viewController subscriberVideoPressed:sender];
+}
+- (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
+  [self._viewController subscriberAudioPressed:sender];
+}
 // ===============================================================================================//
 -(void) showErrorView: (NSString *) error_message {
   // Show error message

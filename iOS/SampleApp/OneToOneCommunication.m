@@ -124,7 +124,7 @@ bool subscribeToSelf;
     NSLog(@"disconnect failed with error: (%@)", error);
     [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
   }
-  _session = nil;
+  [self cleanupSubscriber];
 }
 
 

@@ -1,4 +1,5 @@
 var Call = (function() {
+    var _otkanalytics;
 
     // Constructor
     var CallComponent = function(options) {
@@ -13,6 +14,15 @@ var Call = (function() {
         this._session.on('streamCreated', this._handleParticipantJoined.bind(this)); //participant joined to the call
 
         this._session.on('streamDestroyed', this._handleParticipantLeft.bind(this)); //participant left the call
+
+        _otkanalyticsdata = { sessionId: this.options.sessionId, connectionId: this._session.connection.connectionId, partnerId: this.options.apiKey, 
+                            clientVersion: '1.0.0' };
+        
+        _otkanalytics = new OTKAnalytics(_otkanalyticsdata);
+        
+        _solution_logging = { action: 'one-to-one-sample-app', variation: '' };
+        
+        _otkanalytics.logEvent(_solution_logging);
     };
 
     // Private methods

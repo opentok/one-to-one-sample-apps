@@ -3,7 +3,6 @@ package com.opentok.android.sample;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;

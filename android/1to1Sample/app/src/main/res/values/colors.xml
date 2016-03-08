@@ -2,6 +2,9 @@
 <resources>
     <color name="gradientStart">#5B5B5B</color>
     <color name="gradientEnd">#393939</color>
+    <color name="gradientAudioOnlyStart">#343434</color>
+    <color name="gradientAudioOnlyEnd">#6e6e6e</color>
+    <color name="audiOnlyBackground">#7e7e7e</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="startCall">#6aadbf</color>

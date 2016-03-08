@@ -3,6 +3,7 @@ package com.opentok.android.sample;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +34,10 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     private RelativeLayout mPreviewViewContainer;
     private RelativeLayout mRemoteViewContainer;
     private RelativeLayout mAudioOnlyView;
+    private RelativeLayout mLocalAudioOnlyView;
+    private RelativeLayout.LayoutParams layoutParamsPreview;
     private TextView mAlert;
+    private ImageView mAudioOnlyImage;
 
     //UI fragments
     private PreviewControlFragment mPreviewFragment;
@@ -52,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
         mRemoteViewContainer = (RelativeLayout) findViewById(R.id.subscriberview);
         mAlert = (TextView) findViewById(R.id.quality_warning);
         mAudioOnlyView = (RelativeLayout) findViewById(R.id.audioOnlyView);
+        mLocalAudioOnlyView = (RelativeLayout) findViewById(R.id.localAudioOnlyView);
 
         //request Marshmallow camera permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -147,6 +153,25 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     public void onDisableLocalVideo(boolean video) {
         if (mComm != null) {
             mComm.enableLocalMedia(OneToOneCommunication.MediaType.VIDEO, video);
+
+            if (mComm.isRemote()) {
+                if (!video) {
+                    mAudioOnlyImage = new ImageView(this);
+                    mAudioOnlyImage.setImageResource(R.drawable.avatar);
+                    mAudioOnlyImage.setBackgroundResource(R.drawable.bckg_audio_only);
+                    mPreviewViewContainer.addView(mAudioOnlyImage);
+                } else {
+                    mPreviewViewContainer.removeView(mAudioOnlyImage);
+                }
+            } else {
+                if (!video) {
+                    mLocalAudioOnlyView.setVisibility(View.VISIBLE);
+                    mPreviewViewContainer.addView(mLocalAudioOnlyView);
+                } else {
+                    mLocalAudioOnlyView.setVisibility(View.GONE);
+                    mPreviewViewContainer.removeView(mLocalAudioOnlyView);
+                }
+            }
         }
     }
 
@@ -237,23 +262,24 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     public void onPreviewReady(View preview) {
         mPreviewViewContainer.removeAllViews();
         if (preview != null) {
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+            layoutParamsPreview = new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
             if (mComm.isRemote()) {
-                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
+                layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
                         RelativeLayout.TRUE);
-                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,
+                layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,
                         RelativeLayout.TRUE);
-                layoutParams.width = (int) getResources().getDimension(R.dimen.preview_width);
-                layoutParams.height = (int) getResources().getDimension(R.dimen.preview_height);
-                layoutParams.rightMargin = (int) getResources().getDimension(R.dimen.preview_rightMargin);
-                layoutParams.bottomMargin = (int) getResources().getDimension(R.dimen.preview_bottomMargin);
+                layoutParamsPreview.width = (int) getResources().getDimension(R.dimen.preview_width);
+                layoutParamsPreview.height = (int) getResources().getDimension(R.dimen.preview_height);
+                layoutParamsPreview.rightMargin = (int) getResources().getDimension(R.dimen.preview_rightMargin);
+                layoutParamsPreview.bottomMargin = (int) getResources().getDimension(R.dimen.preview_bottomMargin);
                 preview.setBackgroundResource(R.drawable.preview);
             } else {
                 preview.setBackground(null);
             }
-            mPreviewViewContainer.addView(preview, layoutParams);
+            mPreviewViewContainer.setLayoutParams(layoutParamsPreview);
+            mPreviewViewContainer.addView(preview);
         }
     }
 

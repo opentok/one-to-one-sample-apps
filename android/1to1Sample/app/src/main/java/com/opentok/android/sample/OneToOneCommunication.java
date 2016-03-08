@@ -146,13 +146,8 @@ public class OneToOneCommunication implements
                     this.mLocalVideo = value;
                     if (value) {
                         mPublisher.getView().setVisibility(View.VISIBLE);
-                        mPublisher.getView().setBackground(null);
-
-                        if (isRemote) {
-                            mPublisher.getView().setBackgroundResource(R.drawable.preview);
-                        }
                     } else {
-                        mPublisher.getView().setBackgroundResource(R.drawable.avatar);
+                        mPublisher.getView().setVisibility(View.GONE);
                     }
                     break;
             }

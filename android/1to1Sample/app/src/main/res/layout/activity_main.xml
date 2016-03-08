@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradien_backg"
+    android:background="@drawable/gradient_backg"
     android:fitsSystemWindows="true"
     tools:context="com.opentok.android.sample.MainActivity">
 
@@ -36,7 +36,8 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:visibility="gone">
+                android:background="@drawable/gradient_audionly"
+                android:visibility="gone" >
 
                 <ImageView
                     android:id="@+id/avatar"
@@ -54,7 +55,28 @@
         <RelativeLayout
             android:id="@+id/publisherview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">s</RelativeLayout>
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/localAudioOnlyView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/gradient_audionly"
+                android:visibility="gone" >
+
+                <ImageView
+                    android:id="@+id/localAvatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/avatar" />
+
+            </RelativeLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/actionbar_preview_fragment_container"

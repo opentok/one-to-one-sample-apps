@@ -7,6 +7,7 @@
 //
 
 #import "OneToOneCommunication.h"
+#import "OTKAnalytics.h"
 #import <Opentok/OpenTok.h>
 
 @interface OneToOneCommunication () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
@@ -45,7 +46,9 @@ bool subscribeToSelf;
 
 -(void) sessionDidConnect:(OTSession*)session{
     [self._viewController setConnectingLabelAlpha:0];
-  
+    
+    //Add analytics logging
+    [self addLogEvent];
   // We have successfully connected, now instantiate a publisher and
   // begin pushing A/V streams into OpenTok.
   [self doPublish];
@@ -200,6 +203,24 @@ bool subscribeToSelf;
 -(void) didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+
+-(void) addLogEvent {
+    NSString *trimmedString = [self.configInfo[@"api"] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    NSInteger *partner = [trimmedString intValue];
+    
+    
+    OTKAnalyticsData *data = [[OTKAnalyticsData alloc] initWithSessionId: self.configInfo[@"sessionId"]
+                                                            connectionId: _session.connection.connectionId
+                                                               partnerId:partner
+                                                           clientVersion: @"1.0.0"];
+    
+    OTKAnalytics *logging = [[OTKAnalytics alloc] initWithData:data];
+    
+    [logging logEventAction:@"one-to-one-sample-app-ios" variation:@""];
+    
 }
 
 

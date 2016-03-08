@@ -12,10 +12,10 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
-import com.opentok.android.logging.OTKAnalytics;
-import com.opentok.android.logging.OTKAnalyticsData;
 import com.opentok.android.sample.R;
 import com.opentok.android.sample.config.OpenTokConfig;
+import com.opentok.android.sample.logging.OTKAnalytics;
+import com.opentok.android.sample.logging.OTKAnalyticsData;
 
 import java.util.ArrayList;
 

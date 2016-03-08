@@ -16,6 +16,7 @@ public class OpenTokConfig {
     public static final boolean SUBSCRIBE_TO_SELF = false;
 
     // Analytics log entry data. Please, do not replace it.
+    public static final String LOGGING_BASE_URL = "https://hlg.tokbox.com/prod/logging/ClientEvent";
     public static final String LOG_ACTION = "one-to-one-sample-app";
     public static final String LOG_VARIATION = "";
     public static final String LOG_CLIENT_VERSION = "1.0";

@@ -390,7 +390,11 @@ public class OneToOneCommunication implements
 
     @Override
     public void onConnected(SubscriberKit subscriberKit) {
-        Log.i(LOGTAG, "Subscriber connected." + subscriberKit.getSubscribeToVideo());
+        Log.i(LOGTAG, "Subscriber connected.");
+        if (!subscriberKit.getStream().hasVideo()){
+            attachSubscriberView(mSubscriber);
+            setRemoteAudioOnly(true);
+        }
     }
 
     @Override

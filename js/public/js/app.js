@@ -4,9 +4,9 @@ var app = (function() {
     var _call;
 
     var _options = {
-        apiKey: '100', // Replace with your OpenTok API Key
-        sessionId: '2_MX4xMDB-fjE0NTY4NTg4NTQ0ODN-aW5EaHR1N0U0enh5QjZrMFgwYlFDbFhzfn4', // Replace with a generated Session ID
-        token: 'T1==cGFydG5lcl9pZD0xMDAmc2RrX3ZlcnNpb249dGJwaHAtdjAuOTEuMjAxMS0wNy0wNSZzaWc9ODg2ZDlkM2RhMDM4MzJkZmZjYzQzMzVhY2I0NDU4MGQ0MzcxY2Y1NzpzZXNzaW9uX2lkPTJfTVg0eE1EQi1makUwTlRZNE5UZzROVFEwT0ROLWFXNUVhSFIxTjBVMGVuaDVRalpyTUZnd1lsRkRiRmh6Zm40JmNyZWF0ZV90aW1lPTE0NTY4NTg5ODMmcm9sZT1wdWJsaXNoZXImbm9uY2U9MTQ1Njg1ODk4My45OTI3MTIwMjEwMTQ5MyZleHBpcmVfdGltZT0xNDU5NDUwOTgz', // Replace with a generated token (from the dashboard or using an OpenTok server SDK)
+        apiKey: '100',
+        sessionId: '2_MX4xMDB-fjE0NTc1NTU4Mjk4NDN-M0RvR0JjMFlUSFp1SkdzbUZzRmd4UEhmfn4',
+        token: 'T1==cGFydG5lcl9pZD0xMDAmc2RrX3ZlcnNpb249dGJwaHAtdjAuOTEuMjAxMS0wNy0wNSZzaWc9NjY4MGIzMzNhNjg2YjViMDAzYTkxNjYyMjM2ZTM3NGMzZjEwMjM4NTpzZXNzaW9uX2lkPTJfTVg0eE1EQi1makUwTlRjMU5UVTRNams0TkROLU0wUnZSMEpqTUZsVVNGcDFTa2R6YlVaelJtZDRVRWhtZm40JmNyZWF0ZV90aW1lPTE0NTc1NTM4Mzgmcm9sZT1tb2RlcmF0b3Imbm9uY2U9MTQ1NzU1MzgzOC4yMjcyMTk2ODgxMjAwOCZleHBpcmVfdGltZT0xNDYwMTQ1ODM4',
         publishers: {},
         subscribers: [],
         streams: [],

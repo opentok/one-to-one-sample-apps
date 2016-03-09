@@ -8,6 +8,7 @@
 
 #import "OneToOneCommunication.h"
 #import <Opentok/OpenTok.h>
+#import "OTKAnalytics.h"
 
 @interface OneToOneCommunication () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
 @end
@@ -45,10 +46,12 @@ bool subscribeToSelf;
 
 -(void) sessionDidConnect:(OTSession*)session{
     [self._viewController setConnectingLabelAlpha:0];
-  
-  // We have successfully connected, now instantiate a publisher and
-  // begin pushing A/V streams into OpenTok.
-  [self doPublish];
+    
+    //Add analytics logging. Internal TokBox purposes only.
+    [self addLogEvent];
+    // We have successfully connected, now instantiate a publisher and
+    // begin pushing A/V streams into OpenTok.
+    [self doPublish];
 }
 
 -(void) sessionDidDisconnect:(OTSession*)session{
@@ -202,6 +205,21 @@ bool subscribeToSelf;
   // Dispose of any resources that can be recreated.
 }
 
+- (void) addLogEvent {
+    NSString *trimmedString = [self.configInfo[@"api"] stringByReplacingOccurrencesOfString:@" "
+                                                                                 withString:@""];
+    
+    NSInteger *partner = [trimmedString intValue];
+    
+    OTKAnalyticsData *data = [[OTKAnalyticsData alloc] initWithSessionId: self.configInfo[@"sessionId"]
+                                                            connectionId: _session.connection.connectionId
+                                                               partnerId:partner
+                                                           clientVersion: @"1.0.0"];
+    
+    OTKAnalytics *logging = [[OTKAnalytics alloc] initWithData:data];
+    [logging logEventAction:@"one-to-one-sample-app" variation:@""];
+    
+}
 
 - (IBAction)publisherMicrophoneButtonPressed:(UIButton *)sender {
   [self._viewController publisherMicrophonePressed:sender];

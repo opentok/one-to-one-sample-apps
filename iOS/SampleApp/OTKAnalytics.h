@@ -38,9 +38,7 @@
 
 @interface OTKAnalytics : NSObject
 
-
 -(instancetype)initWithData:(OTKAnalyticsData*)data;
-
 
 -(void)logEventAction:(NSString *)action variation:(NSString *)variation;
 

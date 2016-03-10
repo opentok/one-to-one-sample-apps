@@ -31,7 +31,8 @@
 		6405A6011C696C9B00441745 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5F21C696C9B00441745 /* AudioToolbox.framework */; };
 		64AD85861C6A513400B8596D /* OneToOneCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AD85841C6A513400B8596D /* OneToOneCommunication.m */; };
 		64AD85881C6A552E00B8596D /* OpenTok.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F2D19A1C6996EB00DAB853 /* OpenTok.framework */; };
-		7F52A84DB2148AC09A1C6BC4 /* libPods-SampleApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58BECABDE6A6B2E578675B28 /* libPods-SampleApp.a */; };
+		F4B49EBC1C90291F003331B5 /* OTKAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */; };
+		F4BB45551C8F3801000A415D /* OpenTok.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4BB45541C8F3801000A415D /* OpenTok.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,9 +49,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1225725ED786D067E4D61619 /* Pods-SampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SampleApp/Pods-SampleApp.debug.xcconfig"; sourceTree = "<group>"; };
-		167B53FB995CAFCE87D48081 /* Pods-SampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-SampleApp/Pods-SampleApp.release.xcconfig"; sourceTree = "<group>"; };
-		58BECABDE6A6B2E578675B28 /* libPods-SampleApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SampleApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D5C07252205663CD60B056F /* Pods-SampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-SampleApp/Pods-SampleApp.release.xcconfig"; sourceTree = "<group>"; };
+		63ECA3CFC593811ECDE6F4B1 /* Pods-SampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SampleApp/Pods-SampleApp.debug.xcconfig"; sourceTree = "<group>"; };
 		6405A5B31C696BE600441745 /* SampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6405A5B71C696BE600441745 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SampleApp/main.m; sourceTree = SOURCE_ROOT; };
 		6405A5B91C696BE600441745 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -80,6 +80,9 @@
 		64AD85831C6A513400B8596D /* OneToOneCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OneToOneCommunication.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		64AD85841C6A513400B8596D /* OneToOneCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OneToOneCommunication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		64F2D19A1C6996EB00DAB853 /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenTok.framework; path = "/Users/estebancordero/Documents/worksuff/tokbox/A:V Component/SampleApp/OpenTok.framework"; sourceTree = "<absolute>"; };
+		F4B49EBA1C9028FD003331B5 /* OTKAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTKAnalytics.h; sourceTree = "<group>"; };
+		F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTKAnalytics.m; sourceTree = "<group>"; };
+		F4BB45541C8F3801000A415D /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenTok.framework; path = "../../../../../../Downloads/OpenTok-iOS-2.7.1 2/OpenTok.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,10 +103,10 @@
 				6405A5F61C696C9B00441745 /* CoreTelephony.framework in Frameworks */,
 				6405A5F51C696C9B00441745 /* CoreMedia.framework in Frameworks */,
 				6405A5FB1C696C9B00441745 /* libsqlite3.tbd in Frameworks */,
+				F4BB45551C8F3801000A415D /* OpenTok.framework in Frameworks */,
 				6405A5F81C696C9B00441745 /* Foundation.framework in Frameworks */,
 				6405A5FC1C696C9B00441745 /* OpenGLES.framework in Frameworks */,
 				64AD85881C6A552E00B8596D /* OpenTok.framework in Frameworks */,
-				7F52A84DB2148AC09A1C6BC4 /* libPods-SampleApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +116,6 @@
 		58330E79441DE696829EC13D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				58BECABDE6A6B2E578675B28 /* libPods-SampleApp.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -121,6 +123,7 @@
 		6405A5AA1C696BE600441745 = {
 			isa = PBXGroup;
 			children = (
+				F4BB45541C8F3801000A415D /* OpenTok.framework */,
 				6405A5E41C696C9B00441745 /* AVFoundation.framework */,
 				6405A5E51C696C9B00441745 /* CoreGraphics.framework */,
 				6405A5E61C696C9B00441745 /* CoreMedia.framework */,
@@ -138,8 +141,8 @@
 				6405A5F21C696C9B00441745 /* AudioToolbox.framework */,
 				6405A5B51C696BE600441745 /* SampleApp */,
 				6405A5B41C696BE600441745 /* Products */,
-				F6F28ACA5CA9BC52E50343CF /* Pods */,
 				58330E79441DE696829EC13D /* Frameworks */,
+				8FF52A0F0A1D4CDD15FC79DE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -166,6 +169,8 @@
 				64AD85831C6A513400B8596D /* OneToOneCommunication.h */,
 				64AD85841C6A513400B8596D /* OneToOneCommunication.m */,
 				6405A5B61C696BE600441745 /* Supporting Files */,
+				F4B49EBA1C9028FD003331B5 /* OTKAnalytics.h */,
+				F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */,
 			);
 			path = SampleApp;
 			sourceTree = "<group>";
@@ -178,11 +183,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		F6F28ACA5CA9BC52E50343CF /* Pods */ = {
+		8FF52A0F0A1D4CDD15FC79DE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1225725ED786D067E4D61619 /* Pods-SampleApp.debug.xcconfig */,
-				167B53FB995CAFCE87D48081 /* Pods-SampleApp.release.xcconfig */,
+				63ECA3CFC593811ECDE6F4B1 /* Pods-SampleApp.debug.xcconfig */,
+				0D5C07252205663CD60B056F /* Pods-SampleApp.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -311,6 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64AD85861C6A513400B8596D /* OneToOneCommunication.m in Sources */,
+				F4B49EBC1C90291F003331B5 /* OTKAnalytics.m in Sources */,
 				6405A5BE1C696BE600441745 /* ViewController.m in Sources */,
 				6405A5C41C696BE600441745 /* SampleApp.xcdatamodeld in Sources */,
 				6405A5BB1C696BE600441745 /* AppDelegate.m in Sources */,
@@ -424,7 +430,7 @@
 		};
 		6405A5CE1C696BE600441745 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1225725ED786D067E4D61619 /* Pods-SampleApp.debug.xcconfig */;
+			baseConfigurationReference = 63ECA3CFC593811ECDE6F4B1 /* Pods-SampleApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -445,7 +451,7 @@
 		};
 		6405A5CF1C696BE600441745 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 167B53FB995CAFCE87D48081 /* Pods-SampleApp.release.xcconfig */;
+			baseConfigurationReference = 0D5C07252205663CD60B056F /* Pods-SampleApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

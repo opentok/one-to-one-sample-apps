@@ -1,11 +1,3 @@
-//
-//  AppDelegate.m
-//  SampleApp
-//
-//  Created by Esteban Cordero on 2/8/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
-//
-
 #import "AppDelegate.h"
 
 @interface AppDelegate ()

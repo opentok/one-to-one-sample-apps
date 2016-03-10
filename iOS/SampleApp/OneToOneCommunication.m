@@ -1,11 +1,3 @@
-//
-//  OneToOneCommunication.m
-//  SampleApp
-//
-//  Created by Esteban Cordero on 2/8/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
-//
-
 #import "OneToOneCommunication.h"
 #import <Opentok/OpenTok.h>
 
@@ -24,21 +16,19 @@ bool subscribeToSelf;
 
 -(id) initWithData:(NSMutableDictionary *)configInfo view:(id)viewController{
   //NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-  if( self = [self initWithNibName:@"OneToOneCommunication" bundle:[NSBundle mainBundle]]) {
-    self.configInfo = configInfo;
-    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-  }
+//  if( self = [self initWithNibName:@"OneToOneCommunication" bundle:[NSBundle mainBundle]]) {
+//    self.configInfo = configInfo;
+//    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+//  }
+  self.configInfo = configInfo;
   self.enable_call = YES;
   self._viewController = viewController;
-  return self;
-}
-
-- (void)viewDidLoad {
-  [super viewDidLoad];
   _session = [[OTSession alloc] initWithApiKey:self.configInfo[@"api"]
                                      sessionId:self.configInfo[@"sessionId"]
                                       delegate:self];
   subscribeToSelf = [self.configInfo[@"subscribeToSelf"] boolValue];
+
+  return self;
 }
 
 # pragma mark - OTSession delegate callbacks
@@ -76,8 +66,8 @@ bool subscribeToSelf;
 
 -(void) subscriberDidConnectToStream:(OTSubscriberKit*)subscriber {
   assert(_subscriber == subscriber);
-  (_subscriber.view).frame = CGRectMake(0, 0, self.subscriberView.bounds.size.width,self.subscriberView.bounds.size.height);
-  [self.subscriberView addSubview:_subscriber.view];
+  (_subscriber.view).frame = CGRectMake(0, 0, self._viewController.subscriberView.bounds.size.width,self._viewController.subscriberView.bounds.size.height);
+  [self._viewController.subscriberView addSubview:_subscriber.view];
 }
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
@@ -145,8 +135,8 @@ bool subscribeToSelf;
   }
   [_session publish:_publisher error:&error];
   
-  [self.publisherView addSubview:_publisher.view];
-  (_publisher.view).frame = CGRectMake(0, 0, self.publisherView.bounds.size.width, self.publisherView.bounds.size.height);
+  [self._viewController.publisherView addSubview:_publisher.view];
+  (_publisher.view).frame = CGRectMake(0, 0, self._viewController.publisherView.bounds.size.width, self._viewController.publisherView.bounds.size.height);
 }
 
 /**
@@ -202,44 +192,20 @@ bool subscribeToSelf;
   // Dispose of any resources that can be recreated.
 }
 
-
-- (IBAction)publisherMicrophoneButtonPressed:(UIButton *)sender {
-  [self._viewController publisherMicrophonePressed:sender];
-}
-
-- (IBAction)publisherCallButtonPressed:(UIButton *)sender {
-    [self._viewController startCall:sender];
-}
-
-- (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
-  [self._viewController publisherVideoPressed:sender];
-}
-
-
-- (IBAction)publisherCameraButtonPressed:(UIButton *)sender {
-  [self._viewController publisherCameraPressed:sender];
-}
-
-- (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
-  [self._viewController subscriberVideoPressed:sender];
-}
-- (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
-  [self._viewController subscriberAudioPressed:sender];
-}
 // ===============================================================================================//
 -(void) showErrorView: (NSString *) error_message {
   // Show error message
-  _errorMessage.alpha = 0.0f;
-  [_errorMessage setTitle: error_message forState: UIControlStateNormal];
+  self._viewController.errorMessage.alpha = 0.0f;
+  [self._viewController.errorMessage setTitle: error_message forState: UIControlStateNormal];
   [UIView animateWithDuration:0.5 animations:^{
-    _errorMessage.alpha = 0.6f;
+    self._viewController.errorMessage.alpha = 0.6f;
   }];
   
   [UIView animateWithDuration:0.5
                         delay:4
                       options:UIViewAnimationOptionTransitionNone
                    animations:^{
-                     _errorMessage.alpha = 0.0f;
+                     self._viewController.errorMessage.alpha = 0.0f;
                    } completion:nil];
 }
 @end

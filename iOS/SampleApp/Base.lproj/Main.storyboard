@@ -7,36 +7,126 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController autoresizesArchivedViewToFullSize="NO" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="HtV-zK-mFJ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting... " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cWw-U9-Rkw">
-                                <rect key="frame" x="230" y="289" width="140" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="140" id="JeC-Lm-jSR"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zJt-pm-lIX">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </view>
+                            <view contentMode="scaleAspectFit" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EoV-Kh-ae4">
+                                <rect key="frame" x="222" y="385" width="90" height="80"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QaT-qb-Mgd">
+                                <rect key="frame" x="40" y="495" width="240" height="65"/>
+                                <subviews>
+                                    <view alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DPy-hc-7KF" userLabel="Video Holder">
+                                        <rect key="frame" x="8" y="7" width="52" height="52"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lI4-Iv-Bhv" userLabel="publisherVideoButton">
+                                                <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                                <state key="normal" image="videoIcon.png"/>
+                                                <connections>
+                                                    <action selector="publisherVideoButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2mt-7G-8tP"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yN2-aL-fi5">
+                                        <rect key="frame" x="94" y="7" width="52" height="52"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8fW-9l-wlb" userLabel="publisherCallButton">
+                                                <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                                <state key="normal" image="startCall.png"/>
+                                                <connections>
+                                                    <action selector="publisherCallButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SO2-eY-tdE"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.41568627450000001" green="0.67843137249999996" blue="0.74901960779999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <view alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="paL-7M-B3q" userLabel="Mic Holder">
+                                        <rect key="frame" x="180" y="7" width="52" height="52"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bwb-uu-g2a" userLabel="publisherMicButton">
+                                                <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                                <state key="normal" image="mic.png"/>
+                                                <connections>
+                                                    <action selector="publisherMicrophoneButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yfD-Km-Uhr"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                                    </view>
+                                </subviews>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKX-dv-Vnc" userLabel="subscriberAudioButton">
+                                <rect key="frame" x="8" y="87" width="23" height="23"/>
+                                <state key="normal" image="audio.png"/>
+                                <connections>
+                                    <action selector="subscriberAudioButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="COG-Jp-EKl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TaE-Jx-zZR" userLabel="subscriberVideoButton">
+                                <rect key="frame" x="8" y="135" width="25" height="25"/>
+                                <state key="normal" image="videoIcon.png"/>
+                                <connections>
+                                    <action selector="subscriberVideoButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XWM-IL-u0J"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xR7-mn-zpN" userLabel="publisherCameraButton">
+                                <rect key="frame" x="283" y="77" width="29" height="21"/>
+                                <state key="normal" image="reverse cameras.png"/>
+                                <connections>
+                                    <action selector="publisherCameraButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rUd-XL-ngb"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Connecting... " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVp-7r-YQ1">
+                                <rect key="frame" x="90" y="274" width="140" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixE-LP-kFk" userLabel="Error Message">
+                                <rect key="frame" x="0.0" y="21" width="320" height="29"/>
+                                <color key="backgroundColor" red="0.80392156859999997" green="0.1176470588" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="cWw-U9-Rkw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="269" id="11Y-N0-Y5r"/>
-                            <constraint firstItem="cWw-U9-Rkw" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="MxJ-k8-IgA"/>
-                            <constraint firstItem="cWw-U9-Rkw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cr7-0p-Ef4"/>
-                        </constraints>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="callHolder" destination="yN2-aL-fi5" id="VR2-Uo-YTM"/>
+                        <outlet property="connectingLabel" destination="OVp-7r-YQ1" id="XLg-81-14g"/>
+                        <outlet property="errorMessage" destination="ixE-LP-kFk" id="mE1-AR-Api"/>
+                        <outlet property="micHolder" destination="paL-7M-B3q" id="sS4-PV-o9U"/>
+                        <outlet property="publisherView" destination="EoV-Kh-ae4" id="giG-eV-UgY"/>
+                        <outlet property="subscriberView" destination="zJt-pm-lIX" id="sZA-hF-4xl"/>
+                        <outlet property="toggleCallButton" destination="8fW-9l-wlb" id="AlV-uP-lFX"/>
+                        <outlet property="videoHolder" destination="DPy-hc-7KF" id="BCT-Gy-OKl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="565" y="358"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="audio.png" width="25" height="25"/>
+        <image name="mic.png" width="21" height="26"/>
+        <image name="reverse cameras.png" width="55" height="39"/>
+        <image name="startCall.png" width="16" height="30"/>
+        <image name="videoIcon.png" width="24" height="14"/>
+    </resources>
 </document>

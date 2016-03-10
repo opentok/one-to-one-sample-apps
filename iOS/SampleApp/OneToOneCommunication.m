@@ -208,15 +208,12 @@ bool subscribeToSelf;
 - (void) addLogEvent {
     NSString *trimmedString = [self.configInfo[@"api"] stringByReplacingOccurrencesOfString:@" "
                                                                                  withString:@""];
+    NSInteger partner = [trimmedString integerValue];
     
-    NSInteger *partner = [trimmedString intValue];
-    
-    OTKAnalyticsData *data = [[OTKAnalyticsData alloc] initWithSessionId: self.configInfo[@"sessionId"]
+    OTKAnalytics *logging = [[OTKAnalytics alloc] initWithSessionId: self.configInfo[@"sessionId"]
                                                             connectionId: _session.connection.connectionId
                                                                partnerId:partner
                                                            clientVersion: @"1.0.0"];
-    
-    OTKAnalytics *logging = [[OTKAnalytics alloc] initWithData:data];
     [logging logEventAction:@"one-to-one-sample-app" variation:@""];
     
 }

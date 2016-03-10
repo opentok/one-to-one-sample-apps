@@ -3,46 +3,29 @@
 //  SampleApp
 //
 //  Created by mserrano on 09/03/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
+//  Copyright © 2016 TokBox. All rights reserved.
 //
 
 #ifndef OTKAnalytics_h
 #define OTKAnalytics_h
 
-@interface OTKAnalyticsData : NSObject
+@interface OTKAnalytics : NSObject
 
-@property NSString *action;
-@property NSString *variation;
-@property NSString *clientVersion;
-
-@property NSString *logVersion;
-@property NSString *client;
-@property NSString *guid;
-
-@property NSString *sessionId;
-@property NSString *connectionId;
-@property NSInteger partnerId;
-
-@property NSString *deviceModel;
-@property NSString *systemName;
-@property NSString *systemVersion;
-
-@property NSInteger clientSystemTime;
+//Public properties
+@property (nonatomic, readonly) NSString *sessionId;
+@property (nonatomic, readonly) NSString *connectionId;
+@property (nonatomic, readonly) NSInteger partnerId;
+@property (nonatomic, readonly) NSString *clientVersion;
+@property (nonatomic, readonly) NSString *action;
+@property (nonatomic, readonly) NSString *variation;
 
 -(instancetype)initWithSessionId:(NSString*)sessionId
                     connectionId:(NSString*)connectionId
                        partnerId:(NSInteger) partnerId
                    clientVersion:(NSString*) clientVersion;
 
-@end
-
-@interface OTKAnalytics : NSObject
-
--(instancetype)initWithData:(OTKAnalyticsData*)data;
-
 -(void)logEventAction:(NSString *)action variation:(NSString *)variation;
 
 @end
-
 
 #endif /* OTKAnalytics_h */

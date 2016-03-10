@@ -3,7 +3,7 @@
 //  SampleApp
 //
 //  Created by mserrano on 09/03/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
+//  Copyright © 2016 TokBox. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,11 +12,32 @@
 #import "OTKAnalytics.h"
 
 
-@implementation OTKAnalyticsData
+NSString *const kLoggingUrl = @"https://hlg.tokbox.com/prod/logging/ClientEvent";
+
+@interface OTKAnalytics()
+
+//public properties
+@property (nonatomic) NSString *sessionId;
+@property (nonatomic) NSString *connectionId;
+@property (nonatomic) NSInteger partnerId;
+@property (nonatomic) NSString *clientVersion;
+@property (nonatomic) NSString *action;
+@property (nonatomic) NSString *variation;
+
+// nonpublic properties
+@property (nonatomic) NSString *logVersion;
+@property (nonatomic) NSString *client;
+@property (nonatomic) NSString *guid;
+@property (nonatomic) NSString *deviceModel;
+@property (nonatomic) NSString *systemName;
+@property (nonatomic) NSString *systemVersion;
+@property (nonatomic) NSInteger clientSystemTime;
+
+@end
+
+@implementation OTKAnalytics
 
 -(instancetype)initWithSessionId:(NSString*) sessionId connectionId:(NSString*) connectionId partnerId:(NSInteger) partnerId clientVersion:(NSString*) clientVersion {
-    
-    self = [super init];
     
     if ( sessionId == nil || [ sessionId length ]==0 ) {
         NSLog (@"The sessionId field cannot be null in the log entry");
@@ -38,94 +59,51 @@
         return nil;
     }
     
-    self.sessionId = sessionId;
-    self.connectionId = connectionId;
-    self.partnerId = partnerId;
-    self.clientVersion = clientVersion;
-    
-    return self;
-}
-
-@end
-
-@implementation OTKAnalytics
-
-NSString *const kLoggingUrl = @"https://hlg.tokbox.com/prod/logging/ClientEvent";
-
-OTKAnalyticsData *_data;
-
--(instancetype)initWithData:(OTKAnalyticsData *)data {
-    
-    if ( data == nil ) {
-        NSLog (@"The data cannot be null in the log entry");
-        return nil;
-    }
-    
-    _data = data;
-    
-    return self;
-}
-
-- (void) checkData {
-    
-    NSException *e = nil;
-    
-    if ( _data.logVersion == nil || [ _data.logVersion length ]==0 ) {
-        _data.logVersion = @"2";
-    }
-    
-    if ( _data.guid == nil || [ _data.guid length ]==0 ) {
-        _data.guid = [[NSUUID UUID] UUIDString];
-    }
-    
-    if ( _data.deviceModel == nil || [ _data.deviceModel length ]==0 ) {
+    if (self = [super init]) {
+        _sessionId = sessionId;
+        _connectionId = connectionId;
+        _partnerId = partnerId;
+        _clientVersion = clientVersion;
+        
+        _logVersion = @"2";
+        _guid = [[NSUUID UUID] UUIDString];
+        _client = @"native";
+        _systemName = @"iOS OS";
+        _systemVersion = [[UIDevice currentDevice] systemVersion];
+        
         struct utsname systemInfo;
         uname(&systemInfo);
-        _data.deviceModel = [NSString stringWithCString:systemInfo.machine
+        _deviceModel = [NSString stringWithCString:systemInfo.machine
                                                encoding:NSUTF8StringEncoding];
-    }
-    
-    if ( _data.client == nil || [ _data.client length ]==0 ) {
-        _data.client = @"native";
-    }
-    
-    if ( _data.clientSystemTime == 0 ) {
+        
         NSTimeInterval timeInMiliseconds = [[NSDate date] timeIntervalSince1970];
         NSInteger time = round(timeInMiliseconds);
-        _data.clientSystemTime = time;
+        _clientSystemTime = time;
+
     }
     
-    if ( _data.systemName == nil || [ _data.systemName length ]==0 ) {
-        _data.systemName = @"iOS OS";
-    }
-    
-    if ( _data.systemVersion == nil || [ _data.systemVersion length ]==0 ) {
-        _data.systemVersion = [[UIDevice currentDevice] systemVersion];
-    }
-    
+    return self;
 }
 
 -(void)logEventAction:(NSString *)action variation:(NSString *) variation {
     
-    _data.action = action;
-    _data.variation = variation;
-    
-    [self checkData];
+    _action = action;
+    _variation = variation;
     
     NSDictionary *dictionary = @{
-                                 @"sessionId" : _data.sessionId,
-                                 @"connectionId" : _data.connectionId,
-                                 @"partnerId" : [NSNumber numberWithInteger:_data.partnerId],
-                                 @"client" : _data.client,
-                                 @"logVersion" : _data.logVersion,
-                                 @"clientVersion" : _data.clientVersion,
-                                 @"clientSystemTime" : [NSNumber numberWithInteger:_data.clientSystemTime],
-                                 @"guid" : _data.guid,
-                                 @"deviceModel": _data.deviceModel,
-                                 @"systemName": _data.systemName,
-                                 @"systemVersion": _data.systemVersion,
-                                 @"action": _data.action,
-                                 @"variation": _data.variation
+                                 @"sessionId" : _sessionId,
+                                 @"connectionId" : _connectionId,
+                                 @"partnerId" : [NSNumber numberWithInteger:_partnerId],
+                                 @"client" : _client,
+                                 @"logVersion" : _logVersion,
+                                 @"clientVersion" : _clientVersion,
+                                 @"clientSystemTime" : [NSNumber numberWithInteger:_clientSystemTime],
+                                 @"guid" : _guid,
+                                 @"deviceModel": _deviceModel,
+                                 @"systemName": _systemName,
+                                 @"systemVersion": _systemVersion,
+                                 @"action": _action,
+                                 @"variation": _variation
                                  };
     
     [self sendData: dictionary];

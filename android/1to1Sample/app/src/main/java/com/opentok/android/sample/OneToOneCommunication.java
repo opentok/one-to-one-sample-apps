@@ -151,7 +151,6 @@ public class OneToOneCommunication implements
                     }
                     break;
             }
-
         }
     }
 
@@ -174,7 +173,6 @@ public class OneToOneCommunication implements
                     mSubscriber.setSubscribeToVideo(value);
                     this.mRemoteVideo = value;
                     setRemoteAudioOnly(value ? false : true);
-
                     break;
             }
 
@@ -297,6 +295,7 @@ public class OneToOneCommunication implements
 
     private void restartComm(){
         mSubscriber = null;
+        isRemote = false;
         mPublisher = null;
         mStreams.clear();
         mSession = null;
@@ -338,7 +337,6 @@ public class OneToOneCommunication implements
 
     @Override
     public void onConnected(Session session) {
-
         Log.i(LOGTAG, "Connected to the session.");
         isStarted = true;
 
@@ -393,7 +391,10 @@ public class OneToOneCommunication implements
     @Override
     public void onConnected(SubscriberKit subscriberKit) {
         Log.i(LOGTAG, "Subscriber connected.");
-
+        if (!subscriberKit.getStream().hasVideo()){
+            attachSubscriberView(mSubscriber);
+            setRemoteAudioOnly(true);
+        }
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,8 +49,9 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(LOGTAG, "onCreate");
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         mPreviewViewContainer = (RelativeLayout) findViewById(R.id.publisherview);

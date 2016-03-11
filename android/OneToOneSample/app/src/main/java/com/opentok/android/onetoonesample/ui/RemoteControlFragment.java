@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.opentok.android.onetoonesample.MainActivity;
-import com.opentok.android.sample.R;
+import com.opentok.android.onetoonesample.R;
 
 public class RemoteControlFragment extends Fragment {
 

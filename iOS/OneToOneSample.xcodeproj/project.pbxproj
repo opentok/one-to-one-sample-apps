@@ -51,7 +51,7 @@
 /* Begin PBXFileReference section */
 		0D5C07252205663CD60B056F /* Pods-SampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-SampleApp/Pods-SampleApp.release.xcconfig"; sourceTree = "<group>"; };
 		63ECA3CFC593811ECDE6F4B1 /* Pods-SampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SampleApp/Pods-SampleApp.debug.xcconfig"; sourceTree = "<group>"; };
-		6405A5B31C696BE600441745 /* SampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6405A5B31C696BE600441745 /* OneToOneSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneToOneSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6405A5B71C696BE600441745 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SampleApp/main.m; sourceTree = SOURCE_ROOT; };
 		6405A5B91C696BE600441745 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6405A5BA1C696BE600441745 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 		6405A5B41C696BE600441745 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6405A5B31C696BE600441745 /* SampleApp.app */,
+				6405A5B31C696BE600441745 /* OneToOneSample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,9 +195,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6405A5B21C696BE600441745 /* SampleApp */ = {
+		6405A5B21C696BE600441745 /* OneToOneSample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6405A5CD1C696BE600441745 /* Build configuration list for PBXNativeTarget "SampleApp" */;
+			buildConfigurationList = 6405A5CD1C696BE600441745 /* Build configuration list for PBXNativeTarget "OneToOneSample" */;
 			buildPhases = (
 				8CC8F8FA06259D9C7E8CABD3 /* Check Pods Manifest.lock */,
 				6405A5AF1C696BE600441745 /* Sources */,
@@ -211,9 +211,9 @@
 			);
 			dependencies = (
 			);
-			name = SampleApp;
+			name = OneToOneSample;
 			productName = SampleApp;
-			productReference = 6405A5B31C696BE600441745 /* SampleApp.app */;
+			productReference = 6405A5B31C696BE600441745 /* OneToOneSample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -231,7 +231,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6405A5AE1C696BE600441745 /* Build configuration list for PBXProject "SampleApp" */;
+			buildConfigurationList = 6405A5AE1C696BE600441745 /* Build configuration list for PBXProject "OneToOneSample" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -244,7 +244,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6405A5B21C696BE600441745 /* SampleApp */,
+				6405A5B21C696BE600441745 /* OneToOneSample */,
 			);
 		};
 /* End PBXProject section */
@@ -443,8 +443,8 @@
 				INFOPLIST_FILE = SampleApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.agilityfeat.OneToOneCommunicationSampleApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tokbox.OneToOneSample;
+				PRODUCT_NAME = OneToOneSample;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -464,8 +464,8 @@
 				INFOPLIST_FILE = SampleApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.agilityfeat.OneToOneCommunicationSampleApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tokbox.OneToOneSample;
+				PRODUCT_NAME = OneToOneSample;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -473,7 +473,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6405A5AE1C696BE600441745 /* Build configuration list for PBXProject "SampleApp" */ = {
+		6405A5AE1C696BE600441745 /* Build configuration list for PBXProject "OneToOneSample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6405A5CB1C696BE600441745 /* Debug */,
@@ -482,7 +482,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6405A5CD1C696BE600441745 /* Build configuration list for PBXNativeTarget "SampleApp" */ = {
+		6405A5CD1C696BE600441745 /* Build configuration list for PBXNativeTarget "OneToOneSample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6405A5CE1C696BE600441745 /* Debug */,

@@ -1,4 +1,4 @@
-package com.opentok.android.onetoonesample;
+package com.tokbox.android.onetoonesample;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,9 +12,9 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
-import com.opentok.android.onetoonesample.config.OpenTokConfig;
-import com.opentok.android.onetoonesample.logging.OTKAnalytics;
-import com.opentok.android.onetoonesample.logging.OTKAnalyticsData;
+import com.tokbox.android.onetoonesample.config.OpenTokConfig;
+import com.tokbox.android.onetoonesample.logging.OTKAnalytics;
+import com.tokbox.android.onetoonesample.logging.OTKAnalyticsData;
 
 import java.util.ArrayList;
 

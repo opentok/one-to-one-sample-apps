@@ -1,4 +1,4 @@
-package com.opentok.android.onetoonesample.config;
+package com.tokbox.android.onetoonesample.config;
 
 public class OpenTokConfig {
 

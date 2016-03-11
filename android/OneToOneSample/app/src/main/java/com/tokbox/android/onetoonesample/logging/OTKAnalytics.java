@@ -1,9 +1,9 @@
-package com.opentok.android.onetoonesample.logging;
+package com.tokbox.android.onetoonesample.logging;
 
 
 import android.util.Log;
 
-import com.opentok.android.onetoonesample.config.OpenTokConfig;
+import com.tokbox.android.onetoonesample.config.OpenTokConfig;
 
 import org.codehaus.jackson.map.ObjectMapper;
 

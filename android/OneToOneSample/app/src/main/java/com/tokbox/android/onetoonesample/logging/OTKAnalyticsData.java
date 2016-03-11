@@ -1,4 +1,4 @@
-package com.opentok.android.onetoonesample.logging;
+package com.tokbox.android.onetoonesample.logging;
 
 
 import android.os.Build;

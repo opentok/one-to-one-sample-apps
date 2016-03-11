@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_backg"
-    tools:context="com.opentok.android.onetoonesample.MainActivity">
+    tools:context="com.tokbox.android.onetoonesample.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

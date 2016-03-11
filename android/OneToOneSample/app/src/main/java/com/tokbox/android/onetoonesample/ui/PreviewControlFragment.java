@@ -1,4 +1,4 @@
-package com.opentok.android.onetoonesample.ui;
+package com.tokbox.android.onetoonesample.ui;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import com.opentok.android.onetoonesample.MainActivity;
-import com.opentok.android.onetoonesample.R;
+import com.tokbox.android.onetoonesample.MainActivity;
+import com.tokbox.android.onetoonesample.R;
 
 
 public class PreviewControlFragment extends Fragment {

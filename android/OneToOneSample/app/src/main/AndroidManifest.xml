@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.opentok.android.onetoonesample">
+    package="com.tokbox.android.onetoonesample">
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -20,7 +20,7 @@
         android:icon="@mipmap/ic_launcher">
 
         <activity
-            android:name="com.opentok.android.onetoonesample.MainActivity"
+            android:name="com.tokbox.android.onetoonesample.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.opentok.android.onetoonesample;
+package com.tokbox.android.onetoonesample;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -16,10 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.opentok.android.onetoonesample.R;
-import com.opentok.android.onetoonesample.ui.PreviewCameraFragment;
-import com.opentok.android.onetoonesample.ui.PreviewControlFragment;
-import com.opentok.android.onetoonesample.ui.RemoteControlFragment;
+import com.tokbox.android.onetoonesample.R;
+import com.tokbox.android.onetoonesample.ui.PreviewCameraFragment;
+import com.tokbox.android.onetoonesample.ui.PreviewControlFragment;
+import com.tokbox.android.onetoonesample.ui.RemoteControlFragment;
 
 
 public class MainActivity extends AppCompatActivity implements OneToOneCommunication.Listener, PreviewControlFragment.PreviewControlCallbacks, RemoteControlFragment.RemoteControlCallbacks, PreviewCameraFragment.PreviewCameraCallbacks {

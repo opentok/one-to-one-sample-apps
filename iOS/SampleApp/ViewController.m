@@ -127,12 +127,20 @@ NSMutableDictionary *configInfo;
   [self makingBorder:_micHolder need_white_border:YES];
   [self makingBorder:_callHolder need_white_border:NO];
   [self makingBorder:_videoHolder need_white_border:YES];
+  [self setRemoteControls:0];
   self.onetoonecommunicationController = [[OneToOneCommunication alloc] initWithData:configInfo view:(ViewController*)self];
   // Adding border and background to publisher window
   self.publisherView.layer.borderWidth = 1;
   self.publisherView.layer.borderColor = [UIColor whiteColor].CGColor;
   self.publisherView.layer.backgroundColor = [UIColor grayColor].CGColor;
   self.publisherView.layer.cornerRadius = 3;
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+  [self setRemoteControls:1];
+  [self performSelector:@selector(setRemoteControls:)
+             withObject:0
+             afterDelay:7.0];
 }
 
 -(void) setConnectingLabelAlpha:(NSInteger)alpha{
@@ -149,6 +157,11 @@ NSMutableDictionary *configInfo;
     sendingView.layer.borderColor = [UIColor whiteColor].CGColor;
   }
 }
+-(void) setRemoteControls:(NSInteger)alpha{
+  [_subscriberAudioButton setAlpha:alpha];
+  [_subscriberVideoButton setAlpha:alpha];
+}
+
 // ===============================================================================================//
 // Remove subscriber video and replace it with the avatar picture to the subscriber view instead
 // ===============================================================================================//

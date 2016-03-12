@@ -13,6 +13,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *connectingLabel;
 @property (strong, nonatomic) IBOutlet UIButton *errorMessage;
 
+@property (strong, nonatomic) IBOutlet UIButton *subscriberVideoButton;
+@property (strong, nonatomic) IBOutlet UIButton *subscriberAudioButton;
+
 - (void) adjustViewsForOrientation;
 
 - (void) setConnectingLabelAlpha:(NSInteger)alpha;

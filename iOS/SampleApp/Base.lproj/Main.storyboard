@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
@@ -8,28 +8,29 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController autoresizesArchivedViewToFullSize="NO" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="HtV-zK-mFJ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zJt-pm-lIX">
+                            <view contentMode="scaleToFill" id="zJt-pm-lIX">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
-                            <view contentMode="scaleAspectFit" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EoV-Kh-ae4">
+                            <view contentMode="scaleAspectFit" id="EoV-Kh-ae4">
                                 <rect key="frame" x="222" y="385" width="90" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QaT-qb-Mgd">
+                            <view contentMode="scaleToFill" id="QaT-qb-Mgd">
                                 <rect key="frame" x="40" y="495" width="240" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <view alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DPy-hc-7KF" userLabel="Video Holder">
+                                    <view alpha="0.5" contentMode="scaleToFill" id="DPy-hc-7KF" userLabel="Video Holder">
                                         <rect key="frame" x="8" y="7" width="52" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lI4-Iv-Bhv" userLabel="publisherVideoButton">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lI4-Iv-Bhv" userLabel="publisherVideoButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" image="videoIcon.png"/>
                                                 <connections>
                                                     <action selector="publisherVideoButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2mt-7G-8tP"/>
@@ -38,11 +39,13 @@
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yN2-aL-fi5">
+                                    <view contentMode="scaleToFill" id="yN2-aL-fi5">
                                         <rect key="frame" x="94" y="7" width="52" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8fW-9l-wlb" userLabel="publisherCallButton">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8fW-9l-wlb" userLabel="publisherCallButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" image="startCall.png"/>
                                                 <connections>
                                                     <action selector="publisherCallButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SO2-eY-tdE"/>
@@ -51,11 +54,13 @@
                                         </subviews>
                                         <color key="backgroundColor" red="0.41568627450000001" green="0.67843137249999996" blue="0.74901960779999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
-                                    <view alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="paL-7M-B3q" userLabel="Mic Holder">
+                                    <view alpha="0.5" contentMode="scaleToFill" id="paL-7M-B3q" userLabel="Mic Holder">
                                         <rect key="frame" x="180" y="7" width="52" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bwb-uu-g2a" userLabel="publisherMicButton">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Bwb-uu-g2a" userLabel="publisherMicButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" image="mic.png"/>
                                                 <connections>
                                                     <action selector="publisherMicrophoneButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yfD-Km-Uhr"/>
@@ -67,35 +72,40 @@
                                     </view>
                                 </subviews>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKX-dv-Vnc" userLabel="subscriberAudioButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SKX-dv-Vnc" userLabel="subscriberAudioButton">
                                 <rect key="frame" x="8" y="87" width="23" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="audio.png"/>
                                 <connections>
                                     <action selector="subscriberAudioButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="COG-Jp-EKl"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TaE-Jx-zZR" userLabel="subscriberVideoButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TaE-Jx-zZR" userLabel="subscriberVideoButton">
                                 <rect key="frame" x="8" y="135" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="videoIcon.png"/>
                                 <connections>
                                     <action selector="subscriberVideoButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XWM-IL-u0J"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xR7-mn-zpN" userLabel="publisherCameraButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xR7-mn-zpN" userLabel="publisherCameraButton">
                                 <rect key="frame" x="283" y="77" width="29" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="reverse cameras.png"/>
                                 <connections>
                                     <action selector="publisherCameraButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rUd-XL-ngb"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Connecting... " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVp-7r-YQ1">
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting... " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OVp-7r-YQ1">
                                 <rect key="frame" x="90" y="274" width="140" height="21"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixE-LP-kFk" userLabel="Error Message">
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ixE-LP-kFk" userLabel="Error Message">
                                 <rect key="frame" x="0.0" y="21" width="320" height="29"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.80392156859999997" green="0.1176470588" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                 <state key="normal">
@@ -119,7 +129,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="565" y="358"/>
+            <point key="canvasLocation" x="301.33333333333331" y="338.90666666666658"/>
         </scene>
     </scenes>
     <resources>

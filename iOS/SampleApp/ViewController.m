@@ -19,10 +19,35 @@ static NSString* const kToken = @"";
 // Change to NO to subscribe to streams other than your own.
 static bool subscribeToSelf = NO;
 
+static NSUInteger const avatarWidth = 245;
+static NSUInteger const avatarHeight = 194;
 
 @implementation ViewController
 
 NSMutableDictionary *configInfo;
+
+- (BOOL)prefersStatusBarHidden {
+  return YES;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation {
+  return YES;
+}
+
+- (void) adjustViewsForOrientation:(UIInterfaceOrientation)orientation {
+  [self paintSubscriberAvatar];
+  if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight ||
+      orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+    
+    (self.onetoonecommunicationController.subscriber.view).frame = CGRectMake(0, 0, self.view.frame.size.height,self.view.frame.size.width);
+    (self.subscriberView).frame = CGRectMake(0, 0, self.onetoonecommunicationController.subscriber.view.frame.size.height,self.onetoonecommunicationController.subscriber.view.frame.size.width);
+    
+    _subscriberView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin |
+    UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
+    UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+  }
+}
+
 
 - (IBAction)publisherCallButtonPressed:(UIButton *)sender {
   if(self.onetoonecommunicationController.enable_call) {
@@ -36,6 +61,8 @@ NSMutableDictionary *configInfo;
     [sender setImage:[UIImage imageNamed:@"startCall"] forState: UIControlStateNormal];
     self.onetoonecommunicationController.enable_call = YES;
     _callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor; //blue background
+    self.errorMessage.alpha = 0;
+    self.subscriberView.backgroundColor = [UIColor clearColor];
     [self.onetoonecommunicationController doDisconnect];
   }
 }
@@ -94,50 +121,62 @@ NSMutableDictionary *configInfo;
                                                @"subscribeToSelf": [NSNumber numberWithBool:subscribeToSelf]
                                                }];
 
-  [self makingBorder:_micHolder need_background_transparent:YES];
-  [self makingBorder:_callHolder need_background_transparent:NO];
-  [self makingBorder:_videoHolder need_background_transparent:YES];
+  [self makingBorder:_micHolder need_white_border:YES];
+  [self makingBorder:_callHolder need_white_border:NO];
+  [self makingBorder:_videoHolder need_white_border:YES];
   self.onetoonecommunicationController = [[OneToOneCommunication alloc] initWithData:configInfo view:(ViewController*)self];
 }
 
 -(void) setConnectingLabelAlpha:(NSInteger)alpha{
-    [_connectingLabel setAlpha:alpha];
+  [_connectingLabel setAlpha:alpha];
 }
-
-- (BOOL)prefersStatusBarHidden {
-    return YES;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-}
-
-- (void) adjustViewsForOrientation:(UIInterfaceOrientation)orientation{
-    if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight ||
-        orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
-        
-        (self.onetoonecommunicationController.subscriber.view).frame = CGRectMake(0, 0, self.view.frame.size.height,self.view.frame.size.width);
-        
-        _subscriberView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin |
-        UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
-        UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-    }
-}
-
 
 -(void) didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+  [super didReceiveMemoryWarning];
+  // Dispose of any resources that can be recreated.
 }
 
 // ===============================================================================================//
 // Helps with the round borders on the interface buttons
 // ===============================================================================================//
--(void) makingBorder: (UIView *)sendingView need_background_transparent: (BOOL)transparent {
-    sendingView.layer.cornerRadius = (sendingView.bounds.size.width/2);
-    if (transparent) {
-        sendingView.layer.borderWidth = 1;
-        sendingView.layer.borderColor = [UIColor whiteColor].CGColor;
-    }
+-(void) makingBorder: (UIView *)sendingView need_white_border: (BOOL)border {
+  sendingView.layer.cornerRadius = (sendingView.bounds.size.width/2);
+  if (border) {
+    sendingView.layer.borderWidth = 1;
+    sendingView.layer.borderColor = [UIColor whiteColor].CGColor;
+  }
+}
+// ===============================================================================================//
+// Remove subscriber video and replace it with the avatar picture to the subscriber view instead
+// ===============================================================================================//
+-(void) badQualityDisableVideo: (id) reason quiality_error: (id) reason_quiality_error {
+  if (![reason respondsToSelector:@selector(intValue)] && ![reason_quiality_error respondsToSelector:@selector(intValue)]) {
+    return ;
+  }
+  
+  [self.onetoonecommunicationController.subscriber.view removeFromSuperview];
+  [self paintSubscriberAvatar];
+
+  if (reason == reason_quiality_error) {
+    self.onetoonecommunicationController.subscriber.subscribeToVideo = !self.onetoonecommunicationController.subscriber.subscribeToVideo;
+    self.errorMessage.alpha = 0.8f;
+    [self.errorMessage setTitle: @"Network connection is unstable." forState: UIControlStateNormal];
+  }
+}
+
+-(void) paintSubscriberAvatar {
+  self.subscriberView.backgroundColor = [UIColor clearColor];
+  UIGraphicsBeginImageContext(self.onetoonecommunicationController.subscriber.view.frame.size);
+  // Center the avatar image
+  CGRect rcCenter=CGRectMake(self.subscriberView.frame.origin.x+(self.subscriberView.frame.size.width-avatarWidth)/2,
+                             self.subscriberView.frame.origin.y+(self.subscriberView.frame.size.height-avatarHeight)/2,
+                             avatarWidth,
+                             avatarHeight);
+  
+  [[UIImage imageNamed:@"page1.png"] drawInRect:rcCenter];
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  // adds the image as a colorPattern background
+  self.subscriberView.backgroundColor = [UIColor colorWithPatternImage:image];
 }
 @end

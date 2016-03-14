@@ -82,7 +82,7 @@
 		64F2D19A1C6996EB00DAB853 /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenTok.framework; path = "/Users/estebancordero/Documents/worksuff/tokbox/A:V Component/SampleApp/OpenTok.framework"; sourceTree = "<absolute>"; };
 		F4B49EBA1C9028FD003331B5 /* OTKAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTKAnalytics.h; sourceTree = "<group>"; };
 		F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTKAnalytics.m; sourceTree = "<group>"; };
-		F4BB45541C8F3801000A415D /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenTok.framework; path = "../../../../../../Downloads/OpenTok-iOS-2.7.1 2/OpenTok.framework"; sourceTree = "<group>"; };
+		F4BB45541C8F3801000A415D /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenTok.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,7 +227,7 @@
 				TargetAttributes = {
 					6405A5B21C696BE600441745 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = RJG8R9JM6L;
+						DevelopmentTeam = 246HEUPQZ9;
 					};
 				};
 			};

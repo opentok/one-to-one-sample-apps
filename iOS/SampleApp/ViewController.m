@@ -35,10 +35,9 @@ NSMutableDictionary *configInfo;
 }
 
 - (void) adjustViewsForOrientation:(UIInterfaceOrientation)orientation {
-  [self paintSubscriberAvatar];
   if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight ||
       orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
-    
+    [self paintSubscriberAvatar:self.subscriberView parentView:self.onetoonecommunicationController.subscriber.view];
     (self.onetoonecommunicationController.subscriber.view).frame = CGRectMake(0, 0, self.view.frame.size.height,self.view.frame.size.width);
     (self.subscriberView).frame = CGRectMake(0, 0, self.onetoonecommunicationController.subscriber.view.frame.size.height,self.onetoonecommunicationController.subscriber.view.frame.size.width);
     
@@ -62,7 +61,7 @@ NSMutableDictionary *configInfo;
     self.onetoonecommunicationController.enable_call = YES;
     _callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor; //blue background
     self.errorMessage.alpha = 0;
-    self.subscriberView.backgroundColor = [UIColor clearColor];
+    [self paintSubscriberAvatar:self.publisherView parentView:self.onetoonecommunicationController.publisher.view];
     [self.onetoonecommunicationController doDisconnect];
   }
 }
@@ -79,8 +78,14 @@ NSMutableDictionary *configInfo;
 - (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
   if(self.onetoonecommunicationController.publisher.publishVideo) {
     [sender setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
+    
+    [self.onetoonecommunicationController.publisher.view removeFromSuperview];
+    [self paintPublisherAvatar: self.publisherView ];
+    
   } else {
     [sender setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
+    [self.publisherView addSubview:self.onetoonecommunicationController.publisher.view];
+    (self.onetoonecommunicationController.publisher.view).frame = CGRectMake(0, 0, self.publisherView.bounds.size.width, self.publisherView.bounds.size.height);
   }
   self.onetoonecommunicationController.publisher.publishVideo = !self.onetoonecommunicationController.publisher.publishVideo;
 }
@@ -125,6 +130,11 @@ NSMutableDictionary *configInfo;
   [self makingBorder:_callHolder need_white_border:NO];
   [self makingBorder:_videoHolder need_white_border:YES];
   self.onetoonecommunicationController = [[OneToOneCommunication alloc] initWithData:configInfo view:(ViewController*)self];
+  // Adding border and background to publisher window
+  self.publisherView.layer.borderWidth = 1;
+  self.publisherView.layer.borderColor = [UIColor whiteColor].CGColor;
+  self.publisherView.layer.backgroundColor = [UIColor blackColor].CGColor;
+  self.publisherView.layer.cornerRadius = 3;
 }
 
 -(void) setConnectingLabelAlpha:(NSInteger)alpha{
@@ -155,7 +165,7 @@ NSMutableDictionary *configInfo;
   }
   
   [self.onetoonecommunicationController.subscriber.view removeFromSuperview];
-  [self paintSubscriberAvatar];
+  [self paintSubscriberAvatar:self.subscriberView parentView:self.onetoonecommunicationController.subscriber.view];
 
   if (reason == reason_quiality_error) {
     self.onetoonecommunicationController.subscriber.subscribeToVideo = !self.onetoonecommunicationController.subscriber.subscribeToVideo;
@@ -164,12 +174,12 @@ NSMutableDictionary *configInfo;
   }
 }
 
--(void) paintSubscriberAvatar {
-  self.subscriberView.backgroundColor = [UIColor clearColor];
-  UIGraphicsBeginImageContext(self.onetoonecommunicationController.subscriber.view.frame.size);
+-(void) paintSubscriberAvatar: (UIView *) embedView parentView: (UIView *) viewParent {
+  embedView.backgroundColor = [UIColor clearColor];
+  UIGraphicsBeginImageContext(viewParent.frame.size);
   // Center the avatar image
-  CGRect rcCenter=CGRectMake(self.subscriberView.frame.origin.x+(self.subscriberView.frame.size.width-avatarWidth)/2,
-                             self.subscriberView.frame.origin.y+(self.subscriberView.frame.size.height-avatarHeight)/2,
+  CGRect rcCenter=CGRectMake(embedView.frame.origin.x+(embedView.frame.size.width-avatarWidth)/2,
+                             embedView.frame.origin.y+(embedView.frame.size.height-avatarHeight)/2,
                              avatarWidth,
                              avatarHeight);
   
@@ -177,6 +187,16 @@ NSMutableDictionary *configInfo;
   UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
   // adds the image as a colorPattern background
-  self.subscriberView.backgroundColor = [UIColor colorWithPatternImage:image];
+  embedView.backgroundColor = [UIColor colorWithPatternImage:image];
 }
+
+-(void) paintPublisherAvatar: (UIView *) viewParent {
+  UIGraphicsBeginImageContext(viewParent.frame.size);
+  [[UIImage imageNamed:@"page1.png"] drawInRect:viewParent.bounds];
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  
+  viewParent.backgroundColor = [UIColor colorWithPatternImage:image];
+}
+
 @end

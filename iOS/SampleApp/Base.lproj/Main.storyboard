@@ -31,7 +31,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lI4-Iv-Bhv" userLabel="publisherVideoButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" image="videoIcon.png"/>
+                                                <state key="normal" image="videoIcon"/>
                                                 <connections>
                                                     <action selector="publisherVideoButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2mt-7G-8tP"/>
                                                 </connections>
@@ -46,7 +46,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8fW-9l-wlb" userLabel="publisherCallButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" image="startCall.png"/>
+                                                <state key="normal" image="startCall"/>
                                                 <connections>
                                                     <action selector="publisherCallButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SO2-eY-tdE"/>
                                                 </connections>
@@ -61,7 +61,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Bwb-uu-g2a" userLabel="publisherMicButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" image="mic.png"/>
+                                                <state key="normal" image="mic"/>
                                                 <connections>
                                                     <action selector="publisherMicrophoneButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yfD-Km-Uhr"/>
                                                 </connections>
@@ -75,7 +75,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SKX-dv-Vnc" userLabel="subscriberAudioButton">
                                 <rect key="frame" x="8" y="87" width="23" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="audio.png"/>
+                                <state key="normal" image="audio"/>
                                 <connections>
                                     <action selector="subscriberAudioButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="COG-Jp-EKl"/>
                                 </connections>
@@ -83,7 +83,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TaE-Jx-zZR" userLabel="subscriberVideoButton">
                                 <rect key="frame" x="8" y="135" width="25" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="videoIcon.png"/>
+                                <state key="normal" image="videoIcon"/>
                                 <connections>
                                     <action selector="subscriberVideoButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XWM-IL-u0J"/>
                                 </connections>
@@ -91,7 +91,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xR7-mn-zpN" userLabel="publisherCameraButton">
                                 <rect key="frame" x="283" y="77" width="29" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="reverse cameras.png"/>
+                                <state key="normal" image="reverse cameras"/>
                                 <connections>
                                     <action selector="publisherCameraButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rUd-XL-ngb"/>
                                 </connections>
@@ -133,10 +133,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="audio.png" width="25" height="25"/>
-        <image name="mic.png" width="21" height="26"/>
-        <image name="reverse cameras.png" width="55" height="39"/>
-        <image name="startCall.png" width="16" height="30"/>
-        <image name="videoIcon.png" width="24" height="14"/>
+        <image name="audio" width="25" height="25"/>
+        <image name="mic" width="21" height="26"/>
+        <image name="reverse cameras" width="55" height="39"/>
+        <image name="startCall" width="16" height="30"/>
+        <image name="videoIcon" width="24" height="14"/>
     </resources>
 </document>

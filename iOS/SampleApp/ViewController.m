@@ -3,6 +3,7 @@
 
 @interface ViewController ()
 @property OneToOneCommunication *onetoonecommunicationController;
+@property UIImageView *avatarImageView;
 
 @end
 
@@ -19,8 +20,6 @@ static NSString* const kToken = @"";
 // Change to NO to subscribe to streams other than your own.
 static bool subscribeToSelf = NO;
 
-static NSUInteger const avatarWidth = 245;
-static NSUInteger const avatarHeight = 194;
 
 @implementation ViewController
 
@@ -61,7 +60,8 @@ NSMutableDictionary *configInfo;
     self.onetoonecommunicationController.enable_call = YES;
     _callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor; //blue background
     self.errorMessage.alpha = 0;
-    [self paintSubscriberAvatar:self.publisherView parentView:self.onetoonecommunicationController.publisher.view];
+    [self removeAvatarFromUIView:self.publisherView];
+    [self removeAvatarFromUIView:self.subscriberView];
     [self.onetoonecommunicationController doDisconnect];
   }
 }
@@ -78,10 +78,8 @@ NSMutableDictionary *configInfo;
 - (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
   if(self.onetoonecommunicationController.publisher.publishVideo) {
     [sender setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
-    
     [self.onetoonecommunicationController.publisher.view removeFromSuperview];
     [self paintPublisherAvatar: self.publisherView ];
-    
   } else {
     [sender setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
     [self.publisherView addSubview:self.onetoonecommunicationController.publisher.view];
@@ -133,7 +131,7 @@ NSMutableDictionary *configInfo;
   // Adding border and background to publisher window
   self.publisherView.layer.borderWidth = 1;
   self.publisherView.layer.borderColor = [UIColor whiteColor].CGColor;
-  self.publisherView.layer.backgroundColor = [UIColor blackColor].CGColor;
+  self.publisherView.layer.backgroundColor = [UIColor grayColor].CGColor;
   self.publisherView.layer.cornerRadius = 3;
 }
 
@@ -175,28 +173,32 @@ NSMutableDictionary *configInfo;
 }
 
 -(void) paintSubscriberAvatar: (UIView *) embedView parentView: (UIView *) viewParent {
-  embedView.backgroundColor = [UIColor clearColor];
-  UIGraphicsBeginImageContext(viewParent.frame.size);
-  // Center the avatar image
-  CGRect rcCenter=CGRectMake(embedView.frame.origin.x+(embedView.frame.size.width-avatarWidth)/2,
-                             embedView.frame.origin.y+(embedView.frame.size.height-avatarHeight)/2,
-                             avatarWidth,
-                             avatarHeight);
+  _avatarImageView = [[UIImageView alloc] initWithFrame:viewParent.bounds];
+  _avatarImageView.backgroundColor = [UIColor clearColor];
+  _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
+  _avatarImageView.image = [UIImage imageNamed:@"page1"];
   
-  [[UIImage imageNamed:@"page1.png"] drawInRect:rcCenter];
-  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  // adds the image as a colorPattern background
-  embedView.backgroundColor = [UIColor colorWithPatternImage:image];
+  _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
+  [embedView addSubview:_avatarImageView];
 }
 
 -(void) paintPublisherAvatar: (UIView *) viewParent {
-  UIGraphicsBeginImageContext(viewParent.frame.size);
-  [[UIImage imageNamed:@"page1.png"] drawInRect:viewParent.bounds];
-  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
+  _avatarImageView = [[UIImageView alloc] initWithFrame:viewParent.bounds];
+  _avatarImageView.backgroundColor = [UIColor clearColor];
+  _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
+  _avatarImageView.image = [UIImage imageNamed:@"page1"];
   
-  viewParent.backgroundColor = [UIColor colorWithPatternImage:image];
+  _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
+  
+  [viewParent addSubview:_avatarImageView];
+}
+
+- (void)removeAvatarFromUIView:(UIView *)parentView {
+  for (id child in [parentView subviews]) {
+    if ([child isMemberOfClass:[UIImageView class]]) {
+      [child removeFromSuperview];
+    }
+  }
 }
 
 @end

@@ -5,9 +5,9 @@
 @property (strong, nonatomic) IBOutlet UIView *publisherView;
 @property (strong, nonatomic) IBOutlet UIView *subscriberView;
 
-@property (strong, nonatomic) IBOutlet UIView *videoHolder;
-@property (strong, nonatomic) IBOutlet UIView *callHolder;
-@property (strong, nonatomic) IBOutlet UIView *micHolder;
+@property (strong, nonatomic) IBOutlet UIButton *videoHolder;
+@property (strong, nonatomic) IBOutlet UIButton *callHolder;
+@property (strong, nonatomic) IBOutlet UIButton *micHolder;
 
 @property (strong, nonatomic) IBOutlet UIButton *toggleCallButton;
 @property (strong, nonatomic) IBOutlet UILabel *connectingLabel;

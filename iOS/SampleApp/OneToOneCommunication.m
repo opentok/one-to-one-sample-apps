@@ -71,7 +71,13 @@ bool subscribeToSelf;
 -(void) subscriberDidConnectToStream:(OTSubscriberKit*)subscriber {
   assert(_subscriber == subscriber);
   (_subscriber.view).frame = CGRectMake(0, 0, self._viewController.subscriberView.bounds.size.width,self._viewController.subscriberView.bounds.size.height);
-  [self._viewController.subscriberView addSubview:_subscriber.view];
+    [self._viewController.subscriberView addSubview:_subscriber.view];
+    
+    _subscriber.view.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0].active = YES;
+    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0].active = YES;
+    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0].active = YES;
+    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0].active = YES;
 }
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
@@ -102,7 +108,6 @@ bool subscribeToSelf;
 
 - (void)subscriberVideoEnabled:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
   self._viewController.errorMessage.alpha = 0;
-  self._viewController.subscriberView.backgroundColor = [UIColor clearColor];
   [self._viewController.subscriberView addSubview:_subscriber.view];
 }
 
@@ -112,7 +117,6 @@ bool subscribeToSelf;
 
 -(void) subscriberVideoDisableWarningLifted:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
     self._viewController.errorMessage.alpha = 0;
-    self._viewController.subscriberView.backgroundColor = [UIColor clearColor];
     [self._viewController.subscriberView addSubview:_subscriber.view];
 }
 

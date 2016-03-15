@@ -2,6 +2,9 @@
 #import <Opentok/OpenTok.h>
 
 @interface OneToOneCommunication () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
+@property (readwrite, nonatomic) NSMutableDictionary *configInfo;
+@property (readwrite, nonatomic) OTSubscriber *subscriber;
+@property (readwrite, nonatomic) OTPublisher *publisher;
 @end
 
 @implementation OneToOneCommunication
@@ -14,7 +17,7 @@ OTSession *_session;
 bool subscribeToSelf;
 // ===============================================================================================//
 
--(id) initWithData:(NSMutableDictionary *)configInfo view:(id)viewController{
+-(instancetype) initWithData:(NSMutableDictionary *)configInfo view:(id)viewController{
   //NSBundle *bundle = [NSBundle bundleForClass:[self class]];
 //  if( self = [self initWithNibName:@"OneToOneCommunication" bundle:[NSBundle mainBundle]]) {
 //    self.configInfo = configInfo;
@@ -60,6 +63,7 @@ bool subscribeToSelf;
   NSLog(@"session streamDestroyed (%@)", stream.streamId);
   if ([_subscriber.stream.streamId isEqualToString:stream.streamId]) {
     [_subscriber.view removeFromSuperview];
+    self._viewController.subscriberView.backgroundColor = [UIColor grayColor];
     _subscriber = nil;
   }
 }
@@ -86,6 +90,33 @@ bool subscribeToSelf;
   NSLog(@"publisher did failed with error: (%@)", error);
   [self showErrorView:[NSString stringWithFormat: @"Problems when publishing"]];
 }
+
+// ===============================================================================================//
+// when the connection is unstable and video is no longer suported by the connection or the CPU
+// is using a lot of resources this method can be triggered
+// ===============================================================================================//
+
+-(void)subscriberVideoDisabled:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+  [self._viewController badQualityDisableVideo: [NSNumber numberWithInteger: reason] quiality_error: [NSNumber numberWithInteger: OTSubscriberVideoEventQualityChanged]];
+  }
+
+- (void)subscriberVideoEnabled:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+  self._viewController.errorMessage.alpha = 0;
+  self._viewController.subscriberView.backgroundColor = [UIColor clearColor];
+  [self._viewController.subscriberView addSubview:_subscriber.view];
+}
+
+-(void) subscriberVideoDisableWarning:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+    [self._viewController badQualityDisableVideo: [NSNumber numberWithInteger: reason] quiality_error: [NSNumber numberWithInteger: OTSubscriberVideoEventQualityChanged]];
+}
+
+-(void) subscriberVideoDisableWarningLifted:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+    self._viewController.errorMessage.alpha = 0;
+    self._viewController.subscriberView.backgroundColor = [UIColor clearColor];
+    [self._viewController.subscriberView addSubview:_subscriber.view];
+}
+
+// ===============================================================================================//
 
 #pragma mark - OpenTok methods
 
@@ -185,11 +216,6 @@ bool subscribeToSelf;
 - (void)cleanupSubscriber {
   [_subscriber.view removeFromSuperview];
   _subscriber = nil;
-}
-//
--(void) didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
 }
 
 // ===============================================================================================//

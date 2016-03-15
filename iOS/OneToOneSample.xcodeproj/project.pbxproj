@@ -31,6 +31,7 @@
 		6405A6011C696C9B00441745 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5F21C696C9B00441745 /* AudioToolbox.framework */; };
 		64AD85861C6A513400B8596D /* OneToOneCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AD85841C6A513400B8596D /* OneToOneCommunication.m */; };
 		64AD85881C6A552E00B8596D /* OpenTok.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F2D19A1C6996EB00DAB853 /* OpenTok.framework */; };
+		F2BCB88B46CD3EFF5C443746 /* libPods-OneToOneSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0C9F7FF98F050F5A0AA8B5 /* libPods-OneToOneSample.a */; };
 		F4B49EBC1C90291F003331B5 /* OTKAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */; };
 		F4BB45551C8F3801000A415D /* OpenTok.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4BB45541C8F3801000A415D /* OpenTok.framework */; };
 /* End PBXBuildFile section */
@@ -49,6 +50,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0C0C9F7FF98F050F5A0AA8B5 /* libPods-OneToOneSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneToOneSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D5C07252205663CD60B056F /* Pods-SampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-SampleApp/Pods-SampleApp.release.xcconfig"; sourceTree = "<group>"; };
 		63ECA3CFC593811ECDE6F4B1 /* Pods-SampleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SampleApp/Pods-SampleApp.debug.xcconfig"; sourceTree = "<group>"; };
 		6405A5B31C696BE600441745 /* OneToOneSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneToOneSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,7 +84,7 @@
 		64F2D19A1C6996EB00DAB853 /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenTok.framework; path = "/Users/estebancordero/Documents/worksuff/tokbox/A:V Component/SampleApp/OpenTok.framework"; sourceTree = "<absolute>"; };
 		F4B49EBA1C9028FD003331B5 /* OTKAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTKAnalytics.h; sourceTree = "<group>"; };
 		F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTKAnalytics.m; sourceTree = "<group>"; };
-		F4BB45541C8F3801000A415D /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenTok.framework; path = "../../../../../../Downloads/OpenTok-iOS-2.7.1 2/OpenTok.framework"; sourceTree = "<group>"; };
+		F4BB45541C8F3801000A415D /* OpenTok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenTok.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				6405A5F81C696C9B00441745 /* Foundation.framework in Frameworks */,
 				6405A5FC1C696C9B00441745 /* OpenGLES.framework in Frameworks */,
 				64AD85881C6A552E00B8596D /* OpenTok.framework in Frameworks */,
+				F2BCB88B46CD3EFF5C443746 /* libPods-OneToOneSample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +119,7 @@
 		58330E79441DE696829EC13D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0C0C9F7FF98F050F5A0AA8B5 /* libPods-OneToOneSample.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -199,13 +203,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6405A5CD1C696BE600441745 /* Build configuration list for PBXNativeTarget "OneToOneSample" */;
 			buildPhases = (
-				8CC8F8FA06259D9C7E8CABD3 /* Check Pods Manifest.lock */,
 				6405A5AF1C696BE600441745 /* Sources */,
 				6405A5B01C696BE600441745 /* Frameworks */,
 				6405A5B11C696BE600441745 /* Resources */,
 				6405A5E11C696BF700441745 /* Embed Frameworks */,
-				3B77F6EB5F58770548DA8A33 /* Embed Pods Frameworks */,
-				47368205B69241862C39CE8D /* Copy Pods Resources */,
+				948AA24C7CE6A3D219E7F7ED /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -227,7 +229,7 @@
 				TargetAttributes = {
 					6405A5B21C696BE600441745 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = RJG8R9JM6L;
+						DevelopmentTeam = 246HEUPQZ9;
 					};
 				};
 			};
@@ -263,7 +265,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3B77F6EB5F58770548DA8A33 /* Embed Pods Frameworks */ = {
+		948AA24C7CE6A3D219E7F7ED /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -275,37 +277,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SampleApp/Pods-SampleApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		47368205B69241862C39CE8D /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SampleApp/Pods-SampleApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8CC8F8FA06259D9C7E8CABD3 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OneToOneSample/Pods-OneToOneSample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

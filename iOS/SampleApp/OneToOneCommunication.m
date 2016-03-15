@@ -2,6 +2,9 @@
 #import <Opentok/OpenTok.h>
 
 @interface OneToOneCommunication () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
+@property (readwrite, nonatomic) NSMutableDictionary *configInfo;
+@property (readwrite, nonatomic) OTSubscriber *subscriber;
+@property (readwrite, nonatomic) OTPublisher *publisher;
 @end
 
 @implementation OneToOneCommunication
@@ -14,7 +17,7 @@ OTSession *_session;
 bool subscribeToSelf;
 // ===============================================================================================//
 
--(id) initWithData:(NSMutableDictionary *)configInfo view:(id)viewController{
+-(instancetype) initWithData:(NSMutableDictionary *)configInfo view:(id)viewController{
   //NSBundle *bundle = [NSBundle bundleForClass:[self class]];
 //  if( self = [self initWithNibName:@"OneToOneCommunication" bundle:[NSBundle mainBundle]]) {
 //    self.configInfo = configInfo;
@@ -213,11 +216,6 @@ bool subscribeToSelf;
 - (void)cleanupSubscriber {
   [_subscriber.view removeFromSuperview];
   _subscriber = nil;
-}
-//
--(void) didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
 }
 
 // ===============================================================================================//

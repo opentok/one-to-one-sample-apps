@@ -139,11 +139,6 @@ NSMutableDictionary *configInfo;
   [_connectingLabel setAlpha:alpha];
 }
 
--(void) didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
-}
-
 // ===============================================================================================//
 // Helps with the round borders on the interface buttons
 // ===============================================================================================//

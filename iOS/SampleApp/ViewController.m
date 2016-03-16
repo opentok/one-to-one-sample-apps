@@ -48,6 +48,7 @@ NSMutableDictionary *configInfo;
     self.errorMessage.alpha = 0;
     [self removeAvatarFromUIView:self.publisherView];
     [self removeAvatarFromUIView:self.subscriberView];
+    self.publisherView.alpha = 0; //to hide the publisher view
     [self.onetoonecommunicationController doDisconnect];
   }
 }
@@ -115,11 +116,6 @@ NSMutableDictionary *configInfo;
   [self makingBorder:_videoHolder need_white_border:YES];
   [self setRemoteControls:0];
   self.onetoonecommunicationController = [[OneToOneCommunication alloc] initWithData:configInfo view:(ViewController*)self];
-  // Adding border and background to publisher window
-  self.publisherView.layer.borderWidth = 1;
-  self.publisherView.layer.borderColor = [UIColor whiteColor].CGColor;
-  self.publisherView.layer.backgroundColor = [UIColor grayColor].CGColor;
-  self.publisherView.layer.cornerRadius = 3;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -193,6 +189,15 @@ NSMutableDictionary *configInfo;
       [child removeFromSuperview];
     }
   }
+}
+
+-(void) publisherAddStyle {
+  //Adding border and background to publisher view
+  self.publisherView.alpha = 1;
+  self.publisherView.layer.borderWidth = 1;
+  self.publisherView.layer.borderColor = [UIColor whiteColor].CGColor;
+  self.publisherView.layer.backgroundColor = [UIColor grayColor].CGColor;
+  self.publisherView.layer.cornerRadius = 3;
 }
 
 @end

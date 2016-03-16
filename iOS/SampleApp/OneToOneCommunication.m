@@ -85,9 +85,15 @@ bool subscribeToSelf;
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
    NSLog(@"session did failed with error: (%@)", error);
-  [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
-  [self._viewController setConnectingLabelAlpha:1];
-  [self doConnect];
+    
+  if (error.code == 1004) {
+    [self showErrorView: [NSString stringWithFormat:@"Invalid token"]];
+  }
+  else {
+    [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
+  }
+  [self._viewController setConnectingLabelAlpha:0.0];
+  self._viewController.callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
 }
 
 -(void)subscriber:(OTSubscriberKit *)subscriber didFailWithError:(OTError *)error {

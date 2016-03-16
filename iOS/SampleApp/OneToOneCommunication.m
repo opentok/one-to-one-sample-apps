@@ -74,10 +74,13 @@ bool subscribeToSelf;
     [self._viewController.subscriberView addSubview:_subscriber.view];
     
     _subscriber.view.translatesAutoresizingMaskIntoConstraints = NO;
-    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0].active = YES;
-    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0].active = YES;
-    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0].active = YES;
-    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0].active = YES;
+    
+    
+    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+    NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0];
+    NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0];
+    NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
+    [NSLayoutConstraint activateConstraints:@[top, leading, trailing, bottom]];
 }
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {

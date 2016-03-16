@@ -102,6 +102,9 @@ NSMutableDictionary *configInfo;
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  NSAssert(kApiKey.length != 0, @"OpenTok: API key can not be empty, please add it to ViewController");
+  NSAssert(kSessionId.length != 0, @"OpenTok: Session Id can not be empty, please add it to ViewController");
+  NSAssert(kToken.length != 0, @"OpenTok: Token can not be empty, please add it to ViewController");
   configInfo = [NSMutableDictionary
                   dictionaryWithDictionary: @{
                                                @"api": kApiKey,

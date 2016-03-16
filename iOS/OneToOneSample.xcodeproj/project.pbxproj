@@ -13,21 +13,6 @@
 		6405A5C11C696BE600441745 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5BF1C696BE600441745 /* Main.storyboard */; };
 		6405A5C61C696BE600441745 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5C51C696BE600441745 /* Assets.xcassets */; };
 		6405A5C91C696BE600441745 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5C71C696BE600441745 /* LaunchScreen.storyboard */; };
-		6405A5F31C696C9B00441745 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5E41C696C9B00441745 /* AVFoundation.framework */; };
-		6405A5F41C696C9B00441745 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5E51C696C9B00441745 /* CoreGraphics.framework */; };
-		6405A5F51C696C9B00441745 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5E61C696C9B00441745 /* CoreMedia.framework */; };
-		6405A5F61C696C9B00441745 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5E71C696C9B00441745 /* CoreTelephony.framework */; };
-		6405A5F71C696C9B00441745 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5E81C696C9B00441745 /* CoreVideo.framework */; };
-		6405A5F81C696C9B00441745 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5E91C696C9B00441745 /* Foundation.framework */; };
-		6405A5F91C696C9B00441745 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5EA1C696C9B00441745 /* GLKit.framework */; };
-		6405A5FA1C696C9B00441745 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5EB1C696C9B00441745 /* libc++.tbd */; };
-		6405A5FB1C696C9B00441745 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5EC1C696C9B00441745 /* libsqlite3.tbd */; };
-		6405A5FC1C696C9B00441745 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5ED1C696C9B00441745 /* OpenGLES.framework */; };
-		6405A5FD1C696C9B00441745 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5EE1C696C9B00441745 /* QuartzCore.framework */; };
-		6405A5FE1C696C9B00441745 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5EF1C696C9B00441745 /* SystemConfiguration.framework */; };
-		6405A5FF1C696C9B00441745 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5F01C696C9B00441745 /* UIKit.framework */; };
-		6405A6001C696C9B00441745 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5F11C696C9B00441745 /* VideoToolbox.framework */; };
-		6405A6011C696C9B00441745 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6405A5F21C696C9B00441745 /* AudioToolbox.framework */; };
 		64AD85861C6A513400B8596D /* OneToOneCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AD85841C6A513400B8596D /* OneToOneCommunication.m */; };
 		F4B49EBC1C90291F003331B5 /* OTKAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */; };
 /* End PBXBuildFile section */
@@ -56,24 +41,8 @@
 		6405A5C51C696BE600441745 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6405A5C81C696BE600441745 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6405A5CA1C696BE600441745 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6405A5E41C696C9B00441745 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		6405A5E51C696C9B00441745 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		6405A5E61C696C9B00441745 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		6405A5E71C696C9B00441745 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		6405A5E81C696C9B00441745 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		6405A5E91C696C9B00441745 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6405A5EA1C696C9B00441745 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
-		6405A5EB1C696C9B00441745 /* libc++.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		6405A5EC1C696C9B00441745 /* libsqlite3.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		6405A5ED1C696C9B00441745 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		6405A5EE1C696C9B00441745 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		6405A5EF1C696C9B00441745 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		6405A5F01C696C9B00441745 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6405A5F11C696C9B00441745 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
-		6405A5F21C696C9B00441745 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		64AD85831C6A513400B8596D /* OneToOneCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OneToOneCommunication.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		64AD85841C6A513400B8596D /* OneToOneCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OneToOneCommunication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		657178D028806F0DA40404F1 /* libPods-OneToOneSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneToOneSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4B49EBA1C9028FD003331B5 /* OTKAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTKAnalytics.h; sourceTree = "<group>"; };
 		F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTKAnalytics.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,21 +52,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6405A6011C696C9B00441745 /* AudioToolbox.framework in Frameworks */,
-				6405A6001C696C9B00441745 /* VideoToolbox.framework in Frameworks */,
-				6405A5F71C696C9B00441745 /* CoreVideo.framework in Frameworks */,
-				6405A5FD1C696C9B00441745 /* QuartzCore.framework in Frameworks */,
-				6405A5F91C696C9B00441745 /* GLKit.framework in Frameworks */,
-				6405A5F41C696C9B00441745 /* CoreGraphics.framework in Frameworks */,
-				6405A5FF1C696C9B00441745 /* UIKit.framework in Frameworks */,
-				6405A5F31C696C9B00441745 /* AVFoundation.framework in Frameworks */,
-				6405A5FA1C696C9B00441745 /* libc++.tbd in Frameworks */,
-				6405A5FE1C696C9B00441745 /* SystemConfiguration.framework in Frameworks */,
-				6405A5F61C696C9B00441745 /* CoreTelephony.framework in Frameworks */,
-				6405A5F51C696C9B00441745 /* CoreMedia.framework in Frameworks */,
-				6405A5FB1C696C9B00441745 /* libsqlite3.tbd in Frameworks */,
-				6405A5F81C696C9B00441745 /* Foundation.framework in Frameworks */,
-				6405A5FC1C696C9B00441745 /* OpenGLES.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,22 +61,6 @@
 		58330E79441DE696829EC13D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6405A5E41C696C9B00441745 /* AVFoundation.framework */,
-				6405A5E51C696C9B00441745 /* CoreGraphics.framework */,
-				6405A5E61C696C9B00441745 /* CoreMedia.framework */,
-				6405A5E71C696C9B00441745 /* CoreTelephony.framework */,
-				6405A5E81C696C9B00441745 /* CoreVideo.framework */,
-				6405A5E91C696C9B00441745 /* Foundation.framework */,
-				6405A5EA1C696C9B00441745 /* GLKit.framework */,
-				6405A5EB1C696C9B00441745 /* libc++.tbd */,
-				6405A5EC1C696C9B00441745 /* libsqlite3.tbd */,
-				6405A5ED1C696C9B00441745 /* OpenGLES.framework */,
-				6405A5EE1C696C9B00441745 /* QuartzCore.framework */,
-				6405A5EF1C696C9B00441745 /* SystemConfiguration.framework */,
-				6405A5F01C696C9B00441745 /* UIKit.framework */,
-				6405A5F11C696C9B00441745 /* VideoToolbox.framework */,
-				6405A5F21C696C9B00441745 /* AudioToolbox.framework */,
-				657178D028806F0DA40404F1 /* libPods-OneToOneSample.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

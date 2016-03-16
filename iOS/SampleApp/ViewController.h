@@ -9,7 +9,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *callHolder;
 @property (strong, nonatomic) IBOutlet UIButton *micHolder;
 
-@property (strong, nonatomic) IBOutlet UIButton *toggleCallButton;
 @property (strong, nonatomic) IBOutlet UILabel *connectingLabel;
 @property (strong, nonatomic) IBOutlet UIButton *errorMessage;
 

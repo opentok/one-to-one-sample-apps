@@ -162,7 +162,6 @@
                         <outlet property="subscriberAudioButton" destination="SKX-dv-Vnc" id="Ad8-mX-sU5"/>
                         <outlet property="subscriberVideoButton" destination="TaE-Jx-zZR" id="sys-en-nCU"/>
                         <outlet property="subscriberView" destination="zJt-pm-lIX" id="sZA-hF-4xl"/>
-                        <outlet property="toggleCallButton" destination="8fW-9l-wlb" id="AlV-uP-lFX"/>
                         <outlet property="videoHolder" destination="lI4-Iv-Bhv" id="beE-DX-ncr"/>
                     </connections>
                 </viewController>

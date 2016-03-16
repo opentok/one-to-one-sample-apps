@@ -74,17 +74,26 @@ bool subscribeToSelf;
     [self._viewController.subscriberView addSubview:_subscriber.view];
     
     _subscriber.view.translatesAutoresizingMaskIntoConstraints = NO;
-    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0].active = YES;
-    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0].active = YES;
-    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0].active = YES;
-    [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0].active = YES;
+    
+    
+    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+    NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0];
+    NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0];
+    NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
+    [NSLayoutConstraint activateConstraints:@[top, leading, trailing, bottom]];
 }
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
    NSLog(@"session did failed with error: (%@)", error);
-  [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
-  [self._viewController setConnectingLabelAlpha:1];
-  [self doConnect];
+    
+  if (error.code == 1004) {
+    [self showErrorView: [NSString stringWithFormat:@"Invalid token"]];
+  }
+  else {
+    [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
+  }
+  [self._viewController setConnectingLabelAlpha:0.0];
+  self._viewController.callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
 }
 
 -(void)subscriber:(OTSubscriberKit *)subscriber didFailWithError:(OTError *)error {

@@ -175,6 +175,7 @@ bool subscribeToSelf;
   
   [self._viewController.publisherView addSubview:_publisher.view];
   (_publisher.view).frame = CGRectMake(0, 0, self._viewController.publisherView.bounds.size.width, self._viewController.publisherView.bounds.size.height);
+  [self._viewController publisherAddStyle];
 }
 
 /**

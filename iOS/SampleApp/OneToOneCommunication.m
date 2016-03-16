@@ -140,6 +140,12 @@ bool subscribeToSelf;
 - (void)doConnect {
   [self._viewController setConnectingLabelAlpha:1];
   OTError *error = nil;
+    
+    if (!_session) {
+        _session = [[OTSession alloc] initWithApiKey:self.configInfo[@"api"]
+                                           sessionId:self.configInfo[@"sessionId"]
+                                            delegate:self];
+    }
   [_session connectWithToken:self.configInfo[@"token"] error:&error];
   if (error)  {
     NSLog(@"do connect error");
@@ -153,12 +159,14 @@ bool subscribeToSelf;
  */
 -(void)doDisconnect {
   OTError *error = nil;
+  [self doUnpublish];
+  [self cleanupSubscriber];
   [_session disconnect:&error];
   if (error) {
     NSLog(@"disconnect failed with error: (%@)", error);
     [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
   }
-  [self cleanupSubscriber];
+    _session = nil;
 }
 
 
@@ -190,18 +198,16 @@ bool subscribeToSelf;
  */
 -(void) doUnpublish {
   OTError* error = nil;
-  if (_subscriber) {
-    [_session unsubscribe:_subscriber error:&error];
+  if (_publisher) {
+    [_session unpublish:_publisher error:&error];
   }
   if (error) {
-    NSLog(@"unsubscribe failed with error: (%@)", error);
-    [self showErrorView: [NSString stringWithFormat: @"unsubscribe failed with error: (%@)", error]];
+    NSLog(@"doUnpublish failed with error: (%@)", error);
+    [self showErrorView: [NSString stringWithFormat: @"doUnpublish failed with error: (%@)", error]];
   }
   
   [_publisher.view removeFromSuperview];
-  [_subscriber.view removeFromSuperview];
   _publisher = nil;
-  _subscriber = nil;
 }
 
 /**

@@ -16,11 +16,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *subscriberVideoButton;
 @property (strong, nonatomic) IBOutlet UIButton *subscriberAudioButton;
 
-- (void) adjustViewsForOrientation;
-
 - (void) setConnectingLabelAlpha:(NSInteger)alpha;
-
-- (void) adjustViewsForOrientation:(UIInterfaceOrientation)orientation;
 
 - (void) badQualityDisableVideo:(id)reason quiality_error:(id)reason_quiality_error;
 @end

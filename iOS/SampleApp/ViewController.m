@@ -33,20 +33,6 @@ NSMutableDictionary *configInfo;
   return YES;
 }
 
-- (void) adjustViewsForOrientation:(UIInterfaceOrientation)orientation {
-  if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight ||
-      orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
-    [self paintSubscriberAvatar:self.subscriberView parentView:self.onetoonecommunicationController.subscriber.view];
-    (self.onetoonecommunicationController.subscriber.view).frame = CGRectMake(0, 0, self.view.frame.size.height,self.view.frame.size.width);
-    (self.subscriberView).frame = CGRectMake(0, 0, self.onetoonecommunicationController.subscriber.view.frame.size.height,self.onetoonecommunicationController.subscriber.view.frame.size.width);
-    
-    _subscriberView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin |
-    UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
-    UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-  }
-}
-
-
 - (IBAction)publisherCallButtonPressed:(UIButton *)sender {
   if(self.onetoonecommunicationController.enable_call) {
     //BLUE SIDE

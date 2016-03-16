@@ -23,5 +23,7 @@
 - (void) adjustViewsForOrientation:(UIInterfaceOrientation)orientation;
 
 - (void) badQualityDisableVideo:(id)reason quiality_error:(id)reason_quiality_error;
+
+-(void) publisherAddStyle;
 @end
 

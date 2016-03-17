@@ -2,27 +2,20 @@
 #import <Opentok/OpenTok.h>
 
 @interface OneToOneCommunication () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
+
 @property (readwrite, nonatomic) NSMutableDictionary *configInfo;
 @property (readwrite, nonatomic) OTSubscriber *subscriber;
 @property (readwrite, nonatomic) OTPublisher *publisher;
+
 @end
 
 @implementation OneToOneCommunication
 
 OTSession *_session;
 
-// ===============================================================================================//
-// TOGGLE ICONS VARIABLES
-// ===============================================================================================//
 bool subscribeToSelf;
-// ===============================================================================================//
 
 -(instancetype) initWithData:(NSMutableDictionary *)configInfo view:(id)viewController{
-  //NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-//  if( self = [self initWithNibName:@"OneToOneCommunication" bundle:[NSBundle mainBundle]]) {
-//    self.configInfo = configInfo;
-//    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-//  }
   self.configInfo = configInfo;
   self.enable_call = YES;
   self._viewController = viewController;
@@ -30,15 +23,13 @@ bool subscribeToSelf;
                                      sessionId:self.configInfo[@"sessionId"]
                                       delegate:self];
   subscribeToSelf = [self.configInfo[@"subscribeToSelf"] boolValue];
-
   return self;
 }
 
 # pragma mark - OTSession delegate callbacks
 
 -(void) sessionDidConnect:(OTSession*)session{
-    [self._viewController setConnectingLabelAlpha:0];
-  
+  [self._viewController setConnectingLabelAlpha:0];
   // We have successfully connected, now instantiate a publisher and
   // begin pushing A/V streams into OpenTok.
   [self doPublish];
@@ -71,16 +62,15 @@ bool subscribeToSelf;
 -(void) subscriberDidConnectToStream:(OTSubscriberKit*)subscriber {
   assert(_subscriber == subscriber);
   (_subscriber.view).frame = CGRectMake(0, 0, self._viewController.subscriberView.bounds.size.width,self._viewController.subscriberView.bounds.size.height);
-    [self._viewController.subscriberView addSubview:_subscriber.view];
+  [self._viewController.subscriberView addSubview:_subscriber.view];
     
-    _subscriber.view.translatesAutoresizingMaskIntoConstraints = NO;
+  _subscriber.view.translatesAutoresizingMaskIntoConstraints = NO;
     
-    
-    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-    NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0];
-    NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0];
-    NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
-    [NSLayoutConstraint activateConstraints:@[top, leading, trailing, bottom]];
+  NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+  NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0];
+  NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0];
+  NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
+  [NSLayoutConstraint activateConstraints:@[top, leading, trailing, bottom]];
 }
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
@@ -106,11 +96,10 @@ bool subscribeToSelf;
   [self showErrorView:[NSString stringWithFormat: @"Problems when publishing"]];
 }
 
-// ===============================================================================================//
-// when the connection is unstable and video is no longer suported by the connection or the CPU
-// is using a lot of resources this method can be triggered
-// ===============================================================================================//
-
+/**
+ * when the connection is unstable and video is no longer suported by the connection or the CPU
+ * is using a lot of resources this method can be triggered
+ */
 -(void)subscriberVideoDisabled:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
   [self._viewController badQualityDisableVideo: [NSNumber numberWithInteger: reason] quiality_error: [NSNumber numberWithInteger: OTSubscriberVideoEventQualityChanged]];
   }
@@ -121,12 +110,12 @@ bool subscribeToSelf;
 }
 
 -(void) subscriberVideoDisableWarning:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    [self._viewController badQualityDisableVideo: [NSNumber numberWithInteger: reason] quiality_error: [NSNumber numberWithInteger: OTSubscriberVideoEventQualityChanged]];
+  [self._viewController badQualityDisableVideo: [NSNumber numberWithInteger: reason] quiality_error: [NSNumber numberWithInteger: OTSubscriberVideoEventQualityChanged]];
 }
 
 -(void) subscriberVideoDisableWarningLifted:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    self._viewController.errorMessage.alpha = 0;
-    [self._viewController.subscriberView addSubview:_subscriber.view];
+  self._viewController.errorMessage.alpha = 0;
+  [self._viewController.subscriberView addSubview:_subscriber.view];
 }
 
 // ===============================================================================================//
@@ -140,6 +129,12 @@ bool subscribeToSelf;
 - (void)doConnect {
   [self._viewController setConnectingLabelAlpha:1];
   OTError *error = nil;
+    
+  if (!_session) {
+    _session = [[OTSession alloc] initWithApiKey:self.configInfo[@"api"]
+                                           sessionId:self.configInfo[@"sessionId"]
+                                            delegate:self];
+  }
   [_session connectWithToken:self.configInfo[@"token"] error:&error];
   if (error)  {
     NSLog(@"do connect error");
@@ -147,20 +142,20 @@ bool subscribeToSelf;
   }
 }
 
-
 /**
  * kills the current session
  */
 -(void)doDisconnect {
   OTError *error = nil;
+  [self doUnpublish];
+  [self cleanupSubscriber];
   [_session disconnect:&error];
   if (error) {
     NSLog(@"disconnect failed with error: (%@)", error);
     [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
   }
-  [self cleanupSubscriber];
+  _session = nil;
 }
-
 
 /**
  * Sets up an instance of OTPublisher to use with this session. OTPubilsher
@@ -190,18 +185,16 @@ bool subscribeToSelf;
  */
 -(void) doUnpublish {
   OTError* error = nil;
-  if (_subscriber) {
-    [_session unsubscribe:_subscriber error:&error];
+  if (_publisher) {
+    [_session unpublish:_publisher error:&error];
   }
   if (error) {
-    NSLog(@"unsubscribe failed with error: (%@)", error);
-    [self showErrorView: [NSString stringWithFormat: @"unsubscribe failed with error: (%@)", error]];
+    NSLog(@"doUnpublish failed with error: (%@)", error);
+    [self showErrorView: [NSString stringWithFormat: @"doUnpublish failed with error: (%@)", error]];
   }
   
   [_publisher.view removeFromSuperview];
-  [_subscriber.view removeFromSuperview];
   _publisher = nil;
-  _subscriber = nil;
 }
 
 /**
@@ -232,6 +225,8 @@ bool subscribeToSelf;
   _subscriber = nil;
 }
 
+// ===============================================================================================//
+// Handles the errors on the UI showing an alert
 // ===============================================================================================//
 -(void) showErrorView: (NSString *) error_message {
   // Show error message

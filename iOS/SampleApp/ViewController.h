@@ -4,7 +4,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *publisherView;
 @property (strong, nonatomic) IBOutlet UIView *subscriberView;
-
+// 3 action buttons at the bottom of the view
 @property (strong, nonatomic) IBOutlet UIButton *videoHolder;
 @property (strong, nonatomic) IBOutlet UIButton *callHolder;
 @property (strong, nonatomic) IBOutlet UIButton *micHolder;
@@ -19,6 +19,6 @@
 
 - (void) badQualityDisableVideo:(id)reason quiality_error:(id)reason_quiality_error;
 
--(void) publisherAddStyle;
+- (void) publisherAddStyle;
 @end
 

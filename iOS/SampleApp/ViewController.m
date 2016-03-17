@@ -2,9 +2,7 @@
 #import "OneToOneCommunication.h"
 
 @interface ViewController ()
-@property OneToOneCommunication *onetoonecommunicationController;
-@property UIImageView *avatarImageView;
-
+@property (nonatomic) OneToOneCommunication *onetoonecommunicationController;
 @end
 
 // ===============================================================================================//
@@ -53,7 +51,7 @@ NSMutableDictionary *configInfo;
   }
 }
 
-- (IBAction)publisherMicrophoneButtonPressed:(UIButton *)sender {
+- (IBAction)publisherAudioButtonPressed:(UIButton *)sender {
   if(self.onetoonecommunicationController.publisher.publishAudio) {
     [sender setImage:[UIImage imageNamed:@"mutedMicLineCopy"] forState: UIControlStateNormal];
   } else {
@@ -166,34 +164,80 @@ NSMutableDictionary *configInfo;
 }
 
 -(void) paintSubscriberAvatar: (UIView *) embedView parentView: (UIView *) viewParent {
-  _avatarImageView = [[UIImageView alloc] initWithFrame:viewParent.bounds];
-  _avatarImageView.backgroundColor = [UIColor clearColor];
-  _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
-  _avatarImageView.image = [UIImage imageNamed:@"page1"];
-  _avatarImageView.translatesAutoresizingMaskIntoConstraints = NO;
+  UIImageView *avatarImageView = [[UIImageView alloc] initWithFrame:viewParent.bounds];
+  avatarImageView.backgroundColor = [UIColor clearColor];
+  avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
+  avatarImageView.image = [UIImage imageNamed:@"page1"];
+  avatarImageView.translatesAutoresizingMaskIntoConstraints = NO;
 
-  [embedView addSubview:_avatarImageView];
+  [embedView addSubview:avatarImageView];
     
-  NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:_avatarImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_avatarImageView.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-  NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:_avatarImageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_avatarImageView.superview attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0];
-  NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:_avatarImageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_avatarImageView.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0];
-  NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_avatarImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_avatarImageView.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
+  NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:avatarImageView
+                                                         attribute:NSLayoutAttributeTop
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:avatarImageView.superview
+                                                         attribute:NSLayoutAttributeTop
+                                                        multiplier:1.0
+                                                          constant:0.0];
+  NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:avatarImageView
+                                                             attribute:NSLayoutAttributeLeading
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:avatarImageView.superview
+                                                             attribute:NSLayoutAttributeLeading
+                                                            multiplier:1.0
+                                                              constant:0.0];
+  NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:avatarImageView
+                                                              attribute:NSLayoutAttributeTrailing
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:avatarImageView.superview
+                                                              attribute:NSLayoutAttributeTrailing
+                                                             multiplier:1.0
+                                                               constant:0.0];
+  NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:avatarImageView
+                                                            attribute:NSLayoutAttributeBottom
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:avatarImageView.superview
+                                                            attribute:NSLayoutAttributeBottom
+                                                           multiplier:1.0
+                                                             constant:0.0];
   [NSLayoutConstraint activateConstraints:@[top, leading, trailing, bottom]];
 }
 
 -(void) paintPublisherAvatar: (UIView *) viewParent {
-  _avatarImageView = [[UIImageView alloc] initWithFrame:viewParent.bounds];
-  _avatarImageView.backgroundColor = [UIColor clearColor];
-  _avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
-  _avatarImageView.image = [UIImage imageNamed:@"page1"];
-  _avatarImageView.translatesAutoresizingMaskIntoConstraints = NO;
+  UIImageView *avatarImageView = [[UIImageView alloc] initWithFrame:viewParent.bounds];
+  avatarImageView.backgroundColor = [UIColor clearColor];
+  avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
+  avatarImageView.image = [UIImage imageNamed:@"page1"];
+  avatarImageView.translatesAutoresizingMaskIntoConstraints = NO;
   
-  [viewParent addSubview:_avatarImageView];
+  [viewParent addSubview:avatarImageView];
     
-  NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:_avatarImageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_avatarImageView.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
-  NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:_avatarImageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_avatarImageView.superview attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0];
-  NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:_avatarImageView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_avatarImageView.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0];
-  NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_avatarImageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_avatarImageView.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
+  NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:avatarImageView
+                                                         attribute:NSLayoutAttributeTop
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:avatarImageView.superview
+                                                         attribute:NSLayoutAttributeTop
+                                                        multiplier:1.0
+                                                          constant:0.0];
+  NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:avatarImageView attribute:NSLayoutAttributeLeading
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:avatarImageView.superview
+                                                             attribute:NSLayoutAttributeLeading
+                                                            multiplier:1.0
+                                                              constant:0.0];
+  NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:avatarImageView attribute:NSLayoutAttributeTrailing
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:avatarImageView.superview
+                                                              attribute:NSLayoutAttributeTrailing
+                                                             multiplier:1.0
+                                                               constant:0.0];
+  NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:avatarImageView
+                                                            attribute:NSLayoutAttributeBottom
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:avatarImageView.superview
+                                                            attribute:NSLayoutAttributeBottom
+                                                           multiplier:1.0
+                                                             constant:0.0];
   [NSLayoutConstraint activateConstraints:@[top, leading, trailing, bottom]];
 }
 

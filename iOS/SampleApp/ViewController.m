@@ -10,11 +10,11 @@
 // *** Fill the following variables using your own Project info  ***
 // ***          https://dashboard.tokbox.com/projects            ***
 // Replace with your OpenTok API key
-static NSString* const kApiKey = @"45514142";
+static NSString* const kApiKey = @"";
 // Replace with your generated session ID
-static NSString* const kSessionId = @"2_MX40NTUxNDE0Mn5-MTQ1NjgwOTQ1NDAyMX5TZGRtaVZGZmV2cis3S0RvMjJEQlNDOVZ-UH4";
+static NSString* const kSessionId = @"";
 // Replace with your generated token
-static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NTUxNDE0MiZzZGtfdmVyc2lvbj10YnBocC12MC45MS4yMDExLTA3LTA1JnNpZz03OTVmYjYzYWQ3YjU3NzZmNDgyN2E3ODI3ZDU1MTUxNTdjYWFjN2FhOnNlc3Npb25faWQ9Ml9NWDQwTlRVeE5ERTBNbjUtTVRRMU5qZ3dPVFExTkRBeU1YNVRaR1J0YVZaR1ptVjJjaXMzUzBSdk1qSkVRbE5ET1ZaLVVINCZjcmVhdGVfdGltZT0xNDU4MjI5NTkxJnJvbGU9bW9kZXJhdG9yJm5vbmNlPTE0NTgyMjk1OTEuMDQ0ODUzMzQzMTE4NCZleHBpcmVfdGltZT0xNDYwODIxNTkx";
+static NSString* const kToken = @"";
 // ===============================================================================================//
 // Change to NO to subscribe to streams other than your own.
 static bool subscribeToSelf = NO;

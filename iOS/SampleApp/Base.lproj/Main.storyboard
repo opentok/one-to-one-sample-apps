@@ -63,7 +63,7 @@
                                         </constraints>
                                         <state key="normal" image="mic"/>
                                         <connections>
-                                            <action selector="publisherMicrophoneButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yfD-Km-Uhr"/>
+                                            <action selector="publisherAudioButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pxR-Us-IdT"/>
                                         </connections>
                                     </button>
                                 </subviews>

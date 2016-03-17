@@ -13,6 +13,7 @@
 @property (weak, nonatomic) ViewController *_viewController;
 
 @property (readonly, nonatomic) NSMutableDictionary *configInfo;
+
 @property (readonly, nonatomic) OTSubscriber *subscriber;
 @property (readonly, nonatomic) OTPublisher *publisher;
 

@@ -69,13 +69,13 @@ _**NOTE:** The sample app contains logic used for logging. This is used to submi
 
 While TokBox hosts [OpenTok.js](https://tokbox.com/developer/sdks/js/), you must host the sample app yourself. This allows you to customize the app as desired. The sample app has the following design:
 
-* **[one-to-one-communication.js](https://github.com/opentok/one-to-one-sample-apps/blob/master/js/public/js/components/one-to-one-communication.js)**:  Sets up the listeners and handlers for the publisher and subscriber streams, and defines the callbacks for enabling and disabling local and remote media.
+* **[one-to-one-communication.js](./public/js/components/one-to-one-communication.js)**:  Sets up the listeners and handlers for the publisher and subscriber streams, and defines the callbacks for enabling and disabling local and remote media.
 
-* **[app.js](https://github.com/opentok/opentok-avcall-samples/blob/master/js/public/js/components/call.js)**: Stores the information required to configure the session and authorize the app to make requests to the backend server, manages the client connection to the OpenTok session, manages the UI responses to call events, and sets up and manages the local and remote audio and video UI elements. 
+* **[app.js](./public/js/app.js)**: Stores the information required to configure the session and authorize the app to make requests to the backend server, manages the client connection to the OpenTok session, manages the UI responses to call events, and sets up and manages the local and remote audio and video UI elements. 
 
-* **[Image files](https://github.com/opentok/opentok-avcall-samples/tree/master/js/public/images)**: Used for the communication and media icons. 
+* **[Image files](./public/images)**: Used for the communication and media icons. 
 
-* **[index.html](https://github.com/opentok/opentok-avcall-samples/blob/master/js/public/index.html)**: This web page provides you with a quick start if you don't already have a web page making calls against OpenTok.js. Its `<head>` element loads the OpenTok.js library and other dependencies, and its `<body>` element implements the UI container for the local and remote controls on your own page.
+* **[index.html](./public/index.html)**: This web page provides you with a quick start if you don't already have a web page making calls against OpenTok.js. Its `<head>` element loads the OpenTok.js library and other dependencies, and its `<body>` element implements the UI container for the local and remote controls on your own page.
 
 
 ### Session and stream management

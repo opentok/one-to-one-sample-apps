@@ -146,7 +146,7 @@ var app = (function() {
         // Update UI
         [_callElements.startEndCall, _callElements.localVideo].forEach(function(element) {
             _updateClassList(element, 'active', true);
-        })
+        });
 
         _show(_callElements.enableLocalAudio, _callElements.enableLocalVideo);
 
@@ -183,7 +183,7 @@ var app = (function() {
             if (error) {
                 console.log('Session failed to connect');
             } else {
-                _call = new Call(_options)
+                _call = new Call(_options);
                 _addEventListeners();
             }
         });

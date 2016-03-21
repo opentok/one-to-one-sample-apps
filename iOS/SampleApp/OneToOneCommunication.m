@@ -1,51 +1,35 @@
-//
-//  OneToOneCommunication.m
-//  SampleApp
-//
-//  Created by Esteban Cordero on 2/8/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
-//
-
 #import "OneToOneCommunication.h"
 #import <Opentok/OpenTok.h>
 
 @interface OneToOneCommunication () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
+
+@property (readwrite, nonatomic) NSMutableDictionary *configInfo;
+@property (readwrite, nonatomic) OTSubscriber *subscriber;
+@property (readwrite, nonatomic) OTPublisher *publisher;
+
 @end
 
 @implementation OneToOneCommunication
 
 OTSession *_session;
 
-// ===============================================================================================//
-// TOGGLE ICONS VARIABLES
-// ===============================================================================================//
 bool subscribeToSelf;
-// ===============================================================================================//
 
--(id) initWithData:(NSMutableDictionary *)configInfo view:(id)viewController{
-  //NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-  if( self = [self initWithNibName:@"OneToOneCommunication" bundle:[NSBundle mainBundle]]) {
-    self.configInfo = configInfo;
-    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-  }
+-(instancetype) initWithData:(NSMutableDictionary *)configInfo view:(id)viewController{
+  self.configInfo = configInfo;
   self.enable_call = YES;
   self._viewController = viewController;
-  return self;
-}
-
-- (void)viewDidLoad {
-  [super viewDidLoad];
   _session = [[OTSession alloc] initWithApiKey:self.configInfo[@"api"]
                                      sessionId:self.configInfo[@"sessionId"]
                                       delegate:self];
   subscribeToSelf = [self.configInfo[@"subscribeToSelf"] boolValue];
+  return self;
 }
 
 # pragma mark - OTSession delegate callbacks
 
 -(void) sessionDidConnect:(OTSession*)session{
-    [self._viewController setConnectingLabelAlpha:0];
-  
+  [self._viewController setConnectingLabelAlpha:0];
   // We have successfully connected, now instantiate a publisher and
   // begin pushing A/V streams into OpenTok.
   [self doPublish];
@@ -70,21 +54,36 @@ bool subscribeToSelf;
   NSLog(@"session streamDestroyed (%@)", stream.streamId);
   if ([_subscriber.stream.streamId isEqualToString:stream.streamId]) {
     [_subscriber.view removeFromSuperview];
+    self._viewController.subscriberView.backgroundColor = [UIColor grayColor];
     _subscriber = nil;
   }
 }
 
 -(void) subscriberDidConnectToStream:(OTSubscriberKit*)subscriber {
   assert(_subscriber == subscriber);
-  (_subscriber.view).frame = CGRectMake(0, 0, self.subscriberView.bounds.size.width,self.subscriberView.bounds.size.height);
-  [self.subscriberView addSubview:_subscriber.view];
+  (_subscriber.view).frame = CGRectMake(0, 0, self._viewController.subscriberView.bounds.size.width,self._viewController.subscriberView.bounds.size.height);
+  [self._viewController.subscriberView addSubview:_subscriber.view];
+    
+  _subscriber.view.translatesAutoresizingMaskIntoConstraints = NO;
+    
+  NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+  NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0];
+  NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0];
+  NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_subscriber.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_subscriber.view.superview attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
+  [NSLayoutConstraint activateConstraints:@[top, leading, trailing, bottom]];
 }
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
    NSLog(@"session did failed with error: (%@)", error);
-  [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
-  [self._viewController setConnectingLabelAlpha:1];
-  [self doConnect];
+    
+  if (error.code == 1004) {
+    [self showErrorView: [NSString stringWithFormat:@"Invalid token"]];
+  }
+  else {
+    [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
+  }
+  [self._viewController setConnectingLabelAlpha:0.0];
+  self._viewController.callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
 }
 
 -(void)subscriber:(OTSubscriberKit *)subscriber didFailWithError:(OTError *)error {
@@ -97,6 +96,30 @@ bool subscribeToSelf;
   [self showErrorView:[NSString stringWithFormat: @"Problems when publishing"]];
 }
 
+/**
+ * when the connection is unstable and video is no longer suported by the connection or the CPU
+ * is using a lot of resources this method can be triggered
+ */
+-(void)subscriberVideoDisabled:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+  [self._viewController badQualityDisableVideo: [NSNumber numberWithInteger: reason] quiality_error: [NSNumber numberWithInteger: OTSubscriberVideoEventQualityChanged]];
+  }
+
+- (void)subscriberVideoEnabled:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+  self._viewController.errorMessage.alpha = 0;
+  [self._viewController.subscriberView addSubview:_subscriber.view];
+}
+
+-(void) subscriberVideoDisableWarning:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+  [self._viewController badQualityDisableVideo: [NSNumber numberWithInteger: reason] quiality_error: [NSNumber numberWithInteger: OTSubscriberVideoEventQualityChanged]];
+}
+
+-(void) subscriberVideoDisableWarningLifted:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+  self._viewController.errorMessage.alpha = 0;
+  [self._viewController.subscriberView addSubview:_subscriber.view];
+}
+
+// ===============================================================================================//
+
 #pragma mark - OpenTok methods
 
 /**
@@ -106,6 +129,12 @@ bool subscribeToSelf;
 - (void)doConnect {
   [self._viewController setConnectingLabelAlpha:1];
   OTError *error = nil;
+    
+  if (!_session) {
+    _session = [[OTSession alloc] initWithApiKey:self.configInfo[@"api"]
+                                           sessionId:self.configInfo[@"sessionId"]
+                                            delegate:self];
+  }
   [_session connectWithToken:self.configInfo[@"token"] error:&error];
   if (error)  {
     NSLog(@"do connect error");
@@ -113,20 +142,20 @@ bool subscribeToSelf;
   }
 }
 
-
 /**
  * kills the current session
  */
 -(void)doDisconnect {
   OTError *error = nil;
+  [self doUnpublish];
+  [self cleanupSubscriber];
   [_session disconnect:&error];
   if (error) {
     NSLog(@"disconnect failed with error: (%@)", error);
     [self showErrorView: [NSString stringWithFormat:@"Network connection is unstable"]];
   }
-  [self cleanupSubscriber];
+  _session = nil;
 }
-
 
 /**
  * Sets up an instance of OTPublisher to use with this session. OTPubilsher
@@ -145,8 +174,9 @@ bool subscribeToSelf;
   }
   [_session publish:_publisher error:&error];
   
-  [self.publisherView addSubview:_publisher.view];
-  (_publisher.view).frame = CGRectMake(0, 0, self.publisherView.bounds.size.width, self.publisherView.bounds.size.height);
+  [self._viewController.publisherView addSubview:_publisher.view];
+  (_publisher.view).frame = CGRectMake(0, 0, self._viewController.publisherView.bounds.size.width, self._viewController.publisherView.bounds.size.height);
+  [self._viewController publisherAddStyle];
 }
 
 /**
@@ -155,18 +185,16 @@ bool subscribeToSelf;
  */
 -(void) doUnpublish {
   OTError* error = nil;
-  if (_subscriber) {
-    [_session unsubscribe:_subscriber error:&error];
+  if (_publisher) {
+    [_session unpublish:_publisher error:&error];
   }
   if (error) {
-    NSLog(@"unsubscribe failed with error: (%@)", error);
-    [self showErrorView: [NSString stringWithFormat: @"unsubscribe failed with error: (%@)", error]];
+    NSLog(@"doUnpublish failed with error: (%@)", error);
+    [self showErrorView: [NSString stringWithFormat: @"doUnpublish failed with error: (%@)", error]];
   }
   
   [_publisher.view removeFromSuperview];
-  [_subscriber.view removeFromSuperview];
   _publisher = nil;
-  _subscriber = nil;
 }
 
 /**
@@ -196,50 +224,23 @@ bool subscribeToSelf;
   [_subscriber.view removeFromSuperview];
   _subscriber = nil;
 }
-//
--(void) didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
-}
 
-
-- (IBAction)publisherMicrophoneButtonPressed:(UIButton *)sender {
-  [self._viewController publisherMicrophonePressed:sender];
-}
-
-- (IBAction)publisherCallButtonPressed:(UIButton *)sender {
-    [self._viewController startCall:sender];
-}
-
-- (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
-  [self._viewController publisherVideoPressed:sender];
-}
-
-
-- (IBAction)publisherCameraButtonPressed:(UIButton *)sender {
-  [self._viewController publisherCameraPressed:sender];
-}
-
-- (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
-  [self._viewController subscriberVideoPressed:sender];
-}
-- (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
-  [self._viewController subscriberAudioPressed:sender];
-}
+// ===============================================================================================//
+// Handles the errors on the UI showing an alert
 // ===============================================================================================//
 -(void) showErrorView: (NSString *) error_message {
   // Show error message
-  _errorMessage.alpha = 0.0f;
-  [_errorMessage setTitle: error_message forState: UIControlStateNormal];
+  self._viewController.errorMessage.alpha = 0.0f;
+  [self._viewController.errorMessage setTitle: error_message forState: UIControlStateNormal];
   [UIView animateWithDuration:0.5 animations:^{
-    _errorMessage.alpha = 0.6f;
+    self._viewController.errorMessage.alpha = 0.6f;
   }];
   
   [UIView animateWithDuration:0.5
                         delay:4
                       options:UIViewAnimationOptionTransitionNone
                    animations:^{
-                     _errorMessage.alpha = 0.0f;
+                     self._viewController.errorMessage.alpha = 0.0f;
                    } completion:nil];
 }
 @end

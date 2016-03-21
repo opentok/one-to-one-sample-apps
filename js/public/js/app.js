@@ -127,7 +127,7 @@ var app = (function() {
         _callElements.startEndCall.onclick = _connectCall;
 
         // Click events for enabling/disabling audio/video
-        var controls = ['enableLocalAudio', 'enableLocalVideo', 'enableRemoteAudio', 'enableRemoteAudio'];
+        var controls = ['enableLocalAudio', 'enableLocalVideo', 'enableRemoteAudio', 'enableRemoteVideo'];
         controls.forEach(function(control) {
             document.getElementById(control).onclick = function() {
                 _toggleMediaProperties(control);

@@ -4,7 +4,7 @@
 
 The OpenTok One-to-One Communication Sample App is an open-source solution that enables you to quickly get started in your development efforts to set up interoperable, production-quality audio/video communication between users. 
 
-As you get started with this OpenTok sample, you will learn the best practices used to develop and manage the phone, video, and camera elements on mobile devices or in the browser as you . We recommend this is as your first step in delivering [Real Time Communications (WebRTC)](https://tokbox.com/about-webrtc) solutions on the OpenTok platform.
+As you get started with this OpenTok sample, you will learn the best practices used to develop and manage the phone, video, and camera elements on mobile devices or in the browser. We recommend this is as your first step in delivering [Real Time Communications (WebRTC)](https://tokbox.com/about-webrtc) solutions on the OpenTok platform.
 
 With this sample app, you can:
 

@@ -89,7 +89,7 @@ _At this point you can try running the app! You can either use a simulator or an
 
 This section describes how the sample app code design uses recommended best practices to implement the one-to-one communication features. 
 
-For detail about the APIs used to develop this sample, see the [OpenTok Android SDK API Reference](https://tokbox.com/developer/sdks/android/reference/) and [Android API Reference](http://developer.android.com/reference/packages.html).
+For detail about the APIs used to develop this sample, see the [OpenTok iOS SDK Reference](https://tokbox.com/developer/sdks/ios/reference/).
 
   - [Class design](#class-design)
   - [Session and stream management](#session-and-stream-management)

@@ -1,5 +1,6 @@
 #import "OneToOneCommunication.h"
 #import <Opentok/OpenTok.h>
+#import "OTKAnalytics.h"
 
 @interface OneToOneCommunication () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
 
@@ -30,6 +31,9 @@ bool subscribeToSelf;
 
 -(void) sessionDidConnect:(OTSession*)session{
   [self._viewController setConnectingLabelAlpha:0];
+  //Add analytics logging. Internal TokBox purposes only.
+  [self addLogEvent];
+   
   // We have successfully connected, now instantiate a publisher and
   // begin pushing A/V streams into OpenTok.
   [self doPublish];
@@ -225,6 +229,19 @@ bool subscribeToSelf;
   _subscriber = nil;
 }
 
+/**
+ * Adds analytics logging about the sample use. Internal TokBox purposes only.
+ */
+- (void) addLogEvent {
+   NSString *trimmedString = [self.configInfo[@"api"] stringByReplacingOccurrencesOfString:@" "
+                                                                            withString:@""];
+   NSInteger partner = [trimmedString integerValue];
+   OTKAnalytics *logging = [[OTKAnalytics alloc] initWithSessionId: self.configInfo[@"sessionId"]                  connectionId: _session.connection.connectionId
+        partnerId:partner
+        clientVersion: @"1.0.0"];
+    
+   [logging logEventAction:@"one-to-one-sample-app" variation:@""];
+}
 // ===============================================================================================//
 // Handles the errors on the UI showing an alert
 // ===============================================================================================//

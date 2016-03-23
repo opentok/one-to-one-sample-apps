@@ -39,7 +39,7 @@ To learn more about the best practices used to design this app, see [Exploring t
 1. Clone the OpenTok One-to-One Communication Sample App repository.
 2. Start Xcode. 
 3. Click **File > Open**.
-4. Navigate to the **iOS** folder, select **SampleApp.xcodeproj**, and click **Open**.
+4. Navigate to the **iOS** folder, select **OneToOneSample.xcodeproj**, and click **Open**.
 
 
 ### Adding the OpenTok SDK

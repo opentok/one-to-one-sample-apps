@@ -7,6 +7,7 @@
 //
 
 #import "OneToOneCommunicator.h"
+#import "OTKAnalytics.h"
 
 @interface OneToOneCommunicator() <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
 @property (nonatomic) NSString *apiKey;
@@ -110,6 +111,9 @@
         
     }
     else {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(){
+            [self addLogEvent];
+        });
         self.handler(OneToOneCommunicationSignalSessionDidConnect, nil);
     }
 }
@@ -213,6 +217,15 @@
 - (void)subscriber:(OTSubscriberKit *)subscriber didFailWithError:(OTError *)error {
     NSLog(@"subscriber did failed with error: (%@)", error);
     self.handler(OneToOneCommunicationSignalSubscriberDidFail, error);
+}
+
+#pragma mark - private method
+- (void)addLogEvent {
+    NSString *apiKey = [OneToOneCommunicator sharedInstance].apiKey;
+    NSString *sessionId = [OneToOneCommunicator sharedInstance].sessionId;
+    NSInteger partner = [apiKey integerValue];
+    OTKAnalytics *logging = [[OTKAnalytics alloc] initWithSessionId:sessionId connectionId:self.session.connection.connectionId partnerId:partner clientVersion:@"1.0.0"];
+    [logging logEventAction:@"one-to-one-sample-app" variation:@""];
 }
 
 @end

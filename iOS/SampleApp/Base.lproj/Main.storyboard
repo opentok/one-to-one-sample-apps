@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController autoresizesArchivedViewToFullSize="NO" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController autoresizesArchivedViewToFullSize="NO" id="BYZ-38-t0r" customClass="MainViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ibB-sB-NO2"/>
                         <viewControllerLayoutGuide type="bottom" id="g1w-3N-XuV"/>
                     </layoutGuides>
-                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="HtV-zK-mFJ">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="HtV-zK-mFJ" customClass="MainView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -152,18 +152,18 @@
                             <constraint firstItem="OVp-7r-YQ1" firstAttribute="centerY" secondItem="HtV-zK-mFJ" secondAttribute="centerY" id="vZA-Im-SuI"/>
                             <constraint firstAttribute="trailing" secondItem="xR7-mn-zpN" secondAttribute="trailing" constant="20" id="wyq-rV-OBQ"/>
                         </constraints>
+                        <connections>
+                            <outlet property="callHolder" destination="8fW-9l-wlb" id="XCG-GA-mhl"/>
+                            <outlet property="connectingLabel" destination="OVp-7r-YQ1" id="h0T-KE-ktG"/>
+                            <outlet property="errorMessage" destination="ixE-LP-kFk" id="ymp-Ex-BqK"/>
+                            <outlet property="micHolder" destination="Bwb-uu-g2a" id="YZ2-L1-YIh"/>
+                            <outlet property="publisherView" destination="EoV-Kh-ae4" id="WWF-wf-5KH"/>
+                            <outlet property="subscriberAudioButton" destination="SKX-dv-Vnc" id="oVI-Jt-h1h"/>
+                            <outlet property="subscriberVideoButton" destination="TaE-Jx-zZR" id="hHd-ZY-atr"/>
+                            <outlet property="subscriberView" destination="zJt-pm-lIX" id="mYB-hs-kpy"/>
+                            <outlet property="videoHolder" destination="lI4-Iv-Bhv" id="qzE-ay-Yau"/>
+                        </connections>
                     </view>
-                    <connections>
-                        <outlet property="callHolder" destination="8fW-9l-wlb" id="yd4-o1-ztB"/>
-                        <outlet property="connectingLabel" destination="OVp-7r-YQ1" id="XLg-81-14g"/>
-                        <outlet property="errorMessage" destination="ixE-LP-kFk" id="mE1-AR-Api"/>
-                        <outlet property="micHolder" destination="Bwb-uu-g2a" id="BKy-Kx-CIK"/>
-                        <outlet property="publisherView" destination="EoV-Kh-ae4" id="giG-eV-UgY"/>
-                        <outlet property="subscriberAudioButton" destination="SKX-dv-Vnc" id="Ad8-mX-sU5"/>
-                        <outlet property="subscriberVideoButton" destination="TaE-Jx-zZR" id="sys-en-nCU"/>
-                        <outlet property="subscriberView" destination="zJt-pm-lIX" id="sZA-hF-4xl"/>
-                        <outlet property="videoHolder" destination="lI4-Iv-Bhv" id="beE-DX-ncr"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

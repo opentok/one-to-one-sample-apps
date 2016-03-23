@@ -9,11 +9,12 @@
 /* Begin PBXBuildFile section */
 		6405A5B81C696BE600441745 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6405A5B71C696BE600441745 /* main.m */; };
 		6405A5BB1C696BE600441745 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6405A5BA1C696BE600441745 /* AppDelegate.m */; };
-		6405A5BE1C696BE600441745 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6405A5BD1C696BE600441745 /* ViewController.m */; };
+		6405A5BE1C696BE600441745 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6405A5BD1C696BE600441745 /* MainViewController.m */; };
 		6405A5C11C696BE600441745 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5BF1C696BE600441745 /* Main.storyboard */; };
 		6405A5C61C696BE600441745 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5C51C696BE600441745 /* Assets.xcassets */; };
 		6405A5C91C696BE600441745 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5C71C696BE600441745 /* LaunchScreen.storyboard */; };
-		64AD85861C6A513400B8596D /* OneToOneCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AD85841C6A513400B8596D /* OneToOneCommunication.m */; };
+		A0ADEF8C1C9FB2DE00D1A471 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */; };
+		A0ADEF8F1C9FB40700D1A471 /* OneToOneCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = A0ADEF8E1C9FB40700D1A471 /* OneToOneCommunicator.m */; };
 		F4B49EBC1C90291F003331B5 /* OTKAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */; };
 /* End PBXBuildFile section */
 
@@ -35,14 +36,16 @@
 		6405A5B71C696BE600441745 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SampleApp/main.m; sourceTree = SOURCE_ROOT; };
 		6405A5B91C696BE600441745 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6405A5BA1C696BE600441745 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		6405A5BC1C696BE600441745 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		6405A5BD1C696BE600441745 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		6405A5BC1C696BE600441745 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		6405A5BD1C696BE600441745 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MainViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6405A5C01C696BE600441745 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6405A5C51C696BE600441745 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6405A5C81C696BE600441745 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6405A5CA1C696BE600441745 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		64AD85831C6A513400B8596D /* OneToOneCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OneToOneCommunication.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		64AD85841C6A513400B8596D /* OneToOneCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OneToOneCommunication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		A0ADEF8A1C9FB2DE00D1A471 /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
+		A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
+		A0ADEF8D1C9FB40700D1A471 /* OneToOneCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneToOneCommunicator.h; sourceTree = "<group>"; };
+		A0ADEF8E1C9FB40700D1A471 /* OneToOneCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneToOneCommunicator.m; sourceTree = "<group>"; };
 		F4B49EBA1C9028FD003331B5 /* OTKAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTKAnalytics.h; sourceTree = "<group>"; };
 		F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTKAnalytics.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,14 +90,16 @@
 			children = (
 				6405A5B91C696BE600441745 /* AppDelegate.h */,
 				6405A5BA1C696BE600441745 /* AppDelegate.m */,
-				6405A5BC1C696BE600441745 /* ViewController.h */,
-				6405A5BD1C696BE600441745 /* ViewController.m */,
+				6405A5BC1C696BE600441745 /* MainViewController.h */,
+				6405A5BD1C696BE600441745 /* MainViewController.m */,
+				A0ADEF8A1C9FB2DE00D1A471 /* MainView.h */,
+				A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */,
 				6405A5BF1C696BE600441745 /* Main.storyboard */,
 				6405A5C51C696BE600441745 /* Assets.xcassets */,
 				6405A5C71C696BE600441745 /* LaunchScreen.storyboard */,
 				6405A5CA1C696BE600441745 /* Info.plist */,
-				64AD85831C6A513400B8596D /* OneToOneCommunication.h */,
-				64AD85841C6A513400B8596D /* OneToOneCommunication.m */,
+				A0ADEF8D1C9FB40700D1A471 /* OneToOneCommunicator.h */,
+				A0ADEF8E1C9FB40700D1A471 /* OneToOneCommunicator.m */,
 				6405A5B61C696BE600441745 /* Supporting Files */,
 				F4B49EBA1C9028FD003331B5 /* OTKAnalytics.h */,
 				F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */,
@@ -182,11 +187,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64AD85861C6A513400B8596D /* OneToOneCommunication.m in Sources */,
 				F4B49EBC1C90291F003331B5 /* OTKAnalytics.m in Sources */,
-				6405A5BE1C696BE600441745 /* ViewController.m in Sources */,
+				6405A5BE1C696BE600441745 /* MainViewController.m in Sources */,
 				6405A5BB1C696BE600441745 /* AppDelegate.m in Sources */,
 				6405A5B81C696BE600441745 /* main.m in Sources */,
+				A0ADEF8C1C9FB2DE00D1A471 /* MainView.m in Sources */,
+				A0ADEF8F1C9FB40700D1A471 /* OneToOneCommunicator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

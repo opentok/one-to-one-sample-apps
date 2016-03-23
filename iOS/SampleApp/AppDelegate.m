@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+#import "OneToOneCommunicator.h"
 
 @interface AppDelegate ()
 
@@ -8,6 +9,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
+    
+    [OneToOneCommunicator setOpenTokApiKey:@"45514142"
+                                 sessionId:@"2_MX40NTUxNDE0Mn5-MTQ1NjgwOTQ1NDAyMX5TZGRtaVZGZmV2cis3S0RvMjJEQlNDOVZ-UH4" token:@"T1==cGFydG5lcl9pZD00NTUxNDE0MiZzZGtfdmVyc2lvbj10YnBocC12MC45MS4yMDExLTA3LTA1JnNpZz0yNWI3MTBmZTkxNzNjNDlkNjU2ZDFjZTlhZjQyNjE5YmUyNWI2ZjJjOnNlc3Npb25faWQ9Ml9NWDQwTlRVeE5ERTBNbjUtTVRRMU5qZ3dPVFExTkRBeU1YNVRaR1J0YVZaR1ptVjJjaXMzUzBSdk1qSkVRbE5ET1ZaLVVINCZjcmVhdGVfdGltZT0xNDU4MjMwNjk4JnJvbGU9bW9kZXJhdG9yJm5vbmNlPTE0NTgyMzA2OTguMzE0ODE5NDY4MzIyNTEmZXhwaXJlX3RpbWU9MTQ2MDgyMjY5OA=="
+                            selfSubscribed:NO];
   return YES;
 }
 

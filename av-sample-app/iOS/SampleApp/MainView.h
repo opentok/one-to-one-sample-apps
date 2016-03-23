@@ -10,11 +10,9 @@
 
 @interface MainView : UIView
 
-
 // publisher view
 - (void)addPublisherView:(UIView *)publisherView;
 - (void)removePublisherView;
-
 - (void)addPlaceHolderToPublisherView;
 
 - (void)callHolderConnected;
@@ -27,7 +25,6 @@
 // subscriber view
 - (void)addSubscribeView:(UIView *)subsciberView;
 - (void)removeSubscriberView;
-
 - (void)addPlaceHolderToSubscriberView;
 
 - (void)subscriberMicMuted;
@@ -41,7 +38,8 @@
 - (void)showConnectingLabel;
 - (void)hideConnectingLabel;
 
-- (void)showErrorMessageLabelWithMessage:(NSString *)message;
+- (void)showErrorMessageLabelWithMessage:(NSString *)message
+                            dismissAfter:(CGFloat)seconds;
 - (void)hideErrorMessageLabel;
 
 - (void)removePlaceHolderImage;

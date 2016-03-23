@@ -64,25 +64,23 @@ For more information about CocoaPods, including installation instructions, visit
 
 Now you are ready to add the configuration detail to your app. These will include the **Session ID**, **Token**, and **API Key** you retrieved earlier (see [Prerequisites](#prerequisites)).
 
-In **ViewController.m**, replace the following empty strings with the required detail:
+In **AppDelegate.h**, replace the following empty strings with the required detail:
 
 
    ```objc
-// Replace with your OpenTok API key
-static NSString* const kApiKey = @"";
-// Replace with your generated session ID
-static NSString* const kSessionId = @"";
-// Replace with your generated token
-static NSString* const kToken = @"";
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  // Override point for customization after application launch.
+    
+    [OneToOneCommunicator setOpenTokApiKey:@""
+                                 sessionId:@""
+                                     token:@""
+                            selfSubscribed:NO];
+  return YES;
+}
    ```
 
 
-You may also set the `subscribeToSelf` constant. Its default value, `NO`, means that the app subscribes automatically to the other client’s stream. This is required to establish communication between two streams using the same Session ID:
-
-   ```objc
-// Set to NO to subscribe to streams other than your own.
-static bool subscribeToSelf = NO;
-   ```
+You may also set the `selfSubscribed` constant. Its default value, `NO`, means that the app subscribes automatically to the other client’s stream. This is required to establish communication between two streams using the same Session ID.
 
 _At this point you can try running the app! You can either use a simulator or an actual mobile device._
 
@@ -105,23 +103,26 @@ The following classes represent the software design for this sample app.
 
 | Class        | Description  |
 | ------------- | ------------- |
-| `ViewController`   | Stores the information required to configure the session and authorize the app to make requests to the backend server.<br/>In conjunction with **Main.storyboard**, this class implements the UI and its responses to all events associated with actions for the local and remote audio and video controls, the publisher’s start/end call button, and the publisher’s camera position (forward or selfie mode).   |
-| `OneToOneCommunication`   | Uses the OpenTok API to initiate the client connection to the OpenTok session, and manages the audio and video stream subscriptions. <br/> |
+<!-- help: should focus more the coordinator responsbility of the controller -->
+| `MainViewController`   | <br/>In conjunction with **Main.storyboard**, this class implements the UI and its responses to all events associated with actions for the local and remote audio and video controls, the publisher’s start/end call button, and the publisher’s camera position (forward or selfie mode).   |
+| `OneToOneCommunicator`   | Stores the information required to configure the session and authorize the app to make requests to the backend server. Uses the OpenTok API to initiate the client connection to the OpenTok session, and manages the audio and video stream subscriptions.  |
+<!-- help -->
+| `MainView`  | The main user interfaces of the sample app, this view class contains all logic of styling and user interfaces transitioning. <br/> |
 
 
 ### Session and stream management
 
-The `OneToOneCommunication` class is the backbone of the one-to-one communication features for the app. 
+The `OneToOneCommunicator` class is the backbone of the one-to-one communication features for the app. 
 
 This class conforms to the protocols that initiate the client connection to the OpenTok session and sets up the listeners for the publisher and subscriber streams:
 
 ```objc
-@interface OneToOneCommunication () <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
+@interface OneToOneCommunicator : NSObject
 ```
+<!-- help: add Internal word? -->
+#### Internally? Protocol conformance and implementation
 
-#### Protocol conformance and implementation
-
-The protocols to which the `OneToOneCommunication` class conforms are described in the following table. See their descriptions in the [OpenTok iOS SDK Reference](https://tokbox.com/developer/sdks/ios/reference/) for information about the methods required to implement them. 
+The protocols to which the `OneToOneCommunicator` class conforms are described in the following table. See their descriptions in the [OpenTok iOS SDK Reference](https://tokbox.com/developer/sdks/ios/reference/) for information about the methods required to implement them. 
 
 
 | Protocol        | Description  |
@@ -133,20 +134,45 @@ The protocols to which the `OneToOneCommunication` class conforms are described 
 
 #### Methods
 
-The following `OneToOneCommunication` methods are used for session and stream management, and in most cases are required by the protocols to which the class conforms.
+The following `OneToOneCommunicator` methods are used for session and stream management, and in most cases are required by the protocols to which the class conforms.
 
+<!-- help: need polish -->
 | Feature        | Methods  |
 | ------------- | ------------- |
 | Manage the publisher and subscriber instances.   | `doPublish`, `doUnpublish`, `doSubscribe`, `cleanupSubscriber`|
 | Start and end the session connections.   | `doConnect`, `doDisconnect`, `sessionDidConnect`, `sessionDidDisconnect`|
 | Manage the subscription streams.      | `streamCreated`, `streamDestroyed` |
 | Respond to subscriber connection events. | `subscriberDidConnectToStream`  |
+| Store configuration information across the app | `oneToOneCommunicator` |
+| Set configuration information | `setOpenTokApiKey` |
+| Connect to the session and signal back the events | `connectWithHandler` |
+| Disconnect from the session | `disconnect` |
 
+<!-- help: need some descriptions? -->
+#### Signal: notify main controller regarding the events happened
 
+```
+typedef NS_ENUM(NSUInteger, OneToOneCommunicationSignal) {
+    OneToOneCommunicationSignalSessionDidConnect = 0,
+    OneToOneCommunicationSignalSessionDidDisconnect,
+    OneToOneCommunicationSignalSessionDidFail,
+    OneToOneCommunicationSignalSessionStreamCreated,
+    OneToOneCommunicationSignalSessionStreamDestroyed,
+    OneToOneCommunicationSignalPulibsherDidFail,
+    OneToOneCommunicationSignalSubscriberConnect,
+    OneToOneCommunicationSignalSubscriberDidFail,
+    OneToOneCommunicationSignalSubscriberVideoDisabled,
+    OneToOneCommunicationSignalSubscriberVideoEnabled,
+    OneToOneCommunicationSignalSubscriberVideoDisableWarning,
+    OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted,
+};
+```
 
-### User interface
+<!-- help: need to change the description title to be like coordinator? -->
+<!-- ### User interface -->
+### View Controllers - The coordinator who consumes the signals from communicator and acts correspondingly 
 
-As described in [Class design](#class-design), the `ViewController` class, in conjunction with **Main.storyboard**, manages the UI responses to media usage events, which are associated with actions for the local and remote audio and video controls, the publisher’s start/end call button, and the publisher’s camera position (forward or selfie mode).
+As described in [Class design](#class-design), the `MainViewController` class, in conjunction with **Main.storyboard**, manages the UI responses to media usage events, which are associated with actions for the local and remote audio and video controls, the publisher’s start/end call button, and the publisher’s camera position (forward or selfie mode).
 
 | Feature       | Methods       |
 | ------------- | ------------- |
@@ -158,20 +184,11 @@ As described in [Class design](#class-design), the `ViewController` class, in co
 | Publisher camera orientation (forward or selfie mode). | `publisherCameraButtonPressed`  |
 
 
-These properties of the `ViewController ` class manage the views as the publisher and subscriber participate in the session.
+<!-- help: perhaps this section can be deleted, instead add small description about the MainView, which is for handling user interfaces change?-->
+### User interface
+These properties of the `MainViewController ` class manage the views as the publisher and subscriber participate in the session.
 
 | Property        | Description  |
 | ------------- | ------------- |
 | `publisherView` | UI view for the publisher  |
 | `subscriberView` | UI view for the subscriber  |
-
-
-
-
-
-
-
-
-
-
-

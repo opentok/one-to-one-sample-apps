@@ -23,24 +23,37 @@
 @property (strong, nonatomic) IBOutlet UILabel *connectingLabel;
 @property (strong, nonatomic) IBOutlet UIButton *errorMessage;
 
-@property (strong, nonatomic) UIImageView *placeHolderImageView;
+@property (strong, nonatomic) UIImageView *subscriberPlaceHolderImageView;
+@property (strong, nonatomic) UIImageView *publisherPlaceHolderImageView;
 @end
 
 @implementation MainView
 
-- (UIImageView *)placeHolderImageView {
-    if (!_placeHolderImageView) {
-        _placeHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page1"]];
-        _placeHolderImageView.backgroundColor = [UIColor clearColor];
-        _placeHolderImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _placeHolderImageView.translatesAutoresizingMaskIntoConstraints = NO;
+
+- (UIImageView *)publisherPlaceHolderImageView {
+    if (!_publisherPlaceHolderImageView) {
+        _publisherPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page1"]];
+        _publisherPlaceHolderImageView.backgroundColor = [UIColor clearColor];
+        _publisherPlaceHolderImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _publisherPlaceHolderImageView.translatesAutoresizingMaskIntoConstraints = NO;
     }
-    return _placeHolderImageView;
+    return _publisherPlaceHolderImageView;
+}
+
+- (UIImageView *)subscriberPlaceHolderImageView {
+    if (!_subscriberPlaceHolderImageView) {
+        _subscriberPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page1"]];
+        _subscriberPlaceHolderImageView.backgroundColor = [UIColor clearColor];
+        _subscriberPlaceHolderImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _subscriberPlaceHolderImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _subscriberPlaceHolderImageView;
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    self.publisherView.hidden = YES;
     self.publisherView.alpha = 1;
     self.publisherView.layer.borderWidth = 1;
     self.publisherView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -67,22 +80,19 @@
 #pragma mark - publisher view
 - (void)addPublisherView:(UIView *)publisherView {
     
+    [self.publisherView setHidden:NO];
     publisherView.frame = CGRectMake(0, 0, CGRectGetWidth(self.publisherView.bounds), CGRectGetHeight(self.publisherView.bounds));
     [self.publisherView addSubview:publisherView];
 }
 
 - (void)removePublisherView {
-    for (UIView *view in self.publisherView.subviews) {
-        if (view != self.placeHolderImageView) {
-            [view removeFromSuperview];
-        }
-    }
+    [self.publisherView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
 
 - (void)addPlaceHolderToPublisherView {
-    self.placeHolderImageView.frame = self.publisherView.bounds;
-    [self.publisherView addSubview:self.placeHolderImageView];
-    [self addAttachedLayoutConstantsToSuperview:self.placeHolderImageView];
+    self.publisherPlaceHolderImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.publisherView.bounds), CGRectGetHeight(self.publisherView.bounds));
+    [self.publisherView addSubview:self.publisherPlaceHolderImageView];
+    [self addAttachedLayoutConstantsToSuperview:self.publisherPlaceHolderImageView];
 }
 
 - (void)callHolderConnected {
@@ -119,17 +129,13 @@
 }
 
 - (void)removeSubscriberView {
-    for (UIView *view in self.subscriberView.subviews) {
-        if (view != self.placeHolderImageView) {
-            [view removeFromSuperview];
-        }
-    }
+    [self.subscriberView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
 
 - (void)addPlaceHolderToSubscriberView {
-    self.placeHolderImageView.frame = self.publisherView.bounds;
-    [self.subscriberView addSubview:self.placeHolderImageView];
-    [self addAttachedLayoutConstantsToSuperview:self.placeHolderImageView];
+    self.subscriberPlaceHolderImageView.frame = self.subscriberView.bounds;
+    [self.subscriberView addSubview:self.subscriberPlaceHolderImageView];
+    [self addAttachedLayoutConstantsToSuperview:self.subscriberPlaceHolderImageView];
 }
 
 - (void)subscriberMicMuted {
@@ -185,20 +191,23 @@
     }];
 }
 
-- (void)showErrorMessageLabelWithMessage:(NSString *)message {
+- (void)showErrorMessageLabelWithMessage:(NSString *)message
+                            dismissAfter:(CGFloat)seconds {
     
     [self.errorMessage setTitle:message forState:UIControlStateNormal];
     [self.errorMessage setAlpha:1.0];
     
-    [UIView animateWithDuration:0.5
-                          delay:4
-                        options:UIViewAnimationOptionTransitionNone
-                     animations:^{
-                         [self.errorMessage setAlpha:0.5];
-                     }
-                     completion:^(BOOL finished){
-                         [self.errorMessage setAlpha:0.0];
-                     }];
+    if (seconds != 0.0) {
+        [UIView animateWithDuration:0.5
+                              delay:seconds
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             [self.errorMessage setAlpha:0.5];
+                         }
+                         completion:^(BOOL finished){
+                             [self.errorMessage setAlpha:0.0];
+                         }];
+    }
 }
 
 - (void)hideErrorMessageLabel {
@@ -206,10 +215,11 @@
 }
 
 - (void)removePlaceHolderImage {
-    [self.placeHolderImageView removeFromSuperview];
+    [self.publisherPlaceHolderImageView removeFromSuperview];
+    [self.subscriberPlaceHolderImageView removeFromSuperview];
 }
 
-#pragma mark - 
+#pragma mark - private method
 -(void)addAttachedLayoutConstantsToSuperview:(UIView *)view {
     
     if (!view.superview) {

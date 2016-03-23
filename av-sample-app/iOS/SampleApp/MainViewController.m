@@ -23,8 +23,10 @@
     if (self.oneToOneCommunicator.isCallEnabled) {
         [self.mainView callHolderDisconnected];
         self.oneToOneCommunicator.isCallEnabled = NO;
+        [self.mainView showConnectingLabel];
         [self.oneToOneCommunicator connectWithHandler:^(OneToOneCommunicationSignal signal, NSError *error) {
             
+            [self.mainView hideConnectingLabel];
             if (!error) {
                 [self handleCommunicationSignal:signal];
             }
@@ -51,22 +53,22 @@
         }
         case OneToOneCommunicationSignalSessionDidDisconnect:{
             [self.mainView removePublisherView];
+            [self.mainView removeSubscriberView];
             break;
         }
         case OneToOneCommunicationSignalSessionDidFail:{
             [self.mainView hideConnectingLabel];
             break;
         }
-//        case OneToOneCommunicationSignalSessionStreamCreated:{
-//            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriber.view];
-//            break;
-//        }
+        case OneToOneCommunicationSignalSessionStreamCreated:{
+            break;
+        }
         case OneToOneCommunicationSignalSessionStreamDestroyed:{
             [self.mainView removeSubscriberView];
             break;
         }
         case OneToOneCommunicationSignalPulibsherDidFail:{
-            [self.mainView showErrorMessageLabelWithMessage:@"Problem when publishing"];
+            [self.mainView showErrorMessageLabelWithMessage:@"Problem when publishing" dismissAfter:4.0];
             break;
         }
         case OneToOneCommunicationSignalSubscriberConnect:{
@@ -74,7 +76,7 @@
             break;
         }
         case OneToOneCommunicationSignalSubscriberDidFail:{
-            [self.mainView showErrorMessageLabelWithMessage:@"Problem when subscribing"];
+            [self.mainView showErrorMessageLabelWithMessage:@"Problem when subscribing" dismissAfter:4.0];
             break;
         }
         case OneToOneCommunicationSignalSubscriberVideoDisabled:{
@@ -89,7 +91,7 @@
         case OneToOneCommunicationSignalSubscriberVideoDisableWarning:{
             [self.mainView addPlaceHolderToSubscriberView];
             self.oneToOneCommunicator.subscriber.subscribeToVideo = NO;
-            [self.mainView showErrorMessageLabelWithMessage:@"Network connection is unstable."];
+            [self.mainView showErrorMessageLabelWithMessage:@"Network connection is unstable." dismissAfter:0.0];
             break;
         }
         case OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted:{
@@ -186,21 +188,6 @@
              withObject:nil
              afterDelay:7.0];
 }
-
-/**
- * Remove subscriber video and replace it with the avatar picture to the subscriber view instead
- */
-//-(void) badQualityDisableVideo:(id)reason quiality_error:(id)reason_quiality_error {
-//    if (![reason respondsToSelector:@selector(intValue)] && ![reason_quiality_error respondsToSelector:@selector(intValue)]) {
-//        return ;
-//    }
-//    
-//    [self.mainView addPlaceHolderToSubscriberView];
-//    if (reason == reason_quiality_error) {
-//        self.oneToOneCommunicator.subscriber.subscribeToVideo = NO;
-//        [self.mainView showErrorMessageLabelWithMessage:@"Network connection is unstable."];
-//    }
-//}
 
 - (BOOL)prefersStatusBarHidden {
     return YES;

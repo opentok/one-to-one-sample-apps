@@ -93,9 +93,6 @@
         OTError *error;
         [self.session disconnect:&error];
     }
-    
-    self.session = nil;
-    self.handler = nil;
 }
 
 #pragma mark - OTSessionDelegate
@@ -145,6 +142,7 @@
     
     self.publisher = nil;
     self.subscriber = nil;
+    self.session = nil;
     self.handler(OneToOneCommunicationSignalSessionDidDisconnect, nil);
 }
 

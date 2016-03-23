@@ -37,6 +37,7 @@ typedef void (^OneToOneCommunicatorBlock)(OneToOneCommunicationSignal signal, NS
                sessionId:(NSString *)sessionId
                    token:(NSString *)token
           selfSubscribed:(BOOL)isSelfSubscribed;
+
 - (void)connectWithHandler:(OneToOneCommunicatorBlock)handler;
 - (void)disconnect;
 

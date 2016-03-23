@@ -67,7 +67,7 @@
             [self.mainView removeSubscriberView];
             break;
         }
-        case OneToOneCommunicationSignalPulibsherDidFail:{
+        case OneToOneCommunicationSignalPublisherDidFail:{
             [self.mainView showErrorMessageLabelWithMessage:@"Problem when publishing" dismissAfter:4.0];
             break;
         }

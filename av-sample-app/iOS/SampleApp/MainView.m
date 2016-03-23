@@ -60,22 +60,21 @@
     self.publisherView.layer.backgroundColor = [UIColor grayColor].CGColor;
     self.publisherView.layer.cornerRadius = 3;
     
-    [self makingBorder:self.micHolder need_white_border:YES];
-    [self makingBorder:self.callHolder need_white_border:NO];
-    [self makingBorder:self.videoHolder need_white_border:YES];
+    [self drawBorderOn:self.micHolder withWhiteBorder:YES];
+    [self drawBorderOn:self.callHolder withWhiteBorder:NO];
+    [self drawBorderOn:self.videoHolder withWhiteBorder:YES];
     [self hideSubscriberControls];
 }
 
--(void)makingBorder:(UIView *)sendingView
-  need_white_border:(BOOL)border {
+- (void)drawBorderOn:(UIView *)view
+     withWhiteBorder:(BOOL)withWhiteBorder {
     
-    sendingView.layer.cornerRadius = (sendingView.bounds.size.width / 2);
-    if (border) {
-        sendingView.layer.borderWidth = 1;
-        sendingView.layer.borderColor = [UIColor whiteColor].CGColor;
+    view.layer.cornerRadius = (view.bounds.size.width / 2);
+    if (withWhiteBorder) {
+        view.layer.borderWidth = 1;
+        view.layer.borderColor = [UIColor whiteColor].CGColor;
     }
 }
-
 
 #pragma mark - publisher view
 - (void)addPublisherView:(UIView *)publisherView {

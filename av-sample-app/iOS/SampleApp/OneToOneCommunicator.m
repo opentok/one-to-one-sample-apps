@@ -59,6 +59,11 @@
     sharedInstance.sessionId = sessionId;
     sharedInstance.token = token;
     sharedInstance.isSelfSubscribed = isSelfSubscribed;
+    
+    NSAssert(sharedInstance.apiKey.length != 0, @"OpenTok: API key can not be empty, please add it to OneToOneCommunicator");
+    NSAssert(sharedInstance.sessionId.length != 0, @"OpenTok: Session Id can not be empty, please add it to OneToOneCommunicator");
+    NSAssert(sharedInstance.token.length != 0, @"OpenTok: Token can not be empty, please add it to OneToOneCommunicator");
+
 }
 
 - (void)connectWithHandler:(OneToOneCommunicatorBlock)handler {
@@ -188,7 +193,7 @@
 #pragma mark - OTPublisherDelegate
 - (void)publisher:(OTPublisherKit *)publisher didFailWithError:(OTError *)error {
     NSLog(@"publisher did failed with error: (%@)", error);
-    self.handler(OneToOneCommunicationSignalPulibsherDidFail, error);
+    self.handler(OneToOneCommunicationSignalPublisherDidFail, error);
 }
 
 #pragma mark - OTSubscriberKitDelegate

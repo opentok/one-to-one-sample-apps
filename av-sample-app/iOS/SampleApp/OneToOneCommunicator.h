@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, OneToOneCommunicationSignal) {
     OneToOneCommunicationSignalSessionDidFail,
     OneToOneCommunicationSignalSessionStreamCreated,
     OneToOneCommunicationSignalSessionStreamDestroyed,
-    OneToOneCommunicationSignalPulibsherDidFail,
+    OneToOneCommunicationSignalPublisherDidFail,
     OneToOneCommunicationSignalSubscriberConnect,
     OneToOneCommunicationSignalSubscriberDidFail,
     OneToOneCommunicationSignalSubscriberVideoDisabled,

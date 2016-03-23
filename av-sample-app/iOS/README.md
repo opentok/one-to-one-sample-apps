@@ -69,13 +69,13 @@ In **AppDelegate.h**, replace the following empty strings with the required deta
 
    ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  // Override point for customization after application launch.
-    
+
+	// Override point for customization after application launch.    
     [OneToOneCommunicator setOpenTokApiKey:@""
                                  sessionId:@""
                                      token:@""
                             selfSubscribed:NO];
-  return YES;
+  	return YES;
 }
    ```
 

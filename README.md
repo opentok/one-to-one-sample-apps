@@ -19,9 +19,9 @@ You can create mobile apps for Android and iOS, or embed the interactive session
 
 To get started with your development, visit the following sites:
 
-- [OpenTok One-to-One Communication Sample App for Android](./android)
-- [OpenTok One-to-One Communication Sample App for iOS](./iOS)
-- [OpenTok One-to-One Communication Sample App for JavaScript](./js)
+- [OpenTok One-to-One Communication Sample App for Android](./one-to-one-sample-app/android)
+- [OpenTok One-to-One Communication Sample App for iOS](./one-to-one-sample-app/iOS)
+- [OpenTok One-to-One Communication Sample App for JavaScript](./one-to-one-sample-app/js)
 
 _**NOTE:** The One-to-One Communication Sample App requires a **Session ID**, **Token**, and **API Key**. In the samples, you can get these values at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/). For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
 

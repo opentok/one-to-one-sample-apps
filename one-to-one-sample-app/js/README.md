@@ -1,4 +1,4 @@
-![logo](../tokbox-logo.png)
+![logo](../../tokbox-logo.png)
 
 # OpenTok One-to-One Communication Sample App for JavaScript<br/>Version 1.0
 

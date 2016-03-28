@@ -227,7 +227,7 @@
     NSString *apiKey = [OneToOneCommunicator sharedInstance].apiKey;
     NSString *sessionId = [OneToOneCommunicator sharedInstance].sessionId;
     NSInteger partner = [apiKey integerValue];
-    OTKAnalytics *logging = [[OTKAnalytics alloc] initWithSessionId:sessionId connectionId:self.session.connection.connectionId partnerId:partner clientVersion:@"1.0.0"];
+    OTKAnalytics *logging = [[OTKAnalytics alloc] initWithSessionId:sessionId connectionId:self.session.connection.connectionId partnerId:partner clientVersion:@"ios-vsol-1.0.0"];
     [logging logEventAction:@"one-to-one-sample-app" variation:@""];
 }
 

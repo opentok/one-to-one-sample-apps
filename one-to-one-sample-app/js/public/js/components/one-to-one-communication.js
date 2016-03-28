@@ -15,7 +15,7 @@ var Call = (function() {
         this._session.on('streamDestroyed', this._handleParticipantLeft.bind(this)); //participant left the call
 
         var _otkanalyticsData = { sessionId: this.options.sessionId, connectionId: this._session.connection.connectionId, partnerId: this.options.apiKey, 
-                            clientVersion: '1.0.0' };
+                            clientVersion: 'js-vsol-1.0.0' };
         
         var _otkanalytics = new OTKAnalytics(_otkanalyticsData);
 

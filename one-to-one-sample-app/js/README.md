@@ -17,7 +17,7 @@ This guide has the following sections:
 
 To be prepared to develop your one-to-one communication app:
 
-1. Review the [OpenTok.js version 2.7](https://tokbox.com/developer/sdks/js/) requirements. **OpenTok.js version 2.7** is required for this sample app.
+1. Review the [OpenTok.js](https://tokbox.com/developer/sdks/js/) requirements. **OpenTok.js version 2.7** is required for this sample app.
 2. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
 
 _**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample program. For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._

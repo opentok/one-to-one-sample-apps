@@ -39,7 +39,7 @@ To learn more about the best practices used to design this app, see [Exploring t
 1. Clone the OpenTok One-to-One Communication Sample App repository.
 2. Start Android Studio. 
 3. In the **Quick Start** panel, click **Open an existing Android Studio Project**.
-4. Navigate to the **android** folder, select the **1to1Sample** folder, and click **Choose**.
+4. Navigate to the **android** folder, select the **OnetoOneSample** folder, and click **Choose**.
 
 
 ### Adding the OpenTok SDK

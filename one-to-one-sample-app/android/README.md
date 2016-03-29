@@ -18,7 +18,7 @@ This guide has the following sections:
 To be prepared to develop your one-to-one communication app:
 
 1. Install [Android Studio](http://developer.android.com/intl/es/sdk/index.html)
-2. Download the [OpenTok Android SDK](https://tokbox.com/developer/sdks/android/)
+2. Download the **[OpenTok Android SDK version 2.7.0](https://tokbox.com/developer/sdks/android/)**
 3. Review the [OpenTok Android SDK Requirements](https://tokbox.com/developer/sdks/android/#developerandclientrequirements)
 4. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
 

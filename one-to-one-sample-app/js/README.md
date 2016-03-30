@@ -2,7 +2,7 @@
 
 # OpenTok One-to-One Communication Sample App for JavaScript<br/>Version 1.0
 
-This document describes how to use the OpenTok One-to-One Communication Sample App for JavaScript. You will learn best practices for managing the phone, video, and camera elements in a web-based application. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
+This document describes how to use the OpenTok One-to-One Communication Sample App for JavaScript. You will learn best practices for managing the audio, video, and camera elements in a web-based application. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
 
 You can configure and run this sample app within just a few minutes!
 
@@ -17,7 +17,7 @@ This guide has the following sections:
 
 To be prepared to develop your one-to-one communication app:
 
-1. Review the [OpenTok.js](https://tokbox.com/developer/sdks/js/) requirements. **OpenTok.js version 2.7** is required for this sample app.
+1. Review the [OpenTok.js](https://tokbox.com/developer/sdks/js/) requirements. **OpenTok.js version 2.7.x** is required for this sample app.
 2. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
 
 _**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample program. For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._

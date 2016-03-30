@@ -2,7 +2,7 @@
 
 # OpenTok One-to-One Communication Sample App for Android<br/>Version 1.0
 
-This document describes how to use the OpenTok One-to-One Communication Sample App for Android. You will learn best practices for managing the phone, video, and camera elements on an Android mobile device. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
+This document describes how to use the OpenTok One-to-One Communication Sample App for Android. You will learn best practices for managing the audio, video, and camera elements on an Android mobile device. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
 
 You can configure and run this sample app within just a few minutes!
 
@@ -18,7 +18,7 @@ This guide has the following sections:
 To be prepared to develop your one-to-one communication app:
 
 1. Install [Android Studio](http://developer.android.com/intl/es/sdk/index.html)
-2. Download the [OpenTok Android SDK](https://tokbox.com/developer/sdks/android/). **OpenTok Android SDK version 2.7.0** is required for this sample app.
+2. Download the [OpenTok Android SDK](https://tokbox.com/developer/sdks/android/). **OpenTok Android SDK version 2.7.x** is required for this sample app.
 3. Review the [OpenTok Android SDK Requirements](https://tokbox.com/developer/sdks/android/#developerandclientrequirements)
 4. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
 

@@ -2,7 +2,7 @@
 
 # OpenTok One-to-One Communication Sample App for iOS<br/>Version 1.0
 
-This document describes how to use the OpenTok One-to-One Communication Sample App for iOS. You will learn best practices for managing the phone, video, and camera elements on an iOS mobile device. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
+This document describes how to use the OpenTok One-to-One Communication Sample App for iOS. You will learn best practices for managing the audio, video, and camera elements on an iOS mobile device. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
 
 You can configure and run this sample app within just a few minutes!
 
@@ -18,7 +18,7 @@ This guide has the following sections:
 To be prepared to develop your one-to-one communication app:
 
 1. Xcode version 5 or later.
-2. Download the [OpenTok iOS SDK](https://tokbox.com/downloads/opentok-ios-sdk-2.7.1). **OpenTok iOS SDK version 2.7.1** is required for this sample app.
+2. Download the [OpenTok iOS SDK](https://tokbox.com/downloads/opentok-ios-sdk-2.7.1). **OpenTok iOS SDK version 2.7.x** is required for this sample app.
 3. Review the [OpenTok iOS SDK Requirements](https://tokbox.com/developer/sdks/ios/).
 4. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
 

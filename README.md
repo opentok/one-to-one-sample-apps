@@ -8,8 +8,8 @@ As you get started with this OpenTok sample, you will learn the best practices u
 
 With this sample app, you can:
 
-- Initiate interoperable audio/visual communication between two users, regardless of the devices they are using.
-- Start and end a meeting.
+- Start and end audio/visual communication between two users.
+- Achieve interoperability between web and mobile devices.
 - Mute or unmute audio.
 - Enable or disable video.
 - Control the camera to point in the forward direction or in the reverse direction (selfie mode).

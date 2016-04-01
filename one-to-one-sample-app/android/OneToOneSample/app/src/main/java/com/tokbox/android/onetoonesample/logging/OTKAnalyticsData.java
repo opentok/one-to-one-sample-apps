@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class OTKAnalyticsData {
 
-    private static final String LOGTAG = "opentok-otkanalyticsdata";
+    private static final String LOGTAG = OTKAnalyticsData.class.getName();
 
     private String logVersion; //optional
     private String guid; //optional
@@ -24,7 +24,7 @@ public class OTKAnalyticsData {
     private int clientSystemTime; //optional
 
     private String client; //optional
-
+    private String source; //optional
     private String action; //optional
     private String variation; //optional
     private final String clientVersion; //required
@@ -36,6 +36,10 @@ public class OTKAnalyticsData {
     public void setVariation(String variation) {
         this.variation = variation;
     }
+
+    public void setSource(String source) { this.source = source; }
+
+    public String getSource() { return source; }
 
     public String getLogVersion() {
         return logVersion;
@@ -95,6 +99,7 @@ public class OTKAnalyticsData {
         this.clientSystemTime = builder.clientSystemTime;
         this.action = builder.action;
         this.variation = builder.variation;
+        this.source = builder.source;
         this.deviceModel = builder.deviceModel;
         this.clientVersion = builder.clientVersion;
         this.client = builder.client;
@@ -146,6 +151,7 @@ public class OTKAnalyticsData {
 
         private int clientSystemTime; //optional
 
+        private String source; //required
         private String action; //required
         private String variation; //required
         private final String clientVersion; //required
@@ -190,6 +196,11 @@ public class OTKAnalyticsData {
 
         public Builder variation(String variation) {
             this.variation = variation;
+            return this;
+        }
+
+        public Builder source(String source) {
+            this.source = source;
             return this;
         }
 

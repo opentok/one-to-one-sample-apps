@@ -18,7 +18,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class OTKAnalytics {
 
-    private static final String LOGTAG = "opentok-otkanalytics";
+    private static final String LOGTAG = OTKAnalytics.class.getName();
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -42,8 +42,9 @@ public class OTKAnalytics {
      * @param eventVariation The String eventVariaion represents a new variation of the action to log.
      *                     It could be empty
      */
-    public void logEvent(String eventAction, String eventVariation){
+    public void logEvent(String eventSource, String eventAction, String eventVariation){
         if (data != null && eventAction != null && eventVariation != null && !eventAction.isEmpty()) {
+                this.data.setSource(eventSource);
                 this.data.setAction(eventAction);
                 this.data.setVariation(eventVariation);
             try {

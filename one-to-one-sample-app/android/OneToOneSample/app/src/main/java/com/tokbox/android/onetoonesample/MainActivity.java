@@ -23,7 +23,7 @@ import com.tokbox.android.onetoonesample.ui.RemoteControlFragment;
 
 
 public class MainActivity extends AppCompatActivity implements OneToOneCommunication.Listener, PreviewControlFragment.PreviewControlCallbacks, RemoteControlFragment.RemoteControlCallbacks, PreviewCameraFragment.PreviewCameraCallbacks {
-    private final String LOGTAG = "opentok-main-activity";
+    private final String LOGTAG = MainActivity.class.getName();
 
     private final String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
     private final int permsRequestCode = 200;

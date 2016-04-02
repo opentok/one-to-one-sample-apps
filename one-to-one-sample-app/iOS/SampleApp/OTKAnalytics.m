@@ -23,6 +23,7 @@ NSString *const kLoggingUrl = @"https://hlg.tokbox.com/prod/logging/ClientEvent"
 @property (nonatomic) NSString *clientVersion;
 @property (nonatomic) NSString *action;
 @property (nonatomic) NSString *variation;
+@property (nonatomic) NSString *source;
 
 // nonpublic properties
 @property (nonatomic) NSString *logVersion;
@@ -85,8 +86,8 @@ NSString *const kLoggingUrl = @"https://hlg.tokbox.com/prod/logging/ClientEvent"
     return self;
 }
 
--(void)logEventAction:(NSString *)action variation:(NSString *) variation {
-    
+-(void)logEventSource:(NSString *)source action:(NSString *)action variation:(NSString *)variation {
+    _source = source;
     _action = action;
     _variation = variation;
     
@@ -103,7 +104,8 @@ NSString *const kLoggingUrl = @"https://hlg.tokbox.com/prod/logging/ClientEvent"
                                  @"systemName": _systemName,
                                  @"systemVersion": _systemVersion,
                                  @"action": _action,
-                                 @"variation": _variation
+                                 @"variation": _variation,
+                                 @"source": _source
                                  };
     
     [self sendData: dictionary];

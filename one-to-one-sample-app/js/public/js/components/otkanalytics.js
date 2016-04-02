@@ -75,6 +75,7 @@ var OTKAnalytics = (function() {
         constructor: OTKAnalytics,
 
         logEvent: function(data) { 
+            this.analyticsData.source = data.source;
             this.analyticsData.action = data.action;
             this.analyticsData.variation = data.variation;
 

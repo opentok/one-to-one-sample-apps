@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class OneToOneCommunication implements
         Session.SessionListener, Publisher.PublisherListener, Subscriber.SubscriberListener, Subscriber.VideoListener {
 
-    private static final String LOGTAG = "opentok-onetoonecommunication";
+    private static final String LOGTAG = OneToOneCommunication.class.getName();
     private Context mContext;
 
     private Session mSession;
@@ -307,7 +307,7 @@ public class OneToOneCommunication implements
         OTKAnalyticsData data = new OTKAnalyticsData.Builder(sessionID, partnerId, connectionId, OpenTokConfig.LOG_CLIENT_VERSION).build();
         OTKAnalytics logging = new OTKAnalytics(data);
 
-        logging.logEvent(OpenTokConfig.LOG_ACTION, OpenTokConfig.LOG_VARIATION);
+        logging.logEvent(OpenTokConfig.LOG_SOURCE, OpenTokConfig.LOG_ACTION, OpenTokConfig.LOG_VARIATION);
     }
 
     @Override

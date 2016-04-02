@@ -17,7 +17,8 @@ public class OpenTokConfig {
 
     // For internal use only. Please do not modify or remove this code.
     public static final String LOGGING_BASE_URL = "https://hlg.tokbox.com/prod/logging/ClientEvent";
-    public static final String LOG_ACTION = "one-to-one-sample-app";
+    public static final String LOG_SOURCE = "one-to-one-sample-app";
+    public static final String LOG_ACTION = "Initialized";
     public static final String LOG_VARIATION = "";
     public static final String LOG_CLIENT_VERSION = "android-vsol-1.0.0";
 

@@ -19,7 +19,7 @@ var Call = (function() {
         
         var _otkanalytics = new OTKAnalytics(_otkanalyticsData);
 
-        var _loggingData = { action: 'one-to-one-sample-app', variation: '' };
+        var _loggingData = { source: 'one-to-one-sample-app', action: 'Initialized', variation: '' };
         
         _otkanalytics.logEvent(_loggingData);
     };

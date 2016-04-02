@@ -18,13 +18,14 @@
 @property (nonatomic, readonly) NSString *clientVersion;
 @property (nonatomic, readonly) NSString *action;
 @property (nonatomic, readonly) NSString *variation;
+@property (nonatomic, readonly) NSString *source;
 
 -(instancetype)initWithSessionId:(NSString*)sessionId
                     connectionId:(NSString*)connectionId
                        partnerId:(NSInteger) partnerId
                    clientVersion:(NSString*) clientVersion;
 
--(void)logEventAction:(NSString *)action variation:(NSString *)variation;
+-(void)logEventSource:(NSString *)source action:(NSString *)action variation:(NSString *)variation;
 
 @end
 

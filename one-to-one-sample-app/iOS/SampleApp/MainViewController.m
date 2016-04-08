@@ -22,7 +22,6 @@
 - (IBAction)publisherCallButtonPressed:(UIButton *)sender {
     if (self.oneToOneCommunicator.isCallEnabled) {
         [self.mainView callHolderDisconnected];
-        self.oneToOneCommunicator.isCallEnabled = NO;
         [self.mainView showConnectingLabel];
         [self.oneToOneCommunicator connectWithHandler:^(OneToOneCommunicationSignal signal, NSError *error) {
             
@@ -34,7 +33,6 @@
     }
     else {
         [self.mainView callHolderConnected];
-        self.oneToOneCommunicator.isCallEnabled = YES;
         [self.oneToOneCommunicator disconnect];
         
         [self.mainView removePublisherView];
@@ -48,7 +46,7 @@
     
     switch (signal) {
         case OneToOneCommunicationSignalSessionDidConnect: {
-            [self.mainView addPublisherView:self.oneToOneCommunicator.publisher.view];
+            [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
             break;
         }
         case OneToOneCommunicationSignalSessionDidDisconnect:{
@@ -72,7 +70,7 @@
             break;
         }
         case OneToOneCommunicationSignalSubscriberConnect:{
-            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriber.view];
+            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
         case OneToOneCommunicationSignalSubscriberDidFail:{
@@ -85,18 +83,18 @@
         }
         case OneToOneCommunicationSignalSubscriberVideoEnabled:{
             [self.mainView hideErrorMessageLabel];
-            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriber.view];
+            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
         case OneToOneCommunicationSignalSubscriberVideoDisableWarning:{
             [self.mainView addPlaceHolderToSubscriberView];
-            self.oneToOneCommunicator.subscriber.subscribeToVideo = NO;
+            self.oneToOneCommunicator.subscribeToVideo = NO;
             [self.mainView showErrorMessageLabelWithMessage:@"Network connection is unstable." dismissAfter:0.0];
             break;
         }
         case OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted:{
             [self.mainView hideErrorMessageLabel];
-            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriber.view];
+            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
             
@@ -110,13 +108,13 @@
  */
 - (IBAction)publisherAudioButtonPressed:(UIButton *)sender {
     
-    if(self.oneToOneCommunicator.publisher.publishAudio) {
+    if(self.oneToOneCommunicator.publishAudio) {
         [self.mainView publisherMicMuted];
     }
     else {
         [self.mainView publisherMicUnmuted];
     }
-    self.oneToOneCommunicator.publisher.publishAudio = !self.oneToOneCommunicator.publisher.publishAudio;
+    self.oneToOneCommunicator.publishAudio = !self.oneToOneCommunicator.publishAudio;
 }
 
 /**
@@ -124,29 +122,28 @@
  */
 - (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
     
-    if (self.oneToOneCommunicator.publisher.publishVideo) {
+    if (self.oneToOneCommunicator.publishVideo) {
         [self.mainView publisherVideoDisconnected];
         [self.mainView removePublisherView];
         [self.mainView addPlaceHolderToPublisherView];
     }
     else {
         [self.mainView publisherVideoConnected];
-        [self.mainView addPublisherView:self.oneToOneCommunicator.publisher.view];
+        [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
     }
     
-    self.oneToOneCommunicator.publisher.publishVideo = !self.oneToOneCommunicator.publisher.publishVideo;
+    self.oneToOneCommunicator.publishVideo = !self.oneToOneCommunicator.publishVideo;
 }
 
 /**
  * toggle the camera position (front camera) <=> (back camera)
  */
 - (IBAction)publisherCameraButtonPressed:(UIButton *)sender {
-    
-    if (self.oneToOneCommunicator.publisher.cameraPosition == AVCaptureDevicePositionBack) {
-        self.oneToOneCommunicator.publisher.cameraPosition = AVCaptureDevicePositionFront;
+    if (self.oneToOneCommunicator.cameraPosition == AVCaptureDevicePositionBack) {
+        self.oneToOneCommunicator.cameraPosition = AVCaptureDevicePositionFront;
     }
     else {
-        self.oneToOneCommunicator.publisher.cameraPosition = AVCaptureDevicePositionBack;
+        self.oneToOneCommunicator.cameraPosition = AVCaptureDevicePositionBack;
     }
 }
 
@@ -155,13 +152,13 @@
  */
 - (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
     
-    if (self.oneToOneCommunicator.subscriber.subscribeToVideo) {
+    if (self.oneToOneCommunicator.subscribeToVideo) {
         [self.mainView subscriberVideoDisconnected];
     }
     else {
         [self.mainView subscriberVideoConnected];
     }
-    self.oneToOneCommunicator.subscriber.subscribeToVideo = !self.oneToOneCommunicator.subscriber.subscribeToVideo;
+    self.oneToOneCommunicator.subscribeToVideo = !self.oneToOneCommunicator.subscribeToVideo;
 }
 
 /**
@@ -169,13 +166,13 @@
  */
 - (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
 
-    if (self.oneToOneCommunicator.subscriber.subscribeToAudio) {
+    if (self.oneToOneCommunicator.subscribeToAudio) {
         [self.mainView subscriberMicMuted];
     }
     else {
         [self.mainView subscriberMicUnmuted];
     }
-    self.oneToOneCommunicator.subscriber.subscribeToAudio = !self.oneToOneCommunicator.subscriber.subscribeToAudio;
+    self.oneToOneCommunicator.subscribeToAudio = !self.oneToOneCommunicator.subscribeToAudio;
 }
 
 /**

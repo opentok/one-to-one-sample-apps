@@ -6,14 +6,17 @@
 //  Copyright © 2016 AgilityFeat. All rights reserved.
 //
 
+#import <Opentok/OpenTok.h>
+
 #import "OneToOneCommunicator.h"
 #import "OTKAnalytics.h"
 
-@interface OneToOneCommunicator() <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
+@interface OneToOneCommunicator() <OTSessionDelegate, OTSubscriberDelegate, OTPublisherDelegate>
 @property (nonatomic) NSString *apiKey;
 @property (nonatomic) NSString *sessionId;
 @property (nonatomic) NSString *token;
 
+@property (nonatomic) BOOL isCallEnabled;
 @property (nonatomic) OTSubscriber *subscriber;
 @property (nonatomic) OTPublisher *publisher;
 @property (nonatomic) OTSession *session;
@@ -27,7 +30,6 @@
 
 - (OTPublisher *)publisher {
     if (!_publisher) {
-        
         NSString *deviceName = [UIDevice currentDevice].name;
         _publisher = [[OTPublisher alloc] initWithDelegate:self name:deviceName];
     }
@@ -86,7 +88,7 @@
             self.session = nil;
         }
         else {
-            NSLog(@"%@", error);
+            self.isCallEnabled = NO;
         }
     }
 }
@@ -97,6 +99,13 @@
         
         OTError *error;
         [self.session disconnect:&error];
+        
+        if (error) {
+            self.session = nil;
+        }
+        else {
+            self.isCallEnabled = YES;
+        }
     }
 }
 
@@ -201,6 +210,8 @@
     self.handler(OneToOneCommunicationSignalSubscriberConnect, nil);
 }
 
+- (void)subscriberVideoDataReceived:(OTSubscriber *)subscriber {}
+
 -(void)subscriberVideoDisabled:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisabled, nil);
 }
@@ -209,11 +220,11 @@
     self.handler(OneToOneCommunicationSignalSubscriberVideoEnabled, nil);
 }
 
--(void) subscriberVideoDisableWarning:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+- (void)subscriberVideoDisableWarning:(OTSubscriberKit*)subscriber {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarning, nil);
 }
 
--(void) subscriberVideoDisableWarningLifted:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+- (void)subscriberVideoDisableWarningLifted:(OTSubscriberKit*)subscriber {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted, nil);
 }
 
@@ -229,6 +240,55 @@
     NSInteger partner = [apiKey integerValue];
     OTKAnalytics *logging = [[OTKAnalytics alloc] initWithSessionId:sessionId connectionId:self.session.connection.connectionId partnerId:partner clientVersion:@"ios-vsol-1.0.0"];
     [logging logEventAction:@"one-to-one-sample-app" variation:@""];
+}
+
+#pragma mark - Setters and Getters
+- (UIView *)subscriberView {
+    return self.subscriber.view;
+}
+
+- (UIView *)publisherView {
+    return self.publisher.view;
+}
+
+- (void)setSubscribeToAudio:(BOOL)subscribeToAudio {
+    _subscriber.subscribeToAudio = subscribeToAudio;
+}
+
+- (BOOL)subscribeToAudio {
+    return _subscriber.subscribeToAudio;
+}
+
+- (void)setSubscribeToVideo:(BOOL)subscribeToVideo {
+    _subscriber.subscribeToVideo = subscribeToVideo;
+}
+
+- (BOOL)subscribeToVideo {
+    return _subscriber.subscribeToVideo;
+}
+
+- (void)setPublishAudio:(BOOL)publishAudio {
+    _publisher.publishAudio = publishAudio;
+}
+
+- (BOOL)publishAudio {
+    return _publisher.publishAudio;
+}
+
+- (void)setPublishVideo:(BOOL)publishVideo {
+    _publisher.publishVideo = publishVideo;
+}
+
+- (BOOL)publishVideo {
+    return _publisher.publishVideo;
+}
+
+- (AVCaptureDevicePosition)cameraPosition {
+    return _publisher.cameraPosition;
+}
+
+- (void)setCameraPosition:(AVCaptureDevicePosition)cameraPosition {
+    _publisher.cameraPosition = cameraPosition;
 }
 
 @end

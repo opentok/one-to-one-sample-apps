@@ -180,6 +180,8 @@
     self.handler(OneToOneCommunicationSignalSubscriberConnect, nil);
 }
 
+- (void)subscriberVideoDataReceived:(OTSubscriber *)subscriber {}
+
 -(void)subscriberVideoDisabled:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisabled, nil);
 }
@@ -188,11 +190,11 @@
     self.handler(OneToOneCommunicationSignalSubscriberVideoEnabled, nil);
 }
 
--(void) subscriberVideoDisableWarning:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+- (void)subscriberVideoDisableWarning:(OTSubscriberKit*)subscriber {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarning, nil);
 }
 
--(void) subscriberVideoDisableWarningLifted:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+- (void)subscriberVideoDisableWarningLifted:(OTSubscriberKit*)subscriber {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted, nil);
 }
 

@@ -20,7 +20,7 @@
  * toggles the call start/end handles the color of the buttons
  */
 - (IBAction)publisherCallButtonPressed:(UIButton *)sender {
-    if (self.oneToOneCommunicator.isCallEnabled) {
+    if (!self.oneToOneCommunicator.isCallEnabled) {
         [self.mainView callHolderDisconnected];
         [self.mainView showConnectingLabel];
         [self.oneToOneCommunicator connectWithHandler:^(OneToOneCommunicationSignal signal, NSError *error) {

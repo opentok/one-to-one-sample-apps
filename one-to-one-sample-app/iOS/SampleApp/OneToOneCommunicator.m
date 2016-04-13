@@ -9,7 +9,7 @@
 #import "OneToOneCommunicator.h"
 #import "OTKAnalytics.h"
 
-@interface OneToOneCommunicator() <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
+@interface OneToOneCommunicator() <OTSessionDelegate, OTSubscriberDelegate, OTPublisherDelegate>
 @property (nonatomic) NSString *apiKey;
 @property (nonatomic) NSString *sessionId;
 @property (nonatomic) NSString *token;
@@ -201,6 +201,8 @@
     self.handler(OneToOneCommunicationSignalSubscriberConnect, nil);
 }
 
+- (void)subscriberVideoDataReceived:(OTSubscriber *)subscriber {}
+
 -(void)subscriberVideoDisabled:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisabled, nil);
 }
@@ -209,11 +211,11 @@
     self.handler(OneToOneCommunicationSignalSubscriberVideoEnabled, nil);
 }
 
--(void) subscriberVideoDisableWarning:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+- (void)subscriberVideoDisableWarning:(OTSubscriberKit*)subscriber {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarning, nil);
 }
 
--(void) subscriberVideoDisableWarningLifted:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+- (void)subscriberVideoDisableWarningLifted:(OTSubscriberKit*)subscriber {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted, nil);
 }
 

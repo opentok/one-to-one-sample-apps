@@ -101,10 +101,10 @@
 
 - (void)sessionDidDisconnect:(OTSession *)session {
 
-    if (self.publisher) {
+    if (_publisher) {
 
         OTError *error = nil;
-        [self.publisher.view removeFromSuperview];
+        [_publisher.view removeFromSuperview];
         [self.session unpublish:self.publisher error:&error];
         if (error) {
             NSLog(@"%@", error.localizedDescription);
@@ -121,7 +121,7 @@
         }
     }
 
-    self.publisher = nil;
+    _publisher = nil;
     self.subscriber = nil;
     
     if (self.handler) {

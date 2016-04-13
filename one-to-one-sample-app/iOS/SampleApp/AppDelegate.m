@@ -10,9 +10,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
     
-    [OneToOneCommunicator setOpenTokApiKey:@""
-                                 sessionId:@""
-                                     token:@""
+    [OneToOneCommunicator setOpenTokApiKey:@"100"
+                                 sessionId:@"1_MX4xMDB-fjE0NjA1NzEzMjA3MDd-ZHVPbnlTblFGSXV4NEkyVlBIeW1xM0h4fn4"
+                                     token:@"T1==cGFydG5lcl9pZD0xMDAmc2RrX3ZlcnNpb249dGJwaHAtdjAuOTEuMjAxMS0wNy0wNSZzaWc9MDgzYzVjNDQxYzdkMzM3YmZiMzUxOWFlMzc2NWRmZmU0ZmM3YTkwYzpzZXNzaW9uX2lkPTFfTVg0eE1EQi1makUwTmpBMU56RXpNakEzTURkLVpIVlBibmxUYmxGR1NYVjRORWt5VmxCSWVXMXhNMGg0Zm40JmNyZWF0ZV90aW1lPTE0NjA1NzMxMDEmcm9sZT1tb2RlcmF0b3Imbm9uY2U9MTQ2MDU3MzEwMS4wNzU0NTU0NzQ2NzkzJmV4cGlyZV90aW1lPTE0NjMxNjUxMDE="
                             selfSubscribed:NO];
   return YES;
 }

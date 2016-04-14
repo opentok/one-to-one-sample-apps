@@ -1,11 +1,3 @@
-//
-//  OneToOneCommunicator.h
-//  OneToOneSample
-//
-//  Created by Xi Huang on 3/20/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 

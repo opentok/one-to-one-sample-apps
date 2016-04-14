@@ -1,11 +1,3 @@
-//
-//  OneToOneCommunicator.m
-//  OneToOneSample
-//
-//  Created by Xi Huang on 3/20/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
-//
-
 #import <Opentok/OpenTok.h>
 
 #import "OneToOneCommunicator.h"
@@ -26,16 +18,8 @@
 
 @implementation OneToOneCommunicator
 
-- (OTPublisher *)publisher {
-    if (!_publisher) {
-        NSString *deviceName = [UIDevice currentDevice].name;
-        _publisher = [[OTPublisher alloc] initWithDelegate:self name:deviceName];
-    }
-    return _publisher;
-}
-
 - (BOOL)isCallEnabled {
-    return self.handler ? YES :  NO;
+    return self.session.sessionConnectionStatus == OTSessionConnectionStatusConnected ? YES :  NO;
 }
 
 + (instancetype)oneToOneCommunicator {
@@ -86,6 +70,11 @@
 #pragma mark - OTSessionDelegate
 -(void)sessionDidConnect:(OTSession*)session {
 
+    if (!self.publisher) {
+        NSString *deviceName = [UIDevice currentDevice].name;
+        self.publisher = [[OTPublisher alloc] initWithDelegate:self name:deviceName];
+    }
+    
     OTError *error;
     [self.session publish:self.publisher error:&error];
     if (error) {
@@ -101,10 +90,10 @@
 
 - (void)sessionDidDisconnect:(OTSession *)session {
 
-    if (_publisher) {
+    if (self.publisher) {
 
         OTError *error = nil;
-        [_publisher.view removeFromSuperview];
+        [self.publisher.view removeFromSuperview];
         [self.session unpublish:self.publisher error:&error];
         if (error) {
             NSLog(@"%@", error.localizedDescription);
@@ -121,7 +110,7 @@
         }
     }
 
-    _publisher = nil;
+    self.publisher = nil;
     self.subscriber = nil;
     
     if (self.handler) {
@@ -180,8 +169,6 @@
     self.handler(OneToOneCommunicationSignalSubscriberConnect, nil);
 }
 
-- (void)subscriberVideoDataReceived:(OTSubscriber *)subscriber {}
-
 -(void)subscriberVideoDisabled:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisabled, nil);
 }
@@ -190,11 +177,11 @@
     self.handler(OneToOneCommunicationSignalSubscriberVideoEnabled, nil);
 }
 
-- (void)subscriberVideoDisableWarning:(OTSubscriberKit*)subscriber {
+-(void) subscriberVideoDisableWarning:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarning, nil);
 }
 
-- (void)subscriberVideoDisableWarningLifted:(OTSubscriberKit*)subscriber {
+-(void) subscriberVideoDisableWarningLifted:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
     self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted, nil);
 }
 
@@ -214,11 +201,11 @@
 
 #pragma mark - Setters and Getters
 - (UIView *)subscriberView {
-    return self.subscriber.view;
+    return _subscriber.view;
 }
 
 - (UIView *)publisherView {
-    return self.publisher.view;
+    return _publisher.view;
 }
 
 - (void)setSubscribeToAudio:(BOOL)subscribeToAudio {

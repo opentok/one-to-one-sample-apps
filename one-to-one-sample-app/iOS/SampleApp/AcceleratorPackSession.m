@@ -82,6 +82,8 @@ static NSString * InternalToken = @"";
     
     AcceleratorPackSession *sharedSession = [AcceleratorPackSession getAcceleratorPackSession];
     
+    if (sharedSession.sessionConnectionStatus == OTSessionConnectionStatusConnected) return nil;
+    
     OTError *error;
     [sharedSession connectWithToken:InternalToken error:&error];
     return error;
@@ -91,7 +93,7 @@ static NSString * InternalToken = @"";
     
     AcceleratorPackSession *sharedSession = [AcceleratorPackSession getAcceleratorPackSession];
     
-    if (!sharedSession.connection) return nil;
+    if (sharedSession.sessionConnectionStatus == OTSessionConnectionStatusNotConnected) return nil;
     
     OTError *error;
     [sharedSession disconnect:&error];
@@ -169,6 +171,20 @@ connectionDestroyed:(OTConnection*) connection {
     
         if ([obj respondsToSelector:@selector(session:connectionDestroyed:)]) {
             [obj session:session connectionDestroyed:connection];
+        }
+    }];
+}
+
+- (void)   session:(OTSession*)session
+receivedSignalType:(NSString*)type
+    fromConnection:(OTConnection*)connection
+        withString:(NSString*)string {
+    
+    
+    [self.delegates enumerateObjectsUsingBlock:^(id<OTSessionDelegate> obj, BOOL *stop) {
+        
+        if ([obj respondsToSelector:@selector(session:receivedSignalType:fromConnection:withString:)]) {
+            [obj session:session receivedSignalType:type fromConnection:connection withString:string];
         }
     }];
 }

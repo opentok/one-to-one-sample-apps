@@ -1,11 +1,3 @@
-//
-//  OneToOneCommunicator.h
-//  OneToOneSample
-//
-//  Created by Xi Huang on 3/20/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
@@ -31,8 +23,7 @@ typedef void (^OneToOneCommunicatorBlock)(OneToOneCommunicationSignal signal, NS
 + (instancetype)oneToOneCommunicator;
 + (void)setOpenTokApiKey:(NSString *)apiKey
                sessionId:(NSString *)sessionId
-                   token:(NSString *)token
-          selfSubscribed:(BOOL)isSelfSubscribed;
+                   token:(NSString *)token;
 
 - (void)connectWithHandler:(OneToOneCommunicatorBlock)handler;
 - (void)disconnect;

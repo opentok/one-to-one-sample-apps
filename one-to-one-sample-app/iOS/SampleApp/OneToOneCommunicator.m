@@ -1,11 +1,3 @@
-//
-//  OneToOneCommunicator.m
-//  OneToOneSample
-//
-//  Created by Xi Huang on 3/20/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
-//
-
 #import <Opentok/OpenTok.h>
 
 #import "OneToOneCommunicator.h"
@@ -18,7 +10,6 @@
 @property (nonatomic) OTSubscriber *subscriber;
 @property (nonatomic) OTPublisher *publisher;
 @property (nonatomic) AcceleratorPackSession *session;
-@property (nonatomic) BOOL isSelfSubscribed;
 
 @property (strong, nonatomic) OneToOneCommunicatorBlock handler;
 
@@ -26,16 +17,8 @@
 
 @implementation OneToOneCommunicator
 
-- (OTPublisher *)publisher {
-    if (!_publisher) {
-        NSString *deviceName = [UIDevice currentDevice].name;
-        _publisher = [[OTPublisher alloc] initWithDelegate:self name:deviceName];
-    }
-    return _publisher;
-}
-
 - (BOOL)isCallEnabled {
-    return self.handler ? YES :  NO;
+    return self.session.sessionConnectionStatus == OTSessionConnectionStatusConnected ? YES :  NO;
 }
 
 + (instancetype)oneToOneCommunicator {
@@ -50,42 +33,60 @@
         sharedInstance = [[OneToOneCommunicator alloc] init];
         sharedInstance.isCallEnabled = YES;
         sharedInstance.session = [AcceleratorPackSession getAcceleratorPackSession];
-        [AcceleratorPackSession registerWithAccePack:sharedInstance];
     });
     return sharedInstance;
 }
 
 + (void)setOpenTokApiKey:(NSString *)apiKey
                sessionId:(NSString *)sessionId
-                   token:(NSString *)token
-          selfSubscribed:(BOOL)isSelfSubscribed {
+                   token:(NSString *)token {
 
     [AcceleratorPackSession setOpenTokApiKey:apiKey sessionId:sessionId token:token];
-    OneToOneCommunicator *sharedInstance = [OneToOneCommunicator sharedInstance];
-    sharedInstance.isSelfSubscribed = isSelfSubscribed;
+    [OneToOneCommunicator sharedInstance];
 }
 
 - (void)connectWithHandler:(OneToOneCommunicatorBlock)handler {
 
     self.handler = handler;
 
-    OTError *error = [AcceleratorPackSession connect];
-    if (error) {
-        NSLog(@"%@", error);
-    }
+    [AcceleratorPackSession registerWithAccePack:self];
 }
 
 - (void)disconnect {
     
-    OTError *error = [AcceleratorPackSession disconnect];
-    if (error) {
-        NSLog(@"%@", error);
+    if (self.publisher) {
+        
+        OTError *error = nil;
+        [self.publisher.view removeFromSuperview];
+        [self.session unpublish:self.publisher error:&error];
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        }
     }
+    
+    if (self.subscriber) {
+        
+        OTError *error = nil;
+        [self.subscriber.view removeFromSuperview];
+        [self.session unsubscribe:self.subscriber error:&error];
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }
+    
+    [AcceleratorPackSession deregisterWithAccePack:self];
 }
 
 #pragma mark - OTSessionDelegate
 -(void)sessionDidConnect:(OTSession*)session {
-
+    
+    NSLog(@"OneToOneCommunicator sessionDidConnect:");
+    
+    if (!self.publisher) {
+        NSString *deviceName = [UIDevice currentDevice].name;
+        self.publisher = [[OTPublisher alloc] initWithDelegate:self name:deviceName];
+    }
+    
     OTError *error;
     [self.session publish:self.publisher error:&error];
     if (error) {
@@ -95,33 +96,17 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(){
             [self addLogEvent];
         });
-        self.handler(OneToOneCommunicationSignalSessionDidConnect, nil);
+        if (self.handler) {
+            self.handler(OneToOneCommunicationSignalSessionDidConnect, nil);
+        }
     }
 }
 
 - (void)sessionDidDisconnect:(OTSession *)session {
 
-    if (_publisher) {
+    NSLog(@"OneToOneCommunicator sessionDidDisconnect:");
 
-        OTError *error = nil;
-        [_publisher.view removeFromSuperview];
-        [self.session unpublish:self.publisher error:&error];
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }
-
-    if (self.subscriber) {
-
-        OTError *error = nil;
-        [self.subscriber.view removeFromSuperview];
-        [self.session unsubscribe:self.subscriber error:&error];
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }
-
-    _publisher = nil;
+    self.publisher = nil;
     self.subscriber = nil;
     
     if (self.handler) {
@@ -133,9 +118,6 @@
 - (void)session:(OTSession *)session streamCreated:(OTStream *)stream {
 
     NSLog(@"session streamCreated (%@)", stream.streamId);
-    if (self.isSelfSubscribed) {
-        return;
-    }
 
     OTError *error;
     if (!self.subscriber) {
@@ -147,7 +129,9 @@
 
     }
     else {
-        self.handler(OneToOneCommunicationSignalSessionStreamCreated, nil);
+        if (self.handler) {
+            self.handler(OneToOneCommunicationSignalSessionStreamCreated, nil);
+        }
     }
 }
 
@@ -161,46 +145,62 @@
         self.subscriber = nil;
     }
 
-    self.handler(OneToOneCommunicationSignalSessionStreamDestroyed, nil);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSessionStreamDestroyed, nil);
+    }
 }
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
     NSLog(@"session did failed with error: (%@)", error);
-    self.handler(OneToOneCommunicationSignalSessionDidFail, error);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSessionDidFail, error);
+    }
 }
 
 #pragma mark - OTPublisherDelegate
 - (void)publisher:(OTPublisherKit *)publisher didFailWithError:(OTError *)error {
     NSLog(@"publisher did failed with error: (%@)", error);
-    self.handler(OneToOneCommunicationSignalPublisherDidFail, error);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalPublisherDidFail, error);
+    }
 }
 
 #pragma mark - OTSubscriberKitDelegate
 -(void) subscriberDidConnectToStream:(OTSubscriberKit*)subscriber {
-    self.handler(OneToOneCommunicationSignalSubscriberConnect, nil);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberConnect, nil);
+    }
 }
 
-- (void)subscriberVideoDataReceived:(OTSubscriber *)subscriber {}
-
 -(void)subscriberVideoDisabled:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    self.handler(OneToOneCommunicationSignalSubscriberVideoDisabled, nil);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberVideoDisabled, nil);
+    }
 }
 
 - (void)subscriberVideoEnabled:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    self.handler(OneToOneCommunicationSignalSubscriberVideoEnabled, nil);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberVideoEnabled, nil);
+    }
 }
 
-- (void)subscriberVideoDisableWarning:(OTSubscriberKit*)subscriber {
-    self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarning, nil);
+-(void) subscriberVideoDisableWarning:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarning, nil);
+    }
 }
 
-- (void)subscriberVideoDisableWarningLifted:(OTSubscriberKit*)subscriber {
-    self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted, nil);
+-(void) subscriberVideoDisableWarningLifted:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted, nil);
+    }
 }
 
 - (void)subscriber:(OTSubscriberKit *)subscriber didFailWithError:(OTError *)error {
     NSLog(@"subscriber did failed with error: (%@)", error);
-    self.handler(OneToOneCommunicationSignalSubscriberDidFail, error);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberDidFail, error);
+    }
 }
 
 #pragma mark - private method
@@ -214,11 +214,11 @@
 
 #pragma mark - Setters and Getters
 - (UIView *)subscriberView {
-    return self.subscriber.view;
+    return _subscriber.view;
 }
 
 - (UIView *)publisherView {
-    return self.publisher.view;
+    return _publisher.view;
 }
 
 - (void)setSubscribeToAudio:(BOOL)subscribeToAudio {

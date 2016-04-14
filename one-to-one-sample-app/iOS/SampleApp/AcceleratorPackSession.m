@@ -82,7 +82,9 @@ static NSString * InternalToken = @"";
     
     AcceleratorPackSession *sharedSession = [AcceleratorPackSession getAcceleratorPackSession];
     
-    if (sharedSession.sessionConnectionStatus == OTSessionConnectionStatusConnected) return nil;
+    if (sharedSession.sessionConnectionStatus == OTSessionConnectionStatusConnected ||
+        sharedSession.sessionConnectionStatus == OTSessionConnectionStatusConnecting ||
+        sharedSession.sessionConnectionStatus == OTSessionConnectionStatusReconnecting) return nil;
     
     OTError *error;
     [sharedSession connectWithToken:InternalToken error:&error];
@@ -93,7 +95,8 @@ static NSString * InternalToken = @"";
     
     AcceleratorPackSession *sharedSession = [AcceleratorPackSession getAcceleratorPackSession];
     
-    if (sharedSession.sessionConnectionStatus == OTSessionConnectionStatusNotConnected) return nil;
+    if (sharedSession.sessionConnectionStatus == OTSessionConnectionStatusNotConnected ||
+        sharedSession.sessionConnectionStatus == OTSessionConnectionStatusDisconnecting) return nil;
     
     OTError *error;
     [sharedSession disconnect:&error];

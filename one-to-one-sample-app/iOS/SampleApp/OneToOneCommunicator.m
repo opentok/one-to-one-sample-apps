@@ -10,7 +10,6 @@
 @property (nonatomic) OTSubscriber *subscriber;
 @property (nonatomic) OTPublisher *publisher;
 @property (nonatomic) AcceleratorPackSession *session;
-@property (nonatomic) BOOL isSelfSubscribed;
 
 @property (strong, nonatomic) OneToOneCommunicatorBlock handler;
 
@@ -41,12 +40,10 @@
 
 + (void)setOpenTokApiKey:(NSString *)apiKey
                sessionId:(NSString *)sessionId
-                   token:(NSString *)token
-          selfSubscribed:(BOOL)isSelfSubscribed {
+                   token:(NSString *)token {
 
     [AcceleratorPackSession setOpenTokApiKey:apiKey sessionId:sessionId token:token];
-    OneToOneCommunicator *sharedInstance = [OneToOneCommunicator sharedInstance];
-    sharedInstance.isSelfSubscribed = isSelfSubscribed;
+    [OneToOneCommunicator sharedInstance];
 }
 
 - (void)connectWithHandler:(OneToOneCommunicatorBlock)handler {
@@ -69,7 +66,9 @@
 
 #pragma mark - OTSessionDelegate
 -(void)sessionDidConnect:(OTSession*)session {
-
+    
+    NSLog(@"OneToOneCommunicator sessionDidConnect:");
+    
     if (!self.publisher) {
         NSString *deviceName = [UIDevice currentDevice].name;
         self.publisher = [[OTPublisher alloc] initWithDelegate:self name:deviceName];
@@ -84,31 +83,35 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(){
             [self addLogEvent];
         });
-        self.handler(OneToOneCommunicationSignalSessionDidConnect, nil);
+        if (self.handler) {
+            self.handler(OneToOneCommunicationSignalSessionDidConnect, nil);
+        }
     }
 }
 
 - (void)sessionDidDisconnect:(OTSession *)session {
 
-    if (self.publisher) {
-
-        OTError *error = nil;
-        [self.publisher.view removeFromSuperview];
-        [self.session unpublish:self.publisher error:&error];
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }
-
-    if (self.subscriber) {
-
-        OTError *error = nil;
-        [self.subscriber.view removeFromSuperview];
-        [self.session unsubscribe:self.subscriber error:&error];
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }
+    NSLog(@"OneToOneCommunicator sessionDidDisconnect:");
+    
+//    if (self.publisher) {
+//
+//        OTError *error = nil;
+//        [self.publisher.view removeFromSuperview];
+//        [self.session unpublish:self.publisher error:&error];
+//        if (error) {
+//            NSLog(@"%@", error.localizedDescription);
+//        }
+//    }
+//
+//    if (self.subscriber) {
+//
+//        OTError *error = nil;
+//        [self.subscriber.view removeFromSuperview];
+//        [self.session unsubscribe:self.subscriber error:&error];
+//        if (error) {
+//            NSLog(@"%@", error.localizedDescription);
+//        }
+//    }
 
     self.publisher = nil;
     self.subscriber = nil;
@@ -122,9 +125,6 @@
 - (void)session:(OTSession *)session streamCreated:(OTStream *)stream {
 
     NSLog(@"session streamCreated (%@)", stream.streamId);
-    if (self.isSelfSubscribed) {
-        return;
-    }
 
     OTError *error;
     if (!self.subscriber) {
@@ -136,7 +136,9 @@
 
     }
     else {
-        self.handler(OneToOneCommunicationSignalSessionStreamCreated, nil);
+        if (self.handler) {
+            self.handler(OneToOneCommunicationSignalSessionStreamCreated, nil);
+        }
     }
 }
 
@@ -150,44 +152,62 @@
         self.subscriber = nil;
     }
 
-    self.handler(OneToOneCommunicationSignalSessionStreamDestroyed, nil);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSessionStreamDestroyed, nil);
+    }
 }
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
     NSLog(@"session did failed with error: (%@)", error);
-    self.handler(OneToOneCommunicationSignalSessionDidFail, error);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSessionDidFail, error);
+    }
 }
 
 #pragma mark - OTPublisherDelegate
 - (void)publisher:(OTPublisherKit *)publisher didFailWithError:(OTError *)error {
     NSLog(@"publisher did failed with error: (%@)", error);
-    self.handler(OneToOneCommunicationSignalPublisherDidFail, error);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalPublisherDidFail, error);
+    }
 }
 
 #pragma mark - OTSubscriberKitDelegate
 -(void) subscriberDidConnectToStream:(OTSubscriberKit*)subscriber {
-    self.handler(OneToOneCommunicationSignalSubscriberConnect, nil);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberConnect, nil);
+    }
 }
 
 -(void)subscriberVideoDisabled:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    self.handler(OneToOneCommunicationSignalSubscriberVideoDisabled, nil);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberVideoDisabled, nil);
+    }
 }
 
 - (void)subscriberVideoEnabled:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    self.handler(OneToOneCommunicationSignalSubscriberVideoEnabled, nil);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberVideoEnabled, nil);
+    }
 }
 
 -(void) subscriberVideoDisableWarning:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarning, nil);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarning, nil);
+    }
 }
 
 -(void) subscriberVideoDisableWarningLifted:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted, nil);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted, nil);
+    }
 }
 
 - (void)subscriber:(OTSubscriberKit *)subscriber didFailWithError:(OTError *)error {
     NSLog(@"subscriber did failed with error: (%@)", error);
-    self.handler(OneToOneCommunicationSignalSubscriberDidFail, error);
+    if (self.handler) {
+        self.handler(OneToOneCommunicationSignalSubscriberDidFail, error);
+    }
 }
 
 #pragma mark - private method

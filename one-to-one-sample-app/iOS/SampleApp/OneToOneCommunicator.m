@@ -33,7 +33,6 @@
         sharedInstance = [[OneToOneCommunicator alloc] init];
         sharedInstance.isCallEnabled = YES;
         sharedInstance.session = [AcceleratorPackSession getAcceleratorPackSession];
-        [AcceleratorPackSession registerWithAccePack:sharedInstance];
     });
     return sharedInstance;
 }
@@ -50,18 +49,12 @@
 
     self.handler = handler;
 
-    OTError *error = [AcceleratorPackSession connect];
-    if (error) {
-        NSLog(@"%@", error);
-    }
+    [AcceleratorPackSession registerWithAccePack:self];
 }
 
 - (void)disconnect {
     
-    OTError *error = [AcceleratorPackSession disconnect];
-    if (error) {
-        NSLog(@"%@", error);
-    }
+    [AcceleratorPackSession deregisterWithAccePack:self];
 }
 
 #pragma mark - OTSessionDelegate
@@ -93,25 +86,25 @@
 
     NSLog(@"OneToOneCommunicator sessionDidDisconnect:");
     
-//    if (self.publisher) {
-//
-//        OTError *error = nil;
-//        [self.publisher.view removeFromSuperview];
-//        [self.session unpublish:self.publisher error:&error];
-//        if (error) {
-//            NSLog(@"%@", error.localizedDescription);
-//        }
-//    }
-//
-//    if (self.subscriber) {
-//
-//        OTError *error = nil;
-//        [self.subscriber.view removeFromSuperview];
-//        [self.session unsubscribe:self.subscriber error:&error];
-//        if (error) {
-//            NSLog(@"%@", error.localizedDescription);
-//        }
-//    }
+    if (self.publisher) {
+
+        OTError *error = nil;
+        [self.publisher.view removeFromSuperview];
+        [self.session unpublish:self.publisher error:&error];
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }
+
+    if (self.subscriber) {
+
+        OTError *error = nil;
+        [self.subscriber.view removeFromSuperview];
+        [self.session unsubscribe:self.subscriber error:&error];
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }
 
     self.publisher = nil;
     self.subscriber = nil;

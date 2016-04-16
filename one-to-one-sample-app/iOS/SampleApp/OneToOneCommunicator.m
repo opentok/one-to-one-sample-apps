@@ -54,6 +54,26 @@
 
 - (void)disconnect {
     
+    if (self.publisher) {
+        
+        OTError *error = nil;
+        [self.publisher.view removeFromSuperview];
+        [self.session unpublish:self.publisher error:&error];
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }
+    
+    if (self.subscriber) {
+        
+        OTError *error = nil;
+        [self.subscriber.view removeFromSuperview];
+        [self.session unsubscribe:self.subscriber error:&error];
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }
+    
     [AcceleratorPackSession deregisterWithAccePack:self];
 }
 
@@ -85,26 +105,6 @@
 - (void)sessionDidDisconnect:(OTSession *)session {
 
     NSLog(@"OneToOneCommunicator sessionDidDisconnect:");
-    
-    if (self.publisher) {
-
-        OTError *error = nil;
-        [self.publisher.view removeFromSuperview];
-        [self.session unpublish:self.publisher error:&error];
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }
-
-    if (self.subscriber) {
-
-        OTError *error = nil;
-        [self.subscriber.view removeFromSuperview];
-        [self.session unsubscribe:self.subscriber error:&error];
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }
 
     self.publisher = nil;
     self.subscriber = nil;

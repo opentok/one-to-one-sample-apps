@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -111,51 +111,26 @@
                                     <action selector="publisherCameraButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rUd-XL-ngb"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting... " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVp-7r-YQ1">
-                                <rect key="frame" x="239" y="288" width="123" height="24"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixE-LP-kFk" userLabel="Error Message">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
-                                <color key="backgroundColor" red="0.80392156859999997" green="0.1176470588" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="040-T5-MeU"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="EoV-Kh-ae4" secondAttribute="trailing" constant="20" id="9Fu-eZ-Rs1"/>
-                            <constraint firstItem="ixE-LP-kFk" firstAttribute="leading" secondItem="HtV-zK-mFJ" secondAttribute="leading" id="Abk-Kz-an0"/>
                             <constraint firstItem="TaE-Jx-zZR" firstAttribute="leading" secondItem="HtV-zK-mFJ" secondAttribute="leading" constant="20" id="C2K-eN-JaA"/>
                             <constraint firstAttribute="trailing" secondItem="zJt-pm-lIX" secondAttribute="trailing" id="Hyy-01-kNd"/>
-                            <constraint firstItem="OVp-7r-YQ1" firstAttribute="centerX" secondItem="HtV-zK-mFJ" secondAttribute="centerX" id="NsB-BO-Be4"/>
                             <constraint firstItem="SKX-dv-Vnc" firstAttribute="top" secondItem="HtV-zK-mFJ" secondAttribute="top" constant="60" id="O4w-5G-XL8"/>
                             <constraint firstItem="QaT-qb-Mgd" firstAttribute="centerX" secondItem="HtV-zK-mFJ" secondAttribute="centerX" id="Pf6-T6-PHm"/>
                             <constraint firstItem="QaT-qb-Mgd" firstAttribute="top" secondItem="EoV-Kh-ae4" secondAttribute="bottom" constant="20" id="RxN-kP-cKg"/>
                             <constraint firstItem="g1w-3N-XuV" firstAttribute="top" secondItem="QaT-qb-Mgd" secondAttribute="bottom" constant="20" id="U8e-tl-f28"/>
-                            <constraint firstAttribute="trailing" secondItem="ixE-LP-kFk" secondAttribute="trailing" id="UzL-or-RGf"/>
-                            <constraint firstItem="ixE-LP-kFk" firstAttribute="top" secondItem="HtV-zK-mFJ" secondAttribute="top" id="VCg-cP-GsZ"/>
                             <constraint firstItem="zJt-pm-lIX" firstAttribute="top" secondItem="HtV-zK-mFJ" secondAttribute="top" id="VE2-60-yEH"/>
                             <constraint firstItem="TaE-Jx-zZR" firstAttribute="top" secondItem="SKX-dv-Vnc" secondAttribute="bottom" constant="20" id="VsL-68-FSY"/>
                             <constraint firstAttribute="bottom" secondItem="zJt-pm-lIX" secondAttribute="bottom" id="aa2-ub-2be"/>
                             <constraint firstItem="zJt-pm-lIX" firstAttribute="leading" secondItem="HtV-zK-mFJ" secondAttribute="leading" id="bWH-Z0-RpJ"/>
                             <constraint firstItem="SKX-dv-Vnc" firstAttribute="leading" secondItem="HtV-zK-mFJ" secondAttribute="leading" constant="20" id="p9N-b2-8WU"/>
                             <constraint firstItem="xR7-mn-zpN" firstAttribute="top" secondItem="HtV-zK-mFJ" secondAttribute="top" constant="60" id="sIb-ZZ-Zsj"/>
-                            <constraint firstItem="OVp-7r-YQ1" firstAttribute="centerY" secondItem="HtV-zK-mFJ" secondAttribute="centerY" id="vZA-Im-SuI"/>
                             <constraint firstAttribute="trailing" secondItem="xR7-mn-zpN" secondAttribute="trailing" constant="20" id="wyq-rV-OBQ"/>
                         </constraints>
                         <connections>
                             <outlet property="callHolder" destination="8fW-9l-wlb" id="XCG-GA-mhl"/>
-                            <outlet property="connectingLabel" destination="OVp-7r-YQ1" id="h0T-KE-ktG"/>
-                            <outlet property="errorMessage" destination="ixE-LP-kFk" id="ymp-Ex-BqK"/>
                             <outlet property="micHolder" destination="Bwb-uu-g2a" id="YZ2-L1-YIh"/>
                             <outlet property="publisherView" destination="EoV-Kh-ae4" id="WWF-wf-5KH"/>
                             <outlet property="subscriberAudioButton" destination="SKX-dv-Vnc" id="oVI-Jt-h1h"/>

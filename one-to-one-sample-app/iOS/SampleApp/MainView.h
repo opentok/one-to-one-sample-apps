@@ -35,12 +35,5 @@
 - (void)hideSubscriberControls;
 
 // other controls
-- (void)showConnectingLabel;
-- (void)hideConnectingLabel;
-
-- (void)showErrorMessageLabelWithMessage:(NSString *)message
-                            dismissAfter:(CGFloat)seconds;
-- (void)hideErrorMessageLabel;
-
 - (void)removePlaceHolderImage;
 @end

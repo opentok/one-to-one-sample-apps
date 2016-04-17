@@ -2,6 +2,8 @@
 #import "MainViewController.h"
 #import "OneToOneCommunicator.h"
 
+#import <SVProgressHUD/SVProgressHUD.h>
+
 @interface MainViewController ()
 @property (nonatomic) MainView *mainView;
 @property (nonatomic) OneToOneCommunicator *oneToOneCommunicator;
@@ -22,10 +24,10 @@
 - (IBAction)publisherCallButtonPressed:(UIButton *)sender {
     if (!self.oneToOneCommunicator.isCallEnabled) {
         [self.mainView callHolderDisconnected];
-        [self.mainView showConnectingLabel];
+        [SVProgressHUD show];
         [self.oneToOneCommunicator connectWithHandler:^(OneToOneCommunicationSignal signal, NSError *error) {
             
-            [self.mainView hideConnectingLabel];
+            [SVProgressHUD dismiss];
             if (!error) {
                 [self handleCommunicationSignal:signal];
             }
@@ -36,8 +38,8 @@
         [self.oneToOneCommunicator disconnect];
         
         [self.mainView removePublisherView];
-        [self.mainView hideErrorMessageLabel];
         [self.mainView removePlaceHolderImage];
+        [SVProgressHUD dismiss];
     }
 }
 
@@ -55,7 +57,7 @@
             break;
         }
         case OneToOneCommunicationSignalSessionDidFail:{
-            [self.mainView hideConnectingLabel];
+            [SVProgressHUD dismiss];
             break;
         }
         case OneToOneCommunicationSignalSessionStreamCreated:{
@@ -66,7 +68,7 @@
             break;
         }
         case OneToOneCommunicationSignalPublisherDidFail:{
-            [self.mainView showErrorMessageLabelWithMessage:@"Problem when publishing" dismissAfter:4.0];
+            [SVProgressHUD showErrorWithStatus:@"Problem when publishing"];
             break;
         }
         case OneToOneCommunicationSignalSubscriberConnect:{
@@ -74,7 +76,7 @@
             break;
         }
         case OneToOneCommunicationSignalSubscriberDidFail:{
-            [self.mainView showErrorMessageLabelWithMessage:@"Problem when subscribing" dismissAfter:4.0];
+            [SVProgressHUD showErrorWithStatus:@"Problem when subscribing"];
             break;
         }
         case OneToOneCommunicationSignalSubscriberVideoDisabled:{
@@ -82,18 +84,18 @@
             break;
         }
         case OneToOneCommunicationSignalSubscriberVideoEnabled:{
-            [self.mainView hideErrorMessageLabel];
+            [SVProgressHUD dismiss];
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
         case OneToOneCommunicationSignalSubscriberVideoDisableWarning:{
             [self.mainView addPlaceHolderToSubscriberView];
             self.oneToOneCommunicator.subscribeToVideo = NO;
-            [self.mainView showErrorMessageLabelWithMessage:@"Network connection is unstable." dismissAfter:0.0];
+            [SVProgressHUD showErrorWithStatus:@"Network connection is unstable."];
             break;
         }
         case OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted:{
-            [self.mainView hideErrorMessageLabel];
+            [SVProgressHUD dismiss];
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }

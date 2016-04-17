@@ -20,9 +20,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *subscriberVideoButton;
 @property (strong, nonatomic) IBOutlet UIButton *subscriberAudioButton;
 
-@property (strong, nonatomic) IBOutlet UILabel *connectingLabel;
-@property (strong, nonatomic) IBOutlet UIButton *errorMessage;
-
 @property (strong, nonatomic) UIImageView *subscriberPlaceHolderImageView;
 @property (strong, nonatomic) UIImageView *publisherPlaceHolderImageView;
 @end
@@ -164,55 +161,6 @@
 }
 
 #pragma mark - other controls
-- (void)showConnectingLabel {
-    
-    [UIView animateWithDuration:0.25 animations:^(){
-        
-        [self.connectingLabel setAlpha:0.5];
-        
-        [UIView animateWithDuration:0.25 animations:^(){
-            
-            [self.connectingLabel setAlpha:1.0];
-        }];
-    }];
-}
-
-- (void)hideConnectingLabel {
-    
-    [UIView animateWithDuration:0.25 animations:^(){
-        
-        [self.connectingLabel setAlpha:0.5];
-        
-        [UIView animateWithDuration:0.25 animations:^(){
-            
-            [self.connectingLabel setAlpha:0.0];
-        }];
-    }];
-}
-
-- (void)showErrorMessageLabelWithMessage:(NSString *)message
-                            dismissAfter:(CGFloat)seconds {
-    
-    [self.errorMessage setTitle:message forState:UIControlStateNormal];
-    [self.errorMessage setAlpha:1.0];
-    
-    if (seconds != 0.0) {
-        [UIView animateWithDuration:0.5
-                              delay:seconds
-                            options:UIViewAnimationOptionTransitionNone
-                         animations:^{
-                             [self.errorMessage setAlpha:0.5];
-                         }
-                         completion:^(BOOL finished){
-                             [self.errorMessage setAlpha:0.0];
-                         }];
-    }
-}
-
-- (void)hideErrorMessageLabel {
-    [self.errorMessage setAlpha:0.0];
-}
-
 - (void)removePlaceHolderImage {
     [self.publisherPlaceHolderImageView removeFromSuperview];
     [self.subscriberPlaceHolderImageView removeFromSuperview];

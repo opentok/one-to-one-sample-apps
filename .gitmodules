@@ -1,0 +1,3 @@
+[submodule "one-to-one-sample-app/iOS/SampleApp/acc-pack-common"]
+	path = one-to-one-sample-app/iOS/SampleApp/acc-pack-common
+	url = https://github.com/opentok/acc-pack-common.git

@@ -13,6 +13,7 @@
 		6405A5C11C696BE600441745 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5BF1C696BE600441745 /* Main.storyboard */; };
 		6405A5C61C696BE600441745 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5C51C696BE600441745 /* Assets.xcassets */; };
 		6405A5C91C696BE600441745 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5C71C696BE600441745 /* LaunchScreen.storyboard */; };
+		A03EA6001CC18CFA00A205AE /* AcceleratorPackSession.m in Sources */ = {isa = PBXBuildFile; fileRef = A03EA5FF1CC18CFA00A205AE /* AcceleratorPackSession.m */; };
 		A0ADEF8C1C9FB2DE00D1A471 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */; };
 		A0ADEF8F1C9FB40700D1A471 /* OneToOneCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = A0ADEF8E1C9FB40700D1A471 /* OneToOneCommunicator.m */; };
 		F4B49EBC1C90291F003331B5 /* OTKAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */; };
@@ -42,6 +43,8 @@
 		6405A5C51C696BE600441745 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6405A5C81C696BE600441745 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6405A5CA1C696BE600441745 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A03EA5FE1CC18CFA00A205AE /* AcceleratorPackSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AcceleratorPackSession.h; path = "acc-pack-common/iOS/AcceleratorSession/Pod/Classes/AcceleratorPackSession.h"; sourceTree = "<group>"; };
+		A03EA5FF1CC18CFA00A205AE /* AcceleratorPackSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AcceleratorPackSession.m; path = "acc-pack-common/iOS/AcceleratorSession/Pod/Classes/AcceleratorPackSession.m"; sourceTree = "<group>"; };
 		A0ADEF8A1C9FB2DE00D1A471 /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
 		A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
 		A0ADEF8D1C9FB40700D1A471 /* OneToOneCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneToOneCommunicator.h; sourceTree = "<group>"; };
@@ -100,6 +103,8 @@
 				6405A5CA1C696BE600441745 /* Info.plist */,
 				A0ADEF8D1C9FB40700D1A471 /* OneToOneCommunicator.h */,
 				A0ADEF8E1C9FB40700D1A471 /* OneToOneCommunicator.m */,
+				A03EA5FE1CC18CFA00A205AE /* AcceleratorPackSession.h */,
+				A03EA5FF1CC18CFA00A205AE /* AcceleratorPackSession.m */,
 				6405A5B61C696BE600441745 /* Supporting Files */,
 				F4B49EBA1C9028FD003331B5 /* OTKAnalytics.h */,
 				F4B49EBB1C90291F003331B5 /* OTKAnalytics.m */,
@@ -193,6 +198,7 @@
 				6405A5B81C696BE600441745 /* main.m in Sources */,
 				A0ADEF8C1C9FB2DE00D1A471 /* MainView.m in Sources */,
 				A0ADEF8F1C9FB40700D1A471 /* OneToOneCommunicator.m in Sources */,
+				A03EA6001CC18CFA00A205AE /* AcceleratorPackSession.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

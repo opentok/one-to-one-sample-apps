@@ -12,8 +12,7 @@
     
     [OneToOneCommunicator setOpenTokApiKey:@""
                                  sessionId:@""
-                                     token:@""
-                            selfSubscribed:NO];
+                                     token:@""];
   return YES;
 }
 

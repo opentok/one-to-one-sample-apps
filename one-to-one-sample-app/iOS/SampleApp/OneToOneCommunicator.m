@@ -1,15 +1,23 @@
+//
+//  TextChatComponentChatView.h
+//  TextChatComponent
+//
+//  Created by Xi Huang on 2/23/16.
+//  Copyright © 2016 Tokbox. All rights reserved.
+//
+
 #import <Opentok/OpenTok.h>
 
 #import "OneToOneCommunicator.h"
 #import "OTKAnalytics.h"
 
-#import "AcceleratorPackSession.h"
+#import "OTAcceleratorSession.h"
 
 @interface OneToOneCommunicator() <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
 @property (nonatomic) BOOL isCallEnabled;
 @property (nonatomic) OTSubscriber *subscriber;
 @property (nonatomic) OTPublisher *publisher;
-@property (nonatomic) AcceleratorPackSession *session;
+@property (nonatomic) OTAcceleratorSession *session;
 
 @property (strong, nonatomic) OneToOneCommunicatorBlock handler;
 
@@ -32,7 +40,7 @@
     dispatch_once(&onceToken, ^{
         sharedInstance = [[OneToOneCommunicator alloc] init];
         sharedInstance.isCallEnabled = YES;
-        sharedInstance.session = [AcceleratorPackSession getAcceleratorPackSession];
+        sharedInstance.session = [OTAcceleratorSession getAcceleratorPackSession];
     });
     return sharedInstance;
 }
@@ -41,15 +49,41 @@
                sessionId:(NSString *)sessionId
                    token:(NSString *)token {
 
-    [AcceleratorPackSession setOpenTokApiKey:apiKey sessionId:sessionId token:token];
+    [OTAcceleratorSession setOpenTokApiKey:apiKey sessionId:sessionId token:token];
     [OneToOneCommunicator sharedInstance];
+}
+
+- (void)connect {
+    
+    [OTAcceleratorSession registerWithAccePack:self];
+    
+    // need to explcitly publish and subscribe if the communicator joins/rejoins a connected session
+    if (self.session.sessionConnectionStatus == OTSessionConnectionStatusConnected &&
+        self.session.streams[self.publisher.stream.streamId]) {
+        
+        OTError *error = nil;
+        [self.session publish:self.publisher error:&error];
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }
+    
+    if (self.session.sessionConnectionStatus == OTSessionConnectionStatusConnected &&
+        self.session.streams[self.subscriber.stream.streamId]) {
+        
+        OTError *error = nil;
+        [self.session subscribe:self.subscriber error:&error];
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }
 }
 
 - (void)connectWithHandler:(OneToOneCommunicatorBlock)handler {
 
     self.handler = handler;
     
-    [AcceleratorPackSession registerWithAccePack:self];
+    [OTAcceleratorSession registerWithAccePack:self];
     
     // need to explcitly publish and subscribe if the communicator joins/rejoins a connected session
     if (self.session.sessionConnectionStatus == OTSessionConnectionStatusConnected &&
@@ -75,8 +109,6 @@
 
 - (void)disconnect {
     
-    self.handler = nil;
-    
     // need to explicitly unpublish and unsubscriber if the communicator is the only part to dismiss from the accelerator session
     // when there are multiple accelerator packs, the accelerator session will not call the disconnect method until the last delegate object is removed
     if (self.publisher) {
@@ -99,7 +131,18 @@
         }
     }
     
-    [AcceleratorPackSession deregisterWithAccePack:self];
+    [OTAcceleratorSession deregisterWithAccePack:self];
+}
+
+- (void)notifiyAllWithSignal:(OneToOneCommunicationSignal)signal error:(NSError *)error {
+    
+    if (self.handler) {
+        self.handler(signal, error);
+    }
+    
+    if (self.delegate) {
+        [self.delegate oneToOneCommunicationWithSignal:signal error:error];
+    }
 }
 
 #pragma mark - OTSessionDelegate
@@ -121,9 +164,8 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(){
             [self addLogEvent];
         });
-        if (self.handler) {
-            self.handler(OneToOneCommunicationSignalSessionDidConnect, nil);
-        }
+        [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidConnect
+                             error:nil];
     }
 }
 
@@ -134,10 +176,9 @@
     self.publisher = nil;
     self.subscriber = nil;
     
-    if (self.handler) {
-        self.handler(OneToOneCommunicationSignalSessionDidDisconnect, nil);
-    }
-    self.handler = nil;
+    
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidDisconnect
+                         error:nil];
 }
 
 - (void)session:(OTSession *)session streamCreated:(OTStream *)stream {
@@ -151,9 +192,8 @@
 
     }
     else {
-        if (self.handler) {
-            self.handler(OneToOneCommunicationSignalSessionStreamCreated, nil);
-        }
+        [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamCreated
+                             error:nil];
     }
 }
 
@@ -166,63 +206,54 @@
         [self.subscriber.view removeFromSuperview];
         self.subscriber = nil;
     }
-
-    if (self.handler) {
-        self.handler(OneToOneCommunicationSignalSessionStreamDestroyed, nil);
-    }
+    
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamDestroyed
+                         error:nil];
 }
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
     NSLog(@"session did failed with error: (%@)", error);
-    if (self.handler) {
-        self.handler(OneToOneCommunicationSignalSessionDidFail, error);
-    }
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidFail
+                         error:nil];
 }
 
 #pragma mark - OTPublisherDelegate
 - (void)publisher:(OTPublisherKit *)publisher didFailWithError:(OTError *)error {
     NSLog(@"publisher did failed with error: (%@)", error);
-    if (self.handler) {
-        self.handler(OneToOneCommunicationSignalPublisherDidFail, error);
-    }
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalPublisherDidFail
+                         error:nil];
 }
 
 #pragma mark - OTSubscriberKitDelegate
 -(void) subscriberDidConnectToStream:(OTSubscriberKit*)subscriber {
-    if (self.handler) {
-        self.handler(OneToOneCommunicationSignalSubscriberConnect, nil);
-    }
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalSubscriberConnect
+                         error:nil];
 }
 
 -(void)subscriberVideoDisabled:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    if (self.handler) {
-        self.handler(OneToOneCommunicationSignalSubscriberVideoDisabled, nil);
-    }
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalSubscriberVideoDisabled
+                         error:nil];
 }
 
 - (void)subscriberVideoEnabled:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    if (self.handler) {
-        self.handler(OneToOneCommunicationSignalSubscriberVideoEnabled, nil);
-    }
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalSubscriberVideoEnabled
+                         error:nil];
 }
 
 -(void) subscriberVideoDisableWarning:(OTSubscriber *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    if (self.handler) {
-        self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarning, nil);
-    }
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalSubscriberVideoDisableWarning
+                         error:nil];
 }
 
 -(void) subscriberVideoDisableWarningLifted:(OTSubscriberKit *)subscriber reason:(OTSubscriberVideoEventReason)reason {
-    if (self.handler) {
-        self.handler(OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted, nil);
-    }
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted
+                         error:nil];
 }
 
 - (void)subscriber:(OTSubscriberKit *)subscriber didFailWithError:(OTError *)error {
     NSLog(@"subscriber did failed with error: (%@)", error);
-    if (self.handler) {
-        self.handler(OneToOneCommunicationSignalSubscriberDidFail, error);
-    }
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalSubscriberDidFail
+                         error:nil];
 }
 
 #pragma mark - private method
@@ -230,7 +261,11 @@
     NSString *apiKey = self.session.apiKey;
     NSString *sessionId = self.session.sessionId;
     NSInteger partner = [apiKey integerValue];
-    OTKAnalytics *logging = [[OTKAnalytics alloc] initWithSessionId:sessionId connectionId:self.session.connection.connectionId partnerId:partner clientVersion:@"ios-vsol-1.0.0"];
+    OTKAnalytics *logging = [[OTKAnalytics alloc] initWithSessionId:sessionId
+                                                       connectionId:self.session.connection.connectionId
+                                                          partnerId:partner
+                                                      clientVersion:@"ios-vsol-1.0.0"
+                                                             source:@"one_to_one_textchat_sample_app"];
     [logging logEventAction:@"one-to-one-sample-app" variation:@""];
 }
 

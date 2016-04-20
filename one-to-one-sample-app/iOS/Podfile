@@ -1,9 +1,13 @@
 
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '9.0'
+platform :ios, '8.0'
 inhibit_all_warnings!
 
 target 'OneToOneSample' do 
   pod 'OpenTok'
   pod 'SVProgressHUD'
+end
+
+target 'OneToOneSampleTests' do 
+  pod 'Kiwi'
 end

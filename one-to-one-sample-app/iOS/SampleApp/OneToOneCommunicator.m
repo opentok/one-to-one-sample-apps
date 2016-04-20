@@ -3,7 +3,7 @@
 //  OneToOneSample
 //
 //  Created by Xi Huang on 3/20/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
+//  Copyright © 2016 TokBox. All rights reserved.
 //
 
 #import "OneToOneCommunicator.h"

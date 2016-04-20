@@ -32,6 +32,7 @@
                 [self handleCommunicationSignal:signal];
             }
         }];
+        [self.mainView buttonsStatusSetter:YES];
     }
     else {
         [self.mainView callHolderConnected];
@@ -40,6 +41,7 @@
         [self.mainView removePublisherView];
         [self.mainView removePlaceHolderImage];
         [SVProgressHUD dismiss];
+        [self.mainView buttonsStatusSetter:NO];
     }
 }
 

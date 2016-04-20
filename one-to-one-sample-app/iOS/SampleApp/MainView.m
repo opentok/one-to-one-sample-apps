@@ -170,6 +170,14 @@
     [self.subscriberPlaceHolderImageView removeFromSuperview];
 }
 
+- (void) buttonsStatusSetter: (BOOL)status; {
+    [self.subscriberAudioButton setEnabled: status];
+    [self.subscriberVideoButton setEnabled: status];
+    [self.videoHolder setEnabled: status];
+    [self.micHolder setEnabled: status];
+}
+
+
 #pragma mark - private method
 -(void)addAttachedLayoutConstantsToSuperview:(UIView *)view {
     

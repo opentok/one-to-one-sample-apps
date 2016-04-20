@@ -36,4 +36,5 @@
 
 // other controls
 - (void)removePlaceHolderImage;
+- (void) buttonsStatusSetter: (BOOL)status;
 @end

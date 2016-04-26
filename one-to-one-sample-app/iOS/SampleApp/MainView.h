@@ -23,7 +23,7 @@
 - (void)publisherVideoDisconnected;
 
 // subscriber view
-- (void)addSubscribeView:(UIView *)subsciberView;
+- (void)addSubscribeView:(UIView *)subscriberView;
 - (void)removeSubscriberView;
 - (void)addPlaceHolderToSubscriberView;
 

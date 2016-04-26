@@ -13,11 +13,21 @@
 
 #import "AcceleratorPackSession.h"
 
+static NSString* const KLogSource = @"one_to_one_textchat_sample_app";
+static NSString* const KLogClientVersion = @"ios-vsol-0.9";
+static NSString* const KLogActionInitialize = @"initialize";
+static NSString* const KLogActionStartComm = @"start_comm";
+static NSString* const KLogActionEndComm = @"end_comm";
+static NSString* const KLogVariationAttempt = @"Attempt";
+static NSString* const KLogVariationSuccess = @"Success";
+static NSString* const KLogVariationFailure = @"Failure";
+
 @interface OneToOneCommunicator() <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
 @property (nonatomic) BOOL isCallEnabled;
 @property (nonatomic) OTSubscriber *subscriber;
 @property (nonatomic) OTPublisher *publisher;
 @property (nonatomic) AcceleratorPackSession *session;
+@property (nonatomic) OTKAnalytics* analytics;
 
 @property (strong, nonatomic) OneToOneCommunicatorBlock handler;
 @end
@@ -55,7 +65,7 @@
 - (void)connect {
     
     [AcceleratorPackSession registerWithAccePack:self];
-    
+
     // need to explcitly publish and subscribe if the communicator joins/rejoins a connected session
     if (self.session.sessionConnectionStatus == OTSessionConnectionStatusConnected &&
         self.session.streams[self.publisher.stream.streamId]) {
@@ -108,6 +118,7 @@
 
 - (void)disconnect {
     
+    [self addLogEvent:KLogActionEndComm variation:KLogVariationAttempt];
     // need to explicitly unpublish and unsubscriber if the communicator is the only part to dismiss from the accelerator session
     // when there are multiple accelerator packs, the accelerator session will not call the disconnect method until the last delegate object is removed
     if (self.publisher) {
@@ -127,10 +138,12 @@
         [self.session unsubscribe:self.subscriber error:&error];
         if (error) {
             NSLog(@"%@", error.localizedDescription);
+            [self addLogEvent:KLogActionEndComm variation:KLogVariationFailure];
         }
     }
     
     [AcceleratorPackSession deregisterWithAccePack:self];
+    [self addLogEvent:KLogActionEndComm variation:KLogVariationSuccess];
 }
 
 - (void)notifiyAllWithSignal:(OneToOneCommunicationSignal)signal error:(NSError *)error {
@@ -144,10 +157,23 @@
     }
 }
 
+- (void)addLogEvent:(NSString*)action variation:(NSString*)variation {
+    [_analytics logEventAction:action variation:variation];
+}
+
 #pragma mark - OTSessionDelegate
 -(void)sessionDidConnect:(OTSession*)session {
     
     NSLog(@"OneToOneCommunicator sessionDidConnect:");
+    
+    
+    //Init otkanalytics. Internal use
+    NSString *apiKey = _session.apiKey;
+    NSString *sessionId = _session.sessionId;
+    NSInteger partner = [apiKey integerValue];
+    _analytics = [[OTKAnalytics alloc] initWithSessionId:sessionId connectionId:self.session.connection.connectionId partnerId:partner clientVersion:KLogClientVersion source: KLogSource];
+    [self addLogEvent:KLogActionInitialize variation:KLogVariationAttempt];
+ 
     
     if (!self.publisher) {
         NSString *deviceName = [UIDevice currentDevice].name;
@@ -157,21 +183,19 @@
     OTError *error;
     [self.session publish:self.publisher error:&error];
     if (error) {
-
+        [self addLogEvent:KLogActionInitialize variation:KLogVariationFailure];
     }
     else {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(){
-            [self addLogEvent];
-        });
         [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidConnect
                              error:nil];
+        [self addLogEvent:KLogActionInitialize variation:KLogVariationSuccess];
     }
 }
 
 - (void)sessionDidDisconnect:(OTSession *)session {
 
     NSLog(@"OneToOneCommunicator sessionDidDisconnect:");
-
+    
     self.publisher = nil;
     self.subscriber = nil;
     
@@ -183,16 +207,20 @@
 - (void)session:(OTSession *)session streamCreated:(OTStream *)stream {
 
     NSLog(@"session streamCreated (%@)", stream.streamId);
-
+    
+    [self addLogEvent:KLogActionStartComm variation:KLogVariationAttempt];
+    
     OTError *error;
     self.subscriber = [[OTSubscriber alloc] initWithStream:stream delegate:self];
     [self.session subscribe:self.subscriber error:&error];
     if (error) {
-
+        [self addLogEvent:KLogActionStartComm variation:KLogVariationFailure];
     }
     else {
         [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamCreated
                              error:nil];
+        [self addLogEvent:KLogActionStartComm variation:KLogVariationSuccess];
+        
     }
 }
 
@@ -253,15 +281,6 @@
     NSLog(@"subscriber did failed with error: (%@)", error);
     [self notifiyAllWithSignal:OneToOneCommunicationSignalSubscriberDidFail
                          error:nil];
-}
-
-#pragma mark - private method
-- (void)addLogEvent {
-    NSString *apiKey = self.session.apiKey;
-    NSString *sessionId = self.session.sessionId;
-    NSInteger partner = [apiKey integerValue];
-    OTKAnalytics *logging = [[OTKAnalytics alloc] initWithSessionId:sessionId connectionId:self.session.connection.connectionId partnerId:partner clientVersion:@"ios-vsol-1.0.0"];
-    [logging logEventAction:@"one-to-one-sample-app" variation:@""];
 }
 
 #pragma mark - Setters and Getters

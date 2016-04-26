@@ -20,7 +20,6 @@
 @property (nonatomic) AcceleratorPackSession *session;
 
 @property (strong, nonatomic) OneToOneCommunicatorBlock handler;
-
 @end
 
 @implementation OneToOneCommunicator

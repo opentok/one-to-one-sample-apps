@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Opentok/OpenTok.h>
+#import <OpenTok/OpenTok.h>
 
 typedef NS_ENUM(NSUInteger, OneToOneCommunicationSignal) {
     OneToOneCommunicationSignalSessionDidConnect = 0,

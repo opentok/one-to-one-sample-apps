@@ -121,10 +121,10 @@
 }
 
 #pragma mark - subscriber view
-- (void)addSubscribeView:(UIView *)subsciberView {
+- (void)addSubscribeView:(UIView *)subscriberView {
     
-    subsciberView.frame = CGRectMake(0, 0, CGRectGetWidth(self.subscriberView.bounds), CGRectGetHeight(self.subscriberView.bounds));
-    [self.subscriberView addSubview:subsciberView];
+    subscriberView.frame = CGRectMake(0, 0, CGRectGetWidth(self.subscriberView.bounds), CGRectGetHeight(self.subscriberView.bounds));
+    [self.subscriberView addSubview:subscriberView];
 }
 
 - (void)removeSubscriberView {

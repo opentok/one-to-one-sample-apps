@@ -64,7 +64,7 @@ For more information about CocoaPods, including installation instructions, visit
 
 Now you are ready to add the configuration detail to your app. These will include the **Session ID**, **Token**, and **API Key** you retrieved earlier (see [Prerequisites](#prerequisites)).
 
-In **AppDelegate.h**, replace the following empty strings with the required detail:
+In **AppDelegate.m**, replace the following empty strings with the required detail:
 
 
    ```objc

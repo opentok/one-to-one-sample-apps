@@ -3,7 +3,7 @@
 //  OneToOneSample
 //
 //  Created by Xi Huang on 3/20/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
+//  Copyright © 2016 TokBox. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -23,7 +23,7 @@
 - (void)publisherVideoDisconnected;
 
 // subscriber view
-- (void)addSubscribeView:(UIView *)subsciberView;
+- (void)addSubscribeView:(UIView *)subscriberView;
 - (void)removeSubscriberView;
 - (void)addPlaceHolderToSubscriberView;
 

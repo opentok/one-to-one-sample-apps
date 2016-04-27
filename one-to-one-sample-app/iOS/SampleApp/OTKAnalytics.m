@@ -1,6 +1,6 @@
 //
 //  OTKAnalytics.m
-//  SampleApp
+//  OneToOneSample
 //
 //  Created by mserrano on 09/03/16.
 //  Copyright © 2016 TokBox. All rights reserved.

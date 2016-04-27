@@ -1,3 +1,11 @@
+//
+//  MainViewController.m
+//  OneToOneSample
+//
+//  Created by Xi Huang on 3/20/16.
+//  Copyright © 2016 TokBox. All rights reserved.
+//
+
 #import "MainView.h"
 #import "MainViewController.h"
 #import "OneToOneCommunicator.h"

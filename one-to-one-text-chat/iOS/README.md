@@ -1,8 +1,8 @@
 ![logo](../../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for iOS<br/>Version 1.0
+# OpenTok Text Chat Sample App for iOS<br/>Version 0.9
 
-This document describes how to use the OpenTok One-to-One Communication Sample App for iOS. You will learn best practices for managing the phone, video, and camera elements on an iOS mobile device. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
+This document describes how to use the OpenTok Text Chat Accelerator Pack for iOS. Through the exploration of the OpenTok Text Chat Sample App, you will learn best practices for exchanging text messages on an iOS mobile device.
 
 You can configure and run this sample app within just a few minutes!
 
@@ -11,16 +11,19 @@ This guide has the following sections:
 
 * [Prerequisites](#prerequisites): A checklist of everything you need to get started.
 * [Quick start](#quick-start): A step-by-step tutorial to help you quickly import and run the sample app.
-* [Exploring the code](#exploring-the-code): This describes the sample app code design, which uses recommended best practices to implement the one-to-one communication features. 
+* [Exploring the code](#exploring-the-code): This describes the sample app code design, which uses recommended best practices to implement the text chat features. 
 
 ## Prerequisites
 
-To be prepared to develop your one-to-one communication app:
+To be prepared to develop your text chat app:
 
-1. Xcode version 5 or later.
-2. Download the [OpenTok iOS SDK](https://tokbox.com/downloads/opentok-ios-sdk-2.7.1).
-3. Review the [OpenTok iOS SDK Requirements](https://tokbox.com/developer/sdks/ios/).
-4. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
+1. Install Xcode version 5 or later.
+2. Download the [TokBox Common Accelerator Session Pack](https://github.com/opentok/acc-pack-common).
+3. Download the **Text Chat Accelerator Pack framework** provided by TokBox.
+4. Review the [OpenTok iOS SDK Requirements](https://tokbox.com/developer/sdks/ios/).
+5. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
+
+_You do not need the OpenTok iOS SDK to use this sample._
 
 _**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample program. For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
 
@@ -29,35 +32,25 @@ _**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample
 To get up and running quickly with your app, go through the following steps in the tutorial provided below:
 
 1. [Importing the Xcode Project](#importing-the-xcode-project)
-2. [Adding the OpenTok SDK](#adding-the-opentok-sdk)
-3. [Configuring the App](#configuring-the-app)
+2. [Adding the required frameworks](#adding-the-required-frameworks)
+3. [Configuring the app](#configuring-the-app)
 
 To learn more about the best practices used to design this app, see [Exploring the code](#exploring-the-code).
 
 ### Importing the Xcode project
 
-1. Clone the OpenTok One-to-One Communication Sample App repository.
+1. Clone the OpenTok Text Chat Sample App repository.
 2. Start Xcode. 
 3. Click **File > Open**.
-4. Navigate to the **iOS** folder, select **OneToOneSample.xcodeproj**, and click **Open**.
+4. Navigate to the **iOS** folder, select **OneToOneTextChatSample.xcodeproj**, and click **Open**.
 
 
-### Adding the OpenTok SDK
+### Adding the required frameworks
 
-There are two ways to add the frameworks you need. You can add them quickly using CocoaPods, or add them individually.
+1. Copy the **TextChatKit.framework** into your project folder. 
+2. From the **Project Navigator** view, select each and ensure **Target Membership** is checked in the **File Inspector**.
+3. From the **Project Navigator** view, click **General**. Ensure that **TextChatKit.framework** has been added to **Embedded Binaries**.
 
-#### Using CocoaPods
-
-1. In a terminal prompt, navigate into your project directory and type `pod install`.
-3. Reopen your project using the new *.xcworkspace file.
-
-For more information about CocoaPods, including installation instructions, visit [CocoaPods Getting Started](https://guides.cocoapods.org/using/getting-started.html#getting-started).
-
-#### Adding the frameworks individually
-
-1.  Drag the **OpenTok.framework** into your project. Select the framework and ensure **Target Membership** is checked in the **File Inspector**.
-2.  From the **Project Navigator** view, click **General**. Add the framework in **Embedded Binaries** and ensure it is in **Linked Frameworks and Libraries**.
-3.  On the **General** tab under **Linked Frameworks and Libraries**, add all the required frameworks listed at [OpenTok iOS SDK Requirements](https://tokbox.com/developer/sdks/ios/).
 
 
 ### Configuring the app
@@ -87,97 +80,138 @@ _At this point you can try running the app! You can either use a simulator or an
 
 ## Exploring the code
 
-This section describes how the sample app code design uses recommended best practices to implement the one-to-one communication features. 
+This section describes how the sample app code design uses recommended best practices to deploy the text chat communication features. The sample app design extends the [OpenTok One-to-One Communication Sample App](https://github.com/opentok/one-to-one-sample-apps) by adding logic using the classes in the `TextChatKit` framework.
 
 For detail about the APIs used to develop this sample, see the [OpenTok iOS SDK Reference](https://tokbox.com/developer/sdks/ios/reference/).
 
-  - [Class design](#class-design)
-  - [Session and stream management](#session-and-stream-management)
-  - [View Controllers](#view-controllers)
+  - [App design](#app-design)
+  - [Text Chat view](#text-chat-view)
   - [User interface](#user-interface)
 
 _**NOTE:** The sample app contains logic used for logging. This is used to submit anonymous usage data for internal TokBox purposes only. We request that you do not modify or remove any logging code in your use of this sample application._
 
-### Class design
+### App design
 
-The following classes represent the software design for this sample app.
+The following classes, interfaces, and protocols represent the software design for this sample app, focusing primarily on the text chat features. For details about the one-to-one communication aspects of the design, see the [OpenTok One-to-One Communication Sample App](https://github.com/opentok/one-to-one-sample-apps).
 
 | Class        | Description  |
 | ------------- | ------------- |
-| `OneToOneCommunicator`   | Uses the OpenTok API to initiate the client connection to the OpenTok session, and manages the audio and video stream subscriptions.  |
-| `MainViewController`   | <br/>In conjunction with **Main.storyboard**, this class implements the UI and its responses to all events associated with actions for the local and remote audio and video controls, the publisher’s start/end call button, and the publisher’s camera position (forward or selfie mode).   |
-| `MainView`  | Defines the main user interfaces of the sample app, and contains the logic for styling and transitioning for the user interfaces. <br/> |
+| `MainViewController`   | In conjunction with **Main.storyboard**, this class uses the OpenTok API to initiate the client connection to the OpenTok session, and implements the sample UI and text chat callbacks.   |
+| `TextChatView`   | Provides the initializers and methods for the client text chat UI views. |
+| `TextChatViewDelegate`   | Delegate that monitors both receiving and sending activity. For example, a message is successfully sent, or a message is sent with a code in the event of an error. |
 
 
-### Session and stream management
+### Text Chat view
 
-The `OneToOneCommunicator` class is the backbone of the one-to-one communication features for the app. 
-
-This class conforms to the protocols that initiate the client connection to the OpenTok session and sets up the listeners for the publisher and subscriber streams:
+The `TextChatView` class is the backbone of the text chat features for the app. It serves as a controller for the text chat UI widget, and defines delegates for exchanging messages that are implemented in this example by the `MainViewController` class:
 
 ```objc
-@interface OneToOneCommunicator : NSObject
+@interface TextChatView : UIView
+​
++ (void)setOpenTokApiKey:(NSString *)apiKey
+               sessionId:(NSString *)sessionId
+                   token:(NSString *)token;
+​
+@property (weak, nonatomic) id<TextChatViewDelegate> delegate;
+@property (readonly, nonatomic) BOOL isShown;
+​
++ (instancetype)textChatView;
+
++ (instancetype)textChatViewWithBottomView:(UIView *)bottomView;
+​
+- (void)connect;
+
+- (void)disconnect;
+​
+- (void)minimize;
+
+- (void)maximize;
+
+- (void)show;
+
+- (void)dismiss;
+
+- (void)setAlias:(NSString *)alias;
+
+- voidsetMaximumTextMessageLength:(NSUInteger)length;
+@end
 ```
 
-#### Protocol conformance and implementation
 
-The OpenTok protocols to which the `OneToOneCommunicator` class conforms in its internally defined implementation are described in the following table. See their descriptions in the [OpenTok iOS SDK Reference](https://tokbox.com/developer/sdks/ios/reference/) for information about the methods required to implement them. 
+#### Initialization methods
 
-
-| Protocol        | Description  |
-| ------------- | ------------- |
-| [`OTSessionDelegate`](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/Session.SessionListener.html)   | Monitors session state, handling client connections and stream events. |
-| [`OTSubscriberKitDelegate`](https://tokbox.com/developer/sdks/ios/reference/Protocols/OTSubscriberKitDelegate.html)      | Monitors subscriber events.  |
-| [`OTPublisherDelegate`](https://tokbox.com/developer/sdks/ios/reference/Protocols/OTPublisherDelegate.html) | Monitors publisher stream events and changes to the camera position.  |
-
-
-#### Methods
-
-The following `OneToOneCommunicator` methods are used for session and stream management, and in most cases are required by the protocols to which the class conforms.
+The following `TextChatView` methods are used to initialize the text chat features so the client can send and receive text messages.
 
 | Feature        | Methods  |
 | ------------- | ------------- |
-| Manage the publisher and subscriber instances, start and end session connections, signal events.   | `connectWithHandler`, `disconnect`|
-| Manage the subscription streams.      | `streamCreated`, `streamDestroyed` |
-| Respond to subscriber connection events. | `subscriberDidConnectToStream`  |
-| Store configuration information across the app | `oneToOneCommunicator` |
-| Set configuration information | `setOpenTokApiKey` |
+| Initialize the text chat view. | `textChatView()`, `textChatViewWithBottomView()` |
+| Set the maximum chat text length.   | `setMaximumTextMessageLength()`  |
+| Set the sender alias and the sender ID of the outgoing messages.  | `setAlias()`  |
 
 
-The following enum notifies the main controller of all session, publisher, and subscriber events:
+For example, the following method in `MainViewController` instantiates and initializes a `TextChatView` object, setting the maximum message length to 200 characters.
 
 ```objc
-typedef NS_ENUM(NSUInteger, OneToOneCommunicationSignal) {
-    OneToOneCommunicationSignalSessionDidConnect = 0,
-    OneToOneCommunicationSignalSessionDidDisconnect,
-    OneToOneCommunicationSignalSessionDidFail,
-    OneToOneCommunicationSignalSessionStreamCreated,
-    OneToOneCommunicationSignalSessionStreamDestroyed,
-    OneToOneCommunicationSignalPublisherDidFail,
-    OneToOneCommunicationSignalSubscriberConnect,
-    OneToOneCommunicationSignalSubscriberDidFail,
-    OneToOneCommunicationSignalSubscriberVideoDisabled,
-    OneToOneCommunicationSignalSubscriberVideoEnabled,
-    OneToOneCommunicationSignalSubscriberVideoDisableWarning,
-    OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted,
-};
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.mainView = (MainView *)self.view;
+    self.oneToOneCommunicator = [OneToOneCommunicator oneToOneCommunicator];
+    self.textChatView = [TextChatView textChatViewWithBottomView:self.mainView.actionButtonsHolder];
+    self.textChatView.delegate = self;
+    [self.textChatView setMaximumTextMessageLength:200]
+    [self.textChatView setAlias:@“Tokboxer”];
+}
 ```
 
-### View Controllers
+#### Sending and receiving messages
 
-As described in [Class design](#class-design), the `MainViewController` class, in conjunction with **Main.storyboard**, receives notifications from the `OneToOneCommunicator` class and manages the UI responses to media usage events, which are associated with actions for the local and remote audio and video controls, the publisher’s start/end call button, and the publisher’s camera position (forward or selfie mode).
+By conforming to the `TextChatViewDelegate`, the `MainVewController` class defines methods that determine the UI responses to chat events. When a user clicks the send button, a `didAddMessageWithError` event is received.
 
-| Feature       | Methods       |
-| ------------- | ------------- |
-| Subscriber audio.   | `subscriberAudioButtonPressed` |
-| Subscriber video.   | `subscriberVideoButtonPressed`  |
-| Publisher audio.      | `publisherMicrophoneButtonPressed`  |
-| Publisher start and end call. | `publisherCallButtonPressed `  |
-| Publisher video. | `publisherVideoButtonPressed`  |
-| Publisher camera orientation (forward or selfie mode). | `publisherCameraButtonPressed`  |
+In order to signal sending a message, you must first call the `connect` method. This allows you to begin using the `TextChatViewDelegate` protocol to receive notifications about messages being sent and received.
+
+```objc
+[self.textChatView connect];
+```
+
+Once you no longer need to exchange messages, call the `disconnect` method to leave the session.
+
+The method implementations use the [OpenTok signaling API](https://tokbox.com/developer/sdks/ios/reference/Protocols/OTSessionDelegate.html#//api/name/session:receivedSignalType:fromConnection:withString:), which monitors the session connections to determine when individual chat messages are sent and received. 
+
+
+```objc
+@protocol TextChatViewDelegate <NSObject>
+- (void)textChatViewDidSendMessage:(TextChatView *)textChatView
+                             error:(NSError *)error;
+- (void)textChatViewDidReceiveMessage:(TextChatView *)textChatView;
+
+@optional
+- (void)didConnectWithError:(NSError *)error;
+- (void)didDisConnectWithError:(NSError *)error;
+@end
+```
 
 
 
 ### User interface
 
-The `MainView` class defines the main user interfaces and contains the logic for their styling and transitions.
+As described in [App design](#app-design), the `TextChatView` class sets up and manages the UI views and rendering for the local and remote controls.
+
+
+These properties of the `ViewController` class manage the views as the publisher and subscriber participate in the session.
+
+| Property        | Description  |
+| ------------- | ------------- |
+| `textChatView` | UI view for the text chat widget  |
+| `mainView` | Main UI view  |
+
+
+
+
+
+
+
+
+
+
+

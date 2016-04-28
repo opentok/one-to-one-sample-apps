@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>AV Sample App</title>
+
+	<!--[if IE]><link rel="shortcut icon" href="images/favicon.ico"><![endif]-->
+	<link rel="icon" href="images/favicon.png">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/styles.css">
+
+	<!-- JS -->
+	<script src="https://static.opentok.com/v2/js/opentok.min.js" type="text/javascript" defer></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" defer></script>
+	<script src="js/components/one-to-one-communication.js" type="text/javascript" defer></script>
+	<script src="js/components/accelerator-pack.js" type="text/javascript" defer></script>
+	<script src="js/app.js" type="text/javascript" defer></script>
+	<script src="js/moment.js" type="text/javascript" defer></script>
+	<script src="js/livestamp.min.js" type="text/javascript" defer></script>
+
+</head>
+<body>
+    <div class="main-container">
+        <div class="video-container">
+            <div id="videoHolderSmall" class="video-wrap primary-video video-background"></div>
+            <div class="local-controls">
+                <div class="video-control circle video enabled hidden" id="enableLocalVideo"></div>
+                <div class="video-control circle call" id="callActive"></div>
+                <div class="video-control circle microphone enabled hidden" id="enableLocalAudio"></div>
+                <div class="video-control circle text-chat enabled hidden" id="enableTextChat"></div>
+            </div>
+            <div id="videoHolderBig" class="video-wrap secondary-video"></div>
+            <div id="remoteControls" class="remote-controls hidden">
+                <div class="video-control audio" id="enableRemoteAudio"></div>
+                <div class="video-control video" id="enableRemoteVideo"></div>
+            </div>
+        </div>
+        <div id="chat-container">
+
+        </div>
+    </div>
+</body>
+</html>
+

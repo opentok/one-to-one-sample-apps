@@ -63,7 +63,6 @@ For detail about the APIs used to develop this sample, see the [OpenTok.js Refer
 
   - [Web page design](#web-page-design)
   - [Text Chat Accelerator Pack](#text-chat-accelerator-pack)
-  - [User interface](#user-interface)
 
 _**NOTE:** The sample app contains logic used for logging. This is used to submit anonymous usage data for internal TokBox purposes only. We request that you do not modify or remove any logging code in your use of this sample application._
 

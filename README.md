@@ -2,7 +2,7 @@
 
 # OpenTok One-to-One Communication Sample Apps<br/>Version 1.0
 
-Here you can learn about the OpenTok sample apps available with the use of accelerator packs you can use to quickly and easily develop powerful applications. 
+This is where you can explore the OpenTok sample apps! These samples include the use of accelerator packs, available from your TokBox representative, which you can use to quickly and easily develop powerful OpenTok applications. 
 
 All of the sample apps are based on the the OpenTok One-to-One Communication Sample App, which is an open-source solution that enables you to quickly get started in your development efforts to set up interoperable, production-quality audio/video communication between users. 
 

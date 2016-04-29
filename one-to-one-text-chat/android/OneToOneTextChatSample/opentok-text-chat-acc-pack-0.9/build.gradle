@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('opentok-text-chat-acc-pack-0.9.aar'))

@@ -1,0 +1,1 @@
+include ':app', ':opentok-android-accelerator-pack-1.0', ':opentok-text-chat-acc-pack-0.9'

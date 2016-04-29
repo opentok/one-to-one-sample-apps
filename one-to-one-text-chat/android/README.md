@@ -1,4 +1,4 @@
-![logo](../tokbox-logo.png)
+![logo](../../tokbox-logo.png)
 
 # OpenTok Text Chat Sample App for Android<br/>Version 0.9
 
@@ -18,7 +18,7 @@ This guide has the following sections:
 To be prepared to develop your text chat app:
 
 1. Install [Android Studio](http://developer.android.com/intl/es/sdk/index.html).
-2. Download the [TokBox Common Accelerator Session Pack](https://github.com/opentok/acc-pack-common).
+2. Download the TokBox Common Accelerator Session Pack provided by TokBox.
 3. Download the **Text Chat Accelerator Pack AAR** file provided by TokBox.
 4. Review the [OpenTok Android SDK Requirements](https://tokbox.com/developer/sdks/android/#developerandclientrequirements).
 5. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
@@ -90,7 +90,7 @@ _At this point you can try running the app! You can either use a simulator or an
 
 ## Exploring the code
 
-This section describes how the sample app code design uses recommended best practices to deploy the text chat communication features. The sample app design extends the [OpenTok One-to-One Communication Sample App](https://github.com/opentok/one-to-one-sample-apps) by adding logic using the `com.tokbox.android.textchat` classes.
+This section describes how the sample app code design uses recommended best practices to deploy the text chat communication features. The sample app design extends the [OpenTok One-to-One Communication Sample App](../../one-to-one-sample-app) by adding logic using the `com.tokbox.android.textchat` classes.
 
 For detail about the APIs used to develop this sample, see the [OpenTok Android SDK Reference](https://tokbox.com/developer/sdks/android/reference/) and [Android API Reference](http://developer.android.com/reference/packages.html).
 
@@ -102,7 +102,7 @@ _**NOTE:** The sample app contains logic used for logging. This is used to submi
 
 ### Class design
 
-The following classes represent the software design for this sample app, focusing primarily on the text chat features. For details about the one-to-one communication aspects of the design, see the [OpenTok One-to-One Communication Sample App](https://github.com/opentok/one-to-one-sample-apps).
+The following classes represent the software design for this sample app, focusing primarily on the text chat features. For details about the one-to-one communication aspects of the design, see the [OpenTok One-to-One Communication Sample App](../../one-to-one-sample-app).
 
 | Class        | Description  |
 | ------------- | ------------- |

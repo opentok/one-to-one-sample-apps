@@ -19,7 +19,7 @@ To be prepared to develop your text chat app:
 
 1. Review the [OpenTok.js](https://tokbox.com/developer/sdks/js/) requirements.
 2. Download the **opentok-text-chat.js** file provided by TokBox.
-3. Download the [TokBox Common Accelerator Session Pack](https://github.com/opentok/acc-pack-common).
+3. Download the TokBox Common Accelerator Session Pack provided by TokBox.
 4. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
 
 _**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample program. For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
@@ -57,23 +57,22 @@ The web page that loads the sample app for JavaScript must be served over HTTP/H
 
 ## Exploring the code
 
-This section describes how the sample app code design uses recommended best practices to deploy the text chat communication features. The sample app design extends the [OpenTok One-to-One Communication Sample App](https://github.com/opentok/one-to-one-sample-apps) by adding logic using the `ChatUI` class defined in `opentok-text-chat.js`.
+This section describes how the sample app code design uses recommended best practices to deploy the text chat communication features. The sample app design extends the [OpenTok One-to-One Communication Sample App](../../one-to-one-sample-app) by adding logic using the `TextChatAccPack` class defined in `opentok-text-chat.js`.
 
 For detail about the APIs used to develop this sample, see the [OpenTok.js Reference](https://tokbox.com/developer/sdks/js/reference/).
 
   - [Web page design](#web-page-design)
-  - [Session and stream management](#session-and-stream-management)
-  - [User interface](#user-interface)
+  - [Text Chat Accelerator Pack](#text-chat-accelerator-pack)
 
 _**NOTE:** The sample app contains logic used for logging. This is used to submit anonymous usage data for internal TokBox purposes only. We request that you do not modify or remove any logging code in your use of this sample application._
 
 ### Web page design
 
-While TokBox hosts [OpenTok.js](https://tokbox.com/developer/sdks/js/), you must host the sample app yourself. This allows you to customize the app as desired. The sample app has the following design, focusing primarily on the text chat features. For details about the one-to-one communication audio-video aspects of the design, see the [OpenTok One-to-One Communication Sample App](https://github.com/opentok/one-to-one-sample-apps).
+While TokBox hosts [OpenTok.js](https://tokbox.com/developer/sdks/js/), you must host the sample app yourself. This allows you to customize the app as desired. The sample app has the following design, focusing primarily on the text chat features. For details about the one-to-one communication audio-video aspects of the design, see the [OpenTok One-to-One Communication Sample App](../../one-to-one-sample-app).
 
 * **[accelerator-pack.js](./sample-app/public/js/components/accelerator-pack.js)**: The TokBox Common Accelerator Session Pack is a common layer that permits all accelerators to share the same OpenTok session, API Key and other related information, and is required whenever you use any of the OpenTok accelerators. This layer handles communication between the client and the components.
 
-* **[text-chat-acc-pack.js](./opentok.js-text-chat/dist/text-chat-acc-pack.js)**:  _(Available only in the Text Chat Accelerator Pack)._ Manages the client text chat UI views and events, builds and validates individual text chat messages, and makes the chat UI available for placement.
+* **text-chat-acc-pack.js**:  _(Available only in the Text Chat Accelerator Pack)._ Manages the client text chat UI views and events, builds and validates individual text chat messages, and makes the chat UI available for placement.
 
 * **[app.js](./sample-app/public/js/app.js)**: Stores the information required to configure the session and authorize the app to make requests to the backend server, manages the client connection to the OpenTok session, manages the UI responses to call events, and sets up and manages the local and remote media UI elements. 
 
@@ -140,7 +139,7 @@ The `TextChatAccPack` prototype defines a `_sendMessage()` function that extract
 ```
 
 
-The `TextChatAccPack` prototype defines an `onIncomingMessage()` event handler that handles the OpenTok signals for incoming messages. In this example, it uses the `ChatUI.getBubbleHtml()` method to render the received message:
+The `TextChatAccPack` prototype defines an `onIncomingMessage()` event handler that handles the OpenTok signals for incoming messages. In this example, it uses the `TextChatAccPack.getBubbleHtml()` method to render the received message:
 
 
 ```javascript

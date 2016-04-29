@@ -1,4 +1,4 @@
-![logo](../../../tokbox-logo.png)
+![logo](../../tokbox-logo.png)
 
 # OpenTok Text Chat Sample App for Android<br/>Version 0.9
 

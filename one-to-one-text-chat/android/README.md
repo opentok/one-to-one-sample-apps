@@ -102,7 +102,7 @@ _**NOTE:** The sample app contains logic used for logging. This is used to submi
 
 ### Class design
 
-The following classes represent the software design for this sample app, focusing primarily on the text chat features. For details about the one-to-one communication aspects of the design, see the [OpenTok One-to-One Communication Sample App](https://github.com/opentok/one-to-one-sample-apps).
+The following classes represent the software design for this sample app, focusing primarily on the text chat features. For details about the one-to-one communication aspects of the design, see the [OpenTok One-to-One Communication Sample App](../../one-to-one-sample-app).
 
 | Class        | Description  |
 | ------------- | ------------- |

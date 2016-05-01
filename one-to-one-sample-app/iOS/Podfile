@@ -5,6 +5,7 @@ inhibit_all_warnings!
 
 target 'OneToOneSample' do 
   pod 'OpenTok'
+  pod 'OTAcceleratorPackUtil'
   pod 'SVProgressHUD'
 end
 

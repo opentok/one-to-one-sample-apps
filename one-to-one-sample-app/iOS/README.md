@@ -48,7 +48,8 @@ There are two ways to add the frameworks you need. You can add them quickly usin
 
 #### Using CocoaPods
 
-1. In a terminal prompt, navigate into your project directory and type `pod install`.
+1. Add the following line to your Podfile: `pod "OTAcceleratorPackUtil”`.
+2. In a terminal prompt, navigate into your project directory and type `pod install`.
 3. Reopen your project using the new *.xcworkspace file.
 
 For more information about CocoaPods, including installation instructions, visit [CocoaPods Getting Started](https://guides.cocoapods.org/using/getting-started.html#getting-started).

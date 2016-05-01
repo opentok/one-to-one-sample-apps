@@ -48,7 +48,7 @@ There are two ways to add the frameworks you need. You can add them quickly usin
 
 #### Using CocoaPods
 
-1. Add the following line to your Podfile: `pod "OTAcceleratorPackUtil"`.
+1. Add the following line to your Podfile: `pod "OTAcceleratorPackUtil"`. As an alternative, you can directly retrieve `OTAcceleratorSession` from [acc-pack-common](https://github.com/opentok/acc-pack-common).
 2. In a terminal prompt, navigate into your project directory and type `pod install`.
 3. Reopen your project using the new *.xcworkspace file.
 

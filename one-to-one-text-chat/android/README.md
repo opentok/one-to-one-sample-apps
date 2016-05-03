@@ -58,19 +58,23 @@ compile project(':opentok-android-accelerator-pack-1.0')
 
 #### Using Maven
 
-1. Modify the **build.gradle** for your solution and add the following code snippet to the section labeled 'repositories’:
+<ol>
+
+<li>Modify the **build.gradle** for your solution and add the following code snippet to the section labeled 'repositories’:
 
 ```
 maven { url  "http://tokbox.bintray.com/maven" }
 ```
+</li>
 
-
-2. Modify the **build.gradle** for your activity and add the following code snippet to the section labeled 'dependencies’: 
+<li>Modify the **build.gradle** for your activity and add the following code snippet to the section labeled 'dependencies’: 
 
 ```
 compile 'com.opentok.android:opentok-android-accelerator-pack:1.0'
 ```
+</li>
 
+</ol>
 
 
 <h3 id=addlibrary> Adding the OpenTok Text Chat Accelerator Pack library</h3>

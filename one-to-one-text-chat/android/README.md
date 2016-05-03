@@ -65,6 +65,7 @@ compile project(':opentok-android-accelerator-pack-1.0')
 ```
 maven { url  "http://tokbox.bintray.com/maven" }
 ```
+
 </li>
 
 <li>Modify the **build.gradle** for your activity and add the following code snippet to the section labeled 'dependencies’: 
@@ -72,6 +73,7 @@ maven { url  "http://tokbox.bintray.com/maven" }
 ```
 compile 'com.opentok.android:opentok-android-accelerator-pack:1.0'
 ```
+
 </li>
 
 </ol>

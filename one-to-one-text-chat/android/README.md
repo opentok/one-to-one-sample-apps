@@ -166,18 +166,23 @@ The following `TextChatFragment` methods are used to initialize the app and prov
 | Set the listener object to monitor state changes.   | `setListener()` |
 
 
-For example, the following private method instantiates a `TextChatFragment` object, setting the maximum message length to 1050 characters.
+For example, the following private method instantiates a `TextChatFragment` object
 
 ```java
     private void initTextChatFragment(){
-        mTextChatFragment = new TextChatFragment(mComm.getSession());
-        mTextChatFragment.setMaxTextLength(1050);
-        mTextChatFragment.setSenderAlias("user1");
-        mTextChatFragment.setListener(this);
+        mTextChatFragment = TextChatFragment.newInstance(mComm.getSession(), OpenTokConfig.API_KEY);
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.textchat_fragment_container, mTextChatFragment).commit();
     }
+```
+
+and for setting the maximum message length to 1050 characters, or a new sender alias
+
+```java
+mTextChatFragment.setMaxTextLength(1050);
+            mTextChatFragment.setSenderAlias("Tokboxer");
+            mTextChatFragment.setListener(this);
 ```
 
 

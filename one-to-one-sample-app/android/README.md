@@ -1,8 +1,8 @@
 ![logo](../../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for Android<br/>Version 1.0
+# OpenTok Text Chat Sample App for Android<br/>Version 0.9
 
-This document describes how to use the OpenTok One-to-One Communication Sample App for Android. You will learn best practices for managing the audio, video, and camera elements on an Android mobile device. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
+This document describes how to use the OpenTok Text Chat Accelerator Pack for Android. Through the exploration of the OpenTok Text Chat Sample App, you will learn best practices for exchanging text messages on an Android mobile device.  
 
 You can configure and run this sample app within just a few minutes!
 
@@ -11,16 +11,17 @@ This guide has the following sections:
 
 * [Prerequisites](#prerequisites): A checklist of everything you need to get started.
 * [Quick start](#quick-start): A step-by-step tutorial to help you quickly import and run the sample app.
-* [Exploring the code](#exploring-the-code): This describes the sample app code design, which uses recommended best practices to implement the one-to-one communication features. 
+* [Exploring the code](#exploring-the-code): This describes the sample app code design, which uses recommended best practices to implement the text chat features. 
 
 ## Prerequisites
 
-To be prepared to develop your one-to-one communication app:
+To be prepared to develop your text chat app:
 
-1. Install [Android Studio](http://developer.android.com/intl/es/sdk/index.html)
-2. Download the [OpenTok Android SDK](https://tokbox.com/developer/sdks/android/). **OpenTok Android SDK version 2.7.x** is required for this sample app.
-3. Review the [OpenTok Android SDK Requirements](https://tokbox.com/developer/sdks/android/#developerandclientrequirements)
-4. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
+1. Install [Android Studio](http://developer.android.com/intl/es/sdk/index.html).
+2. Download the TokBox Common Accelerator Session Pack provided by TokBox.
+3. Download the **Text Chat Accelerator Pack AAR** file provided by TokBox.
+4. Review the [OpenTok Android SDK Requirements](https://tokbox.com/developer/sdks/android/#developerandclientrequirements).
+5. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
 
 _**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample program. For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
 
@@ -29,32 +30,52 @@ _**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample
 To get up and running quickly with your app, go through the following steps in the tutorial provided below:
 
 1. [Importing the Android Studio Project](#importing-the-android-studio-project)
-2. [Adding the OpenTok SDK](#adding-the-opentok-sdk)
-3. [Configuring the App](#configuring-the-app)
+2. [Adding the TokBox Common Accelerator Session Pack](#addaccpackcommon)
+3. [Adding the OpenTok Text Chat Accelerator Pack library](#addlibrary)
+4. [Configuring the app](#configuring-the-app)
 
 To learn more about the best practices used to design this app, see [Exploring the code](#exploring-the-code).
 
 ### Importing the Android Studio project
 
-1. Clone the OpenTok One-to-One Communication Sample App repository.
+1. Clone the OpenTok Text Chat Sample App repository.
 2. Start Android Studio. 
 3. In the **Quick Start** panel, click **Open an existing Android Studio Project**.
-4. Navigate to the **android** folder, select the **OnetoOneSample** folder, and click **Choose**.
+4. Navigate to the **android** folder, select the **TextChatSample** folder, and click **Choose**.
+
+<h3 id=addaccpackcommon>Adding the TokBox Common Accelerator Session Pack</h3>
+
+You can add the TokBox Common Accelerator Session Pack either by using the repository or using Maven.
+
+#### Using the repository
+
+1. Right-click the app name and select **New > Module > Import Gradle Project**.
+2. Navigate to the directory in which you cloned **TokBox Common Accelerator Session Pack**, select **android-acc-pack**, and click **Finish**.
+3. Open the **build.gradle** file for the app and ensure the following lines have been added to the `dependencies` section:
+```
+compile project(':opentok-android-accelerator-pack-1.0')
+```
+
+#### Using Maven
+
+1. Modify build.gradle for your solution and add the following code snippet to the section labeled 'repositories'
+
+```
+maven { url  "http://tokbox.bintray.com/maven" }
+```
+
+2. Modify build.gradle for your activity and add the following code snippet to the section labeled 'dependencies'
+```
+compile 'com.opentok.android:opentok-android-accelerator-pack:1.0'
+```
 
 
-### Adding the OpenTok SDK
 
-To add the OpenTok SDK to your project, unzip the file containing OpenTok SDK that you downloaded earlier (see [Prerequisites](#prerequisites)), and expand the folders. 
+<h3 id=addlibrary> Adding the OpenTok Text Chat Accelerator Pack library</h3>
+1.  Right-click the app name and select **Open Module Settings** and click **+**.
+2.  Select **Import .JAR/.AAR Package** and click  **Next**.
+3.  Browse to the **Text Chat Accelerator Pack library AAR** and click **Finish**.
 
-The **libs** folder contains a JAR file (**opentok-android-sdk-n.n.n.jar**, where **n.n.n** indicates the current SDK version) and several subfolders (**armeabi, armeabi-v71, x86**).
-
-Follow these steps to add these to your project:
-
-1.  Select the **Project** view.  
-2.  Right-click the **app** directory, select **New > Directory**, enter **libs** as the directory name, and click **OK**.
-3.  Drag the JAR file to the **app/libs** directory you just created.  Then right-click the JAR file and select **Add as library**.
-4.  Right-click the **app/src/main** directory, select **New > Directory**, enter **jniLibs** as the directory name, and click **OK**.
-5.  Drag the **armeabi**, **armeabi-v71**, and **x86** directories into the new **jniLibs** directory.
 
 
 ### Configuring the app
@@ -64,131 +85,153 @@ Now you are ready to add the configuration detail to your app. These will includ
 In **OpenTokConfig.java**, replace the following empty strings with the required detail:
 
 
-   ```java
-    // Replace with a generated Session ID
-    public static final String SESSION_ID = "";
+```java
+// Replace with a generated Session ID
+public static final String SESSION_ID = "";
 
-    // Replace with a generated token
-    public static final String TOKEN = "";
+// Replace with a generated token
+public static final String TOKEN = "";
 
-    // Replace with your OpenTok API key
-    public static final String API_KEY = "";
-   ```
+// Replace with your OpenTok API key
+public static final String API_KEY = "";
+```
 
 
 You may also set the `SUBSCRIBE_TO_SELF` constant. Its default value, `false`, means that the app subscribes automatically to the other client’s stream. This is required to establish communication between two streams using the same Session ID:
 
-   ```java
-    public static final boolean SUBSCRIBE_TO_SELF = false;
-   ```
+```java
+public static final boolean SUBSCRIBE_TO_SELF = false;
+```
 
 _At this point you can try running the app! You can either use a simulator or an actual mobile device._
 
 
 ## Exploring the code
 
-This section describes how the sample app code design uses recommended best practices to implement the one-to-one communication features. 
+This section describes how the sample app code design uses recommended best practices to deploy the text chat communication features. The sample app design extends the [OpenTok One-to-One Communication Sample App](../../one-to-one-sample-app) by adding logic using the `com.tokbox.android.textchat` classes.
 
 For detail about the APIs used to develop this sample, see the [OpenTok Android SDK Reference](https://tokbox.com/developer/sdks/android/reference/) and [Android API Reference](http://developer.android.com/reference/packages.html).
 
   - [Class design](#class-design)
-  - [Session and stream management](#session-and-stream-management)
+  - [Text Chat Accelerator Pack](#text-chat-accelerator-pack)
   - [User interface](#user-interface)
-  - [Audio, video, camera](#audio-video-camera)
 
 _**NOTE:** The sample app contains logic used for logging. This is used to submit anonymous usage data for internal TokBox purposes only. We request that you do not modify or remove any logging code in your use of this sample application._
 
 ### Class design
 
-The following classes represent the software design for this sample app.
+The following classes represent the software design for this sample app, focusing primarily on the text chat features. For details about the one-to-one communication aspects of the design, see the [OpenTok One-to-One Communication Sample App](../../one-to-one-sample-app).
 
 | Class        | Description  |
 | ------------- | ------------- |
-| `MainActivity`    | Implements the UI and media control callbacks. |
-| `OpenTokConfig`   | Stores the information required to configure the session and authorize the app to make requests to the backend server.   |
-| `OneToOneCommunication`   | Uses the OpenTok API to initiate the client connection to the OpenTok session and manage the audio and video streams. |
-| `OneToOneCommunication.Listener`   | Provides a bridge between the OpenTok communication logic and the UI, allowing you to customize the UI for events that are fired. |
-| `PreviewControlFragment`   | Manages the toolbar for the local audio and video controls, and the start/end call button. |
-| `RemoteControlFragment`   | Manages the icons to enable/disable the audio and video of the remote subscriber. |
-| `PreviewCameraFragment `   | Manages the camera control. |
+| `MainActivity`    | Implements the sample app UI and text chat callbacks. |
+| `OpenTokConfig`   | Stores the information required to configure the session and connect to the cloud.   |
+| `TextChatFragment`   | Provides the initializers and methods for the client text chat UI views. |
+| `TextChatFragment.TextChatListener`   | Monitors both receiving and sending activity. For example, a message is successfully sent, or a message is sent with a code in the event of an error. |
+| `ChatMessage`   | A data model describing information used in individual text chat messages. |
 
 
-### Session and stream management
+###  Text Chat Accelerator Pack
 
-The `OneToOneCommunication` class is the backbone of the one-to-one communication features for the app. 
+The `TextChatFragment` class is the backbone of the text chat communication features for the app. 
 
-This class uses the OpenTok API to initiate the client connection to the OpenTok session and manage the audio and video streams.
+This class, which inherits from the [`android.support.v4.app.Fragment`](http://developer.android.com/intl/es/reference/android/support/v4/app/Fragment.html) class, sets up the text chat UI views and events, sets up session listeners, and defines a listener interface that is implemented in this example by the `MainActivity` class.
 
 ```java
-public class OneToOneCommunication implements
-        Session.SessionListener, 
-        Publisher.PublisherListener, 
-        Subscriber.SubscriberListener, 
-        Subscriber.VideoListener {
-   . . .
+public class TextChatFragment extends Fragment implements AccPackSession.SignalListener, AccPackSession.SessionListener {
+
+    . . .
+
 }
 ```
 
-#### Interfaces implemented by the class
+The `TextChatListener` interface monitors state changes in the `TextChatFragment`, and defines the following methods:
 
-The `OneToOneCommunication` class implements the interfaces described in the following table. See their descriptions in the [OpenTok Android SDK Reference](https://tokbox.com/developer/sdks/android/reference/) for information about the methods required to implement them. 
+```java
+public interface TextChatListener {
+
+        void onNewSentMessage(ChatMessage message);
+        void onNewReceivedMessage(ChatMessage message);
+        void onTextChatError(String error);
+        void onClose();
+}
+```
 
 
-| Interface        | Description  |
-| ------------- | ------------- |
-| [`Session.SessionListener`](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/Session.SessionListener.html)   | Monitors session state, handling client connections and stream events. |
-| [`Publisher.PublisherListener`](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/PublisherKit.PublisherListener.html)      | Monitors publisher stream events.  |
-| [`Subscriber.SubscriberListener`](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/SubscriberKit.SubscriberListener.html) | Monitors subscriber events.  |
-| [`Subscriber.VideoListener`](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/SubscriberKit.VideoListener.html) | Monitors subscriber video events.  |
 
 
-#### Methods
+#### Initialization methods
 
-The following `OneToOneCommunication` methods are used for session and stream management, and in most cases are required by the interfaces implemented by the class.
+The following `TextChatFragment` methods are used to initialize the app and provide basic information determining the behavior of the text chat functionality.
 
 | Feature        | Methods  |
 | ------------- | ------------- |
-| Manage the session connections.   | `start()`, `end()`, `isStarted()`, `onConnected()`, `onDisconnected()`, `isRemote()`  |
-| Manage the subscription streams.  | `onStreamCreated()`, `onStreamDestroyed()`, `onStreamReceived()`, `onStreamDropped()`  |
-| Manage audio events.              | `getLocalAudio()`, `getRemoteAudio()` |
-| Manage video events.              | `getLocalVideo()`, `getRemoteVideo()`, `onVideoDataReceived()`,`onVideoEnabled()`, `onVideoDisableWarning()`, `onVideoDisableWarningLifted()` |
-| Manage camera events.              | `swapCamera()` |
+| Set the maximum chat text length.   | `setMaxTextLength()`  |
+| Set the sender alias of the outgoing messages.  | `setSenderAlias()`  |
+| Set the listener object to monitor state changes.   | `setListener()` |
 
+
+For example, the following private method instantiates a `TextChatFragment` object:
+
+```java
+    private void initTextChatFragment(){
+        mTextChatFragment = TextChatFragment.newInstance(mComm.getSession(), OpenTokConfig.API_KEY);
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.textchat_fragment_container, mTextChatFragment).commit();
+    }
+```
+
+
+This line of code illustrates how to set the maximum message length to 1050 characters and set a new sender alias:
+
+```java
+mTextChatFragment.setMaxTextLength(1050);
+            mTextChatFragment.setSenderAlias("Tokboxer");
+            mTextChatFragment.setListener(this);
+```
+
+
+#### Sending and receiving messages
+
+By implementing the `TextChatFragment.TextChatListener` interface, the `MainActivity` class defines methods that monitor both receiving and sending activity. For example, a message is successfully sent, or a message is sent with a code in the event of an error. 
+
+The method implementations shown below use the `ChatMessage` object to send and receive messages. 
+
+The `onNewSentMessage()` method uses the [OpenTok signaling API](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/Session.html#sendSignal(java.lang.String,%20java.lang.String)) to send an individual chat message to the other client connected to the OpenTok session.
+
+The `onNewReceivedMessage()` method uses the `ChatMessage` object to build and display the individual chat message received from the other client.
+
+
+```java
+    @Override
+    public void onNewSentMessage(ChatMessage message) {
+        Log.i(LOG_TAG, "New sent message");
+    }
+
+    @Override
+    public void onNewReceivedMessage(ChatMessage message) {
+        Log.i(LOG_TAG, "New received message");
+    }
+```
 
 
 
 ### User interface
 
-As described in [Class design](#class-design), the following classes set up and manage the UI fragments for the local and remote controls:
+As described in [Class design](#class-design), the `TextChatFragment` class sets up and manages the UI views, events, and rendering for the chat text controls:
 
-   - `PreviewControlFragment`
-   - `RemoteControlFragment`
-   - `PreviewCameraFragment`
+   - `TextChatFragment`
 
 
-These classes work with the following `MainActivity` methods, which manage the views as the publisher and subscriber participate in the session.
+This class works with the following `MainActivity` methods, which manage the views as both clients participate in the session.
 
 | Feature        | Methods  |
 | ------------- | ------------- |
 | Manage the UI containers. | `onCreate()`  |
 | Reload the UI views whenever the device [configuration](http://developer.android.com/reference/android/content/res/Configuration.html), such as screen size or orientation, changes. | `onConfigurationChanged()`  |
-| Manage the UI for local and remote controls. | `onDisableLocalAudio()`, `onDisableLocalVideo()`, `onCall()`, `onDisableRemoteAudio()`, `onDisableRemoteVideo()`, `showRemoteControlBar()`, `onCameraSwap()` |
-
-You can also create custom UI responses to OpenTok events fired in your implementation of the `OneToOneCommunication.Listener` interface. For example, if a communication error occurs, you can develop and display a custom alert in the `MainActivity` class.
-
-
-
-### Audio, video, camera
-
-The following `OneToOneCommunication` methods are used to manage the local and remote media devices.
-
-| Feature        | Methods  |
-| ------------- | ------------- |
-|  Enable and disable local audio and video.  | `enableLocalMedia(MediaType, boolean)`<br/> `MediaType ` is `AUDIO` or `VIDEO`<br/>`true` (enabled) or `false` (disabled) |
-|  Enable and disable remote audio and video.  | `enableRemoteMedia(MediaType, boolean)`<br/> `MediaType ` is `AUDIO` or `VIDEO`<br/>`true` (enabled) or `false` (disabled) |
-|  Swap between multiple cameras on a device (normal and selfie modes).  | `swapCamera()` |
-
-
+| Opens and closes the text chat view. | `onTextChat()` |
+| Manage the customizable views for the action bar and messages.   | `getSendMessageView()`, `setSendMessageView()`, `getActionBar()`,  `setActionBar()`|
 
 
 

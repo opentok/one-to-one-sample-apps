@@ -44,13 +44,26 @@ To learn more about the best practices used to design this app, see [Exploring t
 4. Navigate to the **android** folder, select the **TextChatSample** folder, and click **Choose**.
 
 <h3 id=addaccpackcommon>Adding the TokBox Common Accelerator Session Pack</h3>
+
+Using the repository
+
 1. Right-click the app name and select **New > Module > Import Gradle Project**.
 2. Navigate to the directory in which you cloned **TokBox Common Accelerator Session Pack**, select **android-acc-pack**, and click **Finish**.
 3. Open the **build.gradle** file for the app and ensure the following lines have been added to the `dependencies` section:
 ```
-compile project(':android-acc-pack')
-compile project(':opentok-text-chat-acc-pack-1.0')
+compile project(':opentok-android-accelerator-pack-1.0')
 ```
+Using Maven
+
+1. Modify build.gradle for your solution and add the following code snippet to the section labeled 'repositories'
+```
+maven { url  "http://tokbox.bintray.com/maven" }
+```
+2. Modify build.gradle for your activity and add the following code snippet to the section labeled 'dependencies'
+```
+compile 'com.opentok.android:opentok-android-accelerator-pack:1.0'
+```
+
 
 
 <h3 id=addlibrary> Adding the OpenTok Text Chat Accelerator Pack library</h3>
@@ -136,8 +149,6 @@ public interface TextChatListener {
         void onNewReceivedMessage(ChatMessage message);
         void onTextChatError(String error);
         void onClose();
-        void onMinimize();
-        void onMaximize();
 }
 ```
 

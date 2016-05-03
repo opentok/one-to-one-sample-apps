@@ -45,7 +45,9 @@ To learn more about the best practices used to design this app, see [Exploring t
 
 <h3 id=addaccpackcommon>Adding the TokBox Common Accelerator Session Pack</h3>
 
-Using the repository
+You can add the TokBox Common Accelerator Session Pack either by using the repository or using Maven.
+
+#### Using the repository
 
 1. Right-click the app name and select **New > Module > Import Gradle Project**.
 2. Navigate to the directory in which you cloned **TokBox Common Accelerator Session Pack**, select **android-acc-pack**, and click **Finish**.
@@ -53,17 +55,29 @@ Using the repository
 ```
 compile project(':opentok-android-accelerator-pack-1.0')
 ```
-Using Maven
 
-1. Modify build.gradle for your solution and add the following code snippet to the section labeled 'repositories'
-```
+#### Using Maven
+
+<ol>
+
+<li>Modify the **build.gradle** for your solution and add the following code snippet to the section labeled 'repositories’:
+
+<code>
 maven { url  "http://tokbox.bintray.com/maven" }
-```
-2. Modify build.gradle for your activity and add the following code snippet to the section labeled 'dependencies'
-```
-compile 'com.opentok.android:opentok-android-accelerator-pack:1.0'
-```
+</code>
 
+</li>
+
+<li>Modify the **build.gradle** for your activity and add the following code snippet to the section labeled 'dependencies’: 
+
+
+<code>
+compile 'com.opentok.android:opentok-android-accelerator-pack:1.0'
+</code>
+
+</li>
+
+</ol>
 
 
 <h3 id=addlibrary> Adding the OpenTok Text Chat Accelerator Pack library</h3>
@@ -166,7 +180,7 @@ The following `TextChatFragment` methods are used to initialize the app and prov
 | Set the listener object to monitor state changes.   | `setListener()` |
 
 
-For example, the following private method instantiates a `TextChatFragment` object
+For example, the following private method instantiates a `TextChatFragment` object:
 
 ```java
     private void initTextChatFragment(){
@@ -177,7 +191,8 @@ For example, the following private method instantiates a `TextChatFragment` obje
     }
 ```
 
-and for setting the maximum message length to 1050 characters, or a new sender alias
+
+This line of code illustrates how to set the maximum message length to 1050 characters and set a new sender alias:
 
 ```java
 mTextChatFragment.setMaxTextLength(1050);

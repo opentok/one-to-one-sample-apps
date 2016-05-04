@@ -34,3 +34,10 @@ The JSON used when using the OpenTok signaling API with the OpenTok Text Chat co
   }
 }
 ```
+
+This formatted JSON is converted to a string, which is submitted to the OpenTok signaling API. For more information, see:
+
+  - [Signaling - JavaScript](https://tokbox.com/developer/guides/signaling/js/)
+  - [Signaling - iOS](https://tokbox.com/developer/guides/signaling/ios/)
+  - [Signaling - Android](https://tokbox.com/developer/guides/signaling/android/) 
+

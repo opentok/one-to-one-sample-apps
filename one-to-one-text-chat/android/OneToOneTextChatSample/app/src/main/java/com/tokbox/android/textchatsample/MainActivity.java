@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
         mProgressDialog.dismiss();
         if ( mTextChatFragment != null ) {
             //Init TextChat values
-            mTextChatFragment.setMaxTextLength(1050);
+            mTextChatFragment.setMaxTextLength(20);
             mTextChatFragment.setSenderAlias("Tokboxer");
             mTextChatFragment.setListener(this);
         }

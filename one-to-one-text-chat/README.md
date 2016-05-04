@@ -19,3 +19,18 @@ To get started with your development, visit the following sites:
 
 _**NOTE:** The Text Chat Sample App requires a **Session ID**, **Token**, and **API Key**. In the samples, you can get these values at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/). For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
 
+
+## JSON Requirements for Text Chat Signaling
+
+The JSON used when using the OpenTok signaling API with the OpenTok Text Chat component describes the information used when submitting a chat message. This information includes the date, chat message text, sender alias, and sender ID. The JSON is formatted as shown in this example:
+
+```json
+{
+  "sentOn" : 1462396461923.305, 
+  "text" : "Hi, there", 
+  "sender" : { 
+    "alias" : "Tokboxer", 
+    "id" : "16FEB40D-C09B-4491-A983-44677B7EBB3E"
+  }
+}
+```

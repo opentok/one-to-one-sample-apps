@@ -27,7 +27,7 @@ The JSON used when using the OpenTok signaling API with the OpenTok Text Chat co
 ```json
 {
   "sentOn" : 1462396461923.305, 
-  "text" : "Hi, there", 
+  "text" : "Hi", 
   "sender" : { 
     "alias" : "Tokboxer", 
     "id" : "16FEB40D-C09B-4491-A983-44677B7EBB3E"

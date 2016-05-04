@@ -14,10 +14,9 @@ xcuserdata
 profile
 *.moved-aside
 DerivedData
+*.xcdatamodeld
 .idea/
 # Pods - for those of you who use CocoaPods
 Pods
 
-/TextChatComponent/*.framework
-*.framework
-
+iOS/SampleApp.xcodeproj/project.*

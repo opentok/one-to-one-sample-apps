@@ -114,7 +114,7 @@ _textChat = new TextChatAccPack(
 
 #### Sending and receiving messages
 
-The `TextChatAccPack` prototype defines a `_sendMessage()` function that extracts the string entered into the composer view’s message box and sends it to the recipient. In this example, it uses the [OpenTok signaling API](https://tokbox.com/developer/sdks/js/reference/Session.html#signal) to send an individual chat message to the other client connected to the OpenTok session.
+The `TextChatAccPack` prototype defines a `_sendMessage()` function that extracts the string entered into the composer view’s message box and sends it to the recipient. In this example, it uses the [OpenTok signaling API](https://tokbox.com/developer/sdks/js/reference/Session.html#signal) to send an individual chat message to the other client connected to the OpenTok session. Note that the `sentOn` property in the message data is formatted as a timestamp or epoch.
 
 ```javascript
   var _sendMessage = function (recipient, message) {

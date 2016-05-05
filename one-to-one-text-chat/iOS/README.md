@@ -18,7 +18,7 @@ This guide has the following sections:
 To be prepared to develop your text chat app:
 
 1. Install Xcode version 5 or later.
-2. Download the [TokBox Common Accelerator Session Pack](https://github.com/opentok/acc-pack-common).
+2. Download the TokBox Common Accelerator Session Pack provided by TokBox.
 3. Download the **Text Chat Accelerator Pack framework** provided by TokBox.
 4. Review the [OpenTok iOS SDK Requirements](https://tokbox.com/developer/sdks/ios/).
 5. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
@@ -80,7 +80,7 @@ _At this point you can try running the app! You can either use a simulator or an
 
 ## Exploring the code
 
-This section describes how the sample app code design uses recommended best practices to deploy the text chat communication features. The sample app design extends the [OpenTok One-to-One Communication Sample App](https://github.com/opentok/one-to-one-sample-apps) by adding logic using the classes in the `TextChatKit` framework.
+This section describes how the sample app code design uses recommended best practices to deploy the text chat communication features. The sample app design extends the [OpenTok One-to-One Communication Sample App](../../one-to-one-sample-app) by adding logic using the classes in the `TextChatKit` framework.
 
 For detail about the APIs used to develop this sample, see the [OpenTok iOS SDK Reference](https://tokbox.com/developer/sdks/ios/reference/).
 
@@ -92,7 +92,7 @@ _**NOTE:** The sample app contains logic used for logging. This is used to submi
 
 ### App design
 
-The following classes, interfaces, and protocols represent the software design for this sample app, focusing primarily on the text chat features. For details about the one-to-one communication aspects of the design, see the [OpenTok One-to-One Communication Sample App](https://github.com/opentok/one-to-one-sample-apps).
+The following classes, interfaces, and protocols represent the software design for this sample app, focusing primarily on the text chat features. For details about the one-to-one communication aspects of the design, see the [OpenTok One-to-One Communication Sample App](../../one-to-one-sample-app).
 
 | Class        | Description  |
 | ------------- | ------------- |

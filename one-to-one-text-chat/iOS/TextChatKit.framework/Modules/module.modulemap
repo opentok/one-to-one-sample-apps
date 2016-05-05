@@ -1,0 +1,6 @@
+framework module TextChatKit {
+  umbrella header "TextChatKit.h"
+
+  export *
+  module * { export * }
+}

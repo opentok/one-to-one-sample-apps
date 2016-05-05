@@ -1,0 +1,169 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    box-sizing: border-box;
+}
+
+.hidden {
+    display: none;
+}
+
+.main-container {
+    width: 90vw;
+    height: 90vh;
+    min-width: 720px;
+    min-height: calc(720px/(1024/760));
+    margin: 35px auto;
+    border: 1px solid rgba(87, 193, 228, .85);
+    padding: 15px;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.video-wrap {
+    border-radius: 6px;
+    overflow: hidden;
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+}
+
+.video-background {
+    background-image: url("../images/background.png");
+    background-size: contain;
+}
+
+.primary-video {
+    width: 100%;
+    height: 100%;
+}
+
+.local-controls {
+    height: 60px;
+    width: 100%;
+    background-image: url("../images/control-bar.png");
+    background-size: contain;
+    position: absolute;
+    bottom: 0;
+    border-radius: 0 0 6px 6px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.secondary-video {
+    position: absolute;
+    bottom: 75px;
+    right: 30px;
+    width: 174px;
+    height: 150px;
+    z-index: 11;
+}
+
+.secondary-video.active {
+    border: 1px solid rgba(255, 255, 255, .8);
+}
+
+.remote-controls {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    z-index: 12;
+}
+
+.video-control {
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.video-control.circle {
+    border: 1px solid rgba(128, 128, 128, .5);
+    border-radius: 50%;
+}
+
+.video-control.circle:hover {
+    border: 1px solid rgba(128, 128, 128, 1);
+}
+
+.video-control.call {
+    background-color: rgba(87, 193, 228, .85);
+    background-image: url("../images/call.png");
+    margin: 0 15px;
+}
+
+.video-control.call:hover {
+    background-color: rgba(87, 193, 228, 1);
+}
+
+.video-control.call.active {
+    background-color: red;
+    background-image: url("../images/hang-up.png");
+}
+/**/
+
+.video-control.text-chat {
+  margin-left: 10px;
+  background-image: url("../images/message.png");
+}
+
+.video-control.text-chat.disabled,
+.video-control.text-chat:hover {
+  background-image: url("../images/message.png");
+  background-color: brown;
+}
+.video-control.text-chat.active {
+  background-color: brown;
+  background-image: url("../images/message.png");
+}
+/**/
+.video-control.video {
+    background-image: url("../images/video-icon.png");
+}
+
+.video-control.video.disabled,
+.video-control.video:hover {
+    background-image: url("../images/no-video-icon.png");
+}
+
+.video-control.audio {
+    background-image: url("../images/audio.png");
+}
+
+.video-control.audio.disabled,
+.video-control.audio:hover {
+    background-image: url("../images/no-audio.png");
+}
+
+.video-control.microphone {
+    background-image: url("../images/mic.png");
+}
+
+.video-control.microphone.disabled,
+.video-control.microphone:hover {
+    background-image: url("../images/muted-mic.png");
+}
+
+/* Text chat styles */
+
+.wms-widget-wrapper {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline
+}

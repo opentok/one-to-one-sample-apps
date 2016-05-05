@@ -21,6 +21,7 @@ NSString *const kLoggingUrl = @"https://hlg.tokbox.com/prod/logging/ClientEvent"
 @property (nonatomic) NSString *connectionId;
 @property (nonatomic) NSInteger partnerId;
 @property (nonatomic) NSString *clientVersion;
+@property (nonatomic) NSString *source;
 @property (nonatomic) NSString *action;
 @property (nonatomic) NSString *variation;
 
@@ -37,7 +38,11 @@ NSString *const kLoggingUrl = @"https://hlg.tokbox.com/prod/logging/ClientEvent"
 
 @implementation OTKAnalytics
 
--(instancetype)initWithSessionId:(NSString*) sessionId connectionId:(NSString*) connectionId partnerId:(NSInteger) partnerId clientVersion:(NSString*) clientVersion {
+-(instancetype)initWithSessionId:(NSString*)sessionId
+                    connectionId:(NSString*)connectionId
+                       partnerId:(NSInteger) partnerId
+                   clientVersion:(NSString*) clientVersion
+                          source:(NSString*) source {
     
     if ( sessionId == nil || [ sessionId length ]==0 ) {
         NSLog (@"The sessionId field cannot be null in the log entry");
@@ -59,11 +64,17 @@ NSString *const kLoggingUrl = @"https://hlg.tokbox.com/prod/logging/ClientEvent"
         return nil;
     }
     
+    if ( source == nil || [ source length ]==0 ) {
+        NSLog (@"The source field cannot be null in the log entry");
+        return nil;
+    }
+    
     if (self = [super init]) {
         _sessionId = sessionId;
         _connectionId = connectionId;
         _partnerId = partnerId;
         _clientVersion = clientVersion;
+        _source = source;
         
         _logVersion = @"2";
         _guid = [[NSUUID UUID] UUIDString];
@@ -97,6 +108,7 @@ NSString *const kLoggingUrl = @"https://hlg.tokbox.com/prod/logging/ClientEvent"
                                  @"client" : _client,
                                  @"logVersion" : _logVersion,
                                  @"clientVersion" : _clientVersion,
+                                 @"source" : _source,
                                  @"clientSystemTime" : [NSNumber numberWithInteger:_clientSystemTime],
                                  @"guid" : _guid,
                                  @"deviceModel": _deviceModel,

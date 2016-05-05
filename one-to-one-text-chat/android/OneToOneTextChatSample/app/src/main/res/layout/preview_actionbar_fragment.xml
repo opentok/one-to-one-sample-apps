@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutPreviewActionBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/previewFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal">
+
+        <ImageButton
+            android:id="@+id/localVideo"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="14.1dp"
+            android:layout_toLeftOf="@+id/call"
+            android:background="@drawable/bckg_icon"
+            android:src="@drawable/video_icon" />
+
+        <ImageButton
+            android:id="@+id/call"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/initiate_call_button"
+            android:clickable="true"
+            android:src="@drawable/start_call" />
+
+        <ImageButton
+            android:id="@+id/localAudio"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14.1dp"
+            android:layout_toRightOf="@+id/call"
+            android:background="@drawable/bckg_icon"
+            android:src="@drawable/mic_icon" />
+
+        <ImageButton
+            android:id="@+id/textChat"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14.1dp"
+            android:layout_toRightOf="@+id/localAudio"
+            android:background="@drawable/bckg_icon"
+            android:src="@drawable/message" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

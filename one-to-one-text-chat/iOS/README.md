@@ -1,4 +1,4 @@
-![logo](../tokbox-logo.png)
+![logo](../../tokbox-logo.png)
 
 # OpenTok Text Chat Sample App for iOS<br/>Version 0.9
 

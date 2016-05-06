@@ -370,6 +370,10 @@ public class OneToOneCommunication implements
         isInitialized = false;
         isStarted = false;
         mPublisher = null;
+        mLocalAudio = true;
+        mLocalVideo = true;
+        mRemoteAudio = true;
+        mRemoteVideo = true;
         mStreams.clear();
         mSession = null;
     }
@@ -399,6 +403,12 @@ public class OneToOneCommunication implements
         if ( OpenTokConfig.SUBSCRIBE_TO_SELF && mSubscriber != null ) {
             unsubscribeFromStream(stream);
         }
+        //restart media status
+        mLocalAudio = true;
+        mLocalVideo = true;
+        mRemoteAudio = true;
+        mRemoteVideo = true;
+
         //add END_COMM success log event
         addLogEvent(OpenTokConfig.LOG_ACTION_END_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
     }

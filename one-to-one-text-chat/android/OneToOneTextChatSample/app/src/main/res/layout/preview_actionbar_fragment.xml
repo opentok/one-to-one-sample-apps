@@ -20,7 +20,6 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="14.1dp"
             android:layout_toLeftOf="@+id/call"
-            android:background="@drawable/bckg_icon"
             android:src="@drawable/video_icon" />
 
         <ImageButton
@@ -29,7 +28,6 @@
             android:layout_height="@dimen/icon_height"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/initiate_call_button"
             android:clickable="true"
             android:src="@drawable/start_call" />
 
@@ -40,7 +38,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="14.1dp"
             android:layout_toRightOf="@+id/call"
-            android:background="@drawable/bckg_icon"
             android:src="@drawable/mic_icon" />
 
         <ImageButton
@@ -50,7 +47,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="14.1dp"
             android:layout_toRightOf="@+id/localAudio"
-            android:background="@drawable/bckg_icon"
             android:src="@drawable/message" />
 
     </RelativeLayout>

@@ -1,6 +1,8 @@
 package com.tokbox.android.textchatsample.ui;
 
 import android.app.Activity;
+import android.graphics.drawable.VectorDrawable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Build;
@@ -30,6 +32,9 @@ public class PreviewControlFragment extends Fragment {
     private ImageButton mVideoBtn;
     private ImageButton mCallBtn;
     private ImageButton mTextChatBtn;
+    VectorDrawableCompat drawableStartCall;
+    VectorDrawableCompat drawableEndCall;
+    VectorDrawableCompat drawableBckBtn;
 
     private PreviewControlCallbacks mControlCallbacks = previewCallbacks;
 
@@ -113,6 +118,14 @@ public class PreviewControlFragment extends Fragment {
         mControlCallbacks = previewCallbacks;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Retain this fragment across configuration changes.
+        setRetainInstance(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -126,22 +139,29 @@ public class PreviewControlFragment extends Fragment {
         mCallBtn = (ImageButton) rootView.findViewById(R.id.call);
         mTextChatBtn = (ImageButton) rootView.findViewById(R.id.textChat);
 
+        drawableStartCall = VectorDrawableCompat.create(getResources(), R.drawable.initiate_call_button, null);
+        drawableEndCall = VectorDrawableCompat.create(getResources(), R.drawable.end_call_button, null);
+        drawableBckBtn = VectorDrawableCompat.create(getResources(), R.drawable.bckg_icon, null);
+
+        mTextChatBtn.setBackground(drawableBckBtn);
+
         mAudioBtn.setImageResource(mActivity.getComm().getLocalAudio()
                 ? R.drawable.mic_icon
                 : R.drawable.muted_mic_icon);
+        mAudioBtn.setBackground(drawableBckBtn);
 
         mVideoBtn.setImageResource(mActivity.getComm().getLocalVideo()
                 ? R.drawable.video_icon
                 : R.drawable.no_video_icon);
-
+        mVideoBtn.setBackground(drawableBckBtn);
 
         mCallBtn.setImageResource(mActivity.getComm().isStarted()
                 ? R.drawable.hang_up
                 : R.drawable.start_call);
 
-        mCallBtn.setBackgroundResource(mActivity.getComm().isStarted()
-                ? R.drawable.end_call_button
-                : R.drawable.initiate_call_button);
+        mCallBtn.setBackground(mActivity.getComm().isStarted()
+                ? drawableEndCall
+                : drawableStartCall);
 
         mCallBtn.setOnClickListener(mBtnClickListener);
 
@@ -174,10 +194,13 @@ public class PreviewControlFragment extends Fragment {
         mCallBtn.setImageResource(!mActivity.getComm().isStarted()
                 ? R.drawable.hang_up
                 : R.drawable.start_call);
-        mCallBtn.setBackgroundResource(!mActivity.getComm().isStarted()
-                ? R.drawable.end_call_button
-                : R.drawable.initiate_call_button);
-        mControlCallbacks.onCall();
+
+        mCallBtn.setBackground(!mActivity.getComm().isStarted()
+                ? drawableEndCall
+                : drawableStartCall);
+
+        if ( mControlCallbacks != null )
+            mControlCallbacks.onCall();
     }
 
     public void updateTextChat() {
@@ -202,7 +225,8 @@ public class PreviewControlFragment extends Fragment {
 
     public void restart() {
         setEnabled(false);
-        mCallBtn.setBackgroundResource(R.drawable.initiate_call_button);
+
+        mCallBtn.setBackground(drawableStartCall);
         mCallBtn.setImageResource(R.drawable.start_call);
 
     }

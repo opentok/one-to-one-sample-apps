@@ -193,6 +193,16 @@
     [self.textChatHolder setEnabled:status];
 }
 
+-(void) resetUIInterface {
+    [self buttonsStatusSetter: NO];
+    [self callHolderConnected];
+    [self subscriberMicUnmuted];
+    [self publisherMicUnmuted];
+    [self subscriberVideoConnected];
+    [self publisherVideoConnected];
+    
+}
+
 #pragma mark - private method
 -(void)addAttachedLayoutConstantsToSuperview:(UIView *)view {
     

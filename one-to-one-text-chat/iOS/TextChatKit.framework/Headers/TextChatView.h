@@ -7,6 +7,7 @@
 //
 
 #import <TextChatKit/TextChatUICustomizator.h>
+#import <TextChatKit/TextChat.h>
 
 typedef NS_ENUM(NSUInteger, TextChatViewEventSignal) {
     TextChatViewEventSignalDidSendMessage = 0,
@@ -15,7 +16,7 @@ typedef NS_ENUM(NSUInteger, TextChatViewEventSignal) {
     TextChatViewEventSignalDidDisconnect
 };
 
-typedef void (^TextChatViewEventBlock)(TextChatViewEventSignal signal, NSError *error);
+typedef void (^TextChatViewEventBlock)(TextChatViewEventSignal signal, TextChat *textChat, NSError *error);
 
 @class TextChatView;
 
@@ -31,15 +32,17 @@ typedef void (^TextChatViewEventBlock)(TextChatViewEventSignal signal, NSError *
  *  @param textChatView The text chat view object informing the delegate of this impending event.
  *  @param error An error object that text chat view is going to use when encountering an issue
  */
-- (void)textChatViewDidSendMessage:(TextChatView *)textChatView
-                             error:(NSError *)error;
+- (void)textChatView:(TextChatView *)textChatView
+     didSendtextChat:(TextChat *)textChat
+               error:(NSError *)error;
 
 /**
  *  Tells the delegate the text chat view finishes sending message with or without error
  *
  *  @param textChatView The text chat view object informing the delegate of this impending event.
  */
-- (void)textChatViewDidReceiveMessage:(TextChatView *)textChatView;
+- (void)textChatView:(TextChatView *)textChatView
+  didReceiveTextChat:(TextChat *)textChat;
 
 @optional
 

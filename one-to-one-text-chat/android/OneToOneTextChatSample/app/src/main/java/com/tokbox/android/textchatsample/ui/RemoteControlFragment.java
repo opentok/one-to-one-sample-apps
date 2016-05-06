@@ -89,6 +89,14 @@ public class RemoteControlFragment extends Fragment {
         mControlCallbacks = remoteCallbacks;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Retain this fragment across configuration changes.
+        setRetainInstance(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -145,6 +153,19 @@ public class RemoteControlFragment extends Fragment {
                 mContainer.setVisibility(View.INVISIBLE);
             }
         }, ANIMATION_DURATION);
+    }
+
+    public void setEnabled(boolean enabled) {
+        if (mVideoBtn != null && mAudioBtn != null) {
+            if (!enabled) {
+                mAudioBtn.setImageResource(R.drawable.audio);
+                mVideoBtn.setImageResource(R.drawable.video_icon);
+            }
+        }
+    }
+    public void restart() {
+        setEnabled(false);
+        mContainer.setVisibility(View.INVISIBLE);
     }
 
 }

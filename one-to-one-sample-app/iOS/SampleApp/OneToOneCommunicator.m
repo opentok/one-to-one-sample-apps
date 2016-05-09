@@ -11,7 +11,7 @@
 #import "OneToOneCommunicator.h"
 #import "OTKAnalytics.h"
 
-#import "OTAcceleratorSession.h"
+#import <OTAcceleratorPackUtil/OTAcceleratorPackUtil.h>
 
 @interface OneToOneCommunicator() <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
 @property (nonatomic) BOOL isCallEnabled;

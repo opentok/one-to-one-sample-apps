@@ -205,7 +205,7 @@ var app = (function() {
     _options.session = _acceleratorPack.getSession();
 
     _options.session.on({
-      connectionCreated: function (event) {
+      sessionConnected: function (event) {
         _communication = new Communication(_options);
         _communication.addLog(_options.actionInitialize, _options.variationAttempt);
         _communication.addLog(_options.actionInitialize, _options.variationSuccess);

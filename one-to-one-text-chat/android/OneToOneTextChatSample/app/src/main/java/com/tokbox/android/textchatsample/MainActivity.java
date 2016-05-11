@@ -289,25 +289,25 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
             } else {
                 preview.setBackground(null);
             }
-            if (!mComm.getLocalVideo()){
-                Log.i("marinas", "MARINAS LOCAL VIDEO FALSE");
-                onDisableLocalVideo(false);
-            }
+
             mPreviewViewContainer.addView(preview);
             mPreviewViewContainer.setLayoutParams(layoutParamsPreview);
+            if (!mComm.getLocalVideo()){
+                onDisableLocalVideo(false);
+            }
         }
     }
 
     @Override
     public void onRemoteViewReady(View remoteView) {
+        //update preview when a new participant joined to the communication
+        onPreviewReady(mPreviewViewContainer.getChildAt(0)); //main preview view
+        
         if (remoteView == null ){
             mRemoteViewContainer.removeAllViews();
             mRemoteViewContainer.setClickable(false);
         }
         else {
-            //update preview when a new participant joined to the communication
-            onPreviewReady(mPreviewViewContainer.getChildAt(0)); //main preview view
-
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                     this.getResources().getDisplayMetrics().widthPixels, this.getResources()
                     .getDisplayMetrics().heightPixels);

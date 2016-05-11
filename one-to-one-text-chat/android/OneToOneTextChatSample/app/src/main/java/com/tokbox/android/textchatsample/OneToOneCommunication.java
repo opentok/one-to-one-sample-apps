@@ -93,15 +93,19 @@ public class OneToOneCommunication implements
          * Invoked when the preview (publisher view) is ready to be added to the container.
          *
          * @param preview Indicates the publisher view.
+         *
+         * Indicates if the publisher view has to be added or removed
          */
-        void onPreviewReady(View preview);
+        void onPreviewReady(View preview, boolean added);
 
         /**
          * Invoked when the remote (subscriber view) is ready to be added to the container.
          *
          * @param remoteView Indicates the subscriber view.
+         *
+         * @param added Indicates if the subscriber view has to be added or removed
          */
-        void onRemoteViewReady(View remoteView);
+        void onRemoteViewReady(View remoteView, boolean added);
 
     }
 
@@ -158,15 +162,16 @@ public class OneToOneCommunication implements
 
         }
         if ( mPublisher != null ) {
+            onPreviewReady(mPublisher.getView(), false);
             mSession.unpublish(mPublisher);
             mPublisher = null;
         }
         if ( mSubscriber != null ) {
+            onRemoteViewReady(mSubscriber.getView(), false);
             mSession.unsubscribe(mSubscriber);
             mSubscriber = null;
         }
         isStarted = false;
-        restartViews();
     }
 
     /**
@@ -331,7 +336,7 @@ public class OneToOneCommunication implements
         if ( mStreams.size() > 0 ) {
             mStreams.remove(stream);
             isRemote = false;
-            onRemoteViewReady(null);
+            onRemoteViewReady(mSubscriber.getView(), false);
             if ( mSubscriber != null && mSubscriber.getStream().equals(stream) ) {
                 mSubscriber = null;
                 if ( !mStreams.isEmpty() ) {
@@ -344,14 +349,14 @@ public class OneToOneCommunication implements
     private void attachPublisherView() {
         mPublisher.setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
                 BaseVideoRenderer.STYLE_VIDEO_FILL);
-        onPreviewReady(mPublisher.getView());
+        onPreviewReady(mPublisher.getView(), true);
     }
 
     private void attachSubscriberView(Subscriber subscriber) {
         subscriber.setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
                 BaseVideoRenderer.STYLE_VIDEO_FILL);
         isRemote = true;
-        onRemoteViewReady(subscriber.getView());
+        onRemoteViewReady(subscriber.getView(), true);
     }
 
     private void setRemoteAudioOnly(boolean audioOnly) {
@@ -540,8 +545,12 @@ public class OneToOneCommunication implements
     }
 
     private void restartViews() {
-        onRemoteViewReady(null);
-        onPreviewReady(null);
+        if ( mSubscriber != null ){
+            onRemoteViewReady(mSubscriber.getView(), false);
+        }
+        if ( mPublisher != null ) {
+            onPreviewReady(mPublisher.getView(), false);
+        }
     }
 
     protected void onInitialized() {
@@ -571,15 +580,15 @@ public class OneToOneCommunication implements
         }
     }
 
-    protected void onPreviewReady(View preview) {
+    protected void onPreviewReady(View preview, boolean added) {
         if ( this.mListener != null ) {
-            this.mListener.onPreviewReady(preview);
+            this.mListener.onPreviewReady(preview, added);
         }
     }
 
-    protected void onRemoteViewReady(View remoteView) {
+    protected void onRemoteViewReady(View remoteView, boolean added) {
         if ( this.mListener != null ) {
-            this.mListener.onRemoteViewReady(remoteView);
+            this.mListener.onRemoteViewReady(remoteView, added);
         }
     }
 

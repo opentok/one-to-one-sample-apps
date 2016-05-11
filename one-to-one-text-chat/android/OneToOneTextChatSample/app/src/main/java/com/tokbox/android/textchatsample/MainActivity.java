@@ -268,13 +268,13 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     }
 
     @Override
-    public void onPreviewReady(View preview) {
-        mPreviewViewContainer.removeAllViews();
-        if (preview != null) {
+    public void onPreviewReady(View preview, boolean added) {
+        if (added) {
             layoutParamsPreview = new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
             if (mComm.isRemote()) {
+                mPreviewViewContainer.removeView(preview);
                 layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
                         RelativeLayout.TRUE);
                 layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,
@@ -289,25 +289,33 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
             } else {
                 preview.setBackground(null);
             }
-            if (!mComm.getLocalVideo()){
-                Log.i("marinas", "MARINAS LOCAL VIDEO FALSE");
-                onDisableLocalVideo(false);
-            }
             mPreviewViewContainer.addView(preview);
             mPreviewViewContainer.setLayoutParams(layoutParamsPreview);
+            if (!mComm.getLocalVideo()){
+                onDisableLocalVideo(false);
+            }
+        }
+        else {
+            mPreviewViewContainer.removeAllViews();
         }
     }
 
     @Override
-    public void onRemoteViewReady(View remoteView) {
-        if (remoteView == null ){
-            mRemoteViewContainer.removeAllViews();
+    public void onRemoteViewReady(View remoteView, boolean added) {
+        //update preview when a new participant joined to the communication
+        if (mPreviewViewContainer.getChildCount() > 0 ) {
+            onPreviewReady(mPreviewViewContainer.getChildAt(0), true); //main preview view
+        }
+        if (!added){
+            //clear and hide remote views
+            if ( mAudioOnlyView.getVisibility() == View.VISIBLE ){
+                mAudioOnlyView.setVisibility(View.GONE);
+            }
+            mRemoteViewContainer.removeView(remoteView);
             mRemoteViewContainer.setClickable(false);
         }
         else {
-            //update preview when a new participant joined to the communication
-            onPreviewReady(mPreviewViewContainer.getChildAt(0)); //main preview view
-
+            //show remote view
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                     this.getResources().getDisplayMetrics().widthPixels, this.getResources()
                     .getDisplayMetrics().heightPixels);

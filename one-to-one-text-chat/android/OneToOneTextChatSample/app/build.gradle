@@ -21,13 +21,7 @@ android {
     }
 
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/ASL2.0'
-        exclude 'META-INF/notice.txt'
     }
 
     lintOptions {
@@ -43,4 +37,5 @@ dependencies {
     compile 'com.android.support:design:23.2.0'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile 'com.opentok.android:accelerator-pack:1.0'
+    compile project(':opentok-text-chat-acc-pack-0.9')
 }

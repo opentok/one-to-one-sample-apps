@@ -1,197 +1,180 @@
 var app = (function() {
 
-    // Call component
-    var _call;
+  // Modules
+  var _communication;
 
-    var _options = {
-        apiKey: '', //Required. Replace with your OpenTok API key 
-        sessionId: '', //Required. Replace with a generated Session ID
-        token: '', //Required. Replace with a generated token
-        publishers: {},
-        subscribers: [],
-        streams: [],
-        localCallProperties: {
-            insertMode: 'append',
-            width: '100%',
-            height: '100%',
-            showControls: false,
-            style: {
-                buttonDisplayMode: 'off'
-            }
-        }
-    };
+  // OpenTok session
+  var _session;
 
-    var _callElements = {
-        startEndCall: document.getElementById('callActive'),
-        localVideo: document.getElementById('videoHolderSmall'),
-        remoteVideo: document.getElementById('videoHolderBig'),
-        remoteControls: document.getElementById('remoteControls'),
-        enableLocalAudio: document.getElementById('enableLocalAudio'),
-        enableLocalVideo: document.getElementById('enableLocalVideo'),
-        enableRemoteAudio: document.getElementById('enableRemoteAudio'),
-        enableRemoteVideo: document.getElementById('enableRemoteVideo')
-    };
+  // Application State
+  var _connected = false;
+  var _callActive = false;
+  var _remoteParticipant = false;
+  var _callProps = {
+    enableLocalAudio: true,
+    enableLocalVideo: true,
+    enableRemoteAudio: true,
+    enableRemoteVideo: true,
+  };
 
-    var _callProperties = {
-        callActive: false,
-        remoteParticipant: false,
-        enableLocalAudio: true,
-        enableLocalVideo: true,
-        enableRemoteAudio: true,
-        enableRemoteVideo: true
-    };
+  // Options hash
+  var _options = {
+    apiKey: '', // Replace with your OpenTok API key 
+    sessionId: '', //Replace with a generated Session ID
+    token: '', //Replace with a generated token
+    localCallProperties: {
+      insertMode: 'append',
+      width: '100%',
+      height: '100%',
+      showControls: false,
+      style: {
+        buttonDisplayMode: 'off'
+      }
+    }
+  };
 
-    // DOM helper functions
-    var _show = function() {
+  /** DOM Helper Methods */
+  var _makePrimaryVideo = function(element) {
+    $(element).addClass('primary-video');
+    $(element).removeClass('secondary-video');
+  }
 
-        elements = Array.prototype.slice.call(arguments);
+  var _makeSecondaryVideo = function(element) {
+    $(element).removeClass('primary-video');
+    $(element).addClass('secondary-video');
+  }
 
-        elements.forEach(function(element) {
-            element.classList.remove('hidden');
-        });
-    };
+  // Swap positions of the small and large video elements when participant joins or leaves call
+  var _swapVideoPositions = function(type) {
 
-    var _hide = function() {
+    if (type === 'start' || type === 'joined') {
 
-        elements = Array.prototype.slice.call(arguments);
+      _makePrimaryVideo('#videoHolderBig');
+      _makeSecondaryVideo('#videoHolderSmall');
 
-        elements.forEach(function(element) {
-            element.classList.add('hidden');
-        });
-    };
+      /**
+       * The other participant may or may not have joined the call at this point.
+       */
+      if (!!_remoteParticipant) {
+        $('#remoteControls').show();
+        $('#videoHolderBig').show();
+      }
 
-    var _updateClassList = function(element, className, add) {
-        element.classList[add ? 'add' : 'remove'](className);
-    };
+    } else if ((type === 'end' && !!_remoteParticipant) || type === 'left') {
 
-    var _toggleClass = function(element, className) {
-        element.classList.toggle(className);
-    };
+      _makePrimaryVideo('#videoHolderSmall');
+      _makeSecondaryVideo('#videoHolderBig');
 
-    // Swap positions of the small and large video elements when participant joins or leaves call 
-    var _swapVideoPositions = function(type) {
+      $('#remoteControls').hide();
+      $('#videoHolderBig').hide();
+    }
 
-        if (type === 'start' || type === 'joined') {
+  };
 
-            _toggleClass(_callElements.localVideo, 'secondary-video');
-            _toggleClass(_callElements.localVideo, 'primary-video');
-            _toggleClass(_callElements.remoteVideo, 'secondary-video');
-            _toggleClass(_callElements.remoteVideo, 'primary-video');
+  // Toggle local or remote audio/video
+  var _toggleMediaProperties = function(type) {
 
-            _show(_callElements.remoteControls);
+    _callProps[type] = !_callProps[type];
 
+    _communication[type](_callProps[type]);
 
-        } else if (type === 'end' || type === 'left') {
+    $('#' + type).toggleClass('disabled');
 
-            _toggleClass(_callElements.remoteVideo, 'secondary-video');
-            _toggleClass(_callElements.remoteVideo, 'primary-video');
-            _toggleClass(_callElements.localVideo, 'secondary-video');
-            _toggleClass(_callElements.localVideo, 'primary-video');
+  };
 
-            _hide(_callElements.remoteControls);
+  var _addEventListeners = function() {
 
-        }
+    // Call events
+    _session.on('streamCreated', function(event) {
 
-    };
+      if (event.stream.videoType === 'camera') {
+        _remoteParticipant = true;
+        _callActive && _swapVideoPositions('joined');
+      }
 
-    // Toggle local or remote audio/video
-    var _toggleMediaProperties = function(type) {
+    });
 
-        _callProperties[type] = !_callProperties[type];
+    _session.on('streamDestroyed', function(event) {
 
-        _call[type](_callProperties[type]);
+      if (event.stream.videoType === 'camera') {
+        _remoteParticipant = false;
+        _callActive && _swapVideoPositions('left');
+      }
 
-        _updateClassList(_callElements[type], 'disabled', !_callProperties[type]);
+    });
 
-    };
+    // Start or end call
+    $('#callActive').on('click', _connectCall);
 
-    var _addEventListeners = function() {
+    // Click events for enabling/disabling audio/video
+    var controls = ['enableLocalAudio', 'enableLocalVideo', 'enableRemoteAudio', 'enableRemoteVideo'];
+    controls.forEach(function(control) {
+      $('#' + control).on('click', function() {
+        _toggleMediaProperties(control)
+      })
+    });
+  };
 
-        // Call events
-        _call.onParticipantJoined = function(event) {
+  var _startCall = function() {
 
-            // Not doing anything with the event
-            _callProperties.remoteParticipant = true;
-            _callProperties.callActive && _swapVideoPositions('joined');
+    // Start call
+    _communication.start();
+    _callActive = true;
 
-        };
+    // Update UI
+    $('#callActive').addClass('active');
+    $('#videoHolderSmall').addClass('active');
 
-        _call.onParticipantLeft = function(event) {
-            // Not doing anything with the event  
-            _callProperties.remoteParticipant = false;
-            _callProperties.callActive && _swapVideoPositions('left');
+    $('#enableLocalAudio').show();
+    $('#enableLocalVideo').show();
 
-        };
+    _remoteParticipant && _swapVideoPositions('start');
+  };
 
-        // Start or end call
-        _callElements.startEndCall.onclick = _connectCall;
+  var _endCall = function() {
 
-        // Click events for enabling/disabling audio/video
-        var controls = ['enableLocalAudio', 'enableLocalVideo', 'enableRemoteAudio', 'enableRemoteVideo'];
-        controls.forEach(function(control) {
-            document.getElementById(control).onclick = function() {
-                _toggleMediaProperties(control);
-            };
-        });
+    // End call
+    _communication.end();
+    _callActive = false;
 
-    };
+    // Update UI
+    $('#callActive').toggleClass('active');
 
-    var _startCall = function() {
+    $('#enableLocalAudio').hide();
+    $('#enableLocalVideo').hide();
 
-        // Start call
-        _call.start();
-        _callProperties.callActive = true;
+    !!(_callActive || _remoteParticipant) && _swapVideoPositions('end');
+  };
 
+  var _connectCall = function() {
 
-        // Update UI
-        [_callElements.startEndCall, _callElements.localVideo].forEach(function(element) {
-            _updateClassList(element, 'active', true);
-        });
+    !_callActive ? _startCall() : _endCall();
 
-        _show(_callElements.enableLocalAudio, _callElements.enableLocalVideo);
+  };
 
-        _callProperties.remoteParticipant && _swapVideoPositions('start');
-    };
+  var init = function() {
 
-    var _endCall = function() {
+    // Get session
+    _session = OT.initSession(_options.apiKey, _options.sessionId);
 
-        // End call
-        _call.end();
-        _callProperties.callActive = false;
+window.mySession = _session;
+    // Connect
+    _session.connect(_options.token, function(error) {
+      if (error) {
+        console.log('Session failed to connect');
+      } else {
+        _connected = true;
+        _communication = new CommunicationAccPack(_.extend(_options, {
+          session: _session,
+          localCallProperties: _options.localCallProperties
+        }));
+        _addEventListeners();
+      }
+    });
 
-        // Update UI    
-        _toggleClass(_callElements.startEndCall, 'active');
+  };
 
-        _hide(_callElements.enableLocalAudio, _callElements.enableLocalVideo);
-
-        !!(_callProperties.callActive || _callProperties.remoteParticipant) && _swapVideoPositions('end');
-    };
-
-    var _connectCall = function() {
-
-        !_callProperties.callActive ? _startCall() : _endCall();
-
-    };
-
-    var init = function() {
-
-        // Get session
-        _options.session = OT.initSession(_options.apiKey, _options.sessionId);
-
-        // Connect
-        _options.session.connect(_options.token, function(error) {
-            if (error) {
-                console.log('Session failed to connect');
-            } else {
-                _call = new Call(_options);
-                _addEventListeners();
-            }
-        });
-
-    };
-
-    return init;
-
+  return init;
 })();
 
 app();

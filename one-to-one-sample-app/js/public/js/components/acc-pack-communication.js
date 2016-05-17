@@ -40,7 +40,7 @@
   var _otkanalytics;
 
   // vars for the analytics logs. Internal use
-  var logEventData = {
+  var _logEventData = {
     clientVersion: 'js-vsol-1.0.0',
     source: 'avcommunication_acc_pack',
     actionInitialize: 'initialize',
@@ -65,8 +65,8 @@
       sessionId: _this.options.sessionId,
       connectionId: _this.session.connection.connectionId,
       partnerId: _this.options.apiKey,
-      clientVersion: logEventData.clientVersion,
-      source: logEventData.source
+      clientVersion: _logEventData.clientVersion,
+      source: _logEventData.source
     };
 
     // init the analytics logs

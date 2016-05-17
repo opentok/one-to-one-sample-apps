@@ -4,8 +4,8 @@
   "description": "One to One sample app",
   "main": "server.js",
   "repository": {
-       "type": "git",
-       "url": "https://github.com/opentok/one-to-one-sample-apps"
+    "type": "git",
+    "url": "https://github.com/opentok/one-to-one-sample-apps"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,5 +15,9 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-react": "^5.1.1"
   }
 }

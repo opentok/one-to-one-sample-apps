@@ -1,9 +1,9 @@
-var CommunicationAccPack = (function() {
+(function () {
 
   var _this;
 
   var _otkanalytics;
-  //vars for the analytics logs. Internal use
+  // vars for the analytics logs. Internal use
   var logEventData = {
     clientVersion: 'js-vsol-1.0.0',
     source: 'avcommunication_acc_pack',
@@ -15,7 +15,7 @@ var CommunicationAccPack = (function() {
     variationSuccess: 'Success'
   };
 
-  /** 
+  /**
    * @constructor
    * Represents a one-to-one AV communication layer
    * @param {object} options
@@ -26,14 +26,14 @@ var CommunicationAccPack = (function() {
    * @param {array} options.streams
    * @param {boolean} options.annotation
    */
-  var Communication = function(options) {
+  var CommunicationAccPack = function (options) {
 
     // Save a reference to this
     _this = this;
 
     var nonOptionProps = ['accPack', 'session', 'subscribers', 'streams'];
     _this.options = _validateOptions(options, nonOptionProps);
-    _.extend(_this, _.defaults(_.pick(options, nonOptionProps), {subscribers: [], streams: []}));
+    _.extend(_this, _.defaults(_.pick(options, nonOptionProps), { subscribers: [], streams: [] }));
 
     _registerEvents();
     _setEventListeners();
@@ -53,7 +53,7 @@ var CommunicationAccPack = (function() {
    * @param {object} options
    * @param {array} ignore - Properties that should not be included in options
    */
-  var _validateOptions = function(options, ignore) {
+  var _validateOptions = function (options, ignore) {
 
     if (!options || !options.session) {
       throw new Error('No session provided.');
@@ -63,10 +63,11 @@ var CommunicationAccPack = (function() {
   };
 
   var _triggerEvent;
-  var _registerEvents = function() {
+  var _registerEvents = function () {
 
-    if (!this.accPack) {
-      return; }
+    if (!_this.accPack) {
+      return;
+    }
 
     var events = [
       'startCall',
@@ -78,7 +79,7 @@ var CommunicationAccPack = (function() {
     _triggerEvent = _this.accPack.registerEvents(events);
   };
 
-  var _setEventListeners = function() {
+  var _setEventListeners = function () {
 
     // Are we using this module in concert with other acc packs or on its own
     if (_this.accPack) {
@@ -91,7 +92,7 @@ var CommunicationAccPack = (function() {
 
   };
 
-  var _logAnalytics = function() {
+  var _logAnalytics = function () {
 
     var otkanalyticsData = {
       sessionId: _this.options.sessionId,
@@ -117,7 +118,6 @@ var CommunicationAccPack = (function() {
 
     currentSource = type;
 
-    var handler = _this.onError;
 
     _initPublisherCamera();
 
@@ -129,7 +129,7 @@ var CommunicationAccPack = (function() {
           var errorStr = error.message + ". Check your network connection.";
           error.message = errorStr;
         }
-        _handleError(error, handler);
+        console.log(error);
         _log(logEventData.actionStartComm, logEventData.variationError);
       }
     });
@@ -148,7 +148,7 @@ var CommunicationAccPack = (function() {
     _this.publisher = OT.initPublisher('videoHolderSmall', _this.options.localCallProperties, function(error) {
       if (error) {
         error.message = "Error starting a call";
-        _handleError(error, handler);
+        console.log(error);
       }
       //_this.publishers.camera.on('streamDestroyed', _this._publisherStreamDestroyed);
     });
@@ -162,9 +162,9 @@ var CommunicationAccPack = (function() {
   var _subscribeToStream = function(stream) {
     var handler = _this.onError;
     if (stream.videoType === 'screen') {
-      var options = _this.options.localScreenProperties
+      var options = _this.options.localScreenProperties;
     } else {
-      var options = _this.options.localCallProperties
+      var options = _this.options.localCallProperties;
     }
 
     var videoContainer = stream.videoType === 'screen' ? 'videoHolderSharedScreen' : 'videoHolderBig';
@@ -177,10 +177,10 @@ var CommunicationAccPack = (function() {
           console.log('Error starting a call ' + error.code + ' - ' + error.message);
           error.message = 'Error starting a call';
           if (error.code === 1010) {
-            var errorStr = error.message + '. Check your network connection.'
+            var errorStr = error.message + '. Check your network connection.';
             error.message = errorStr;
           }
-          _handleError(error, handler);
+          console.log(error);
         } else {
 
           _this.streams.push(subscriber);
@@ -198,7 +198,7 @@ var CommunicationAccPack = (function() {
   var _unsubscribeStreams = function() {
     _.each(_this.streams, function(stream) {
       _this.session.unsubscribe(stream);
-    })
+    });
   };
 
   // Private handlers
@@ -255,15 +255,9 @@ var CommunicationAccPack = (function() {
     }
   }
 
-  var _handleError = function(error, handler) {
-    if (handler && typeof handler === 'function') {
-      handler(error);
-    }
-  };
-
   // Prototype methods
-  Communication.prototype = {
-    constructor: Communication,
+  CommunicationAccPack.prototype = {
+    constructor: CommunicationAccPack,
     start: function(recipient) {
       //TODO: Managing call status: calling, startCall,...using the recipient value
 
@@ -320,6 +314,14 @@ var CommunicationAccPack = (function() {
     }
   };
 
-  return Communication;
+  if (typeof exports === 'object') {
+    module.exports = CommunicationAccPack;
+  } else if (typeof define === 'function' && define.amd) {
+    define(function() {
+      return CommunicationAccPack;
+    });
+  } else {
+    this.CommunicationAccPack = CommunicationAccPack;
+  }
 
-})();
+}.call(this));

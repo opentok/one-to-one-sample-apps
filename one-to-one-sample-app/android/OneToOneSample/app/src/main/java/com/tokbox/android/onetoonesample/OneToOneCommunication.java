@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class OneToOneCommunication implements
         Session.SessionListener, Publisher.PublisherListener, Subscriber.SubscriberListener, Subscriber.VideoListener {
 
-    private static final String LOGTAG = "opentok-onetoonecommunication";
+    private static final String LOGTAG = OneToOneCommunication.class.getSimpleName();
     private Context mContext;
 
     private Session mSession;
@@ -80,15 +80,19 @@ public class OneToOneCommunication implements
          * Invoked when the preview (publisher view) is ready to be added to the container.
          *
          * @param preview Indicates the publisher view.
+         *
+         * @param added Indicates if the publisher view has to be added or removed.
          */
-        void onPreviewReady(View preview);
+        void onPreviewReady(View preview, boolean added);
 
         /**
          * Invoked when the remote (subscriber view) is ready to be added to the container.
          *
          * @param remoteView Indicates the subscriber view.
+         *
+         * @param added Indicates if the subscriber view has to be added or removed.
          */
-        void onRemoteViewReady(View remoteView);
+        void onRemoteViewReady(View remoteView, boolean added);
     }
 
     public OneToOneCommunication(Context context) {
@@ -261,25 +265,25 @@ public class OneToOneCommunication implements
         mStreams.remove(stream);
         isRemote = false;
         if (mSubscriber.getStream().equals(stream)) {
+            mListener.onRemoteViewReady(mSubscriber.getView(), false);
             mSubscriber = null;
             if (!mStreams.isEmpty()) {
                 subscribeToStream(mStreams.get(0));
             }
         }
-        mListener.onRemoteViewReady(null);
     }
 
     private void attachPublisherView() {
         mPublisher.setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
                 BaseVideoRenderer.STYLE_VIDEO_FILL);
-        mListener.onPreviewReady(mPublisher.getView());
+        mListener.onPreviewReady(mPublisher.getView(), true);
     }
 
     private void attachSubscriberView(Subscriber subscriber) {
         subscriber.setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
                 BaseVideoRenderer.STYLE_VIDEO_FILL);
         isRemote = true;
-        mListener.onRemoteViewReady(subscriber.getView());
+        mListener.onRemoteViewReady(subscriber.getView(), true);
     }
 
     private void setRemoteAudioOnly(boolean audioOnly) {
@@ -295,7 +299,12 @@ public class OneToOneCommunication implements
     private void restartComm(){
         mSubscriber = null;
         isRemote = false;
+        isStarted = false;
         mPublisher = null;
+        mLocalAudio = true;
+        mLocalVideo = true;
+        mRemoteAudio = true;
+        mRemoteVideo = true;
         mStreams.clear();
         mSession = null;
     }
@@ -329,7 +338,7 @@ public class OneToOneCommunication implements
 
     @Override
     public void onError(PublisherKit publisherKit, OpentokError opentokError) {
-        Log.i(LOGTAG, "Error publishing: " + opentokError.getErrorCode() + "-" + opentokError.getMessage());
+        Log.i(LOGTAG, "Error: "+opentokError.getErrorCode() + "-" + opentokError.getMessage());
         mListener.onError(opentokError.getErrorCode() + " - " + opentokError.getMessage());
         restartComm();
     }
@@ -355,8 +364,13 @@ public class OneToOneCommunication implements
     public void onDisconnected(Session session) {
         Log.i(LOGTAG, "Disconnected to the session.");
         isStarted = false;
-        mListener.onPreviewReady(null);
-        mListener.onRemoteViewReady(null);
+
+        if ( mPublisher != null ) {
+            mListener.onPreviewReady(mPublisher.getView(), false);
+        }
+        if ( mSubscriber != null ) {
+            mListener.onRemoteViewReady(mSubscriber.getView(), false);
+        }
         restartComm();
     }
 

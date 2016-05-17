@@ -7,7 +7,6 @@ var app = (function() {
   var _session;
 
   // Application State
-  var _connected = false;
   var _callActive = false;
   var _remoteParticipant = false;
   var _callProps = {
@@ -19,9 +18,9 @@ var app = (function() {
 
   // Options hash
   var _options = {
-    apiKey: '', // Replace with your OpenTok API key 
-    sessionId: '', //Replace with a generated Session ID
-    token: '', //Replace with a generated token
+    apiKey: '', // Replace with your OpenTok API key
+    sessionId: '', // Replace with a generated Session ID
+    token: '', // Replace with a generated token
     localCallProperties: {
       insertMode: 'append',
       width: '100%',
@@ -37,12 +36,12 @@ var app = (function() {
   var _makePrimaryVideo = function(element) {
     $(element).addClass('primary-video');
     $(element).removeClass('secondary-video');
-  }
+  };
 
   var _makeSecondaryVideo = function(element) {
     $(element).removeClass('primary-video');
     $(element).addClass('secondary-video');
-  }
+  };
 
   // Swap positions of the small and large video elements when participant joins or leaves call
   var _swapVideoPositions = function(type) {
@@ -111,7 +110,7 @@ var app = (function() {
     controls.forEach(function(control) {
       $('#' + control).on('click', function() {
         _toggleMediaProperties(control)
-      })
+      });s
     });
   };
 
@@ -157,7 +156,6 @@ var app = (function() {
     // Get session
     _session = OT.initSession(_options.apiKey, _options.sessionId);
 
-window.mySession = _session;
     // Connect
     _session.connect(_options.token, function(error) {
       if (error) {

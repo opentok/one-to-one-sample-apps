@@ -260,12 +260,11 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     }
 
     @Override
-    public void onPreviewReady(View preview) {
-        mPreviewViewContainer.removeAllViews();
-        if (preview != null) {
+    public void onPreviewReady(View preview, boolean added) {
+        mPreviewViewContainer.removeAllViews(); //remove the old views before to add a new preview view
+        if (added) {
             layoutParamsPreview = new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
             if (mComm.isRemote()) {
                 layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
                         RelativeLayout.TRUE);
@@ -275,24 +274,36 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
                 layoutParamsPreview.height = (int) getResources().getDimension(R.dimen.preview_height);
                 layoutParamsPreview.rightMargin = (int) getResources().getDimension(R.dimen.preview_rightMargin);
                 layoutParamsPreview.bottomMargin = (int) getResources().getDimension(R.dimen.preview_bottomMargin);
-                preview.setBackgroundResource(R.drawable.preview);
+                if (mComm.getLocalVideo()) {
+                    preview.setBackgroundResource(R.drawable.preview);
+                }
             } else {
                 preview.setBackground(null);
             }
-            mPreviewViewContainer.setLayoutParams(layoutParamsPreview);
             mPreviewViewContainer.addView(preview);
+            mPreviewViewContainer.setLayoutParams(layoutParamsPreview);
+            if (!mComm.getLocalVideo()){
+                onDisableLocalVideo(false);
+            }
         }
     }
 
     @Override
-    public void onRemoteViewReady(View remoteView) {
+    public void onRemoteViewReady(View remoteView, boolean added) {
         //update preview when a new participant joined to the communication
-        onPreviewReady(mPreviewViewContainer.getChildAt(0)); //main preview view
-        if (remoteView == null ){
-            mRemoteViewContainer.removeAllViews();
+        if (mPreviewViewContainer.getChildCount() > 0 ) {
+            onPreviewReady(mPreviewViewContainer.getChildAt(0), true); //main preview view
+        }
+        if (!added){
+            //clear and hide remote views
+            if ( mAudioOnlyView.getVisibility() == View.VISIBLE ){
+                mAudioOnlyView.setVisibility(View.GONE);
+            }
+            mRemoteViewContainer.removeView(remoteView);
             mRemoteViewContainer.setClickable(false);
         }
         else {
+            //show remote view
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                     this.getResources().getDisplayMetrics().widthPixels, this.getResources()
                     .getDisplayMetrics().heightPixels);

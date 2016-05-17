@@ -1,4 +1,5 @@
-var app = (function() {
+/* global OT CommunicationAccPack */
+var app = (function () {
 
   // Modules
   var _communication;
@@ -33,18 +34,18 @@ var app = (function() {
   };
 
   /** DOM Helper Methods */
-  var _makePrimaryVideo = function(element) {
+  var _makePrimaryVideo = function (element) {
     $(element).addClass('primary-video');
     $(element).removeClass('secondary-video');
   };
 
-  var _makeSecondaryVideo = function(element) {
+  var _makeSecondaryVideo = function (element) {
     $(element).removeClass('primary-video');
     $(element).addClass('secondary-video');
   };
 
   // Swap positions of the small and large video elements when participant joins or leaves call
-  var _swapVideoPositions = function(type) {
+  var _swapVideoPositions = function (type) {
 
     if (type === 'start' || type === 'joined') {
 
@@ -71,50 +72,18 @@ var app = (function() {
   };
 
   // Toggle local or remote audio/video
-  var _toggleMediaProperties = function(type) {
+  var _toggleMediaProperties = function (type) {
 
     _callProps[type] = !_callProps[type];
 
     _communication[type](_callProps[type]);
 
-    $('#' + type).toggleClass('disabled');
+    $(['#', type].join('')).toggleClass('disabled');
 
   };
 
-  var _addEventListeners = function() {
 
-    // Call events
-    _session.on('streamCreated', function(event) {
-
-      if (event.stream.videoType === 'camera') {
-        _remoteParticipant = true;
-        _callActive && _swapVideoPositions('joined');
-      }
-
-    });
-
-    _session.on('streamDestroyed', function(event) {
-
-      if (event.stream.videoType === 'camera') {
-        _remoteParticipant = false;
-        _callActive && _swapVideoPositions('left');
-      }
-
-    });
-
-    // Start or end call
-    $('#callActive').on('click', _connectCall);
-
-    // Click events for enabling/disabling audio/video
-    var controls = ['enableLocalAudio', 'enableLocalVideo', 'enableRemoteAudio', 'enableRemoteVideo'];
-    controls.forEach(function(control) {
-      $('#' + control).on('click', function() {
-        _toggleMediaProperties(control)
-      });s
-    });
-  };
-
-  var _startCall = function() {
+  var _startCall = function () {
 
     // Start call
     _communication.start();
@@ -127,10 +96,13 @@ var app = (function() {
     $('#enableLocalAudio').show();
     $('#enableLocalVideo').show();
 
-    _remoteParticipant && _swapVideoPositions('start');
+    if (_remoteParticipant) {
+      _swapVideoPositions('start');
+    }
+
   };
 
-  var _endCall = function() {
+  var _endCall = function () {
 
     // End call
     _communication.end();
@@ -142,26 +114,74 @@ var app = (function() {
     $('#enableLocalAudio').hide();
     $('#enableLocalVideo').hide();
 
-    !!(_callActive || _remoteParticipant) && _swapVideoPositions('end');
+    if (_callActive || _remoteParticipant) {
+      _swapVideoPositions('end');
+    }
   };
 
-  var _connectCall = function() {
+  var _connectCall = function () {
 
-    !_callActive ? _startCall() : _endCall();
+    if (!!_callActive) {
+      _endCall();
+    } else {
+      _startCall();
+    }
 
   };
 
-  var init = function() {
+  var _addEventListeners = function () {
+
+    // Call events
+    _session.on('streamCreated', function (event) {
+
+      if (event.stream.videoType === 'camera') {
+        _remoteParticipant = true;
+        if (_callActive) {
+          _swapVideoPositions('joined');
+        }
+      }
+
+    });
+
+    _session.on('streamDestroyed', function (event) {
+
+      if (event.stream.videoType === 'camera') {
+        _remoteParticipant = false;
+        if (_callActive) {
+          _swapVideoPositions('left');
+        }
+      }
+
+    });
+
+    // Start or end call
+    $('#callActive').on('click', _connectCall);
+
+    // Click events for enabling/disabling audio/video
+    var controls = [
+      'enableLocalAudio',
+      'enableLocalVideo',
+      'enableRemoteAudio',
+      'enableRemoteVideo'
+    ];
+    controls.forEach(function (control) {
+      $(['#', control].join('')).on('click', function () {
+        _toggleMediaProperties(control);
+      });
+    });
+  };
+
+
+  var init = function () {
 
     // Get session
     _session = OT.initSession(_options.apiKey, _options.sessionId);
 
     // Connect
-    _session.connect(_options.token, function(error) {
+    _session.connect(_options.token, function (error) {
       if (error) {
         console.log('Session failed to connect');
       } else {
-        _connected = true;
         _communication = new CommunicationAccPack(_.extend(_options, {
           session: _session,
           localCallProperties: _options.localCallProperties
@@ -173,6 +193,6 @@ var app = (function() {
   };
 
   return init;
-})();
+}());
 
 app();

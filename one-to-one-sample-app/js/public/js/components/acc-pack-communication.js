@@ -1,11 +1,44 @@
 /* global OT OTKAnalytics define */
 (function () {
 
-  // Reference to instance of CommunicationAccPack
-  var _this;
+  var _this; // Reference to instance of CommunicationAccPack
+
+  /**
+   * Accelerator Pack Common Layer and Associated Methods
+   */
+
+  // Reference to Accelerator Pack
+  var _accPack;
+
+  // Register events with the AP API
+  var _registerEvents = function () {
+
+    if (!_accPack) {
+      return;
+    }
+
+    var events = [
+      'startCall',
+      'endCall',
+      'callPropertyChanged',
+      'startViewingSharedScreen',
+      'endViewingSharedScreen'
+    ];
+
+    _.accPack.registerEvents(events);
+  };
+
+  // Trigger an event using the AP API
+  var _triggerEvent = function (event, data) {
+    if (!!_accPack) {
+      _accPack.triggerEvent(event, data);
+    }
+  };
 
   /** Analytics */
+
   var _otkanalytics;
+
   // vars for the analytics logs. Internal use
   var logEventData = {
     clientVersion: 'js-vsol-1.0.0',
@@ -121,7 +154,7 @@
 
           if (stream.videoType === 'screen') {
             console.log('starting to view shared screen here');
-            _triggerEvent && _triggerEvent('startViewingSharedScreen', subscriber);
+            _triggerEvent('startViewingSharedScreen', subscriber);
           }
         }
       });
@@ -130,9 +163,8 @@
   };
 
 
-  /** Events */
+  /** Events & Handlers */
 
-  // Handlers
   var _handleStart = function (event) {
     return event;
   };
@@ -161,7 +193,7 @@
       _this._remoteParticipant = null;
 
     } else if (streamDestroyedType === 'screen') {
-      _triggerEvent && _triggerEvent('endViewingSharedScreen');
+      _triggerEvent('endViewingSharedScreen');
     } else {
       _.each(_this.subscribers, function (subscriber) {
         _subscribeToStream(subscriber);
@@ -186,27 +218,7 @@
       };
     }
 
-    _triggerEvent && _triggerEvent('callPropertyChanged', eventData);
-  };
-
-  var _triggerEvent;
-
-  // Register events with the AP API
-  var _registerEvents = function () {
-
-    if (!_this.accPack) {
-      return;
-    }
-
-    var events = [
-      'startCall',
-      'endCall',
-      'callPropertyChanged',
-      'startViewingSharedScreen',
-      'endViewingSharedScreen'
-    ];
-
-    _triggerEvent = _this.accPack.registerEvents(events);
+    _triggerEvent('callPropertyChanged', eventData);
   };
 
   // Register listeners with the AP API
@@ -253,12 +265,15 @@
     // Save a reference to this
     _this = this;
 
-    var nonOptionProps = ['accPack', 'session', 'subscribers', 'streams'];
+    var nonOptionProps = ['session', 'subscribers', 'streams'];
     _this.options = _validateOptions(options, nonOptionProps);
     _.extend(_this, _.defaults(_.pick(options, nonOptionProps), {
       subscribers: [],
       streams: []
     }));
+
+    // Set accelerator pack if included in options, otherwise leave undefined
+    _accPack = _.property('accPack')(options) || _accPack;
 
     _registerEvents();
     _setEventListeners();
@@ -304,7 +319,7 @@
         _subscribeToStream(subscriber);
       });
 
-      _triggerEvent && _triggerEvent('startCall');
+      _triggerEvent('startCall');
 
       _log(logEventData.actionStartComm, logEventData.variationSuccess);
     },
@@ -316,7 +331,7 @@
       _unpublish('camera');
       _unsubscribeStreams();
 
-      _triggerEvent && _triggerEvent('endCall');
+      _triggerEvent('endCall');
 
       _log(logEventData.actionStopComm, logEventData.variationSuccess);
 

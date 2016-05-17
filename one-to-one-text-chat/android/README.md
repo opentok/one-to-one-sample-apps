@@ -1,6 +1,6 @@
 ![logo](../../tokbox-logo.png)
 
-# OpenTok Text Chat Sample App for Android<br/>Version 0.9
+# OpenTok Text Chat Sample App for Android<br/>Version 1.0.0
 
 This document describes how to use the OpenTok Text Chat Accelerator Pack for Android. Through the exploration of the OpenTok Text Chat Sample App, you will learn best practices for exchanging text messages on an Android mobile device.  
 
@@ -49,9 +49,10 @@ You can add the TokBox Common Accelerator Session Pack either by using the repos
 
 #### Using the repository
 
-1. Right-click the app name and select **New > Module > Import Gradle Project**.
-2. Navigate to the directory in which you cloned **TokBox Common Accelerator Session Pack**, select **android-acc-pack**, and click **Finish**.
-3. Open the **build.gradle** file for the app and ensure the following lines have been added to the `dependencies` section:
+1. Clone the Accelerator Pack Common repository: `https://github.com/opentok/acc-pack-common`
+2. Right-click the app name and select **New > Module > Import Gradle Project**.
+3. Navigate to the directory in which you cloned **TokBox Common Accelerator Session Pack**, select **android-acc-pack**, and click **Finish**.
+4. Open the **build.gradle** file for the app and ensure the following lines have been added to the `dependencies` section:
 ```
 compile project(':opentok-android-accelerator-pack-1.0')
 ```

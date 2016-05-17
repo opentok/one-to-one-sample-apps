@@ -1,0 +1,16 @@
+{
+    "extends": "airbnb",
+    "env": {
+        "browser": true
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "no-underscore-dangle": 0,
+        "vars-on-top": 0,
+        "padded-blocks": 0,
+        "no-var": 0,
+        "comma-dangle": 0
+    }
+}

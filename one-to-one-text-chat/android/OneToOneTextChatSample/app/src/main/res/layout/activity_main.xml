@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_backg"
+    android:keepScreenOn="true"
+    tools:context="com.tokbox.android.textchatsample.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/quality_warning"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/alert_bar_height"
+            android:background="@color/quality_warning"
+            android:gravity="center"
+            android:text="@string/network_quality"
+            android:textColor="@color/warning_text"
+            android:textSize="@dimen/alert_text"
+            android:visibility="gone"></TextView>
+
+        <RelativeLayout
+            android:id="@+id/subscriberview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:gravity="center_horizontal"
+            android:onClick="showRemoteControlBar">
+
+            <RelativeLayout
+                android:id="@+id/audioOnlyView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/gradient_audionly"
+                android:visibility="gone" >
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/avatar" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/publisherview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/localAudioOnlyView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/gradient_audionly"
+                android:visibility="gone" >
+
+                <ImageView
+                    android:id="@+id/localAvatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/avatar" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/actionbar_preview_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar_height"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible"></RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/camera_preview_fragment_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="21.5dp"
+            android:layout_marginTop="37.5dp"
+            android:visibility="visible"></RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/actionbar_remote_fragment_container"
+            android:layout_width="@dimen/action_bar_width"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="21.5dp"
+            android:layout_marginTop="37.5dp"
+            android:visibility="visible"></RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/textchat_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:visibility="gone"
+            android:background="@color/white"
+            android:layout_above="@+id/actionbar_preview_fragment_container">
+        </FrameLayout>
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

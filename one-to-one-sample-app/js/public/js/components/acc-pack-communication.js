@@ -26,7 +26,7 @@
       'endViewingSharedScreen'
     ];
 
-    _.accPack.registerEvents(events);
+    _accPack.registerEvents(events);
   };
 
   // Trigger an event using the AP API

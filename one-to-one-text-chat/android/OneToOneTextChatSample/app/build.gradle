@@ -19,7 +19,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     packagingOptions {
         exclude 'META-INF/ASL2.0'
     }
@@ -36,5 +35,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+    compile 'com.opentok.android:opentok-android-sdk:2.8.+'
     compile 'com.opentok.android:accelerator-pack:1.0'
 }

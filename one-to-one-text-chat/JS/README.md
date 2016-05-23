@@ -1,6 +1,6 @@
 ![logo](../../tokbox-logo.png)
 
-# OpenTok Text Chat Sample App for JavaScript<br/>Version 0.9
+# OpenTok Text Chat Sample App for JavaScript<br/>Version 1.0
 
 This document describes how to use the OpenTok Text Chat Accelerator Pack for JavaScript. Through the exploration of the OpenTok Text Chat Sample App, you will learn best practices for exchanging text messages in a web-based application. 
 

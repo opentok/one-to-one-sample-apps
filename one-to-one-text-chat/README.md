@@ -1,6 +1,6 @@
 ![logo](../tokbox-logo.png)
 
-# OpenTok Text Chat Accelerator Pack<br/>Version 0.9
+# OpenTok Text Chat Accelerator Pack<br/>Version 1.0
 
 The OpenTok Text Chat Accelerator Pack provides functionality you can add to your OpenTok applications that enables users to exchange text messages between mobile or browser-based devices. 
 

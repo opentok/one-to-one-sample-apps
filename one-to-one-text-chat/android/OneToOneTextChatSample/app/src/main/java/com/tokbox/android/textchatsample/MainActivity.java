@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
             layoutParamsPreview = new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-            if (mComm.isRemote()) {
+             if (mComm.isRemote()) {
                 layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
                         RelativeLayout.TRUE);
                 layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,
@@ -283,15 +283,8 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
                 layoutParamsPreview.height = (int) getResources().getDimension(R.dimen.preview_height);
                 layoutParamsPreview.rightMargin = (int) getResources().getDimension(R.dimen.preview_rightMargin);
                 layoutParamsPreview.bottomMargin = (int) getResources().getDimension(R.dimen.preview_bottomMargin);
-                if (mComm.getLocalVideo()) {
-                    preview.setBackgroundResource(R.drawable.preview);
-                }
-            } else {
-                preview.setBackground(null);
             }
-
-            mPreviewViewContainer.addView(preview);
-            mPreviewViewContainer.setLayoutParams(layoutParamsPreview);
+            mPreviewViewContainer.addView(preview, layoutParamsPreview);
             if (!mComm.getLocalVideo()){
                 onDisableLocalVideo(false);
             }

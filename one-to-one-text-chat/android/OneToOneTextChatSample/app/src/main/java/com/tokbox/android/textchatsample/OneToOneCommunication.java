@@ -333,8 +333,8 @@ public class OneToOneCommunication implements
         if ( mStreams.size() > 0 ) {
             mStreams.remove(stream);
             isRemote = false;
-            onRemoteViewReady(mSubscriber.getView());
             if ( mSubscriber != null && mSubscriber.getStream().equals(stream) ) {
+                onRemoteViewReady(mSubscriber.getView());
                 mSubscriber = null;
                 if ( !mStreams.isEmpty() ) {
                     subscribeToStream(mStreams.get(0));

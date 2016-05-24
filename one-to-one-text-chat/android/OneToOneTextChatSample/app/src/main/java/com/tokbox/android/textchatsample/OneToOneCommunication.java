@@ -93,19 +93,15 @@ public class OneToOneCommunication implements
          * Invoked when the preview (publisher view) is ready to be added to the container.
          *
          * @param preview Indicates the publisher view.
-         *
-         * Indicates if the publisher view has to be added or removed
          */
-        void onPreviewReady(View preview, boolean added);
+        void onPreviewReady(View preview);
 
         /**
          * Invoked when the remote (subscriber view) is ready to be added to the container.
          *
          * @param remoteView Indicates the subscriber view.
-         *
-         * @param added Indicates if the subscriber view has to be added or removed
          */
-        void onRemoteViewReady(View remoteView, boolean added);
+        void onRemoteViewReady(View remoteView);
 
     }
 
@@ -156,22 +152,23 @@ public class OneToOneCommunication implements
      * End the communication.
      */
     public void end() {
-        if ( mSession != null ){
+        if ( mSession != null ) {
             //add END_COMM attempt log event
             addLogEvent(OpenTokConfig.LOG_ACTION_END_COMM, OpenTokConfig.LOG_VARIATION_ATTEMPT);
 
-        }
-        if ( mPublisher != null ) {
-            onPreviewReady(mPublisher.getView(), false);
-            mSession.unpublish(mPublisher);
+            if (mPublisher != null) {
+                mSession.unpublish(mPublisher);
+
+            }
+            if (mSubscriber != null) {
+                mSession.unsubscribe(mSubscriber);
+                isRemote = false;
+            }
+            restartViews();
             mPublisher = null;
-        }
-        if ( mSubscriber != null ) {
-            onRemoteViewReady(mSubscriber.getView(), false);
-            mSession.unsubscribe(mSubscriber);
             mSubscriber = null;
+            isStarted = false;
         }
-        isStarted = false;
     }
 
     /**
@@ -336,8 +333,8 @@ public class OneToOneCommunication implements
         if ( mStreams.size() > 0 ) {
             mStreams.remove(stream);
             isRemote = false;
-            onRemoteViewReady(mSubscriber.getView(), false);
             if ( mSubscriber != null && mSubscriber.getStream().equals(stream) ) {
+                onRemoteViewReady(mSubscriber.getView());
                 mSubscriber = null;
                 if ( !mStreams.isEmpty() ) {
                     subscribeToStream(mStreams.get(0));
@@ -349,14 +346,14 @@ public class OneToOneCommunication implements
     private void attachPublisherView() {
         mPublisher.setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
                 BaseVideoRenderer.STYLE_VIDEO_FILL);
-        onPreviewReady(mPublisher.getView(), true);
+        onPreviewReady(mPublisher.getView());
     }
 
     private void attachSubscriberView(Subscriber subscriber) {
         subscriber.setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
                 BaseVideoRenderer.STYLE_VIDEO_FILL);
         isRemote = true;
-        onRemoteViewReady(subscriber.getView(), true);
+        onRemoteViewReady(subscriber.getView());
     }
 
     private void setRemoteAudioOnly(boolean audioOnly) {
@@ -545,11 +542,11 @@ public class OneToOneCommunication implements
     }
 
     private void restartViews() {
-        if ( mSubscriber != null ){
-            onRemoteViewReady(mSubscriber.getView(), false);
+        if ( mSubscriber != null ) {
+            onRemoteViewReady(mSubscriber.getView());
         }
-        if ( mPublisher != null ) {
-            onPreviewReady(mPublisher.getView(), false);
+        if ( mPublisher != null ){
+            onPreviewReady(null);
         }
     }
 
@@ -580,15 +577,15 @@ public class OneToOneCommunication implements
         }
     }
 
-    protected void onPreviewReady(View preview, boolean added) {
+    protected void onPreviewReady(View preview) {
         if ( this.mListener != null ) {
-            this.mListener.onPreviewReady(preview, added);
+            this.mListener.onPreviewReady(preview);
         }
     }
 
-    protected void onRemoteViewReady(View remoteView, boolean added) {
+    protected void onRemoteViewReady(View remoteView) {
         if ( this.mListener != null ) {
-            this.mListener.onRemoteViewReady(remoteView, added);
+            this.mListener.onRemoteViewReady(remoteView);
         }
     }
 

@@ -268,12 +268,13 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     }
 
     @Override
-    public void onPreviewReady(View preview, boolean added) {
-        mPreviewViewContainer.removeAllViews(); //remove the old views before to add a new preview view
-        if (added) {
+    public void onPreviewReady(View preview) {
+        mPreviewViewContainer.removeAllViews();
+        if (preview != null) {
             layoutParamsPreview = new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            if (mComm.isRemote()) {
+
+             if (mComm.isRemote()) {
                 layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
                         RelativeLayout.TRUE);
                 layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,
@@ -282,14 +283,8 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
                 layoutParamsPreview.height = (int) getResources().getDimension(R.dimen.preview_height);
                 layoutParamsPreview.rightMargin = (int) getResources().getDimension(R.dimen.preview_rightMargin);
                 layoutParamsPreview.bottomMargin = (int) getResources().getDimension(R.dimen.preview_bottomMargin);
-                if (mComm.getLocalVideo()) {
-                    preview.setBackgroundResource(R.drawable.preview);
-                }
-            } else {
-                preview.setBackground(null);
             }
-            mPreviewViewContainer.addView(preview);
-            mPreviewViewContainer.setLayoutParams(layoutParamsPreview);
+            mPreviewViewContainer.addView(preview, layoutParamsPreview);
             if (!mComm.getLocalVideo()){
                 onDisableLocalVideo(false);
             }
@@ -297,16 +292,14 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     }
 
     @Override
-    public void onRemoteViewReady(View remoteView, boolean added) {
+    public void onRemoteViewReady(View remoteView) {
         //update preview when a new participant joined to the communication
-        if (mPreviewViewContainer.getChildCount() > 0 ) {
-            onPreviewReady(mPreviewViewContainer.getChildAt(0), true); //main preview view
+        if (mPreviewViewContainer.getChildCount() > 0) {
+            onPreviewReady(mPreviewViewContainer.getChildAt(0)); //main preview view
         }
-        if (!added){
-            //clear and hide remote views
-            if ( mAudioOnlyView.getVisibility() == View.VISIBLE ){
-                mAudioOnlyView.setVisibility(View.GONE);
-            }
+        if (!mComm.isRemote()) {
+            //clear views
+            onAudioOnly(false);
             mRemoteViewContainer.removeView(remoteView);
             mRemoteViewContainer.setClickable(false);
         }
@@ -389,9 +382,11 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
             mPreviewFragment.restart();
         if ( mRemoteFragment != null )
             mRemoteFragment.restart();
-        restartTextChatLayout(true);
-        mTextChatFragment.restart();
-        mTextChatContainer.setVisibility(View.GONE);
+        if (mTextChatFragment != null ){
+            restartTextChatLayout(true);
+            mTextChatFragment.restart();
+            mTextChatContainer.setVisibility(View.GONE);
+        }
     }
 
     private void showAVCall(boolean show){
@@ -425,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         }
         mTextChatContainer.setLayoutParams(params);
-    }
+     }
 
     /**
      * Converts dp to real pixels, according to the screen density.

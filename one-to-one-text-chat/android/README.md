@@ -1,6 +1,6 @@
 ![logo](../../tokbox-logo.png)
 
-# OpenTok Text Chat Sample App for Android<br/>Version 1.0.0
+# OpenTok Text Chat Sample App for Android<br/>Version 1.0
 
 This document describes how to use the OpenTok Text Chat Accelerator Pack for Android. Through the exploration of the OpenTok Text Chat Sample App, you will learn best practices for exchanging text messages on an Android mobile device.  
 
@@ -49,8 +49,8 @@ You can add the TokBox Common Accelerator Session Pack either by using the repos
 
 #### Using the repository
 
-1. Clone the Accelerator Pack Common repository: `https://github.com/opentok/acc-pack-common`
-2. Right-click the app name and select **New > Module > Import Gradle Project**.
+1. Clone the [TokBox Common Accelerator Session Pack repo](https://github.com/opentok/acc-pack-common).
+2. From the OpenTok Text Chat Sample app project, right-click the app name and select **New > Module > Import Gradle Project**.
 3. Navigate to the directory in which you cloned **TokBox Common Accelerator Session Pack**, select **android-acc-pack**, and click **Finish**.
 4. Open the **build.gradle** file for the app and ensure the following lines have been added to the `dependencies` section:
 ```
@@ -208,10 +208,9 @@ By implementing the `TextChatFragment.TextChatListener` interface, the `MainActi
 
 The method implementations shown below use the `ChatMessage` object to send and receive messages. 
 
-The `onNewSentMessage()` method uses the [OpenTok signaling API](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/Session.html#sendSignal(java.lang.String,%20java.lang.String)) to send an individual chat message to the other client connected to the OpenTok session.
+The `onNewSentMessage()` event is fired when a new individual `ChatMessage` is sent to other client connected to the OpenTok session. To send a `ChatMessage`, the `TextChatFragment` uses the [OpenTok signaling API](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/Session.html#sendSignal(java.lang.String,%20java.lang.String)).
 
-The `onNewReceivedMessage()` method uses the `ChatMessage` object to build and display the individual chat message received from the other client.
-
+The `onNewReceivedMessage()` event is fired when a new `ChatMessage` is received from the other client.
 
 ```java
     @Override

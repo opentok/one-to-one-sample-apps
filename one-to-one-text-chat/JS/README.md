@@ -89,88 +89,64 @@ This class sets up the text chat UI views and events, and provides functions for
 
 #### Initialization
 
-The following `options` fields are used in the `TextChatAccPack` constructor:
+  The following `options` fields are used in the `TextChatAccPack` constructor:
 
-| Feature        | Field  |
-| ------------- | ------------- |
-| Set the chat container.   | `container`  |
-| Sets the position of the element that displays the information for the character count within the UI.   | `charCountElement`  |
-| Set the maximum chat text length.   | `maxTextLength`  |
-| Set the sender alias and the sender ID of the outgoing messages.  | `senderAlias`, `senderId`  |
-
-
-In this initialization code, the `TextChatAccPack` object is initialized, and the OpenTok [Session.on()](https://tokbox.com/developer/sdks/js/reference/Session.html#on) event handler is used to set up the signaling used in the exchange of individual text chat messages.
-
-```javascript
-_textChat = new TextChatAccPack(
-            {
-              charCountElement: options.textChat.charCountElement,
-              acceleratorPack: self,
-              sender: options.textChat.user,
-              limitCharacterMessage: options.textChat.limitCharacterMessage
-            });
-```
+  | Feature        | Field  |
+  | ------------- | ------------- |
+  | Set the chat container.   | `container`  |
+  | Sets the position of the element that displays the information for the character count within the UI.   | `charCountElement`  |
+  | Set the maximum chat text length.   | `limitCharacterMessage`  |
+  | Set the sender alias and the sender ID of the outgoing messages.  | `senderAlias`, `senderId`  |
 
 
-#### Sending and receiving messages
+  In this initialization code, the `TextChatAccPack` object is initialized.
 
-The `TextChatAccPack` prototype defines a `_sendMessage()` function that extracts the string entered into the composer view’s message box and sends it to the recipient. In this example, it uses the [OpenTok signaling API](https://tokbox.com/developer/sdks/js/reference/Session.html#signal) to send an individual chat message to the other client connected to the OpenTok session. Note that the `sentOn` property in the message data is formatted as a timestamp or epoch.
-
-```javascript
-  var _sendMessage = function (recipient, message) {
-
-     . . .
-
-     var message_data = {
-       message: arguments[1],
-       user: this.options.user,
-       sentOn: new Date()
-     };
-
-     . . .
-
-     self._session.signal({
-         type: 'chat',
-         data: message_data,
-         to: recipient
-       },
-
-     . . .
-```
+  ```javascript
+  _textChat = new TextChatAccPack(
+    {
+      charCountElement: options.textChat.charCountElement,
+      acceleratorPack: self,
+      sender: options.textChat.user,
+      limitCharacterMessage: options.textChat.limitCharacterMessage
+    });
+  ```
 
 
-The `TextChatAccPack` prototype defines an `onIncomingMessage()` event handler that handles the OpenTok signals for incoming messages. In this example, it uses the `TextChatAccPack.getBubbleHtml()` method to render the received message:
+  #### Sending and receiving messages
 
+  The `TextChat` component defines `showTextChat()` and `hideTextChat()` methods to show or hide text chat view.
 
-```javascript
-    var _onIncomingMessage = function (signal) {
+  The `TextChat` component defines `isDisplayed()` method to know if the text chat accelerator pack is displayed or not.
 
-       . . .
+  The `TextChat` component defines `isEnabled()` method to know if the text chat accelerator pack is enabled or not.
+  
+  ```javascript
+  var displayed = _textChat.isDisplayed();
 
-       this._renderChatMessage(signal.data.user, signal.data.message, signal.data.sentOn);
+  ```
 
-       . . .
-    },
+  #### Events
 
+   The `TextChat` component emits a `messageReceived` event when a new message is received.
 
-    var _renderChatMessage = function (user, message, sentOn) {
+  The `TextChat` component emits a `messageSent` event when a new message is sent.
 
-      . . .
+  The `TextChat` component emits an `errorSendingMessage` event when there is an error sending a message.
+  
+  These events can be subscribed to in the following manner:
 
-      var view = this._textChat.getBubbleHtml({
-        username: user.name,
-        message: message,
-        message_class: sent_by_class,
-        time: sentOn
+  ```javascript
+      _accPack.registerEventListener('messageReceived', function() {
+        . . .
       });
 
-      var chatholder = $(this._textChat._newMessages);
-      chatholder.append(view);
-      this._textChat._cleanComposer();
-      chatholder[0].scrollTop = chatholder[0].scrollHeight;
+      _accPack.registerEventListener('messageSent', function() {
+        . . .
+      });
 
-      . . .
-    }
-```
+      _accPack.registerEventListener('errorSendingMessage', function() {
+        . . .
+      });
+  ```
 
 

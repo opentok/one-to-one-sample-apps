@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class OTKAnalyticsData {
 
-    private static final String LOGTAG = "opentok-otkanalyticsdata";
+    private static final String LOGTAG = OTKAnalyticsData.class.getSimpleName();
 
     private String logVersion; //optional
     private String guid; //optional
@@ -21,7 +21,7 @@ public class OTKAnalyticsData {
     private String systemVersion; //optional
     private String systemName; //optional
 
-    private int clientSystemTime; //optional
+    private long clientSystemTime=0; //optional
 
     private String client; //optional
 
@@ -85,6 +85,10 @@ public class OTKAnalyticsData {
 
     public String getSystemName() { return systemName; }
 
+    public void setClientSystemTime(long clientSystemTime) {
+        this.clientSystemTime = clientSystemTime;
+    }
+
     public OTKAnalyticsData(Builder builder){
 
         this.logVersion = builder.logVersion;
@@ -120,7 +124,7 @@ public class OTKAnalyticsData {
             client = "native";
         }
         if ( this.clientSystemTime ==  0 ){
-            this.clientSystemTime = (int)System.currentTimeMillis();
+            this.clientSystemTime = System.currentTimeMillis();
         }
         if ( this.systemName == null || this.systemName.isEmpty() ){
             this.systemName = "Android OS";

@@ -18,7 +18,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class OTKAnalytics {
 
-    private static final String LOGTAG = "opentok-otkanalytics";
+    private static final String LOGTAG = OTKAnalytics.class.getSimpleName();
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -44,8 +44,9 @@ public class OTKAnalytics {
      */
     public void logEvent(String eventAction, String eventVariation){
         if (data != null && eventAction != null && eventVariation != null && !eventAction.isEmpty()) {
-                this.data.setAction(eventAction);
-                this.data.setVariation(eventVariation);
+            this.data.setAction(eventAction);
+            this.data.setVariation(eventVariation);
+            this.data.setClientSystemTime(System.currentTimeMillis());
             try {
                 String jsonInString = mapper.writeValueAsString(this.data);
                 sendDataStr(jsonInString);
@@ -101,4 +102,3 @@ public class OTKAnalytics {
         }.start();
     }
 }
-

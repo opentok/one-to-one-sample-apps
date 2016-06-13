@@ -158,7 +158,8 @@
     OTError *error;
     [self.session publish:self.publisher error:&error];
     if (error) {
-
+        [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidConnect
+                             error:error];
     }
     else {
         NSString *apiKey = self.session.apiKey;
@@ -186,19 +187,12 @@
 - (void)session:(OTSession *)session streamCreated:(OTStream *)stream {
 
     NSLog(@"session streamCreated (%@)", stream.streamId);
-
-    if (self.publisher.stream && [self.publisher.stream.streamId isEqualToString:stream.streamId]) {
-        OTError *error;
-        self.subscriber = [[OTSubscriber alloc] initWithStream:stream delegate:self];
-        [self.session subscribe:self.subscriber error:&error];
-        if (error) {
-            
-        }
-        else {
-            [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamCreated
-                                 error:nil];
-        }
-    }
+    
+    OTError *error;
+    self.subscriber = [[OTSubscriber alloc] initWithStream:stream delegate:self];
+    [self.session subscribe:self.subscriber error:&error];
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamCreated
+                         error:error];
 }
 
 - (void)session:(OTSession *)session streamDestroyed:(OTStream *)stream {
@@ -218,14 +212,14 @@
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
     NSLog(@"session did failed with error: (%@)", error);
     [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidFail
-                         error:nil];
+                         error:error];
 }
 
 #pragma mark - OTPublisherDelegate
 - (void)publisher:(OTPublisherKit *)publisher didFailWithError:(OTError *)error {
     NSLog(@"publisher did failed with error: (%@)", error);
     [self notifiyAllWithSignal:OneToOneCommunicationSignalPublisherDidFail
-                         error:nil];
+                         error:error];
 }
 
 #pragma mark - OTSubscriberKitDelegate
@@ -257,7 +251,7 @@
 - (void)subscriber:(OTSubscriberKit *)subscriber didFailWithError:(OTError *)error {
     NSLog(@"subscriber did failed with error: (%@)", error);
     [self notifiyAllWithSignal:OneToOneCommunicationSignalSubscriberDidFail
-                         error:nil];
+                         error:error];
 }
 
 #pragma mark - Setters and Getters

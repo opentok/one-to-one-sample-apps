@@ -2,6 +2,7 @@
 #import "MainViewController.h"
 #import <TextChatKit/TextChatKit.h>
 #import "SVProgressHUD.h"
+#import "OneToOneCommunicator.h"
 
 @interface MainViewController ()
 @property (nonatomic) MainView *mainView;

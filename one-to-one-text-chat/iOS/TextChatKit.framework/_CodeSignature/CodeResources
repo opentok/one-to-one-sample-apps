@@ -4,21 +4,9 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Assets.car</key>
-		<data>
-		4VOJ33E8G2zuaRQ2XJQAGr5iePg=
-		</data>
-		<key>Headers/OneToOneCommunicator.h</key>
-		<data>
-		qNNRsPTZLhL9YP1kaRkI26hhhjM=
-		</data>
-		<key>Headers/TextChat.h</key>
-		<data>
-		Zh0U6utqy2R9cOv8ZmD1E4Nlw8s=
-		</data>
 		<key>Headers/TextChatKit.h</key>
 		<data>
-		9NQGVvNAKNFcwxxzFoGLn7mLxZo=
+		9anXryhZKiqK3mX1v2Wm/UnN+7U=
 		</data>
 		<key>Headers/TextChatUICustomizator.h</key>
 		<data>
@@ -26,7 +14,11 @@
 		</data>
 		<key>Headers/TextChatView.h</key>
 		<data>
-		7Hwg9PyugP/XrNEWD4P5t11wphc=
+		dq/LZNK/sdMK6rl8csrArA95mi0=
+		</data>
+		<key>Headers/TextMessage.h</key>
+		<data>
+		pqN4lKHIgP3tl2xMGUU/APf/U8U=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -36,48 +28,12 @@
 		<data>
 		Nh0LtOylLBrS3TjN8fV37PNe1a0=
 		</data>
-		<key>TextChatComponentDivTableViewCell.nib</key>
-		<data>
-		+PkfmH/9tqIpZbeIAe5FAemk6vM=
-		</data>
-		<key>TextChatReceivedShortTableViewCell.nib</key>
-		<data>
-		26HFWvpGgw1publWeqYgOZF29Vg=
-		</data>
-		<key>TextChatReceivedTableViewCell.nib</key>
-		<data>
-		bJ2BD8ykuCe16FSk3TT49Na5d5c=
-		</data>
-		<key>TextChatSentShortTableViewCell.nib</key>
-		<data>
-		wF4gybPID2/diVkmYMbAMt5Dh5g=
-		</data>
-		<key>TextChatSentTableViewCell.nib</key>
-		<data>
-		R4lOvI18ommHQQUgY+2+X9dX1bk=
-		</data>
-		<key>TextChatView.nib</key>
-		<data>
-		xFsjPKuUC1+P/LTStmxGY8kIsYU=
-		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Assets.car</key>
-		<data>
-		4VOJ33E8G2zuaRQ2XJQAGr5iePg=
-		</data>
-		<key>Headers/OneToOneCommunicator.h</key>
-		<data>
-		qNNRsPTZLhL9YP1kaRkI26hhhjM=
-		</data>
-		<key>Headers/TextChat.h</key>
-		<data>
-		Zh0U6utqy2R9cOv8ZmD1E4Nlw8s=
-		</data>
 		<key>Headers/TextChatKit.h</key>
 		<data>
-		9NQGVvNAKNFcwxxzFoGLn7mLxZo=
+		9anXryhZKiqK3mX1v2Wm/UnN+7U=
 		</data>
 		<key>Headers/TextChatUICustomizator.h</key>
 		<data>
@@ -85,35 +41,15 @@
 		</data>
 		<key>Headers/TextChatView.h</key>
 		<data>
-		7Hwg9PyugP/XrNEWD4P5t11wphc=
+		dq/LZNK/sdMK6rl8csrArA95mi0=
+		</data>
+		<key>Headers/TextMessage.h</key>
+		<data>
+		pqN4lKHIgP3tl2xMGUU/APf/U8U=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
 		Nh0LtOylLBrS3TjN8fV37PNe1a0=
-		</data>
-		<key>TextChatComponentDivTableViewCell.nib</key>
-		<data>
-		+PkfmH/9tqIpZbeIAe5FAemk6vM=
-		</data>
-		<key>TextChatReceivedShortTableViewCell.nib</key>
-		<data>
-		26HFWvpGgw1publWeqYgOZF29Vg=
-		</data>
-		<key>TextChatReceivedTableViewCell.nib</key>
-		<data>
-		bJ2BD8ykuCe16FSk3TT49Na5d5c=
-		</data>
-		<key>TextChatSentShortTableViewCell.nib</key>
-		<data>
-		wF4gybPID2/diVkmYMbAMt5Dh5g=
-		</data>
-		<key>TextChatSentTableViewCell.nib</key>
-		<data>
-		R4lOvI18ommHQQUgY+2+X9dX1bk=
-		</data>
-		<key>TextChatView.nib</key>
-		<data>
-		xFsjPKuUC1+P/LTStmxGY8kIsYU=
 		</data>
 	</dict>
 	<key>rules</key>

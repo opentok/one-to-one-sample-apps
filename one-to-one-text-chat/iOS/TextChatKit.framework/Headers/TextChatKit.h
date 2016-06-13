@@ -6,7 +6,6 @@
 //  Copyright © 2016 Tokbox. All rights reserved.
 //
 
-#import <TextChatKit/TextChat.h>
+#import <TextChatKit/TextMessage.h>
 #import <TextChatKit/TextChatView.h>
 #import <TextChatKit/TextChatUICustomizator.h>
-#import <TextChatKit/OneToOneCommunicator.h>

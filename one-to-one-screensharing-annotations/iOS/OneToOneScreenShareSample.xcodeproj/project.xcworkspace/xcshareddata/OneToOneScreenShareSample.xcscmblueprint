@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "B30A9E5CBA8F40FA672E0D5FBF52C03A467C55DC",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "99C1DC40AAA2244B8B32A930073CC0BE704419AC" : 0,
+    "B30A9E5CBA8F40FA672E0D5FBF52C03A467C55DC" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "1FAAF03C-5EBF-4631-BE92-0F7740A4ECBE",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "99C1DC40AAA2244B8B32A930073CC0BE704419AC" : "screensharing-annotation-acc-pack\/iOS\/OneToOneScreenShareSample\/OneToOneScreenShareSample\/OneToOne\/one-to-one-sample-apps-origin\/",
+    "B30A9E5CBA8F40FA672E0D5FBF52C03A467C55DC" : "screensharing-annotation-acc-pack\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "OneToOneScreenShareSample",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "iOS\/OneToOneScreenShareSample\/OneToOneScreenShareSample.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/opentok\/one-to-one-sample-apps.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "99C1DC40AAA2244B8B32A930073CC0BE704419AC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/opentok\/screensharing-annotation-acc-pack",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B30A9E5CBA8F40FA672E0D5FBF52C03A467C55DC"
+    }
+  ]
+}

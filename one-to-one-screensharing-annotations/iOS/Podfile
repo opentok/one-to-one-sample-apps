@@ -1,0 +1,11 @@
+
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+inhibit_all_warnings!
+
+target 'OneToOneScreenShareSample' do
+  pod 'OpenTok'
+  pod 'OTAcceleratorPackUtil'
+  pod 'SVProgressHUD'
+  pod 'LHToolbar', '1.2.1-beta'
+end

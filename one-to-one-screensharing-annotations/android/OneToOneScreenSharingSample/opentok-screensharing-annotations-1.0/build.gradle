@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('opentok-screensharing-annotations-1.0.aar'))

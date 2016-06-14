@@ -1,0 +1,1 @@
+include ':app', ':opentok-screensharing-annotations-1.0', ':opentok-annotations-1.0'

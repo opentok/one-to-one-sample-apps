@@ -21,13 +21,14 @@ import java.util.ArrayList;
 public class OneToOneCommunication implements
         AccPackSession.SessionListener, Publisher.PublisherListener, Subscriber.SubscriberListener, Subscriber.VideoListener {
 
-    private static final String LOGTAG = MainActivity.class.getName();
-    ;
+
+    private static final String LOGTAG = OneToOneCommunication.class.getName();
     private Context mContext;
 
     private AccPackSession mSession;
     private Publisher mPublisher;
     private Subscriber mSubscriber;
+    private Subscriber mScreenSubscriber;
     private ArrayList<Stream> mStreams;
 
     private boolean isInitialized = false;
@@ -39,6 +40,8 @@ public class OneToOneCommunication implements
 
     private boolean isRemote = false;
     private boolean startPublish = false;
+
+    private boolean isScreensharing = false;
 
     protected Listener mListener;
 
@@ -134,7 +137,7 @@ public class OneToOneCommunication implements
     public void start() {
         if (mSession != null && isInitialized) {
             //add START_COMM attempt log event
-          //  addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_ATTEMPT);
+            //  addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_ATTEMPT);
             if (mPublisher == null) {
                 mPublisher = new Publisher(mContext, "myPublisher");
                 mPublisher.setPublisherListener(this);
@@ -155,7 +158,7 @@ public class OneToOneCommunication implements
     public void end() {
         if ( mSession != null ) {
             //add END_COMM attempt log event
-           // addLogEvent(OpenTokConfig.LOG_ACTION_END_COMM, OpenTokConfig.LOG_VARIATION_ATTEMPT);
+            // addLogEvent(OpenTokConfig.LOG_ACTION_END_COMM, OpenTokConfig.LOG_VARIATION_ATTEMPT);
 
             if (mPublisher != null) {
                 mSession.unpublish(mPublisher);
@@ -163,13 +166,17 @@ public class OneToOneCommunication implements
             }
             if (mSubscriber != null) {
                 mSession.unsubscribe(mSubscriber);
-                isRemote = false;
             }
+            if (mScreenSubscriber != null){
+                mSession.unsubscribe(mScreenSubscriber);
+            }
+            isRemote = false;
             restartViews();
             mPublisher = null;
+            isScreensharing = false;
             mSubscriber = null;
             isStarted = false;
-            isRemote = false;
+
 
         }
     }
@@ -316,6 +323,15 @@ public class OneToOneCommunication implements
         return isRemote;
     }
 
+    /**
+     * Whether the Screensharing remote is connected or not.
+     *
+     * @return true if the screensharing remote is connected; false if it is not.
+     */
+    public boolean isScreensharing() {
+        return isScreensharing;
+    }
+
     public void reloadViews() {
         if ( mPublisher != null ) {
             attachPublisherView();
@@ -326,23 +342,45 @@ public class OneToOneCommunication implements
     }
 
     private void subscribeToStream(Stream stream) {
-        mSubscriber = new Subscriber(mContext, stream);
-        mSubscriber.setVideoListener(this);
-        mSubscriber.setSubscriberListener(this);
-        mSession.subscribe(mSubscriber);
+        Log.i(LOGTAG, "SubscribeToStream");
+
+        if ( stream.getStreamVideoType() == Stream.StreamVideoType.StreamVideoTypeScreen ){
+            Log.i(LOGTAG, "Subscriber with type screen");
+            mScreenSubscriber = new Subscriber(mContext, stream);
+            mScreenSubscriber.setVideoListener(this);
+            mScreenSubscriber.setSubscriberListener(this);
+            mSession.subscribe(mScreenSubscriber);
+            isScreensharing = true;
+        }
+        else {
+            mSubscriber = new Subscriber(mContext, stream);
+            mSubscriber.setVideoListener(this);
+            mSubscriber.setSubscriberListener(this);
+            mSession.subscribe(mSubscriber);
+        }
     }
 
     private void unsubscribeFromStream(Stream stream) {
         if ( mStreams.size() > 0 ) {
             mStreams.remove(stream);
-            isRemote = false;
-            if ( mSubscriber != null && mSubscriber.getStream().equals(stream) ) {
-                onRemoteViewReady(mSubscriber.getView());
-                mSubscriber = null;
-                if ( !mStreams.isEmpty() ) {
-                    subscribeToStream(mStreams.get(0));
+
+            if (stream.getStreamVideoType() == Stream.StreamVideoType.StreamVideoTypeScreen) {
+                isScreensharing = false;
+                if (mScreenSubscriber != null && mScreenSubscriber.getStream().equals(stream) ) {
+                    onRemoteViewReady(mScreenSubscriber.getView());
+                    mScreenSubscriber = null;
                 }
             }
+            else {
+                if ( mSubscriber != null && mSubscriber.getStream().equals(stream) ) {
+                    isRemote = false;
+                    onRemoteViewReady(mSubscriber.getView());
+                    mSubscriber = null;
+                }
+            }
+            /*if ( !mStreams.isEmpty() ) {
+                subscribeToStream(mStreams.get(0));
+            }*/
         }
     }
 
@@ -372,6 +410,7 @@ public class OneToOneCommunication implements
     private void restartComm() {
         mSubscriber = null;
         isRemote = false;
+        isScreensharing = false;
         isInitialized = false;
         isStarted = false;
         mPublisher = null;
@@ -400,14 +439,14 @@ public class OneToOneCommunication implements
             }
         }
         //add START_COMM success log event
-      //  addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
+        //  addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
     }
 
     @Override
     public void onStreamDestroyed(PublisherKit publisherKit, Stream stream) {
         Log.i(LOGTAG, "onStreamDestroyed");
 
-        if ( OpenTokConfig.SUBSCRIBE_TO_SELF && mSubscriber != null ) {
+        if ( OpenTokConfig.SUBSCRIBE_TO_SELF && (mSubscriber != null || mScreenSubscriber != null)) {
             unsubscribeFromStream(stream);
         }
         //restart media status
@@ -417,7 +456,7 @@ public class OneToOneCommunication implements
         mRemoteVideo = true;
 
         //add END_COMM success log event
-      //  addLogEvent(OpenTokConfig.LOG_ACTION_END_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
+        //  addLogEvent(OpenTokConfig.LOG_ACTION_END_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
     }
 
 
@@ -428,7 +467,7 @@ public class OneToOneCommunication implements
         restartComm();
 
         //add START_COMM error log event
-      //  addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_ERROR);
+        //  addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_ERROR);
     }
 
     @Override
@@ -437,11 +476,11 @@ public class OneToOneCommunication implements
         isInitialized = true;
 
         //Init the analytics logging
-       // mAnalyticsData = new OTKAnalyticsData.Builder(OpenTokConfig.SESSION_ID, OpenTokConfig.API_KEY, mSession.getConnection().getConnectionId(), OpenTokConfig.LOG_CLIENT_VERSION, OpenTokConfig.LOG_SOURCE).build();
-       // mAnalytics = new OTKAnalytics(mAnalyticsData);
+        // mAnalyticsData = new OTKAnalyticsData.Builder(OpenTokConfig.SESSION_ID, OpenTokConfig.API_KEY, mSession.getConnection().getConnectionId(), OpenTokConfig.LOG_CLIENT_VERSION, OpenTokConfig.LOG_SOURCE).build();
+        // mAnalytics = new OTKAnalytics(mAnalyticsData);
 
         //add INITIALIZE attempt log event
-       // addLogEvent(OpenTokConfig.LOG_ACTION_INITIALIZE, OpenTokConfig.LOG_VARIATION_ATTEMPT);
+        // addLogEvent(OpenTokConfig.LOG_ACTION_INITIALIZE, OpenTokConfig.LOG_VARIATION_ATTEMPT);
 
         onInitialized();
 
@@ -462,7 +501,8 @@ public class OneToOneCommunication implements
         Log.i(LOGTAG, "New remote is connected to the session");
         if ( !OpenTokConfig.SUBSCRIBE_TO_SELF ) {
             mStreams.add(stream);
-            if ( mSubscriber == null && isStarted ) {
+            //if ( mSubscriber == null && isStarted ) {
+            if (isStarted()){
                 subscribeToStream(stream);
             }
         }
@@ -483,7 +523,7 @@ public class OneToOneCommunication implements
         restartComm();
 
         //add INITIALIZE error log event
-       // addLogEvent(OpenTokConfig.LOG_ACTION_INITIALIZE, OpenTokConfig.LOG_VARIATION_ERROR );
+        // addLogEvent(OpenTokConfig.LOG_ACTION_INITIALIZE, OpenTokConfig.LOG_VARIATION_ERROR );
     }
 
     @Override
@@ -511,7 +551,12 @@ public class OneToOneCommunication implements
     @Override
     public void onVideoDataReceived(SubscriberKit subscriber) {
         Log.i(LOGTAG, "First frame received");
-        attachSubscriberView(mSubscriber);
+        if (subscriber.getStream().getStreamVideoType() == Stream.StreamVideoType.StreamVideoTypeScreen){
+            attachSubscriberView(mScreenSubscriber);
+        }
+        else {
+            attachSubscriberView(mSubscriber);
+        }
     }
 
     @Override
@@ -551,6 +596,9 @@ public class OneToOneCommunication implements
         if ( mSubscriber != null ) {
             onRemoteViewReady(mSubscriber.getView());
         }
+        if ( mScreenSubscriber != null ) {
+            onRemoteViewReady(mScreenSubscriber.getView());
+        }
         if ( mPublisher != null ){
             onPreviewReady(null);
         }
@@ -562,7 +610,7 @@ public class OneToOneCommunication implements
         }
 
         //add INITIALIZE success log event
-      //  addLogEvent(OpenTokConfig.LOG_ACTION_INITIALIZE, OpenTokConfig.LOG_VARIATION_SUCCESS);
+        //  addLogEvent(OpenTokConfig.LOG_ACTION_INITIALIZE, OpenTokConfig.LOG_VARIATION_SUCCESS);
     }
 
     protected void onError(String error) {
@@ -600,4 +648,27 @@ public class OneToOneCommunication implements
             mAnalytics.logEvent(action, variation);
         }
     }*/
+
+    public View getRemoteVideoView (){
+        if ( mSubscriber != null ){
+            return mSubscriber.getView();
+        }
+
+        return null;
+    }
+
+    public View getRemoteScreenView (){
+        if ( mScreenSubscriber != null ){
+            return mScreenSubscriber.getView();
+        }
+        return null;
+    }
+
+    public View getPreviewView (){
+        if ( mPublisher != null ){
+            return mPublisher.getView();
+        }
+
+        return null;
+    }
 }

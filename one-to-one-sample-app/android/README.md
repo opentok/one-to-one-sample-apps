@@ -49,11 +49,11 @@ Follow these steps to add the OpenTok SDK to your project:
 1.  Select the **Project** view.  
 2.  Modify the **build.gradle** for your solution and add the following code snippet to the section labeled `repositories`: 
 
-```maven { url "http://tokbox.bintray.com/maven" }``` 
+    ```maven { url "http://tokbox.bintray.com/maven" }``` 
 
 3.  Modify the **build.gradle** for your activity and add the following code snippet to the section labeled `dependencies`: 
 
-```compile compile 'com.opentok.android:opentok-android-sdk:2.8.+'```
+    ```compile compile 'com.opentok.android:opentok-android-sdk:2.8.+'```
 
 
 

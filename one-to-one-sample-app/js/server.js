@@ -1,23 +1,23 @@
 /*
  * Express Dependencies
  */
-var express = require('express');
-var app = express();
-var port = 8080;
+const express = require('express');
+const app = express();
+const port = 8080;
 
 /*
  * Config
  */
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(`${__dirname}/public`));
 
 /*
  * Routes
  */
-app.get('/', function(req, res) {
-    res.render('index.html');
+app.get('/', (req, res) => {
+  res.render('index.html');
 });
 
-app.get('*', function(req, res){
+app.get('*', (req, res) => {
   res.redirect('/');
 });
 
@@ -25,4 +25,4 @@ app.get('*', function(req, res){
  * Listen
  */
 app.listen(process.env.PORT || port);
-console.log('app listening on port' + port);
+console.log(`app listening on port ${port}`);

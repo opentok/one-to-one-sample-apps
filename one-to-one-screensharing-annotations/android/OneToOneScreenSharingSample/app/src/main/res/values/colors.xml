@@ -12,4 +12,5 @@
     <color name="quality_alert">#cb1e28</color>
     <color name="quality_warning">#fef9c8</color>
     <color name="warning_text">#ad7212</color>
+    <color name="bckg_bar">#cc000000</color>
 </resources>

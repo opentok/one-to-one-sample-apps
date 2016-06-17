@@ -19,11 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +36,6 @@ import com.tokbox.android.screensharingsample.ui.RemoteControlFragment;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -77,12 +73,6 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
 
     //Dialog
     ProgressDialog mProgressDialog;
-
-    private Activity activityReference;
-    private TableLayout menu1;
-    private RelativeLayout menu2;
-    private WebView menu3;
-    private TableLayout menu4;
 
     private AnnotationsToolbar mAnnotationsToolbar;
     private boolean screenshot;
@@ -134,8 +124,6 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
         mProgressDialog.setTitle("Please wait");
         mProgressDialog.setMessage("Connecting...");
         mProgressDialog.show();
-
-        activityReference = this;
 
     }
 
@@ -405,7 +393,9 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
                     }
                 }
             }
+            mActionBarContainer.setBackgroundColor(getResources().getColor(R.color.bckg_bar));
         }
+
     }
 
     //Private methods
@@ -447,6 +437,7 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     //cleans views and controls
     private void cleanViewsAndControls() {
         mPreviewFragment.restart();
+        mActionBarContainer.setBackground(null);
     }
 
     private void showAVCall(boolean show) {

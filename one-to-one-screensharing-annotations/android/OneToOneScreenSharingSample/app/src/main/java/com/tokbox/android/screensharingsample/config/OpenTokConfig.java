@@ -4,11 +4,11 @@ public class OpenTokConfig {
 
     // *** Fill the following variables using your own Project info from the OpenTok dashboard  ***
     // ***                      https://dashboard.tokbox.com/projects                           ***
-    public static final String SESSION_ID = "1_MX40NTU4OTAyMn5-MTQ2NDc5NzE5ODUzOH5HazV0QnpCdE9zbVB3cEtuR0hnZGpYUnV-fg";
+    public static final String SESSION_ID = "";
     // Replace with a generated token (from the dashboard or using an OpenTok server SDK)
-    public static final String TOKEN = "T1==cGFydG5lcl9pZD00NTU4OTAyMiZzaWc9YmI5NTQ3OTA4MmQ3ODg1Nzg5NDNhNmEwNzkzNzRjNGI3ODNjYjhhNTpzZXNzaW9uX2lkPTFfTVg0ME5UVTRPVEF5TW41LU1UUTJORGM1TnpFNU9EVXpPSDVIYXpWMFFucENkRTl6YlZCM2NFdHVSMGhuWkdwWVVuVi1mZyZjcmVhdGVfdGltZT0xNDY0Nzk3MjExJm5vbmNlPTAuNTMxODE2OTY2MzY2MDIyOCZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNDY3Mzg5MjEw";
+    public static final String TOKEN = "";
     // Replace with your OpenTok API key
-    public static final String API_KEY = "45589022";
+    public static final String API_KEY = "";
 
     // Subscribe to a stream published by this client. Set to false to subscribe
     // to other clients' streams only.

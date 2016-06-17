@@ -1,0 +1,7 @@
+{
+    "js":{ 
+        "indent_size": 2,
+        "space_after_anon_function": true,
+        "end_with_newline": true
+    }
+}

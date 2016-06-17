@@ -11,7 +11,7 @@
 #import "OneToOneCommunicator.h"
 #import "OTKAnalytics.h"
 
-#import "OTAcceleratorSession.h"
+#import <OTAcceleratorPackUtil/OTAcceleratorPackUtil.h>
 
 @interface OneToOneCommunicator() <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
 @property (nonatomic) BOOL isCallEnabled;
@@ -158,12 +158,15 @@
     OTError *error;
     [self.session publish:self.publisher error:&error];
     if (error) {
-
+        [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidConnect
+                             error:error];
     }
     else {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(){
-            [self addLogEvent];
-        });
+        NSString *apiKey = self.session.apiKey;
+        NSString *sessionId = self.session.sessionId;
+        NSInteger partner = [apiKey integerValue];
+        [OTKAnalytics analyticsWithApiKey:@(partner) sessionId:sessionId connectionId:self.session.connection.connectionId clientVersion:@"ios-vsol-1.0.0" source:@"one-to-one-sample-app"];
+        [OTKAnalytics logEventAction:@"initialize" variation:@"Success" completion:nil];
         [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidConnect
                              error:nil];
     }
@@ -184,23 +187,18 @@
 - (void)session:(OTSession *)session streamCreated:(OTStream *)stream {
 
     NSLog(@"session streamCreated (%@)", stream.streamId);
-
+    
     OTError *error;
     self.subscriber = [[OTSubscriber alloc] initWithStream:stream delegate:self];
     [self.session subscribe:self.subscriber error:&error];
-    if (error) {
-
-    }
-    else {
-        [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamCreated
-                             error:nil];
-    }
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamCreated
+                         error:error];
 }
 
 - (void)session:(OTSession *)session streamDestroyed:(OTStream *)stream {
     NSLog(@"session streamDestroyed (%@)", stream.streamId);
 
-    if ([self.subscriber.stream.streamId isEqualToString:stream.streamId]) {
+    if (self.subscriber.stream && [self.subscriber.stream.streamId isEqualToString:stream.streamId]) {
 
         [self.session unsubscribe:self.subscriber error:nil];
         [self.subscriber.view removeFromSuperview];
@@ -214,14 +212,14 @@
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
     NSLog(@"session did failed with error: (%@)", error);
     [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidFail
-                         error:nil];
+                         error:error];
 }
 
 #pragma mark - OTPublisherDelegate
 - (void)publisher:(OTPublisherKit *)publisher didFailWithError:(OTError *)error {
     NSLog(@"publisher did failed with error: (%@)", error);
     [self notifiyAllWithSignal:OneToOneCommunicationSignalPublisherDidFail
-                         error:nil];
+                         error:error];
 }
 
 #pragma mark - OTSubscriberKitDelegate
@@ -253,20 +251,7 @@
 - (void)subscriber:(OTSubscriberKit *)subscriber didFailWithError:(OTError *)error {
     NSLog(@"subscriber did failed with error: (%@)", error);
     [self notifiyAllWithSignal:OneToOneCommunicationSignalSubscriberDidFail
-                         error:nil];
-}
-
-#pragma mark - private method
-- (void)addLogEvent {
-    NSString *apiKey = self.session.apiKey;
-    NSString *sessionId = self.session.sessionId;
-    NSInteger partner = [apiKey integerValue];
-    OTKAnalytics *logging = [[OTKAnalytics alloc] initWithSessionId:sessionId
-                                                       connectionId:self.session.connection.connectionId
-                                                          partnerId:partner
-                                                      clientVersion:@"ios-vsol-1.0.0"
-                                                             source:@"one_to_one_textchat_sample_app"];
-    [logging logEventAction:@"one-to-one-sample-app" variation:@""];
+                         error:error];
 }
 
 #pragma mark - Setters and Getters

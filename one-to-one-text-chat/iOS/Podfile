@@ -1,0 +1,5 @@
+platform :ios, '8.0'
+ 
+target 'OneToOneTextChatSample' do
+  pod 'OTAcceleratorPackUtil'
+end

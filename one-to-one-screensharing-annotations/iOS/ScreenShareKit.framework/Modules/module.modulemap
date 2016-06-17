@@ -1,0 +1,6 @@
+framework module ScreenShareKit {
+  umbrella header "ScreenShareKit.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="7sn-ld-RRG" customClass="MainView">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6vG-FU-K8j">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Y4-Qa-Kly" userLabel="subscriberAudioButton">
+                                <rect key="frame" x="20" y="60" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="6Y4-Qa-Kly" secondAttribute="height" multiplier="1:1" id="pqS-gH-2iL"/>
+                                </constraints>
+                                <state key="normal" image="audio"/>
+                                <connections>
+                                    <action selector="subscriberAudioButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zxt-Lm-IxN"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ztm-yF-Cb8" userLabel="subscriberVideoButton">
+                                <rect key="frame" x="20" y="105" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ztm-yF-Cb8" secondAttribute="height" multiplier="1:1" id="dI2-gW-n8n"/>
+                                </constraints>
+                                <state key="normal" image="videoIcon"/>
+                                <connections>
+                                    <action selector="subscriberVideoButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l8o-zf-oOy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZt-Qo-ZC4" userLabel="publisherCameraButton">
+                                <rect key="frame" x="550" y="60" width="30" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="aZt-Qo-ZC4" secondAttribute="height" multiplier="55:39" id="NAk-oe-cK5"/>
+                                    <constraint firstAttribute="width" constant="30" id="rrC-k6-zJl"/>
+                                </constraints>
+                                <state key="normal" image="reverse cameras"/>
+                                <connections>
+                                    <action selector="publisherCameraButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="J72-UV-Usa"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eE0-oO-5Jh">
+                                <rect key="frame" x="127" y="514" width="347" height="66"/>
+                                <subviews>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tOc-nt-OCo" userLabel="publisherVideoButton">
+                                        <rect key="frame" x="8" y="8" width="50" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="tOc-nt-OCo" secondAttribute="height" multiplier="1:1" id="5Dj-bI-Jca"/>
+                                        </constraints>
+                                        <state key="normal" image="videoIcon"/>
+                                        <connections>
+                                            <action selector="publisherVideoButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Diq-Q7-jjo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8pM-Hs-hJW" userLabel="publisherCallButton">
+                                        <rect key="frame" x="78" y="8" width="50" height="50"/>
+                                        <color key="backgroundColor" red="0.41568627450000001" green="0.67843137249999996" blue="0.74901960779999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="8pM-Hs-hJW" secondAttribute="height" multiplier="1:1" id="7e6-Fa-bzL"/>
+                                        </constraints>
+                                        <state key="normal" image="startCall"/>
+                                        <connections>
+                                            <action selector="publisherCallButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HuA-Sa-ugC"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R41-gq-V3R" userLabel="publisherMicButton">
+                                        <rect key="frame" x="148" y="8" width="50" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="R41-gq-V3R" secondAttribute="height" multiplier="1:1" id="WF0-kh-E2i"/>
+                                        </constraints>
+                                        <state key="normal" image="mic"/>
+                                        <connections>
+                                            <action selector="publisherAudioButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E7F-Sg-0F2"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2zE-c7-jId" userLabel="AnnotationButton">
+                                        <rect key="frame" x="218" y="8" width="50" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="2zE-c7-jId" secondAttribute="height" multiplier="1:1" id="PQF-f4-2go"/>
+                                        </constraints>
+                                        <state key="normal" image="pencilTool"/>
+                                        <connections>
+                                            <action selector="annotationButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="znW-X8-7BC"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hba-ab-38p" userLabel="ScreenShareButton">
+                                        <rect key="frame" x="288" y="8" width="50" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="hba-ab-38p" secondAttribute="height" multiplier="1:1" id="9lx-4s-QwI"/>
+                                        </constraints>
+                                        <state key="normal" image="screenshare"/>
+                                        <connections>
+                                            <action selector="ScreenShareButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AcE-xT-bVm"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="hba-ab-38p" firstAttribute="top" secondItem="eE0-oO-5Jh" secondAttribute="top" constant="8" id="993-kl-lnF"/>
+                                    <constraint firstItem="hba-ab-38p" firstAttribute="width" secondItem="hba-ab-38p" secondAttribute="height" multiplier="1:1" id="GDo-oU-paw"/>
+                                    <constraint firstAttribute="bottom" secondItem="8pM-Hs-hJW" secondAttribute="bottom" constant="8" id="KsD-ql-dRM"/>
+                                    <constraint firstAttribute="trailing" secondItem="hba-ab-38p" secondAttribute="trailing" constant="9" id="LTU-oE-QzT"/>
+                                    <constraint firstItem="tOc-nt-OCo" firstAttribute="leading" secondItem="eE0-oO-5Jh" secondAttribute="leading" constant="8" id="Pdi-L7-Den"/>
+                                    <constraint firstItem="2zE-c7-jId" firstAttribute="top" secondItem="eE0-oO-5Jh" secondAttribute="top" constant="8" id="Q8C-ve-jx4"/>
+                                    <constraint firstItem="hba-ab-38p" firstAttribute="leading" secondItem="2zE-c7-jId" secondAttribute="trailing" constant="20" id="Qxc-6T-bZg"/>
+                                    <constraint firstItem="hba-ab-38p" firstAttribute="leading" secondItem="2zE-c7-jId" secondAttribute="trailing" constant="20" id="WQQ-gh-bUZ"/>
+                                    <constraint firstAttribute="bottom" secondItem="hba-ab-38p" secondAttribute="bottom" constant="8" id="Wvn-V2-FMr"/>
+                                    <constraint firstItem="2zE-c7-jId" firstAttribute="bottom" secondItem="eE0-oO-5Jh" secondAttribute="bottom" constant="-8" id="aER-we-OpH"/>
+                                    <constraint firstAttribute="bottom" secondItem="tOc-nt-OCo" secondAttribute="bottom" constant="8" id="bxv-nL-dhV"/>
+                                    <constraint firstAttribute="width" secondItem="eE0-oO-5Jh" secondAttribute="height" multiplier="347:66" id="cgc-cC-N5h"/>
+                                    <constraint firstItem="8pM-Hs-hJW" firstAttribute="top" secondItem="eE0-oO-5Jh" secondAttribute="top" constant="8" id="ej1-6n-oo8"/>
+                                    <constraint firstItem="8pM-Hs-hJW" firstAttribute="leading" secondItem="tOc-nt-OCo" secondAttribute="trailing" constant="20" id="gd8-Mc-f4b"/>
+                                    <constraint firstItem="tOc-nt-OCo" firstAttribute="top" secondItem="eE0-oO-5Jh" secondAttribute="top" constant="8" id="i9Y-94-3aO"/>
+                                    <constraint firstItem="R41-gq-V3R" firstAttribute="leading" secondItem="8pM-Hs-hJW" secondAttribute="trailing" constant="20" id="kZp-ak-1e9"/>
+                                    <constraint firstItem="R41-gq-V3R" firstAttribute="top" secondItem="eE0-oO-5Jh" secondAttribute="top" constant="8" id="nbl-0s-5JB"/>
+                                    <constraint firstAttribute="bottom" secondItem="R41-gq-V3R" secondAttribute="bottom" constant="8" id="nrt-zy-2RZ"/>
+                                    <constraint firstItem="2zE-c7-jId" firstAttribute="leading" secondItem="R41-gq-V3R" secondAttribute="trailing" constant="20" id="zcx-1I-m5x"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="GDo-oU-paw"/>
+                                        <exclude reference="WQQ-gh-bUZ"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="1Bm-tC-LWC">
+                                <rect key="frame" x="490" y="403" width="90" height="90"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="1Bm-tC-LWC" secondAttribute="height" multiplier="1:1" id="1vB-7d-iR3"/>
+                                    <constraint firstAttribute="width" constant="90" id="L2D-Yp-eEZ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aZt-Qo-ZC4" firstAttribute="top" secondItem="7sn-ld-RRG" secondAttribute="top" constant="60" id="6sF-Nz-lAY"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="eE0-oO-5Jh" secondAttribute="bottom" constant="20" id="8uY-tO-2Ls"/>
+                            <constraint firstItem="ztm-yF-Cb8" firstAttribute="top" secondItem="6Y4-Qa-Kly" secondAttribute="bottom" constant="20" id="B2c-GQ-Omz"/>
+                            <constraint firstItem="ztm-yF-Cb8" firstAttribute="leading" secondItem="7sn-ld-RRG" secondAttribute="leading" constant="20" id="Dt4-bh-ART"/>
+                            <constraint firstItem="6vG-FU-K8j" firstAttribute="top" secondItem="7sn-ld-RRG" secondAttribute="top" id="G84-Qz-bAK"/>
+                            <constraint firstItem="eE0-oO-5Jh" firstAttribute="centerX" secondItem="7sn-ld-RRG" secondAttribute="centerX" id="GbA-nT-EDs"/>
+                            <constraint firstItem="6Y4-Qa-Kly" firstAttribute="leading" secondItem="7sn-ld-RRG" secondAttribute="leading" constant="20" id="LyG-6f-kfh"/>
+                            <constraint firstAttribute="trailing" secondItem="1Bm-tC-LWC" secondAttribute="trailing" constant="20" id="Xic-8g-BxY"/>
+                            <constraint firstAttribute="trailing" secondItem="6vG-FU-K8j" secondAttribute="trailing" id="YRr-0K-2xz"/>
+                            <constraint firstAttribute="trailing" secondItem="aZt-Qo-ZC4" secondAttribute="trailing" constant="20" id="eXW-Sr-KU3"/>
+                            <constraint firstAttribute="bottom" secondItem="6vG-FU-K8j" secondAttribute="bottom" id="gTj-Lm-RYf"/>
+                            <constraint firstItem="eE0-oO-5Jh" firstAttribute="top" secondItem="1Bm-tC-LWC" secondAttribute="bottom" constant="21" id="knQ-7d-4Oz"/>
+                            <constraint firstItem="6vG-FU-K8j" firstAttribute="leading" secondItem="7sn-ld-RRG" secondAttribute="leading" id="oED-UA-mFf"/>
+                            <constraint firstItem="6Y4-Qa-Kly" firstAttribute="top" secondItem="7sn-ld-RRG" secondAttribute="top" constant="60" id="wTx-0y-iln"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="actionButtonView" destination="eE0-oO-5Jh" id="COD-bY-Aq6"/>
+                            <outlet property="annotationHolder" destination="2zE-c7-jId" id="5Yj-dR-NeD"/>
+                            <outlet property="callHolder" destination="8pM-Hs-hJW" id="TvW-2h-yYl"/>
+                            <outlet property="micHolder" destination="R41-gq-V3R" id="MiG-0W-4M1"/>
+                            <outlet property="publisherCameraButton" destination="aZt-Qo-ZC4" id="3S2-dv-afL"/>
+                            <outlet property="publisherView" destination="1Bm-tC-LWC" id="aO7-cL-J18"/>
+                            <outlet property="screenShareHolder" destination="hba-ab-38p" id="Kzf-MD-5zA"/>
+                            <outlet property="subscriberAudioButton" destination="6Y4-Qa-Kly" id="4Z4-dj-f5t"/>
+                            <outlet property="subscriberVideoButton" destination="ztm-yF-Cb8" id="5ur-D8-WcY"/>
+                            <outlet property="subscriberView" destination="6vG-FU-K8j" id="2ZT-bb-p4o"/>
+                            <outlet property="videoHolder" destination="tOc-nt-OCo" id="5lg-S1-Jtp"/>
+                        </connections>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="565" y="327"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="audio" width="25" height="25"/>
+        <image name="mic" width="21" height="26"/>
+        <image name="pencilTool" width="26" height="23"/>
+        <image name="reverse cameras" width="55" height="39"/>
+        <image name="screenshare" width="29" height="21"/>
+        <image name="startCall" width="16" height="30"/>
+        <image name="videoIcon" width="24" height="14"/>
+    </resources>
+</document>

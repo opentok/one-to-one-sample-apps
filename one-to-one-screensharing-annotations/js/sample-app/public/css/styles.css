@@ -1,0 +1,354 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: helvetica, arial, sans-serif
+}
+
+div {
+    box-sizing: border-box;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.main-container {
+    position: relative;
+    width: 90vw;
+    height: 90vh;
+    min-width: 720px;
+    min-height: calc(720px/(1024/760));
+    margin: 35px auto;
+    border: 1px solid rgba(87, 193, 228, .85);
+    border-radius: 6px;
+    padding: 15px;
+}
+
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+/*Easy since we're using vw/vh*/
+.aspect-ratio {
+  height: 54vw;
+  min-width: 600px;
+  min-height: 360px;
+  padding: 0;
+}
+
+.aspect-ratio > .video-container {
+    position: absolute;
+}
+
+.shared-screen {
+    width: 100%;
+    height: 100%;
+}
+
+.shared-screen canvas {
+    top: 0;
+}
+
+.mask {
+    background-image: url("../images/main/mask.png")
+}
+
+.sharing-mask {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    background: rgba(0,0,0,0.8);
+}
+
+.sharing-text {
+    color: lightblue;
+    font-size: 28px;
+    font-weight: 300;
+}
+
+.video-wrap {
+    border-radius: 6px;
+    overflow: hidden;
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+}
+
+.video-background {
+    background-image: url("../images/main/background.png");
+    background-size: contain;
+}
+
+.primary-video {
+    width: 100%;
+    height: 100%;
+}
+
+.local-controls {
+    height: 60px;
+    width: 100%;
+    background-image: url("../images/main/control-bar.png");
+    background-size: contain;
+    position: absolute;
+    bottom: 0;
+    border-radius: 0 0 6px 6px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    z-index: 1001;
+}
+
+/* Move down so as to not cover canvas */
+.local-controls.viewing-shared-screen {
+    height: 65px;
+    bottom: -60px;
+}
+
+.secondary-video {
+    position: absolute;
+    bottom: 75px;
+    right: 30px;
+    width: 174px;
+    height: 150px;
+    z-index: 11;
+}
+
+.secondary-video.active {
+    border: 1px solid rgba(255, 255, 255, .8);
+}
+
+.remote-controls {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    z-index: 12;
+}
+
+.video-control {
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.video-control.circle {
+    border: 1px solid rgba(128, 128, 128, .5);
+    border-radius: 50%;
+}
+
+.video-control.circle:hover {
+    border: 1px solid rgba(128, 128, 128, 1);
+}
+
+.video-control.call {
+    background-color: rgba(87, 193, 228, .85);
+    background-image: url("../images/icon/call.png");
+    margin: 0 15px;
+}
+
+.video-control.call:hover {
+    background-color: rgba(87, 193, 228, 1);
+}
+
+.video-control.call.active {
+    background-color: red;
+    background-image: url("../images/icon/hang-up.png");
+}
+/**/
+
+.video-control.share-screen {
+  margin-left: 10px;
+  background-image: url("../images/icon/screen-share.png");
+}
+
+.video-control.share-screen.disabled,
+.video-control.share-screen:hover {
+  background-image: url("../images/icon/screen-share.png");
+}
+.video-control.share-screen.active {
+  background-color: red;
+  background-image: url("../images/icon/screen-share.png");
+}
+/**/
+.video-control.video {
+    background-image: url("../images/icon/video-icon.png");
+}
+
+.video-control.video.disabled,
+.video-control.video:hover {
+    background-image: url("../images/icon/no-video-icon.png");
+}
+
+.video-control.audio {
+    background-image: url("../images/icon/audio.png");
+}
+
+.video-control.audio.disabled,
+.video-control.audio:hover {
+    background-image: url("../images/icon/no-audio.png");
+}
+
+.video-control.microphone {
+    background-image: url("../images/icon/mic.png");
+}
+
+.video-control.microphone.disabled,
+.video-control.microphone:hover {
+    background-image: url("../images/icon/muted-mic.png");
+}
+
+/* Screensharing styles */
+
+.wms-modal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
+.wms-modal .wms-modal-body {
+  position: relative;
+  width: 456px;
+  height: 286px;
+  margin: 100px auto 0;
+  padding: 62px 70px;
+  background: #ffffff;
+  border: 1px solid #c7c7c7;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.35);
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.35);
+  color: #282828;
+}
+.wms-modal .wms-modal-body .wms-modal-title span {
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: bold;
+}
+.wms-modal .wms-modal-body .wms-modal-title.with-icon {
+  position: relative;
+  padding-left: 70px;
+}
+.wms-modal .wms-modal-body .wms-modal-title.with-icon i {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 60px;
+  height: 41px;
+  margin-top: -23px;
+  max-width: 60px;
+  max-height: 42px;
+}
+.wms-modal .wms-modal-body p {
+  font-size: 14px;
+  margin: 20px 0;
+}
+.wms-modal .wms-modal-body .wms-btn-install {
+  display: block;
+  width: 316px;
+  height: 44px;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 44px;
+  color: #fff;
+  font-size: 14px;
+  background: #259de8;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.wms-modal .wms-modal-body .wms-cancel-btn-install {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 25px;
+  height: 25px;
+  background-image: url("../images/icon/oval-281-x.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: transparent;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
+  .wms-modal .wms-modal-body .wms-cancel-btn-install {
+    background-image: url("../images/icon/oval-281-x@2x.png");
+    background-size: 25px 25px;
+  }
+}
+
+.wms-icon-share-large {
+  background-image: url("../images/icon/screenshare-large.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
+  .wms-icon-share-large {
+    background-image: url("../images/icon/screenshare-large@2x.png");
+    background-size: 60px 41px;
+  }
+}
+
+
+/*Annotation Styles*/
+.annotation-toolbar-container {
+  display: none;
+  position: fixed;
+  top: 125px;
+  right: 0;
+  width: 40px;
+  z-index: 1000;
+}
+.annotation-toolbar-container > div input {
+  display: block;
+  top: 0 !important;
+  transform: none !important;
+}
+.annotation-toolbar-container > div input#OT_colors {
+  width: 30px;
+  margin-right: 5px !important;
+  margin-left: 5px !important;
+  padding: 0;
+}
+.annotation-toolbar-container > div .OT_subpanel,
+.annotation-toolbar-container > div .color-picker {
+  position: absolute;
+  top: 0;
+  right: 40px;
+  padding-left: 0 !important;
+}
+.annotation-toolbar-container > div .OT_subpanel {
+  left: -40px;
+  overflow: hidden;
+}
+.annotation-toolbar-container > div .OT_subpanel > div {
+  top: 0 !important;
+  transform: none !important;
+}
+.annotation-toolbar-container > div .color-picker {
+  left: -30px;
+}
+.annotation-toolbar-container > div .color-picker .color-choice {
+  display: block !important;
+  height: 20px !important;
+  width: 20px !important;
+}

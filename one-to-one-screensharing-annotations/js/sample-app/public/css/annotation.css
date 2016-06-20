@@ -1,0 +1,55 @@
+.annotation-toolbar-container {
+  position: fixed;
+  top: 125px;
+  right: 0;
+  width: 40px;
+  z-index: 1000;
+}
+.annotation-toolbar-container > div input {
+  display: block;
+  top: 0 !important;
+  transform: none !important;
+}
+.annotation-toolbar-container > div input#OT_colors {
+  width: 30px;
+  margin-right: 5px !important;
+  margin-left: 5px !important;
+  padding: 0;
+}
+.annotation-toolbar-container > div .OT_subpanel,
+.annotation-toolbar-container > div .color-picker {
+  position: absolute;
+  top: 0;
+  right: 40px;
+  padding-left: 0 !important;
+}
+.annotation-toolbar-container > div .OT_subpanel {
+  left: -40px;
+  overflow: hidden;
+}
+.annotation-toolbar-container > div .OT_subpanel > div {
+  top: 0 !important;
+  transform: none !important;
+}
+.annotation-toolbar-container > div .color-picker {
+  left: -30px;
+}
+.annotation-toolbar-container > div .color-picker .color-choice {
+  display: block !important;
+  height: 20px !important;
+  width: 20px !important;
+}
+.annotation-aspect {
+  width: 100% !important;
+  height: 0 !important;
+  padding-bottom: 60% !important;
+}
+#opentok_canvas {
+  top: 0;
+  left: 0;
+}
+#endScreenShareBtn.annotation-active {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+}

@@ -1,0 +1,856 @@
+.wms-widget-wrapper div,
+.wms-widget-wrapper span,
+.wms-widget-wrapper object,
+.wms-widget-wrapper iframe,
+.wms-widget-wrapper h1,
+.wms-widget-wrapper h2,
+.wms-widget-wrapper h3,
+.wms-widget-wrapper h4,
+.wms-widget-wrapper h5,
+.wms-widget-wrapper h6,
+.wms-widget-wrapper p,
+.wms-widget-wrapper blockquote,
+.wms-widget-wrapper pre,
+.wms-widget-wrapper abbr,
+.wms-widget-wrapper address,
+.wms-widget-wrapper cite,
+.wms-widget-wrapper code,
+.wms-widget-wrapper del,
+.wms-widget-wrapper dfn,
+.wms-widget-wrapper em,
+.wms-widget-wrapper img,
+.wms-widget-wrapper ins,
+.wms-widget-wrapper kbd,
+.wms-widget-wrapper q,
+.wms-widget-wrapper samp,
+.wms-widget-wrapper small,
+.wms-widget-wrapper strong,
+.wms-widget-wrapper sub,
+.wms-widget-wrapper sup,
+.wms-widget-wrapper var,
+.wms-widget-wrapper b,
+.wms-widget-wrapper i,
+.wms-widget-wrapper dl,
+.wms-widget-wrapper dt,
+.wms-widget-wrapper dd,
+.wms-widget-wrapper ol,
+.wms-widget-wrapper ul,
+.wms-widget-wrapper li,
+.wms-widget-wrapper fieldset,
+.wms-widget-wrapper form,
+.wms-widget-wrapper label,
+.wms-widget-wrapper legend,
+.wms-widget-wrapper table,
+.wms-widget-wrapper caption,
+.wms-widget-wrapper tbody,
+.wms-widget-wrapper tfoot,
+.wms-widget-wrapper thead,
+.wms-widget-wrapper tr,
+.wms-widget-wrapper th,
+.wms-widget-wrapper td,
+.wms-widget-wrapper article,
+.wms-widget-wrapper aside,
+.wms-widget-wrapper canvas,
+.wms-widget-wrapper details,
+.wms-widget-wrapper figcaption,
+.wms-widget-wrapper figure,
+.wms-widget-wrapper footer,
+.wms-widget-wrapper header,
+.wms-widget-wrapper hgroup,
+.wms-widget-wrapper menu,
+.wms-widget-wrapper nav,
+.wms-widget-wrapper section,
+.wms-widget-wrapper summary,
+.wms-widget-wrapper time,
+.wms-widget-wrapper mark,
+.wms-widget-wrapper audio,
+.wms-widget-wrapper video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+.wms-widget-wrapper body {
+  line-height: 1;
+}
+
+.wms-widget-wrapper article,
+.wms-widget-wrapper aside,
+.wms-widget-wrapper details,
+.wms-widget-wrapper figcaption,
+.wms-widget-wrapper figure,
+.wms-widget-wrapper footer,
+.wms-widget-wrapper header,
+.wms-widget-wrapper hgroup,
+.wms-widget-wrapper menu,
+.wms-widget-wrapper nav,
+.wms-widget-wrapper section {
+  display: block;
+}
+
+.wms-widget-wrapper nav ul {
+  list-style: none;
+}
+
+.wms-widget-wrapper blockquote,
+.wms-widget-wrapper q {
+  quotes: none;
+}
+
+.wms-widget-wrapper blockquote:before,
+.wms-widget-wrapper blockquote:after,
+.wms-widget-wrapper q:before,
+.wms-widget-wrapper q:after {
+  content: '';
+  content: none;
+}
+
+.wms-widget-wrapper a {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+.wms-widget-wrapper ins {
+  background-color: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+.wms-widget-wrapper mark {
+  background-color: #ff9;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.wms-widget-wrapper del {
+  text-decoration: line-through;
+}
+
+.wms-widget-wrapper abbr[title],
+.wms-widget-wrapper dfn[title] {
+  border-bottom: 1px dotted;
+  cursor: help;
+}
+
+.wms-widget-wrapper table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.wms-widget-wrapper hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+.wms-widget-wrapper input,
+.wms-widget-wrapper select {
+  vertical-align: middle;
+}
+
+.wms-widget-wrapper a,
+.wms-widget-wrapper button {
+  outline: 0;
+  border: 0;
+}
+
+.wms-widget-wrapper a:hover,
+.wms-widget-wrapper a:focus,
+.wms-widget-wrapper button:hover,
+.wms-widget-wrapper button:focus {
+  outline: 0;
+}
+
+.wms-widget-wrapper {
+  font-family: helvetica, arial, sans-serif;
+  color: #343c3e;
+  font-weight: normal;
+}
+
+.wms-widget-wrapper h1,
+.wms-widget-wrapper h2,
+.wms-widget-wrapper h3,
+.wms-widget-wrapper h4,
+.wms-widget-wrapper h5,
+.wms-widget-wrapper h6,
+.wms-widget-wrapper .h1,
+.wms-widget-wrapper .h2,
+.wms-widget-wrapper .h3,
+.wms-widget-wrapper .h4 {
+  font-family: helvetica, arial, sans-serif;
+  color: #343c3e;
+  font-weight: normal;
+  font-weight: 700;
+}
+
+.wms-widget-wrapper {
+  box-sizing: border-box;
+}
+
+.wms-widget-wrapper *,
+.wms-widget-wrapper *:before,
+.wms-widget-wrapper *:after {
+  box-sizing: inherit;
+}
+
+.wms-widget-wrapper .wms-start-call {
+  width: auto;
+  height: auto;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: url("../images/mask/mask.png") center center;
+  background-size: cover;
+  padding: 130px 0;
+}
+
+.wms-widget-wrapper .wms-start-call .btn-start-call {
+  width: 128px;
+  height: 42px;
+  color: #fff;
+  font-size: 14px;
+  background: #259de8;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
+  display: block;
+  margin: 0 auto;
+}
+
+.wms-widget-wrapper .wms-feed-wrap {
+  position: relative;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-recording-label {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  text-align: right;
+  font-size: 14px;
+  color: #666;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-recording-label:before {
+  content: "";
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  margin-right: 5px;
+  background: #cf2027;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-recording-label em {
+  font-style: normal;
+  color: #333;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-feed-main-video {
+  min-height: 376px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: url("../images/mask/mask.png") center center;
+  background-size: cover;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-feed-main-video .wms-feed-mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+  -webkit-transform: rotate(0.000001deg);
+  overflow: hidden;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-feed-main-video img {
+  width: 100%;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-feed-main-video .wms-feed-holder {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-feed-main-video .wms-feed-holder img {
+  width: 100%;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-feed-main-video .wms-feed-main-video-controls {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-feed-main-video .wms-feed-main-video-controls button {
+  display: block;
+  background-color: transparent;
+  margin-bottom: 6px;
+  border: 0;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-fullscreen {
+  position: fixed;
+  z-index: 999;
+  top: 20px;
+  right: 20px;
+  width: 550px;
+  height: 400px;
+  padding: 0;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-fullscreen .wms-feed-mask img {
+  display: none;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-fullscreen .wms-feed-call-controls {
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-fullscreen .wms-feed-call-controls button {
+  margin: 0 5px;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-fullscreen .wms-feed-call-controls button.wms-icon-full-screen {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  border: 0;
+}
+
+.wms-widget-wrapper .wms-feed-wrap .wms-fullscreen .wms-feed-call-controls button.wms-icon-full-screen:before {
+  content: "minimize screen";
+  color: #fff;
+  position: absolute;
+  width: 96px;
+  right: 100%;
+  top: 18px;
+}
+
+.wms-widget-wrapper .wms-feed-secondary-video {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 116px;
+  height: 100px;
+  background: url("../images/mask/mask.png") center center;
+  background-size: cover;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  transition: all 1s ease;
+}
+
+.wms-widget-wrapper .wms-feed-secondary-video .wms-feed-mask {
+  width: 100%;
+  height: 100%;
+  -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+  -webkit-transform: rotate(0.000001deg);
+  overflow: hidden;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.wms-widget-wrapper .wms-feed-secondary-video.wms-sec-cover {
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  transition: all 1s ease;
+}
+
+.wms-widget-wrapper .wms-feed-secondary-video.wms-sec-cover .wms-feed-mask {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.wms-widget-wrapper .wms-feed-secondary-video .wms-feed-secondary-video-controls {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.wms-widget-wrapper .wms-feed-secondary-video .wms-feed-secondary-video-controls button {
+  display: block;
+  background-color: transparent;
+  margin: 8px 0 0 8px;
+  border: 0;
+}
+
+.wms-widget-wrapper .wms-feed-secondary-video:hover .wms-feed-secondary-video-controls {
+  opacity: 1;
+}
+
+.wms-widget-wrapper .wms-feed-call-waiting,
+.wms-widget-wrapper .wms-feed-call-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  padding: 8px 0;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+}
+
+.wms-widget-wrapper .wms-feed-call-waiting button,
+.wms-widget-wrapper .wms-feed-call-controls button {
+  width: 52px;
+  height: 52px;
+  display: inline-block;
+  background-color: transparent;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.wms-widget-wrapper .wms-feed-call-waiting button.disabled,
+.wms-widget-wrapper .wms-feed-call-controls button.disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.wms-widget-wrapper .wms-feed-call-waiting button:hover,
+.wms-widget-wrapper .wms-feed-call-controls button:hover,
+.wms-widget-wrapper .wms-feed-call-waiting button.active,
+.wms-widget-wrapper .wms-feed-call-controls button.active {
+  border-width: 1px;
+  border-style: solid;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.wms-widget-wrapper .wms-feed-call-waiting {
+  bottom: 68px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.wms-widget-wrapper .wms-feed-call-waiting span {
+  line-height: 30px;
+  color: #fff;
+  font-weight: 300;
+}
+
+.wms-widget-wrapper .wms-widget-extras {
+  position: relative;
+  margin-top: 20px;
+  border: 1px solid #c6c6c6;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-header {
+  width: 100%;
+  display: block;
+  text-align: center;
+  line-height: 28px;
+  font-size: 13px;
+  color: #9f9f9f;
+  border-bottom: 1px solid #c6c6c6;
+  background: #f2f2f2;
+  -webkit-border-top-right-radius: 2px;
+  -webkit-border-bottom-right-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-top-left-radius: 2px;
+  -moz-border-radius-topright: 2px;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-topleft: 2px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 2px;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder {
+  height: 365px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-messages-alert {
+  position: relative;
+  padding: 30px;
+  min-height: 65px;
+  background: rgba(248, 231, 28, 0.25);
+  margin: 25px;
+  text-align: center;
+  color: #ad7212;
+  font-size: 14px;
+  line-height: 1.4;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-message-item {
+  position: relative;
+  padding: 0 0 0 50px;
+  margin: 40px 25px 10px 20px;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-message-item .wms-user-name-initial {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  text-transform: uppercase;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  background: #b3b3b3;
+  color: #fff;
+  font-size: 24px;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-message-item .wms-item-text {
+  position: relative;
+  padding: 12px;
+  min-height: 65px;
+  background: #f2f2f2;
+  margin-left: 14px;
+  color: #7c7c7c;
+  font-size: 15px;
+  line-height: 1.2;
+  -webkit-border-top-right-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topright: 8px;
+  -moz-border-radius-bottomright: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-topleft: 0;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 0;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-message-item .wms-item-text:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -12px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 14px 14px 0;
+  border-color: transparent #f2f2f2 transparent transparent;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-message-item .wms-item-text span {
+  display: block;
+  margin-bottom: 6px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-message-item .wms-item-timestamp {
+  position: absolute;
+  top: -18px;
+  right: 20px;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-message-item.wms-message-sent {
+  padding: 0 50px 0 0;
+  margin: 40px 20px 10px 25px;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-message-item.wms-message-sent .wms-user-name-initial {
+  left: inherit;
+  right: 0;
+  background: #259de8;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-message-item.wms-message-sent .wms-item-text {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 8px;
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-top-left-radius: 8px;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-topleft: 8px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-left: 0;
+  margin-right: 14px;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-message-item.wms-message-sent .wms-item-text:before {
+  left: inherit;
+  right: -12px;
+  border-width: 14px 14px 0 0;
+  border-color: #f2f2f2 transparent transparent transparent;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-messages-holder .wms-message-item.wms-message-sent .wms-item-timestamp {
+  right: 80px;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-send-message-box {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  border-top: 1px solid #c6c6c6;
+  padding-right: 70px;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-send-message-box input[type="text"],
+.wms-widget-wrapper .wms-widget-extras .wms-send-message-box textarea {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: 0;
+  padding: 25px 25px 0;
+  font-size: 16px;
+  resize: none;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-send-message-box button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 70px;
+  height: 69px;
+  background-color: #f2f2f2;
+  border-left: 1px solid #c6c6c6;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-send-message-box button:hover {
+  background-color: #259de8;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-send-message-box .wms-character-count {
+  position: absolute;
+  bottom: -18px;
+  right: 0;
+  color: #cf2027;
+  font-size: 12px;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-user-prof-info {
+  width: auto;
+  height: 430px;
+  padding: 32px 46px;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-user-prof-info span {
+  display: block;
+  margin-bottom: 10px;
+  color: #5f5a5a;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-user-prof-info span em {
+  color: #867f7f;
+  font-style: normal;
+}
+
+.wms-widget-wrapper .wms-widget-extras .wms-user-prof-info hr {
+  margin: 36px 0;
+}
+
+.wms-widget-wrapper .wms-feed-alert {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 70px;
+  text-align: center;
+}
+
+.wms-widget-wrapper .wms-feed-alert .network-error {
+  background-image: url("../images/alerts/network-error.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio:1.5),
+only screen and (min--moz-device-pixel-ratio:1.5),
+only screen and (min-device-pixel-ratio:1.5) {
+  .wms-widget-wrapper .wms-feed-alert .network-error {
+    background-image: url("../images/alerts/network-error@2x.png");
+    background-size: 78px 62px;
+  }
+}
+
+.wms-widget-wrapper .wms-feed-alert .connection-error {
+  background-image: url("../images/alerts/connection-error.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio:1.5),
+only screen and (min--moz-device-pixel-ratio:1.5),
+only screen and (min-device-pixel-ratio:1.5) {
+  .wms-widget-wrapper .wms-feed-alert .connection-error {
+    background-image: url("../images/alerts/connection-error@2x.png");
+    background-size: 209px 90px;
+  }
+}
+
+.wms-widget-wrapper .wms-feed-alert .customErrorMessage {
+  color: white;
+  line-height: 50px;
+  padding: 10px;
+}
+
+.wms-widget-wrapper .wms-feed-alert .wms-reconect-error {
+  position: absolute;
+  height: 70px;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin-top: -35px;
+}
+
+.wms-widget-wrapper .wms-feed-alert .wms-reconect-error span,
+.wms-widget-wrapper .wms-feed-alert .wms-reconect-error .wms-btn {
+  display: block;
+  margin: 0 auto;
+}
+
+.wms-widget-wrapper .wms-feed-alert .wms-reconect-error span {
+  color: #b3b3b3;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.wms-widget-wrapper .wms-feed-alert .wms-reconect-error .wms-btn {
+  width: 128px;
+  height: 42px;
+  color: #fff;
+  font-size: 14px;
+  background: #259de8;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.wms-icon-set-main .btn-start-call,
+.wms-icon-set-main .wms-message-sent .wms-user-name-initial,
+.wms-icon-set-main .wms-send-message-box button:hover {
+  background-color: #259de8;
+}
+
+.wms-icon-set-alt .btn-start-call,
+.wms-icon-set-alt .wms-message-sent .wms-user-name-initial,
+.wms-icon-set-alt .wms-send-message-box button:hover {
+  background-color: #52acbd;
+}
+
+.wms-icon-check {
+  background-image: url("../images/icon/other/check.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio:1.5),
+only screen and (min--moz-device-pixel-ratio:1.5),
+only screen and (min-device-pixel-ratio:1.5) {
+  .wms-icon-check {
+    background-image: url("../images/icon/other/check@2x.png");
+    background-size: 27px 21px;
+  }
+}

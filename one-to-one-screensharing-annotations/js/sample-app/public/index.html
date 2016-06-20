@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Screen Sharing + Annotation Acc Pack</title>
+
+    <!--[if IE]><link rel="shortcut icon" href="images/favicon.ico"><![endif]-->
+    <link rel="icon" href="images/favicon.png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/theme.css">
+
+    <!-- JS -->
+    <script src="https://static.opentok.com/v2/js/opentok.min.js" type="text/javascript" defer></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" defer></script>
+    <script src="js/components/otkanalytics.js" type="text/javascript" defer></script>
+    <script src="js/components/opentok-annotation.js" type="text/javascript" defer></script>
+    <script src="js/components/screenshare-annotation-acc-pack.js" type="text/javascript" defer></script>
+    <script src="js/components/accelerator-pack.js" type="text/javascript" defer></script>
+    <script src="js/app.js" type="text/javascript" defer></script>
+    <script src="js/moment.js" type="text/javascript" defer></script>
+    <script src="js/livestamp.min.js" type="text/javascript" defer></script>
+
+</head>
+
+<body>
+    <div id="main" class="main-container">
+        <div id="videoContainer" class="video-container">
+            <div id="sharingMask" class="sharing-mask" style="display:none;">
+                <div class="sharing-text">Annotating on External Screen</div>
+            </div>
+            <div id="videoHolderSmall" class="video-wrap primary-video video-background"></div>
+            <div id="feedControls" class="local-controls">
+                <div id="enableLocalVideo" class="video-control circle video enabled" style="display:none;"></div>
+                <div id="callActive" class="video-control circle call"></div>
+                <div id="enableLocalAudio" class="video-control circle microphone enabled" style="display:none;"></div>
+            </div>
+            <div id="videoHolderBig" class="video-wrap secondary-video" style="display:none;"></div>
+            <div id="videoHolderSharedScreen" class="video-wrap shared-screen" style="display:none;"></div>
+            <div id="remoteControls" class="remote-controls" style="display:none;">
+                <div id="enableRemoteAudio" class="video-control audio" id="enableRemoteAudio"></div>
+                <div id="enableRemoteVideo" class="video-control video"></div>
+            </div>
+        </div>
+        <div class="annotation-toolbar-container">
+            <div id="toolbar" style="display:none;"></div>
+        </div>
+    </div>
+</body>
+
+</html>

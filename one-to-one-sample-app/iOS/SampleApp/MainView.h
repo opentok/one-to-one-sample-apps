@@ -15,26 +15,20 @@
 - (void)removePublisherView;
 - (void)addPlaceHolderToPublisherView;
 
-- (void)callHolderConnected;
-- (void)callHolderDisconnected;
-- (void)publisherMicMuted;
-- (void)publisherMicUnmuted;
-- (void)publisherVideoConnected;
-- (void)publisherVideoDisconnected;
+- (void)connectCallHolder:(BOOL)connected;
+- (void)mutePubliserhMic:(BOOL)muted;
+- (void)connectPubliserVideo:(BOOL)connected;
 
 // subscriber view
 - (void)addSubscribeView:(UIView *)subscriberView;
 - (void)removeSubscriberView;
 - (void)addPlaceHolderToSubscriberView;
 
-- (void)subscriberMicMuted;
-- (void)subscriberMicUnmuted;
-- (void)subscriberVideoConnected;
-- (void)subscriberVideoDisconnected;
-- (void)showSubscriberControls;
-- (void)hideSubscriberControls;
+- (void)muteSubscriberMic:(BOOL)muted;
+- (void)connectSubsciberVideo:(BOOL)connected;
+- (void)showSubscriberControls:(BOOL)shown;
 
 // other controls
 - (void)removePlaceHolderImage;
-- (void) buttonsStatusSetter: (BOOL)status;
+- (void)buttonsStatusSetter: (BOOL)status;
 @end

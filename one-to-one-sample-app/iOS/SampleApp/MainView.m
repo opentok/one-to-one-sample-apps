@@ -60,7 +60,7 @@
     [self drawBorderOn:self.micHolder withWhiteBorder:YES];
     [self drawBorderOn:self.callHolder withWhiteBorder:NO];
     [self drawBorderOn:self.videoHolder withWhiteBorder:YES];
-    [self hideSubscriberControls];
+    [self showSubscriberControls:NO];
 }
 
 - (void)drawBorderOn:(UIView *)view
@@ -93,30 +93,34 @@
     [self addAttachedLayoutConstantsToSuperview:self.publisherPlaceHolderImageView];
 }
 
-- (void)callHolderConnected {
-    [self.callHolder setImage:[UIImage imageNamed:@"startCall"] forState:UIControlStateNormal];
-    self.callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
+
+
+- (void)connectCallHolder:(BOOL)connected {
+    if (connected) {
+        [self.callHolder setImage:[UIImage imageNamed:@"hangUp"] forState:UIControlStateNormal];
+        self.callHolder.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor;
+    }
+    else {
+        [self.callHolder setImage:[UIImage imageNamed:@"startCall"] forState:UIControlStateNormal];
+        self.callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
+    }
+}
+- (void)mutePubliserhMic:(BOOL)muted {
+    if (muted) {
+        [self.micHolder setImage:[UIImage imageNamed:@"mutedMicLineCopy"] forState: UIControlStateNormal];
+    }
+    else {
+        [self.micHolder setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
+    }
 }
 
-- (void)callHolderDisconnected {
-    [self.callHolder setImage:[UIImage imageNamed:@"hangUp"] forState:UIControlStateNormal];
-    self.callHolder.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor;
-}
-
-- (void)publisherMicMuted {
-    [self.micHolder setImage:[UIImage imageNamed:@"mutedMicLineCopy"] forState: UIControlStateNormal];
-}
-
-- (void)publisherMicUnmuted {
-    [self.micHolder setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
-}
-
-- (void)publisherVideoConnected {
-    [self.videoHolder setImage:[UIImage imageNamed:@"videoIcon"] forState:UIControlStateNormal];
-}
-
-- (void)publisherVideoDisconnected {
-    [self.videoHolder setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
+- (void)connectPubliserVideo:(BOOL)connected {
+    if (connected) {
+        [self.videoHolder setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
+    }
+    else {
+        [self.videoHolder setImage:[UIImage imageNamed:@"videoIcon"] forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - subscriber view
@@ -138,30 +142,33 @@
     [self addAttachedLayoutConstantsToSuperview:self.subscriberPlaceHolderImageView];
 }
 
-- (void)subscriberMicMuted {
-    [self.subscriberAudioButton setImage:[UIImage imageNamed:@"noSoundCopy"] forState: UIControlStateNormal];
+- (void)muteSubscriberMic:(BOOL)muted {
+    if (muted) {
+        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"noSoundCopy"] forState: UIControlStateNormal];
+    }
+    else {
+        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"audio"] forState: UIControlStateNormal];
+    }
 }
 
-- (void)subscriberMicUnmuted {
-    [self.subscriberAudioButton setImage:[UIImage imageNamed:@"audio"] forState: UIControlStateNormal];
+- (void)connectSubsciberVideo:(BOOL)connected {
+    if (connected) {
+        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
+    }
+    else {
+        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
+    }
 }
 
-- (void)subscriberVideoConnected {
-    [self.subscriberVideoButton setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
-}
-
-- (void)subscriberVideoDisconnected {
-    [self.subscriberVideoButton setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
-}
-
-- (void)showSubscriberControls {
-    [self.subscriberAudioButton setAlpha:1.0];
-    [self.subscriberVideoButton setAlpha:1.0];
-}
-
-- (void)hideSubscriberControls {
-    [self.subscriberAudioButton setAlpha:0.0];
-    [self.subscriberVideoButton setAlpha:0.0];
+- (void)showSubscriberControls:(BOOL)shown {
+    if (shown) {
+        [self.subscriberAudioButton setHidden:NO];
+        [self.subscriberVideoButton setHidden:NO];
+    }
+    else {
+        [self.subscriberAudioButton setHidden:YES];
+        [self.subscriberVideoButton setHidden:YES];
+    }
 }
 
 #pragma mark - other controls

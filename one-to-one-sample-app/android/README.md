@@ -18,7 +18,7 @@ This guide has the following sections:
 To be prepared to develop your one-to-one communication app:
 
 1. Install [Android Studio](http://developer.android.com/intl/es/sdk/index.html)
-2. Download the [OpenTok Android SDK](https://tokbox.com/developer/sdks/android/). **OpenTok Android SDK version 2.7.x** is required for this sample app.
+2. Download the [OpenTok Android SDK](https://tokbox.com/developer/sdks/android/). **OpenTok Android SDK version 2.8.x** is required for this sample app.
 3. Review the [OpenTok Android SDK Requirements](https://tokbox.com/developer/sdks/android/#developerandclientrequirements)
 4. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
 
@@ -44,17 +44,17 @@ To learn more about the best practices used to design this app, see [Exploring t
 
 ### Adding the OpenTok SDK
 
-To add the OpenTok SDK to your project, unzip the file containing OpenTok SDK that you downloaded earlier (see [Prerequisites](#prerequisites)), and expand the folders. 
-
-The **libs** folder contains a JAR file (**opentok-android-sdk-n.n.n.jar**, where **n.n.n** indicates the current SDK version) and several subfolders (**armeabi, armeabi-v71, x86**).
-
-Follow these steps to add these to your project:
+Follow these steps to add the OpenTok SDK to your project:
 
 1.  Select the **Project** view.  
-2.  Right-click the **app** directory, select **New > Directory**, enter **libs** as the directory name, and click **OK**.
-3.  Drag the JAR file to the **app/libs** directory you just created.  Then right-click the JAR file and select **Add as library**.
-4.  Right-click the **app/src/main** directory, select **New > Directory**, enter **jniLibs** as the directory name, and click **OK**.
-5.  Drag the **armeabi**, **armeabi-v71**, and **x86** directories into the new **jniLibs** directory.
+2.  Modify the **build.gradle** for your solution and add the following code snippet to the section labeled `repositories`: 
+
+    ```maven { url "http://tokbox.bintray.com/maven" }``` 
+
+3.  Modify the **build.gradle** for your activity and add the following code snippet to the section labeled `dependencies`: 
+
+    ```compile 'com.opentok.android:opentok-android-sdk:2.8.+'```
+
 
 
 ### Configuring the app

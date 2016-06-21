@@ -27,9 +27,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
-    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    compile 'com.opentok.android:opentok-android-sdk:2.8.+'
     compile 'com.opentok.android:accelerator-pack:1.0'
-    compile project(':opentok-screensharing-annotations-1.0')
-    compile project(':opentok-annotations-1.0')
 }

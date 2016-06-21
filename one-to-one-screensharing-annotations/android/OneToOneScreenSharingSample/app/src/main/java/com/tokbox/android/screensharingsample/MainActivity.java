@@ -241,11 +241,13 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
             Log.i(LOG_TAG, "Screensharing stop");
             mScreenSharingFragment.stop();
             showAVCall(true);
+            mComm.start(); //restart the av call
         }
 
         if (mScreenSharingFragment != null) {
             if (!mScreenSharingFragment.isStarted()) {
                 showAVCall(false);
+                mComm.end(); //stop the av call
                 mScreenSharingFragment.start();
             }
         }
@@ -476,6 +478,8 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     @Override
     public void onScreenSharingError(String error) {
         Log.i(LOG_TAG, "onScreenSharingError " + error);
+        mComm.start();
+        showAVCall(true);
     }
 
     @Override

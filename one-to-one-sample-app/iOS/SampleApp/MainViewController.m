@@ -35,17 +35,16 @@
     
     if (!self.oneToOneCommunicator.isCallEnabled) {
         [self.oneToOneCommunicator connectWithHandler:^(OneToOneCommunicationSignal signal, NSError *error) {
-            
-            [SVProgressHUD dismiss];
-            [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
             if (!error) {
+                [SVProgressHUD dismiss];
+                [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
+                [self.mainView updateControlButtonsForCall:YES];
                 [self handleCommunicationSignal:signal];
             }
             else {
                 [SVProgressHUD showErrorWithStatus:error.localizedDescription];
             }
         }];
-        [self.mainView updateControlButtonsForCall:YES];
     }
     else {
         
@@ -124,11 +123,13 @@
 }
 
 - (IBAction)publisherAudioButtonPressed:(UIButton *)sender {
+    if (!self.oneToOneCommunicator.publisherView) return;
     self.oneToOneCommunicator.publishAudio = !self.oneToOneCommunicator.publishAudio;
     [self.mainView mutePubliserhMic:self.oneToOneCommunicator.publishAudio];
 }
 
 - (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
+    if (!self.oneToOneCommunicator.publisherView) return;
     self.oneToOneCommunicator.publishVideo = !self.oneToOneCommunicator.publishVideo;
     if (self.oneToOneCommunicator.publishVideo) {
         [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];

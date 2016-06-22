@@ -25,7 +25,7 @@
     self.mainView = (MainView *)self.view;
     self.oneToOneCommunicator = [OneToOneCommunicator oneToOneCommunicator];
     #if !(TARGET_OS_SIMULATOR)
-    [self.mainView showReverseCameraButton];
+        [self.mainView showReverseCameraButton];
     #endif
 }
 
@@ -39,6 +39,7 @@
             [SVProgressHUD dismiss];
             [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
             if (!error) {
+                [SVProgressHUD showErrorWithStatus:error.localizedDescription];
                 [self handleCommunicationSignal:signal];
             }
         }];
@@ -111,9 +112,6 @@
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
-            
-        default:
-            break;
     }
 }
 
@@ -123,15 +121,14 @@
 }
 
 - (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
-    
+    self.oneToOneCommunicator.publishVideo = !self.oneToOneCommunicator.publishVideo;
     if (self.oneToOneCommunicator.publishVideo) {
+        [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
+    }
+    else {
         [self.mainView removePublisherView];
         [self.mainView addPlaceHolderToPublisherView];
     }
-    else {
-        [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
-    }
-    self.oneToOneCommunicator.publishVideo = !self.oneToOneCommunicator.publishVideo;
     [self.mainView connectPubliserVideo:self.oneToOneCommunicator.publishVideo];
 }
 
@@ -145,13 +142,13 @@
 }
 
 - (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
-    if (!self.oneToOneCommunicator.isSubscriberSubscribed) return;
+    if (!self.oneToOneCommunicator.subscriberView) return;
     self.oneToOneCommunicator.subscribeToVideo = !self.oneToOneCommunicator.subscribeToVideo;
     [self.mainView connectSubsciberVideo:self.oneToOneCommunicator.subscribeToVideo];
 }
 
 - (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
-    if (!self.oneToOneCommunicator.isSubscriberSubscribed) return;
+    if (!self.oneToOneCommunicator.subscriberView) return;
     self.oneToOneCommunicator.subscribeToAudio = !self.oneToOneCommunicator.subscribeToAudio;
     [self.mainView muteSubscriberMic:self.oneToOneCommunicator.subscribeToAudio];
 }

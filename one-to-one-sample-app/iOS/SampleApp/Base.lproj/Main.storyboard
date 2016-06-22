@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
@@ -27,7 +28,7 @@
                                     <constraint firstAttribute="width" secondItem="EoV-Kh-ae4" secondAttribute="height" multiplier="1:1" id="HVT-by-pPc"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QaT-qb-Mgd">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QaT-qb-Mgd" userLabel="ButtonBar">
                                 <rect key="frame" x="197" y="514" width="206" height="66"/>
                                 <subviews>
                                     <button opaque="NO" alpha="0.5" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lI4-Iv-Bhv" userLabel="publisherVideoButton">
@@ -80,12 +81,12 @@
                                     <constraint firstAttribute="bottom" secondItem="Bwb-uu-g2a" secondAttribute="bottom" constant="8" id="m7x-ZQ-Ppg"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKX-dv-Vnc" userLabel="subscriberAudioButton">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKX-dv-Vnc" userLabel="subscriberVideoButton">
                                 <rect key="frame" x="20" y="60" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="SKX-dv-Vnc" secondAttribute="height" multiplier="1:1" id="qV6-yn-B90"/>
                                 </constraints>
-                                <state key="normal" image="audio"/>
+                                <state key="normal" image="audioIcon"/>
                                 <connections>
                                     <action selector="subscriberAudioButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="COG-Jp-EKl"/>
                                 </connections>
@@ -100,15 +101,15 @@
                                     <action selector="subscriberVideoButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XWM-IL-u0J"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xR7-mn-zpN" userLabel="publisherCameraButton">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xR7-mn-zpN" userLabel="publisherCameraButton">
                                 <rect key="frame" x="550" y="60" width="30" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="xR7-mn-zpN" secondAttribute="height" multiplier="55:39" id="E2O-Tz-PqK"/>
                                     <constraint firstAttribute="width" constant="30" id="Xky-0a-JDU"/>
                                 </constraints>
-                                <state key="normal" image="reverse cameras"/>
+                                <state key="normal" image="reverseCameras"/>
                                 <connections>
-                                    <action selector="publisherCameraButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rUd-XL-ngb"/>
+                                    <action selector="reverseCameraButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kPT-oW-Nv9"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -130,13 +131,14 @@
                             <constraint firstAttribute="trailing" secondItem="xR7-mn-zpN" secondAttribute="trailing" constant="20" id="wyq-rV-OBQ"/>
                         </constraints>
                         <connections>
-                            <outlet property="callHolder" destination="8fW-9l-wlb" id="XCG-GA-mhl"/>
-                            <outlet property="micHolder" destination="Bwb-uu-g2a" id="YZ2-L1-YIh"/>
+                            <outlet property="PhoneCallButton" destination="8fW-9l-wlb" id="lqQ-CF-3OA"/>
+                            <outlet property="publisherMicrophoneButton" destination="Bwb-uu-g2a" id="kMg-yk-E5t"/>
+                            <outlet property="publisherVideoButton" destination="lI4-Iv-Bhv" id="YB3-he-9ub"/>
                             <outlet property="publisherView" destination="EoV-Kh-ae4" id="WWF-wf-5KH"/>
+                            <outlet property="reverseCamera" destination="xR7-mn-zpN" id="uFy-0O-oVL"/>
                             <outlet property="subscriberAudioButton" destination="SKX-dv-Vnc" id="oVI-Jt-h1h"/>
                             <outlet property="subscriberVideoButton" destination="TaE-Jx-zZR" id="hHd-ZY-atr"/>
                             <outlet property="subscriberView" destination="zJt-pm-lIX" id="mYB-hs-kpy"/>
-                            <outlet property="videoHolder" destination="lI4-Iv-Bhv" id="qzE-ay-Yau"/>
                         </connections>
                     </view>
                 </viewController>
@@ -146,9 +148,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="audio" width="25" height="25"/>
+        <image name="audioIcon" width="25" height="25"/>
         <image name="mic" width="21" height="26"/>
-        <image name="reverse cameras" width="55" height="39"/>
+        <image name="reverseCameras" width="55" height="39"/>
         <image name="startCall" width="16" height="30"/>
         <image name="videoIcon" width="24" height="14"/>
     </resources>

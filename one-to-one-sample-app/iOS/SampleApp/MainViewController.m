@@ -24,40 +24,34 @@
     
     self.mainView = (MainView *)self.view;
     self.oneToOneCommunicator = [OneToOneCommunicator oneToOneCommunicator];
+    #if !(TARGET_OS_SIMULATOR)
+    [self.mainView showReverseCameraButton];
+    #endif
 }
 
-/** 
- * toggles the call start/end handles the color of the buttons
- */
 - (IBAction)publisherCallButtonPressed:(UIButton *)sender {
-    
     [SVProgressHUD show];
-    
     if (!self.oneToOneCommunicator.isCallEnabled) {
         [self.oneToOneCommunicator connectWithHandler:^(OneToOneCommunicationSignal signal, NSError *error) {
-            
             [SVProgressHUD dismiss];
-            [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
+            [self.mainView connectPhoneCallButton:self.oneToOneCommunicator.isCallEnabled];
             if (!error) {
                 [self handleCommunicationSignal:signal];
             }
         }];
-        [self.mainView buttonsStatusSetter:YES];
+        [self.mainView setButtonActiveStatus:YES];
     }
     else {
-        
         [SVProgressHUD dismiss];
         [self.oneToOneCommunicator disconnect];
-        [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
+        [self.mainView connectPhoneCallButton:self.oneToOneCommunicator.isCallEnabled];
         [self.mainView removePublisherView];
         [self.mainView removePlaceHolderImage];
-        [self.mainView buttonsStatusSetter:NO];
+        [self.mainView setButtonActiveStatus:NO];
     }
 }
 
 - (void)handleCommunicationSignal:(OneToOneCommunicationSignal)signal {
-    
-    
     switch (signal) {
         case OneToOneCommunicationSignalSessionDidConnect: {
             [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
@@ -101,8 +95,8 @@
             break;
         }
         case OneToOneCommunicationSignalSubscriberVideoDisableWarning:{
-            [self.mainView addPlaceHolderToSubscriberView];
             self.oneToOneCommunicator.subscribeToVideo = NO;
+            [self.mainView addPlaceHolderToSubscriberView];
             [SVProgressHUD showErrorWithStatus:@"Network connection is unstable."];
             break;
         }
@@ -111,41 +105,29 @@
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
-            
         default:
             break;
     }
 }
 
-/**
- * toggles the audio comming from the publisher
- */
 - (IBAction)publisherAudioButtonPressed:(UIButton *)sender {
-    [self.mainView mutePubliserhMic:self.oneToOneCommunicator.publishAudio];
     self.oneToOneCommunicator.publishAudio = !self.oneToOneCommunicator.publishAudio;
+    [self.mainView publisherMicActive:self.oneToOneCommunicator.publishAudio];
 }
 
-/**
- * toggles the video comming from the publisher 
- */
 - (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
-    
+    self.oneToOneCommunicator.publishVideo = !self.oneToOneCommunicator.publishVideo;
     if (self.oneToOneCommunicator.publishVideo) {
+        [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
+    }
+    else {
         [self.mainView removePublisherView];
         [self.mainView addPlaceHolderToPublisherView];
     }
-    else {
-        [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
-    }
-    
-    [self.mainView connectPubliserVideo:self.oneToOneCommunicator.publishVideo];
-    self.oneToOneCommunicator.publishVideo = !self.oneToOneCommunicator.publishVideo;
+    [self.mainView publiserVideoActive:self.oneToOneCommunicator.publishVideo];
 }
 
-/**
- * toggle the camera position (front camera) <=> (back camera)
- */
-- (IBAction)publisherCameraButtonPressed:(UIButton *)sender {
+- (IBAction)reverseCameraButtonPressed:(UIButton *)sender {
     if (self.oneToOneCommunicator.cameraPosition == AVCaptureDevicePositionBack) {
         self.oneToOneCommunicator.cameraPosition = AVCaptureDevicePositionFront;
     }
@@ -154,27 +136,20 @@
     }
 }
 
-/**
- * toggles the video comming from the subscriber 
- */
 - (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
-    [self.mainView connectSubsciberVideo:self.oneToOneCommunicator.subscribeToVideo];
+    if (!self.oneToOneCommunicator.isSubscriberSubscribed) return;
     self.oneToOneCommunicator.subscribeToVideo = !self.oneToOneCommunicator.subscribeToVideo;
+    [self.mainView subsciberVideoActive:self.oneToOneCommunicator.subscribeToVideo];
 }
 
-/**
- * toggles the audio comming from the susbscriber
- */
 - (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
-
-    [self.mainView muteSubscriberMic:self.oneToOneCommunicator.subscribeToAudio];
+    if (!self.oneToOneCommunicator.isSubscriberSubscribed) return;
     self.oneToOneCommunicator.subscribeToAudio = !self.oneToOneCommunicator.subscribeToAudio;
+    [self.mainView subscriberMicActive:self.oneToOneCommunicator.subscribeToAudio];
 }
-
 /**
- * handles the event when the user does a touch to show and then hide the buttons for
- * subscriber actions within 7 seconds
-*/
+ *  Shows subscriber controls for a 7 seconds and then hide them.
+ */
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     [self.mainView showSubscriberControls:YES];
     [self.mainView performSelector:@selector(showSubscriberControls:)

@@ -12,10 +12,11 @@
 @property (strong, nonatomic) IBOutlet UIView *publisherView;
 @property (strong, nonatomic) IBOutlet UIView *subscriberView;
 
+@property (strong, nonatomic) IBOutlet UIButton *reverseCamera;
 // 3 action buttons at the bottom of the view
-@property (strong, nonatomic) IBOutlet UIButton *videoHolder;
-@property (strong, nonatomic) IBOutlet UIButton *callHolder;
-@property (strong, nonatomic) IBOutlet UIButton *micHolder;
+@property (strong, nonatomic) IBOutlet UIButton *publisherVideoButton;
+@property (strong, nonatomic) IBOutlet UIButton *PhoneCallButton;
+@property (strong, nonatomic) IBOutlet UIButton *publisherMicrophoneButton;
 
 @property (strong, nonatomic) IBOutlet UIButton *subscriberVideoButton;
 @property (strong, nonatomic) IBOutlet UIButton *subscriberAudioButton;
@@ -26,10 +27,9 @@
 
 @implementation MainView
 
-
 - (UIImageView *)publisherPlaceHolderImageView {
     if (!_publisherPlaceHolderImageView) {
-        _publisherPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page1"]];
+        _publisherPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar"]];
         _publisherPlaceHolderImageView.backgroundColor = [UIColor clearColor];
         _publisherPlaceHolderImageView.contentMode = UIViewContentModeScaleAspectFit;
         _publisherPlaceHolderImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -39,7 +39,7 @@
 
 - (UIImageView *)subscriberPlaceHolderImageView {
     if (!_subscriberPlaceHolderImageView) {
-        _subscriberPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page1"]];
+        _subscriberPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar"]];
         _subscriberPlaceHolderImageView.backgroundColor = [UIColor clearColor];
         _subscriberPlaceHolderImageView.contentMode = UIViewContentModeScaleAspectFit;
         _subscriberPlaceHolderImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -57,9 +57,9 @@
     self.publisherView.layer.backgroundColor = [UIColor grayColor].CGColor;
     self.publisherView.layer.cornerRadius = 3;
     
-    [self drawBorderOn:self.micHolder withWhiteBorder:YES];
-    [self drawBorderOn:self.callHolder withWhiteBorder:NO];
-    [self drawBorderOn:self.videoHolder withWhiteBorder:YES];
+    [self drawBorderOn:self.publisherMicrophoneButton withWhiteBorder:YES];
+    [self drawBorderOn:self.PhoneCallButton withWhiteBorder:NO];
+    [self drawBorderOn:self.publisherVideoButton withWhiteBorder:YES];
     [self showSubscriberControls:NO];
 }
 
@@ -75,7 +75,6 @@
 
 #pragma mark - publisher view
 - (void)addPublisherView:(UIView *)publisherView {
-    
     [self.publisherView setHidden:NO];
     publisherView.frame = CGRectMake(0, 0, CGRectGetWidth(self.publisherView.bounds), CGRectGetHeight(self.publisherView.bounds));
     [self.publisherView addSubview:publisherView];
@@ -95,37 +94,36 @@
 
 
 
-- (void)connectCallHolder:(BOOL)connected {
+- (void)connectPhoneCallButton:(BOOL)connected {
     if (connected) {
-        [self.callHolder setImage:[UIImage imageNamed:@"hangUp"] forState:UIControlStateNormal];
-        self.callHolder.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor;
+        [self.PhoneCallButton setImage:[UIImage imageNamed:@"hangUp"] forState:UIControlStateNormal];
+        self.PhoneCallButton.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor;
     }
     else {
-        [self.callHolder setImage:[UIImage imageNamed:@"startCall"] forState:UIControlStateNormal];
-        self.callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
+        [self.PhoneCallButton setImage:[UIImage imageNamed:@"startCall"] forState:UIControlStateNormal];
+        self.PhoneCallButton.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
     }
 }
-- (void)mutePubliserhMic:(BOOL)muted {
-    if (muted) {
-        [self.micHolder setImage:[UIImage imageNamed:@"mutedMicLineCopy"] forState: UIControlStateNormal];
+- (void)publisherMicActive:(BOOL)active {
+    if (active) {
+        [self.publisherMicrophoneButton setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
     }
     else {
-        [self.micHolder setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
+        [self.publisherMicrophoneButton setImage:[UIImage imageNamed:@"mutedMic"] forState: UIControlStateNormal];
     }
 }
 
-- (void)connectPubliserVideo:(BOOL)connected {
-    if (connected) {
-        [self.videoHolder setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
+- (void)publiserVideoActive:(BOOL)active {
+    if (active) {
+        [self.publisherVideoButton setImage:[UIImage imageNamed:@"videoIcon"] forState:UIControlStateNormal];
     }
     else {
-        [self.videoHolder setImage:[UIImage imageNamed:@"videoIcon"] forState:UIControlStateNormal];
+        [self.publisherVideoButton setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
     }
 }
 
 #pragma mark - subscriber view
 - (void)addSubscribeView:(UIView *)subsciberView {
-    
     subsciberView.frame = CGRectMake(0, 0, CGRectGetWidth(self.subscriberView.bounds), CGRectGetHeight(self.subscriberView.bounds));
     [self.subscriberView addSubview:subsciberView];
     subsciberView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -142,21 +140,21 @@
     [self addAttachedLayoutConstantsToSuperview:self.subscriberPlaceHolderImageView];
 }
 
-- (void)muteSubscriberMic:(BOOL)muted {
-    if (muted) {
-        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"noSoundCopy"] forState: UIControlStateNormal];
+- (void)subscriberMicActive:(BOOL)active {
+    if (active) {
+        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"audioIcon"] forState: UIControlStateNormal];
     }
     else {
-        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"audio"] forState: UIControlStateNormal];
+        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"noAudioIcon"] forState: UIControlStateNormal];
     }
 }
 
-- (void)connectSubsciberVideo:(BOOL)connected {
-    if (connected) {
-        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
+- (void)subsciberVideoActive:(BOOL)active {
+    if (active) {
+        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
     }
     else {
-        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
+        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
     }
 }
 
@@ -177,13 +175,16 @@
     [self.subscriberPlaceHolderImageView removeFromSuperview];
 }
 
-- (void) buttonsStatusSetter: (BOOL)status; {
+- (void)setButtonActiveStatus:(BOOL)status; {
     [self.subscriberAudioButton setEnabled: status];
     [self.subscriberVideoButton setEnabled: status];
-    [self.videoHolder setEnabled: status];
-    [self.micHolder setEnabled: status];
+    [self.publisherVideoButton setEnabled: status];
+    [self.publisherMicrophoneButton setEnabled: status];
 }
 
+- (void)showReverseCameraButton; {
+    self.reverseCamera.hidden = NO;
+}
 
 #pragma mark - private method
 -(void)addAttachedLayoutConstantsToSuperview:(UIView *)view {

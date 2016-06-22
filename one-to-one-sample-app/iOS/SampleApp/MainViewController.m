@@ -123,13 +123,11 @@
 }
 
 - (IBAction)publisherAudioButtonPressed:(UIButton *)sender {
-    if (!self.oneToOneCommunicator.publisherView) return;
     self.oneToOneCommunicator.publishAudio = !self.oneToOneCommunicator.publishAudio;
     [self.mainView mutePubliserhMic:self.oneToOneCommunicator.publishAudio];
 }
 
 - (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
-    if (!self.oneToOneCommunicator.publisherView) return;
     self.oneToOneCommunicator.publishVideo = !self.oneToOneCommunicator.publishVideo;
     if (self.oneToOneCommunicator.publishVideo) {
         [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
@@ -151,13 +149,11 @@
 }
 
 - (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
-    if (!self.oneToOneCommunicator.subscriberView) return;
     self.oneToOneCommunicator.subscribeToVideo = !self.oneToOneCommunicator.subscribeToVideo;
     [self.mainView connectSubsciberVideo:self.oneToOneCommunicator.subscribeToVideo];
 }
 
 - (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
-    if (!self.oneToOneCommunicator.subscriberView) return;
     self.oneToOneCommunicator.subscribeToAudio = !self.oneToOneCommunicator.subscribeToAudio;
     [self.mainView muteSubscriberMic:self.oneToOneCommunicator.subscribeToAudio];
 }
@@ -167,7 +163,9 @@
  * subscriber actions within 7 seconds
 */
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self.mainView showSubscriberControls:YES];
+    if (self.oneToOneCommunicator.subscriberView){
+        [self.mainView showSubscriberControls:YES];
+    }
     [self.mainView performSelector:@selector(showSubscriberControls:)
              withObject:nil
              afterDelay:7.0];

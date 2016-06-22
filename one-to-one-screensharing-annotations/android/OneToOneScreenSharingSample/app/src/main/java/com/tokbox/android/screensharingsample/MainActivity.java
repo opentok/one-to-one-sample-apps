@@ -359,6 +359,8 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     public void onRemoteViewReady(View remoteView) {
         //update preview when a new participant joined to the communication
         if ( remoteView != null ) {
+            mRemoteViewContainer.removeAllViews();
+
             // check if it is screensharing
             if (mComm.isScreensharing() && mComm.isRemote()) {
                 mRemoteViewContainer.removeAllViews();

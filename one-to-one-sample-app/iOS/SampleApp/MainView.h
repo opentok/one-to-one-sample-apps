@@ -10,25 +10,28 @@
 
 @interface MainView : UIView
 
+- (void)connectPhoneCallButton:(BOOL)connected;
+
 // publisher view
 - (void)addPublisherView:(UIView *)publisherView;
 - (void)removePublisherView;
 - (void)addPlaceHolderToPublisherView;
 
-- (void)connectCallHolder:(BOOL)connected;
-- (void)mutePubliserhMic:(BOOL)muted;
-- (void)connectPubliserVideo:(BOOL)connected;
+- (void)publisherMicActive:(BOOL)active;
+- (void)publiserVideoActive:(BOOL)active;
 
 // subscriber view
 - (void)addSubscribeView:(UIView *)subscriberView;
 - (void)removeSubscriberView;
 - (void)addPlaceHolderToSubscriberView;
 
-- (void)muteSubscriberMic:(BOOL)muted;
-- (void)connectSubsciberVideo:(BOOL)connected;
+- (void)subscriberMicActive:(BOOL)active;
+- (void)subsciberVideoActive:(BOOL)active;
+
 - (void)showSubscriberControls:(BOOL)shown;
 
 // other controls
 - (void)removePlaceHolderImage;
-- (void)buttonsStatusSetter: (BOOL)status;
+- (void)setButtonActiveStatus:(BOOL)status;
+- (void)showReverseCameraButton;
 @end

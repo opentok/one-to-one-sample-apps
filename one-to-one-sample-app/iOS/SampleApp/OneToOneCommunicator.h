@@ -52,6 +52,8 @@ typedef void (^OneToOneCommunicatorBlock)(OneToOneCommunicationSignal signal, NS
 @property (nonatomic) BOOL subscribeToAudio;
 @property (nonatomic) BOOL subscribeToVideo;
 
+@property (nonatomic) BOOL isSubscriberSubscribed;
+
 // PUBLISHER
 @property (readonly, nonatomic) UIView *publisherView;
 @property (nonatomic) BOOL publishAudio;

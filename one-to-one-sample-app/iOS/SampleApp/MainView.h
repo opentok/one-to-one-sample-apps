@@ -30,5 +30,6 @@
 
 // other controls
 - (void)removePlaceHolderImage;
-- (void)buttonsStatusSetter: (BOOL)status;
+- (void)updateControlButtonsForCall: (BOOL)status;
+- (void)showReverseCameraButton;
 @end

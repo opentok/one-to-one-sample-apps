@@ -289,4 +289,8 @@
     _publisher.cameraPosition = cameraPosition;
 }
 
+- (BOOL)isSubscriberSubscribed;{
+    return self.subscriber;
+}
+
 @end

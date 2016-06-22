@@ -167,6 +167,7 @@
 
     NSLog(@"session streamCreated (%@)", stream.streamId);
     
+    // THIS IS A TEMP WORK-AROUND! WILL CHANGE IN THE FUTURE.
     if ([stream.name isEqualToString:@"web"]) {
         NSError *error = [NSError errorWithDomain:@"ScreenSharerErrorDomain" code:1000 userInfo:@{NSLocalizedDescriptionKey: @"Screen-Share from web is not allowed at this time, ^v^."}];
         [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamCreated
@@ -185,14 +186,11 @@
     NSLog(@"session streamDestroyed (%@)", stream.streamId);
 
     if (self.subscriber.stream && [self.subscriber.stream.streamId isEqualToString:stream.streamId]) {
-
-        [self.session unsubscribe:self.subscriber error:nil];
         [self.subscriber.view removeFromSuperview];
         self.subscriber = nil;
+        [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamDestroyed
+                             error:nil];
     }
-    
-    [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamDestroyed
-                         error:nil];
 }
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
@@ -206,6 +204,16 @@
     NSLog(@"publisher did failed with error: (%@)", error);
     [self notifiyAllWithSignal:OneToOneCommunicationSignalPublisherDidFail
                          error:error];
+}
+
+- (void)publisher:(OTPublisherKit*)publisher streamCreated:(OTStream*)stream {
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalPublisherStreamCreated
+                         error:nil];
+}
+
+- (void)publisher:(OTPublisherKit*)publisher streamDestroyed:(OTStream*)stream {
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalPublisherStreamDestroyed
+                         error:nil];
 }
 
 #pragma mark - OTSubscriberKitDelegate

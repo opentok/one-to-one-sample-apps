@@ -24,9 +24,9 @@
     
     self.mainView = (MainView *)self.view;
     self.oneToOneCommunicator = [OneToOneCommunicator oneToOneCommunicator];
-    #if !(TARGET_OS_SIMULATOR)
-        [self.mainView showReverseCameraButton];
-    #endif
+#if !(TARGET_OS_SIMULATOR)
+    [self.mainView showReverseCameraButton];
+#endif
 }
 
 - (IBAction)publisherCallButtonPressed:(UIButton *)sender {
@@ -39,8 +39,10 @@
             [SVProgressHUD dismiss];
             [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
             if (!error) {
-                [SVProgressHUD showErrorWithStatus:error.localizedDescription];
                 [self handleCommunicationSignal:signal];
+            }
+            else {
+                [SVProgressHUD showErrorWithStatus:error.localizedDescription];
             }
         }];
         [self.mainView updateControlButtonsForCall:YES];
@@ -82,6 +84,12 @@
         }
         case OneToOneCommunicationSignalPublisherDidFail:{
             [SVProgressHUD showErrorWithStatus:@"Problem when publishing"];
+            break;
+        }
+        case OneToOneCommunicationSignalPublisherStreamCreated: {
+            break;
+        }
+        case OneToOneCommunicationSignalPublisherStreamDestroyed:{
             break;
         }
         case OneToOneCommunicationSignalSubscriberConnect:{

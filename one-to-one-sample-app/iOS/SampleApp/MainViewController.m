@@ -24,11 +24,11 @@
     
     self.mainView = (MainView *)self.view;
     self.oneToOneCommunicator = [OneToOneCommunicator oneToOneCommunicator];
+    #if !(TARGET_OS_SIMULATOR)
+    [self.mainView showReverseCameraButton];
+    #endif
 }
 
-/** 
- * toggles the call start/end handles the color of the buttons
- */
 - (IBAction)publisherCallButtonPressed:(UIButton *)sender {
     
     [SVProgressHUD show];
@@ -42,7 +42,7 @@
                 [self handleCommunicationSignal:signal];
             }
         }];
-        [self.mainView buttonsStatusSetter:YES];
+        [self.mainView updateControlButtonsForCall:YES];
     }
     else {
         
@@ -51,7 +51,7 @@
         [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
         [self.mainView removePublisherView];
         [self.mainView removePlaceHolderImage];
-        [self.mainView buttonsStatusSetter:NO];
+        [self.mainView updateControlButtonsForCall:NO];
     }
 }
 
@@ -117,17 +117,11 @@
     }
 }
 
-/**
- * toggles the audio comming from the publisher
- */
 - (IBAction)publisherAudioButtonPressed:(UIButton *)sender {
-    [self.mainView mutePubliserhMic:self.oneToOneCommunicator.publishAudio];
     self.oneToOneCommunicator.publishAudio = !self.oneToOneCommunicator.publishAudio;
+    [self.mainView mutePubliserhMic:self.oneToOneCommunicator.publishAudio];
 }
 
-/**
- * toggles the video comming from the publisher 
- */
 - (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
     
     if (self.oneToOneCommunicator.publishVideo) {
@@ -137,14 +131,10 @@
     else {
         [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
     }
-    
-    [self.mainView connectPubliserVideo:self.oneToOneCommunicator.publishVideo];
     self.oneToOneCommunicator.publishVideo = !self.oneToOneCommunicator.publishVideo;
+    [self.mainView connectPubliserVideo:self.oneToOneCommunicator.publishVideo];
 }
 
-/**
- * toggle the camera position (front camera) <=> (back camera)
- */
 - (IBAction)publisherCameraButtonPressed:(UIButton *)sender {
     if (self.oneToOneCommunicator.cameraPosition == AVCaptureDevicePositionBack) {
         self.oneToOneCommunicator.cameraPosition = AVCaptureDevicePositionFront;
@@ -154,21 +144,16 @@
     }
 }
 
-/**
- * toggles the video comming from the subscriber 
- */
 - (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
-    [self.mainView connectSubsciberVideo:self.oneToOneCommunicator.subscribeToVideo];
+    if (!self.oneToOneCommunicator.isSubscriberSubscribed) return;
     self.oneToOneCommunicator.subscribeToVideo = !self.oneToOneCommunicator.subscribeToVideo;
+    [self.mainView connectSubsciberVideo:self.oneToOneCommunicator.subscribeToVideo];
 }
 
-/**
- * toggles the audio comming from the susbscriber
- */
 - (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
-
-    [self.mainView muteSubscriberMic:self.oneToOneCommunicator.subscribeToAudio];
+    if (!self.oneToOneCommunicator.isSubscriberSubscribed) return;
     self.oneToOneCommunicator.subscribeToAudio = !self.oneToOneCommunicator.subscribeToAudio;
+    [self.mainView muteSubscriberMic:self.oneToOneCommunicator.subscribeToAudio];
 }
 
 /**

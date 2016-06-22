@@ -13,9 +13,11 @@
 @property (strong, nonatomic) IBOutlet UIView *subscriberView;
 
 // 3 action buttons at the bottom of the view
-@property (strong, nonatomic) IBOutlet UIButton *videoHolder;
-@property (strong, nonatomic) IBOutlet UIButton *callHolder;
-@property (strong, nonatomic) IBOutlet UIButton *micHolder;
+@property (strong, nonatomic) IBOutlet UIButton *publisherVideoButton;
+@property (strong, nonatomic) IBOutlet UIButton *callButton;
+@property (strong, nonatomic) IBOutlet UIButton *publisherAudioButton;
+
+@property (strong, nonatomic) IBOutlet UIButton *reverseCameraButton;
 
 @property (strong, nonatomic) IBOutlet UIButton *subscriberVideoButton;
 @property (strong, nonatomic) IBOutlet UIButton *subscriberAudioButton;
@@ -57,9 +59,9 @@
     self.publisherView.layer.backgroundColor = [UIColor grayColor].CGColor;
     self.publisherView.layer.cornerRadius = 3;
     
-    [self drawBorderOn:self.micHolder withWhiteBorder:YES];
-    [self drawBorderOn:self.callHolder withWhiteBorder:NO];
-    [self drawBorderOn:self.videoHolder withWhiteBorder:YES];
+    [self drawBorderOn:self.publisherAudioButton withWhiteBorder:YES];
+    [self drawBorderOn:self.callButton withWhiteBorder:NO];
+    [self drawBorderOn:self.publisherVideoButton withWhiteBorder:YES];
     [self showSubscriberControls:NO];
 }
 
@@ -97,29 +99,29 @@
 
 - (void)connectCallHolder:(BOOL)connected {
     if (connected) {
-        [self.callHolder setImage:[UIImage imageNamed:@"hangUp"] forState:UIControlStateNormal];
-        self.callHolder.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor;
+        [self.callButton setImage:[UIImage imageNamed:@"hangUp"] forState:UIControlStateNormal];
+        self.callButton.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor;
     }
     else {
-        [self.callHolder setImage:[UIImage imageNamed:@"startCall"] forState:UIControlStateNormal];
-        self.callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
+        [self.callButton setImage:[UIImage imageNamed:@"startCall"] forState:UIControlStateNormal];
+        self.callButton.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
     }
 }
 - (void)mutePubliserhMic:(BOOL)muted {
     if (muted) {
-        [self.micHolder setImage:[UIImage imageNamed:@"mutedMicLineCopy"] forState: UIControlStateNormal];
+        [self.publisherAudioButton setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
     }
     else {
-        [self.micHolder setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
+        [self.publisherAudioButton setImage:[UIImage imageNamed:@"mutedMic"] forState: UIControlStateNormal];
     }
 }
 
 - (void)connectPubliserVideo:(BOOL)connected {
     if (connected) {
-        [self.videoHolder setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
+        [self.publisherVideoButton setImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
     }
     else {
-        [self.videoHolder setImage:[UIImage imageNamed:@"videoIcon"] forState:UIControlStateNormal];
+        [self.publisherVideoButton setImage:[UIImage imageNamed:@"noVideo"] forState: UIControlStateNormal];
     }
 }
 
@@ -144,19 +146,19 @@
 
 - (void)muteSubscriberMic:(BOOL)muted {
     if (muted) {
-        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"noSoundCopy"] forState: UIControlStateNormal];
+        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"audio"] forState: UIControlStateNormal];
     }
     else {
-        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"audio"] forState: UIControlStateNormal];
+        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"noAudio"] forState: UIControlStateNormal];
     }
 }
 
 - (void)connectSubsciberVideo:(BOOL)connected {
     if (connected) {
-        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
+        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"video"] forState: UIControlStateNormal];
     }
     else {
-        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
+        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"noVideo"] forState: UIControlStateNormal];
     }
 }
 
@@ -177,13 +179,16 @@
     [self.subscriberPlaceHolderImageView removeFromSuperview];
 }
 
-- (void) buttonsStatusSetter: (BOOL)status; {
+- (void)updateControlButtonsForCall: (BOOL)status; {
     [self.subscriberAudioButton setEnabled: status];
     [self.subscriberVideoButton setEnabled: status];
-    [self.videoHolder setEnabled: status];
-    [self.micHolder setEnabled: status];
+    [self.publisherVideoButton setEnabled: status];
+    [self.publisherAudioButton setEnabled: status];
 }
 
+- (void)showReverseCameraButton; {
+    self.reverseCameraButton.hidden = NO;
+}
 
 #pragma mark - private method
 -(void)addAttachedLayoutConstantsToSuperview:(UIView *)view {

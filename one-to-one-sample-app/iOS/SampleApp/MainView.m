@@ -9,21 +9,21 @@
 #import "MainView.h"
 
 @interface MainView()
-@property (strong, nonatomic) IBOutlet UIView *publisherView;
-@property (strong, nonatomic) IBOutlet UIView *subscriberView;
+@property (weak, nonatomic) IBOutlet UIView *publisherView;
+@property (weak, nonatomic) IBOutlet UIView *subscriberView;
 
 // 3 action buttons at the bottom of the view
-@property (strong, nonatomic) IBOutlet UIButton *publisherVideoButton;
-@property (strong, nonatomic) IBOutlet UIButton *callButton;
-@property (strong, nonatomic) IBOutlet UIButton *publisherAudioButton;
+@property (weak, nonatomic) IBOutlet UIButton *publisherVideoButton;
+@property (weak, nonatomic) IBOutlet UIButton *callButton;
+@property (weak, nonatomic) IBOutlet UIButton *publisherAudioButton;
 
-@property (strong, nonatomic) IBOutlet UIButton *reverseCameraButton;
+@property (weak, nonatomic) IBOutlet UIButton *reverseCameraButton;
 
-@property (strong, nonatomic) IBOutlet UIButton *subscriberVideoButton;
-@property (strong, nonatomic) IBOutlet UIButton *subscriberAudioButton;
+@property (weak, nonatomic) IBOutlet UIButton *subscriberVideoButton;
+@property (weak, nonatomic) IBOutlet UIButton *subscriberAudioButton;
 
-@property (strong, nonatomic) UIImageView *subscriberPlaceHolderImageView;
-@property (strong, nonatomic) UIImageView *publisherPlaceHolderImageView;
+@property (nonatomic) UIImageView *subscriberPlaceHolderImageView;
+@property (nonatomic) UIImageView *publisherPlaceHolderImageView;
 @end
 
 @implementation MainView
@@ -31,7 +31,7 @@
 
 - (UIImageView *)publisherPlaceHolderImageView {
     if (!_publisherPlaceHolderImageView) {
-        _publisherPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page1"]];
+        _publisherPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar"]];
         _publisherPlaceHolderImageView.backgroundColor = [UIColor clearColor];
         _publisherPlaceHolderImageView.contentMode = UIViewContentModeScaleAspectFit;
         _publisherPlaceHolderImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -41,7 +41,7 @@
 
 - (UIImageView *)subscriberPlaceHolderImageView {
     if (!_subscriberPlaceHolderImageView) {
-        _subscriberPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page1"]];
+        _subscriberPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar"]];
         _subscriberPlaceHolderImageView.backgroundColor = [UIColor clearColor];
         _subscriberPlaceHolderImageView.contentMode = UIViewContentModeScaleAspectFit;
         _subscriberPlaceHolderImageView.translatesAutoresizingMaskIntoConstraints = NO;

@@ -35,17 +35,16 @@
     
     if (!self.oneToOneCommunicator.isCallEnabled) {
         [self.oneToOneCommunicator connectWithHandler:^(OneToOneCommunicationSignal signal, NSError *error) {
-            
-            [SVProgressHUD dismiss];
-            [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
             if (!error) {
+                [SVProgressHUD dismiss];
+                [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
+                [self.mainView updateControlButtonsForCall:YES];
                 [self handleCommunicationSignal:signal];
             }
             else {
                 [SVProgressHUD showErrorWithStatus:error.localizedDescription];
             }
         }];
-        [self.mainView updateControlButtonsForCall:YES];
     }
     else {
         
@@ -150,13 +149,11 @@
 }
 
 - (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
-    if (!self.oneToOneCommunicator.subscriberView) return;
     self.oneToOneCommunicator.subscribeToVideo = !self.oneToOneCommunicator.subscribeToVideo;
     [self.mainView connectSubsciberVideo:self.oneToOneCommunicator.subscribeToVideo];
 }
 
 - (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
-    if (!self.oneToOneCommunicator.subscriberView) return;
     self.oneToOneCommunicator.subscribeToAudio = !self.oneToOneCommunicator.subscribeToAudio;
     [self.mainView muteSubscriberMic:self.oneToOneCommunicator.subscribeToAudio];
 }
@@ -166,7 +163,9 @@
  * subscriber actions within 7 seconds
 */
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self.mainView showSubscriberControls:YES];
+    if (self.oneToOneCommunicator.subscriberView){
+        [self.mainView showSubscriberControls:YES];
+    }
     [self.mainView performSelector:@selector(showSubscriberControls:)
              withObject:nil
              afterDelay:7.0];

@@ -8,7 +8,7 @@ All of the sample apps are based on the the OpenTok One-to-One Communication Sam
 
   - **[One-to-One Communication Sample App](./one-to-one-sample-app)**: Begin by exploring this sample app, and learn the best practices used to develop and manage the audio, video, and camera elements on mobile devices or in the browser. 
 
-_**NOTE: The audio-video communication logic provided in all OpenTok One-to-One Communication Sample Apps is contained in the [OpenTok Common Accelerator Session Pack](https://github.com/opentok/acc-pack-common)._
+_**NOTE: The audio-video communication logic provided in all OpenTok One-to-One Communication Sample Apps is contained in the [OpenTok Common Accelerator Session Pack](https://github.com/opentok/acc-pack-common).**_
 
 
 

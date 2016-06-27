@@ -25,10 +25,6 @@
 
 @implementation OneToOneCommunicator
 
-- (BOOL)isCallEnabled {
-    return self.session.sessionConnectionStatus == OTSessionConnectionStatusConnected ? YES :  NO;
-}
-
 + (instancetype)oneToOneCommunicator {
     return [OneToOneCommunicator sharedInstance];
 }
@@ -39,7 +35,6 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[OneToOneCommunicator alloc] init];
-        sharedInstance.isCallEnabled = YES;
         sharedInstance.session = [OTAcceleratorSession getAcceleratorPackSession];
     });
     return sharedInstance;
@@ -77,34 +72,16 @@
             NSLog(@"%@", error.localizedDescription);
         }
     }
+    
+    self.isCallEnabled = YES;
 }
 
 - (void)connectWithHandler:(OneToOneCommunicatorBlock)handler {
 
     self.handler = handler;
+    [self connect];
     
     [OTAcceleratorSession registerWithAccePack:self];
-    
-    // need to explcitly publish and subscribe if the communicator joins/rejoins a connected session
-    if (self.session.sessionConnectionStatus == OTSessionConnectionStatusConnected &&
-        self.session.streams[self.publisher.stream.streamId]) {
-        
-        OTError *error = nil;
-        [self.session publish:self.publisher error:&error];
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }
-    
-    if (self.session.sessionConnectionStatus == OTSessionConnectionStatusConnected &&
-        self.session.streams[self.subscriber.stream.streamId]) {
-        
-        OTError *error = nil;
-        [self.session subscribe:self.subscriber error:&error];
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }
 }
 
 - (void)disconnect {
@@ -132,6 +109,8 @@
     }
     
     [OTAcceleratorSession deregisterWithAccePack:self];
+    
+    self.isCallEnabled = NO;
 }
 
 - (void)notifiyAllWithSignal:(OneToOneCommunicationSignal)signal error:(NSError *)error {
@@ -188,6 +167,14 @@
 
     NSLog(@"session streamCreated (%@)", stream.streamId);
     
+    // THIS IS A TEMP WORK-AROUND! WILL CHANGE IN THE FUTURE.
+    if ([stream.name isEqualToString:@"web"]) {
+        NSError *error = [NSError errorWithDomain:@"ScreenSharerErrorDomain" code:1000 userInfo:@{NSLocalizedDescriptionKey: @"Screen-Share from web is not allowed at this time, ^v^."}];
+        [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamCreated
+                             error:error];
+        return;
+    }
+    
     OTError *error;
     self.subscriber = [[OTSubscriber alloc] initWithStream:stream delegate:self];
     [self.session subscribe:self.subscriber error:&error];
@@ -199,14 +186,11 @@
     NSLog(@"session streamDestroyed (%@)", stream.streamId);
 
     if (self.subscriber.stream && [self.subscriber.stream.streamId isEqualToString:stream.streamId]) {
-
-        [self.session unsubscribe:self.subscriber error:nil];
         [self.subscriber.view removeFromSuperview];
         self.subscriber = nil;
+        [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamDestroyed
+                             error:nil];
     }
-    
-    [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamDestroyed
-                         error:nil];
 }
 
 - (void)session:(OTSession *)session didFailWithError:(OTError *)error {
@@ -220,6 +204,16 @@
     NSLog(@"publisher did failed with error: (%@)", error);
     [self notifiyAllWithSignal:OneToOneCommunicationSignalPublisherDidFail
                          error:error];
+}
+
+- (void)publisher:(OTPublisherKit*)publisher streamCreated:(OTStream*)stream {
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalPublisherStreamCreated
+                         error:nil];
+}
+
+- (void)publisher:(OTPublisherKit*)publisher streamDestroyed:(OTStream*)stream {
+    [self notifiyAllWithSignal:OneToOneCommunicationSignalPublisherStreamDestroyed
+                         error:nil];
 }
 
 #pragma mark - OTSubscriberKitDelegate

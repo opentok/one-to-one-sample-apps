@@ -24,32 +24,36 @@
     
     self.mainView = (MainView *)self.view;
     self.oneToOneCommunicator = [OneToOneCommunicator oneToOneCommunicator];
+#if !(TARGET_OS_SIMULATOR)
+    [self.mainView showReverseCameraButton];
+#endif
 }
 
-/** 
- * toggles the call start/end handles the color of the buttons
- */
 - (IBAction)publisherCallButtonPressed:(UIButton *)sender {
+    
+    [SVProgressHUD show];
+    
     if (!self.oneToOneCommunicator.isCallEnabled) {
-        [self.mainView callHolderDisconnected];
-        [SVProgressHUD show];
         [self.oneToOneCommunicator connectWithHandler:^(OneToOneCommunicationSignal signal, NSError *error) {
-            
-            [SVProgressHUD dismiss];
             if (!error) {
+                [SVProgressHUD dismiss];
+                [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
+                [self.mainView updateControlButtonsForCall:YES];
                 [self handleCommunicationSignal:signal];
             }
+            else {
+                [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+            }
         }];
-        [self.mainView buttonsStatusSetter:YES];
     }
     else {
-        [self.mainView callHolderConnected];
-        [self.oneToOneCommunicator disconnect];
         
+        [SVProgressHUD dismiss];
+        [self.oneToOneCommunicator disconnect];
+        [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
         [self.mainView removePublisherView];
         [self.mainView removePlaceHolderImage];
-        [SVProgressHUD dismiss];
-        [self.mainView buttonsStatusSetter:NO];
+        [self.mainView updateControlButtonsForCall:NO];
     }
 }
 
@@ -81,6 +85,12 @@
             [SVProgressHUD showErrorWithStatus:@"Problem when publishing"];
             break;
         }
+        case OneToOneCommunicationSignalPublisherStreamCreated: {
+            break;
+        }
+        case OneToOneCommunicationSignalPublisherStreamDestroyed:{
+            break;
+        }
         case OneToOneCommunicationSignalSubscriberConnect:{
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
@@ -109,47 +119,26 @@
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
-            
-        default:
-            break;
     }
 }
 
-/**
- * toggles the audio comming from the publisher
- */
 - (IBAction)publisherAudioButtonPressed:(UIButton *)sender {
-    
-    if(self.oneToOneCommunicator.publishAudio) {
-        [self.mainView publisherMicMuted];
+    self.oneToOneCommunicator.publishAudio = !self.oneToOneCommunicator.publishAudio;
+    [self.mainView mutePubliserhMic:self.oneToOneCommunicator.publishAudio];
+}
+
+- (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
+    self.oneToOneCommunicator.publishVideo = !self.oneToOneCommunicator.publishVideo;
+    if (self.oneToOneCommunicator.publishVideo) {
+        [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
     }
     else {
-        [self.mainView publisherMicUnmuted];
-    }
-    self.oneToOneCommunicator.publishAudio = !self.oneToOneCommunicator.publishAudio;
-}
-
-/**
- * toggles the video comming from the publisher 
- */
-- (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
-    
-    if (self.oneToOneCommunicator.publishVideo) {
-        [self.mainView publisherVideoDisconnected];
         [self.mainView removePublisherView];
         [self.mainView addPlaceHolderToPublisherView];
     }
-    else {
-        [self.mainView publisherVideoConnected];
-        [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
-    }
-    
-    self.oneToOneCommunicator.publishVideo = !self.oneToOneCommunicator.publishVideo;
+    [self.mainView connectPubliserVideo:self.oneToOneCommunicator.publishVideo];
 }
 
-/**
- * toggle the camera position (front camera) <=> (back camera)
- */
 - (IBAction)publisherCameraButtonPressed:(UIButton *)sender {
     if (self.oneToOneCommunicator.cameraPosition == AVCaptureDevicePositionBack) {
         self.oneToOneCommunicator.cameraPosition = AVCaptureDevicePositionFront;
@@ -159,32 +148,14 @@
     }
 }
 
-/**
- * toggles the video comming from the subscriber 
- */
 - (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
-    
-    if (self.oneToOneCommunicator.subscribeToVideo) {
-        [self.mainView subscriberVideoDisconnected];
-    }
-    else {
-        [self.mainView subscriberVideoConnected];
-    }
     self.oneToOneCommunicator.subscribeToVideo = !self.oneToOneCommunicator.subscribeToVideo;
+    [self.mainView connectSubsciberVideo:self.oneToOneCommunicator.subscribeToVideo];
 }
 
-/**
- * toggles the audio comming from the susbscriber
- */
 - (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
-
-    if (self.oneToOneCommunicator.subscribeToAudio) {
-        [self.mainView subscriberMicMuted];
-    }
-    else {
-        [self.mainView subscriberMicUnmuted];
-    }
     self.oneToOneCommunicator.subscribeToAudio = !self.oneToOneCommunicator.subscribeToAudio;
+    [self.mainView muteSubscriberMic:self.oneToOneCommunicator.subscribeToAudio];
 }
 
 /**
@@ -192,8 +163,10 @@
  * subscriber actions within 7 seconds
 */
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self.mainView showSubscriberControls];
-    [self.mainView performSelector:@selector(hideSubscriberControls)
+    if (self.oneToOneCommunicator.subscriberView){
+        [self.mainView showSubscriberControls:YES];
+    }
+    [self.mainView performSelector:@selector(showSubscriberControls:)
              withObject:nil
              afterDelay:7.0];
 }

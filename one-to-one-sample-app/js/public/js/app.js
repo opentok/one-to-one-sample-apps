@@ -1,5 +1,5 @@
 /* global OT CommunicationAccPack */
-var app = (function () {
+(function () {
 
   // Modules
   var _communication;
@@ -8,6 +8,7 @@ var app = (function () {
   var _session;
 
   // Application State
+  var _initialized = false;
   var _callActive = false;
   var _remoteParticipant = false;
   var _callProps = {
@@ -119,16 +120,6 @@ var app = (function () {
     }
   };
 
-  var _connectCall = function () {
-
-    if (!!_callActive) {
-      _endCall();
-    } else {
-      _startCall();
-    }
-
-  };
-
   var _addEventListeners = function () {
 
     // Call events
@@ -154,8 +145,37 @@ var app = (function () {
 
     });
 
-    // Start or end call
-    $('#callActive').on('click', _connectCall);
+    var _init = function () {
+
+      // Get session
+      _session = OT.initSession(_options.apiKey, _options.sessionId);
+
+      // Connect
+      _session.connect(_options.token, function (error) {
+        if (error) {
+          console.log('Session failed to connect');
+        } else {
+          _communication = new CommunicationAccPack(_.extend(_options, {
+            session: _session,
+            localCallProperties: _options.localCallProperties
+          }));
+          _addEventListeners();
+          _initialized = true;
+          _startCall();
+        }
+      });
+
+    };
+
+    var _connectCall = function () {
+
+      if (!_initialized) {
+        _init();
+      } else {
+        !_callActive ? _startCall() : _endCall();
+      }
+
+    };
 
     // Click events for enabling/disabling audio/video
     var controls = [
@@ -171,28 +191,7 @@ var app = (function () {
     });
   };
 
+  // Start or end call
+  $('#callActive').on('click', _connectCall);
 
-  var init = function () {
-
-    // Get session
-    _session = OT.initSession(_options.apiKey, _options.sessionId);
-
-    // Connect
-    _session.connect(_options.token, function (error) {
-      if (error) {
-        console.log('Session failed to connect');
-      } else {
-        _communication = new CommunicationAccPack(_.extend(_options, {
-          session: _session,
-          localCallProperties: _options.localCallProperties
-        }));
-        _addEventListeners();
-      }
-    });
-
-  };
-
-  return init;
 }());
-
-app();

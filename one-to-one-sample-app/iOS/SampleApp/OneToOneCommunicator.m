@@ -9,7 +9,7 @@
 #import <Opentok/OpenTok.h>
 
 #import "OneToOneCommunicator.h"
-#import "OTKAnalytics.h"
+#import <OTKAnalytics/OTKLogger.h>
 
 #import <OTAcceleratorPackUtil/OTAcceleratorPackUtil.h>
 

@@ -1,3 +1,0 @@
-[submodule "one-to-one-sample-app/iOS/SampleApp/opentok-solutions-logging"]
-	path = one-to-one-sample-app/iOS/SampleApp/opentok-solutions-logging
-	url = https://github.com/opentok/opentok-solutions-logging.git

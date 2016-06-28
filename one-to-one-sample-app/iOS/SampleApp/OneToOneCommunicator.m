@@ -13,6 +13,15 @@
 
 #import <OTAcceleratorPackUtil/OTAcceleratorPackUtil.h>
 
+static NSString* const KLogClientVersion = @"ios-vsol-1.0.0";
+static NSString* const kLogComponentIdentifier = @"oneToOneCommunication";
+static NSString* const KLogActionInitialize = @"Init";
+static NSString* const KLogActionStartCommunication = @"StartComm";
+static NSString* const KLogActionEndCommunication = @"EndComm";
+static NSString* const KLogVariationAttempt = @"Attempt";
+static NSString* const KLogVariationSuccess = @"Success";
+static NSString* const KLogVariationFailure = @"Failure";
+
 @interface OneToOneCommunicator() <OTSessionDelegate, OTSubscriberKitDelegate, OTPublisherDelegate>
 @property (nonatomic) BOOL isCallEnabled;
 @property (nonatomic) OTSubscriber *subscriber;
@@ -30,13 +39,26 @@
 }
 
 + (instancetype)sharedInstance {
+    
+    [OTKLogger analyticsWithClientVersion:KLogClientVersion
+                                   source:[[NSBundle mainBundle] bundleIdentifier]
+                              componentId:kLogComponentIdentifier
+                                     guid:[[NSUUID UUID] UUIDString]];
+    
+    [OTKLogger logEventAction:KLogActionInitialize variation:KLogVariationAttempt completion:nil];
 
     static OneToOneCommunicator *sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[OneToOneCommunicator alloc] init];
         sharedInstance.session = [OTAcceleratorSession getAcceleratorPackSession];
+        
+        [OTKLogger logEventAction:KLogActionInitialize variation:KLogVariationSuccess completion:nil];
     });
+    
+    if (!sharedInstance) {
+        [OTKLogger logEventAction:KLogActionInitialize variation:KLogVariationFailure completion:nil];
+    }
     return sharedInstance;
 }
 
@@ -49,6 +71,10 @@
 }
 
 - (void)connect {
+    
+    [OTKLogger logEventAction:KLogActionStartCommunication
+                    variation:KLogVariationAttempt
+                   completion:nil];
     
     [OTAcceleratorSession registerWithAccePack:self];
     
@@ -108,7 +134,17 @@
         }
     }
     
-    [OTAcceleratorSession deregisterWithAccePack:self];
+    NSError *disconnectError = [OTAcceleratorSession deregisterWithAccePack:self];
+    if (!disconnectError) {
+        [OTKLogger logEventAction:KLogActionEndCommunication
+                        variation:KLogVariationSuccess
+                       completion:nil];
+    }
+    else {
+        [OTKLogger logEventAction:KLogActionEndCommunication
+                        variation:KLogVariationFailure
+                       completion:nil];
+    }
     
     self.isCallEnabled = NO;
 }
@@ -128,6 +164,7 @@
 -(void)sessionDidConnect:(OTSession*)session {
     
     NSLog(@"OneToOneCommunicator sessionDidConnect:");
+    [OTKLogger setSessionId:session.sessionId connectionId:session.connection.connectionId partnerId:@([self.session.apiKey integerValue])];
     
     if (!self.publisher) {
         NSString *deviceName = [UIDevice currentDevice].name;
@@ -139,15 +176,16 @@
     if (error) {
         [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidConnect
                              error:error];
+        [OTKLogger logEventAction:KLogActionStartCommunication
+                        variation:KLogVariationFailure
+                       completion:nil];
     }
     else {
-        NSString *apiKey = self.session.apiKey;
-        NSString *sessionId = self.session.sessionId;
-        NSInteger partner = [apiKey integerValue];
-        [OTKAnalytics analyticsWithApiKey:@(partner) sessionId:sessionId connectionId:self.session.connection.connectionId clientVersion:@"ios-vsol-1.0.0" source:@"one-to-one-sample-app"];
-        [OTKAnalytics logEventAction:@"initialize" variation:@"Success" completion:nil];
         [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidConnect
                              error:nil];
+        [OTKLogger logEventAction:KLogActionStartCommunication
+                        variation:KLogVariationSuccess
+                       completion:nil];
     }
 }
 
@@ -161,19 +199,15 @@
     
     [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidDisconnect
                          error:nil];
+    
+    [OTKLogger logEventAction:KLogActionEndCommunication
+                    variation:KLogVariationSuccess
+                   completion:nil];
 }
 
 - (void)session:(OTSession *)session streamCreated:(OTStream *)stream {
 
     NSLog(@"session streamCreated (%@)", stream.streamId);
-    
-    // THIS IS A TEMP WORK-AROUND! WILL CHANGE IN THE FUTURE.
-    if ([stream.name isEqualToString:@"web"]) {
-        NSError *error = [NSError errorWithDomain:@"ScreenSharerErrorDomain" code:1000 userInfo:@{NSLocalizedDescriptionKey: @"Screen-Share from web is not allowed at this time, ^v^."}];
-        [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionStreamCreated
-                             error:error];
-        return;
-    }
     
     OTError *error;
     self.subscriber = [[OTSubscriber alloc] initWithStream:stream delegate:self];
@@ -197,6 +231,10 @@
     NSLog(@"session did failed with error: (%@)", error);
     [self notifiyAllWithSignal:OneToOneCommunicationSignalSessionDidFail
                          error:error];
+    
+    [OTKLogger logEventAction:KLogActionStartCommunication
+                    variation:KLogVariationFailure
+                   completion:nil];
 }
 
 #pragma mark - OTPublisherDelegate

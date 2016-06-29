@@ -1,6 +1,6 @@
 ![logo](../../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for iOS<br/>Version 1.0
+# OpenTok One-to-One Communication Sample App for iOS<br/>Version 1.1
 
 This document describes how to use the OpenTok One-to-One Communication Sample App for iOS. You will learn best practices for managing the audio, video, and camera elements on an iOS mobile device. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
 

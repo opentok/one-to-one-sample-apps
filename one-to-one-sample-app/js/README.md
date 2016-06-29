@@ -1,6 +1,6 @@
 ![logo](../../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for JavaScript<br/>Version 1.0
+# OpenTok One-to-One Communication Sample App for JavaScript<br/>Version 1.1
 
 This document describes how to use the OpenTok One-to-One Communication Sample App for JavaScript. You will learn best practices for managing the audio, video, and camera elements in a web-based application. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
 
@@ -69,7 +69,7 @@ _**NOTE:** The sample app contains logic used for logging. This is used to submi
 
 While TokBox hosts [OpenTok.js](https://tokbox.com/developer/sdks/js/), you must host the sample app yourself. This allows you to customize the app as desired. The sample app has the following design:
 
-* **[one-to-one-communication.js](./public/js/components/one-to-one-communication.js)**:  Sets up the listeners and handlers for the publisher and subscriber streams, and defines the callbacks for enabling and disabling local and remote media.
+* **[acc-pack-communication.js](./public/js/components/one-to-one-communication.js)**:  Sets up the listeners and handlers for the publisher and subscriber streams, and defines the callbacks for enabling and disabling local and remote media.
 
 * **[app.js](./public/js/app.js)**: Stores the information required to configure the session and authorize the app to make requests to the backend server, manages the client connection to the OpenTok session, manages the UI responses to call events, and sets up and manages the local and remote audio and video UI elements. 
 
@@ -102,7 +102,7 @@ var init = function() {
 ```
 
 
-**one-to-one-communication.js**: The `Call` object is the backbone of the one-to-one communication features for the app, and can be customized for reuse in your applications. It sets up the event handling for the publisher and subscriber streams.
+**acc-pack-communication.js**: The `Call` object is the backbone of the one-to-one communication features for the app, and can be customized for reuse in your applications. It sets up the event handling for the publisher and subscriber streams.
 
    - The constructor adds the participant event handlers by invoking the [Session.on](https://tokbox.com/developer/sdks/js/reference/Session.html#on) method.
    - The `_publish` function starts publishing an audio-video stream to the session by invoking the [Session.publish](https://tokbox.com/developer/sdks/js/reference/Session.html#publish) method.

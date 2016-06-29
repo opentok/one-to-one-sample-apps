@@ -94,11 +94,11 @@
 
     // init the analytics logs
     var _source = window.location.href;
-    
-    var _guid = _readCookie('guidTextChatAccPack')
+
+    var _guid = _readCookie('guidOneToOneSample');
     if ( !_guid) {
-      _guid = _createCookie('guidTextChatAccPack', _generateUuid(), 7);
-    } 
+      _guid = _createCookie('guidOneToOneSample', _generateUuid(), 7);
+    }
    
     var otkanalyticsData = {
       clientVersion: _logEventData.clientVersion,

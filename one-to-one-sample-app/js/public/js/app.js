@@ -103,6 +103,16 @@
 
   };
 
+  var _connectCall = function () {
+
+    if (!_initialized) {
+      _init();
+    } else {
+      !_callActive ? _startCall() : _endCall();
+    }
+
+  };
+
   var _endCall = function () {
 
     // End call
@@ -118,6 +128,28 @@
     if (_callActive || _remoteParticipant) {
       _swapVideoPositions('end');
     }
+  };
+
+  var _init = function () {
+
+    // Get session
+    _session = OT.initSession(_options.apiKey, _options.sessionId);
+
+    // Connect
+    _session.connect(_options.token, function (error) {
+      if (error) {
+        console.log('Session failed to connect');
+      } else {
+        _communication = new CommunicationAccPack(_.extend(_options, {
+          session: _session,
+          localCallProperties: _options.localCallProperties
+        }));
+        _addEventListeners();
+        _initialized = true;
+        _startCall();
+      }
+    });
+
   };
 
   var _addEventListeners = function () {
@@ -142,40 +174,7 @@
           _swapVideoPositions('left');
         }
       }
-
     });
-
-    var _init = function () {
-
-      // Get session
-      _session = OT.initSession(_options.apiKey, _options.sessionId);
-
-      // Connect
-      _session.connect(_options.token, function (error) {
-        if (error) {
-          console.log('Session failed to connect');
-        } else {
-          _communication = new CommunicationAccPack(_.extend(_options, {
-            session: _session,
-            localCallProperties: _options.localCallProperties
-          }));
-          _addEventListeners();
-          _initialized = true;
-          _startCall();
-        }
-      });
-
-    };
-
-    var _connectCall = function () {
-
-      if (!_initialized) {
-        _init();
-      } else {
-        !_callActive ? _startCall() : _endCall();
-      }
-
-    };
 
     // Click events for enabling/disabling audio/video
     var controls = [
@@ -192,6 +191,8 @@
   };
 
   // Start or end call
-  $('#callActive').on('click', _connectCall);
+  document.addEventListener('DOMContentLoaded', function () {
+    $('#callActive').on('click', _connectCall);
+  });
 
 }());

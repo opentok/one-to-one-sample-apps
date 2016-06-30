@@ -22,4 +22,4 @@ Pods
 *.framework
 *.bundle
 
-iOS/SampleApp.xcodeproj/project.*
+OneToOneSample.xcodeproj/project.*

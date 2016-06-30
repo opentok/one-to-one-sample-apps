@@ -1,6 +1,6 @@
 ![logo](../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App<br/>Version 1.0
+# OpenTok One-to-One Communication Sample App<br/>Version 1.1
 
 The OpenTok One-to-One Communication Sample App is an open-source solution that enables you to quickly get started in your development efforts to set up interoperable, production-quality audio/video communication between users. 
 

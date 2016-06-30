@@ -1,6 +1,6 @@
 ![logo](../../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for Android<br/>Version 1.0
+# OpenTok One-to-One Communication Sample App for Android<br/>Version 1.1
 
 This document describes how to use the OpenTok One-to-One Communication Sample App for Android. You will learn best practices for managing the audio, video, and camera elements on an Android mobile device. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
 
@@ -42,19 +42,45 @@ To learn more about the best practices used to design this app, see [Exploring t
 4. Navigate to the **android** folder, select the **OnetoOneSample** folder, and click **Choose**.
 
 
-### Adding the OpenTok SDK
+### Adding the OpenTok SDK included in the Accelerator Pack Common for Android
 
-Follow these steps to add the OpenTok SDK to your project:
+There are 2 options for installing the OpenTok Android Accelerator Pack:
 
-1.  Select the **Project** view.  
-2.  Modify the **build.gradle** for your solution and add the following code snippet to the section labeled `repositories`: 
 
-    ```maven { url "http://tokbox.bintray.com/maven" }``` 
+#### Using the repository
 
-3.  Modify the **build.gradle** for your activity and add the following code snippet to the section labeled `dependencies`: 
+1. Clone the [OpenTok Accelerator Pack repo](https://github.com/opentok/acc-pack-common).
+2. From your app project, right-click the app name and select **New > Module > Import Gradle Project**.
+3. Navigate to the directory in which you cloned **OpenTok Accelerator Pack**, select **android-accelerator-pack**, and click **Finish**.
+4. Open the **build.gradle** file for the app and ensure the following lines have been added to the `dependencies` section:
 
-    ```compile 'com.opentok.android:opentok-android-sdk:2.8.+'```
+```
+compile project(':android-accelerator-pack')
 
+```
+
+#### Using Maven
+
+<ol>
+
+<li>Modify the <b>build.gradle</b> for your solution and add the following code snippet to the section labeled 'repositories’:
+
+<code>
+maven { url  "http://tokbox.bintray.com/maven" }
+</code>
+
+</li>
+
+<li>Modify the <b>build.gradle</b> for your activity and add the following code snippet to the section labeled 'dependencies’: 
+
+
+<code>
+compile 'com.opentok.android:accelerator-pack:1.0.0'
+</code>
+
+</li>
+
+</ol>
 
 
 ### Configuring the app
@@ -78,9 +104,23 @@ In **OpenTokConfig.java**, replace the following empty strings with the required
 
 You may also set the `SUBSCRIBE_TO_SELF` constant. Its default value, `false`, means that the app subscribes automatically to the other client’s stream. This is required to establish communication between two streams using the same Session ID:
 
-   ```java
-    public static final boolean SUBSCRIBE_TO_SELF = false;
-   ```
+```java
+public static final boolean SUBSCRIBE_TO_SELF = false;
+```
+
+You can enable or disable the `SUBSCRIBE_TO_SELF` feature by invoking the `OneToOneCommunication.setSubscribeToSelf()` method:
+
+```java
+OneToOneCommunication comm = new OneToOneCommunication(
+  MainActivity.this, 
+  OpenTokConfig.SESSION_ID, 
+  OpenTokConfig.TOKEN, 
+  OpenTokConfig.API_KEY
+);
+
+comm.setSubscribeToSelf(OpenTokConfig.SUBSCRIBE_TO_SELF);
+
+```
 
 _At this point you can try running the app! You can either use a simulator or an actual mobile device._
 
@@ -106,8 +146,6 @@ The following classes represent the software design for this sample app.
 | ------------- | ------------- |
 | `MainActivity`    | Implements the UI and media control callbacks. |
 | `OpenTokConfig`   | Stores the information required to configure the session and authorize the app to make requests to the backend server.   |
-| `OneToOneCommunication`   | Uses the OpenTok API to initiate the client connection to the OpenTok session and manage the audio and video streams. |
-| `OneToOneCommunication.Listener`   | Provides a bridge between the OpenTok communication logic and the UI, allowing you to customize the UI for events that are fired. |
 | `PreviewControlFragment`   | Manages the toolbar for the local audio and video controls, and the start/end call button. |
 | `RemoteControlFragment`   | Manages the icons to enable/disable the audio and video of the remote subscriber. |
 | `PreviewCameraFragment `   | Manages the camera control. |
@@ -115,7 +153,7 @@ The following classes represent the software design for this sample app.
 
 ### Session and stream management
 
-The `OneToOneCommunication` class is the backbone of the one-to-one communication features for the app. 
+The `OneToOneCommunication` class, included in the Accelerator Pack Common for Android, is the backbone of the one-to-one communication features for the app. 
 
 This class uses the OpenTok API to initiate the client connection to the OpenTok session and manage the audio and video streams.
 

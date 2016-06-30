@@ -1,17 +1,10 @@
 ![logo](../../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for iOS<br/>Version 1.0
+# OpenTok One-to-One Communication Sample App for iOS<br/>Version 1.1
 
 This document describes how to use the OpenTok One-to-One Communication Sample App for iOS. You will learn best practices for managing the audio, video, and camera elements on an iOS mobile device. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
 
 You can configure and run this sample app within just a few minutes!
-
-
-This guide has the following sections:
-
-* [Prerequisites](#prerequisites): A checklist of everything you need to get started.
-* [Quick start](#quick-start): A step-by-step tutorial to help you quickly import and run the sample app.
-* [Exploring the code](#exploring-the-code): This describes the sample app code design, which uses recommended best practices to implement the one-to-one communication features. 
 
 ## Prerequisites
 
@@ -28,41 +21,13 @@ _**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample
 
 To get up and running quickly with your app, go through the following steps in the tutorial provided below:
 
-1. [Importing the Xcode Project](#importing-the-xcode-project)
-2. [Adding the OpenTok SDK](#adding-the-opentok-sdk)
-3. [Configuring the App](#configuring-the-app)
-
-To learn more about the best practices used to design this app, see [Exploring the code](#exploring-the-code).
-
-### Importing the Xcode project
-
-1. Clone the OpenTok One-to-One Communication Sample App repository.
-2. Start Xcode. 
-3. Click **File > Open**.
-4. Navigate to the **iOS** folder, select **OneToOneSample.xcodeproj**, and click **Open**.
-
-
-### Adding the OpenTok SDK
-
-There are two ways to add the frameworks you need. You can add them quickly using CocoaPods, or add them individually.
-
-#### Using CocoaPods
-
-1. Add the following line to your Podfile: `pod "OTAcceleratorPackUtil"`. As an alternative, you can directly retrieve `OTAcceleratorSession` from [acc-pack-common](https://github.com/opentok/acc-pack-common).
-2. In a terminal prompt, navigate into your project directory and type `pod install`.
-3. Reopen your project using the new *.xcworkspace file.
+### Using CocoaPods
+1. In a terminal prompt, navigate into your project directory and type `pod install`.
+2. Reopen your project using the new *.xcworkspace file.
 
 For more information about CocoaPods, including installation instructions, visit [CocoaPods Getting Started](https://guides.cocoapods.org/using/getting-started.html#getting-started).
 
-#### Adding the frameworks individually
-
-1.  Drag the **OpenTok.framework** into your project. Select the framework and ensure **Target Membership** is checked in the **File Inspector**.
-2.  From the **Project Navigator** view, click **General**. Add the framework in **Embedded Binaries** and ensure it is in **Linked Frameworks and Libraries**.
-3.  On the **General** tab under **Linked Frameworks and Libraries**, add all the required frameworks listed at [OpenTok iOS SDK Requirements](https://tokbox.com/developer/sdks/ios/).
-
-
 ### Configuring the app
-
 Now you are ready to add the configuration detail to your app. These will include the **Session ID**, **Token**, and **API Key** you retrieved earlier (see [Prerequisites](#prerequisites)).
 
 In **AppDelegate.m**, replace the following empty strings with the required detail:
@@ -71,7 +36,7 @@ In **AppDelegate.m**, replace the following empty strings with the required deta
    ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-	// Override point for customization after application launch.    
+    // Override point for customization after application launch.    
     [OneToOneCommunicator setOpenTokApiKey:@""
                                  sessionId:@""
                                      token:@""
@@ -84,6 +49,8 @@ In **AppDelegate.m**, replace the following empty strings with the required deta
 You may also set the `selfSubscribed` constant. Its default value, `NO`, means that the app subscribes automatically to the other client’s stream. This is required to establish communication between two streams using the same Session ID.
 
 _At this point you can try running the app! You can either use a simulator or an actual mobile device._
+
+To learn more about the best practices used to design this app, see [Exploring the code](#exploring-the-code).
 
 
 ## Exploring the code

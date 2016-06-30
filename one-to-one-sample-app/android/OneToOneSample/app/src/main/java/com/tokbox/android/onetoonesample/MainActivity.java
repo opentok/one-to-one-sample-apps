@@ -1,6 +1,8 @@
 package com.tokbox.android.onetoonesample;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -16,10 +18,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tokbox.android.onetoonesample.R;
+import com.tokbox.android.accpack.OneToOneCommunication;
+import com.tokbox.android.logging.OTKAnalytics;
+import com.tokbox.android.logging.OTKAnalyticsData;
+
+import com.tokbox.android.onetoonesample.config.OpenTokConfig;
 import com.tokbox.android.onetoonesample.ui.PreviewCameraFragment;
 import com.tokbox.android.onetoonesample.ui.PreviewControlFragment;
 import com.tokbox.android.onetoonesample.ui.RemoteControlFragment;
+
+import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity implements OneToOneCommunication.Listener, PreviewControlFragment.PreviewControlCallbacks, RemoteControlFragment.RemoteControlCallbacks, PreviewCameraFragment.PreviewCameraCallbacks {
@@ -45,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     private PreviewCameraFragment mCameraFragment;
     private FragmentTransaction mFragmentTransaction;
 
+    private OTKAnalyticsData mAnalyticsData;
+    private OTKAnalytics mAnalytics;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +64,24 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //Init the analytics logging for internal use
+        String source = this.getPackageName();
+
+        SharedPreferences prefs = this.getSharedPreferences("opentok", Context.MODE_PRIVATE);
+        String guidVSol = prefs.getString("guidVSol", null);
+        if (null == guidVSol) {
+            guidVSol = UUID.randomUUID().toString();
+            prefs.edit().putString("guidVSol", guidVSol).commit();
+        }
+
+        mAnalyticsData = new OTKAnalyticsData.Builder(OpenTokConfig.LOG_CLIENT_VERSION, source, OpenTokConfig.LOG_COMPONENTID, guidVSol).build();
+        mAnalytics = new OTKAnalytics(mAnalyticsData);
+
+        //add INITIALIZE attempt log event
+        addLogEvent(OpenTokConfig.LOG_ACTION_INITIALIZE, OpenTokConfig.LOG_VARIATION_ATTEMPT);
+
 
         mPreviewViewContainer = (RelativeLayout) findViewById(R.id.publisherview);
         mRemoteViewContainer = (RelativeLayout) findViewById(R.id.subscriberview);
@@ -66,7 +95,9 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
         }
 
         //init 1to1 communication object
-        mComm = new OneToOneCommunication(MainActivity.this);
+        mComm = new OneToOneCommunication(MainActivity.this, OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN, OpenTokConfig.API_KEY);
+        mComm.setSubscribeToSelf(OpenTokConfig.SUBSCRIBE_TO_SELF);
+
         //set listener to receive the communication events, and add UI to these events
         mComm.setListener(this);
 
@@ -78,6 +109,10 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
             initRemoteFragment(); //to enable/disable remote media
             mFragmentTransaction.commitAllowingStateLoss();
         }
+
+        //add INITIALIZE attempt log event
+        addLogEvent(OpenTokConfig.LOG_ACTION_INITIALIZE, OpenTokConfig.LOG_VARIATION_SUCCESS);
+
     }
 
     @Override
@@ -179,9 +214,12 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     @Override
     public void onCall() {
         if (mComm != null && mComm.isStarted()) {
+            addLogEvent(OpenTokConfig.LOG_ACTION_END_COMM, OpenTokConfig.LOG_VARIATION_ATTEMPT);
             mComm.end();
             cleanViewsAndControls();
+            addLogEvent(OpenTokConfig.LOG_ACTION_END_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
         } else {
+            addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_ATTEMPT);
             mComm.start();
             if (mPreviewFragment != null) {
                 mPreviewFragment.setEnabled(true);
@@ -223,6 +261,11 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
         mPreviewFragment.restartFragment(true);
     }
 
+    @Override
+    public void onInitialized() {
+        addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
+    }
+
     //OneToOneCommunication callbacks
     @Override
     public void onError(String error) {
@@ -260,11 +303,12 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     }
 
     @Override
-    public void onPreviewReady(View preview, boolean added) {
-        mPreviewViewContainer.removeAllViews(); //remove the old views before to add a new preview view
-        if (added) {
+    public void onPreviewReady(View preview) {
+        mPreviewViewContainer.removeAllViews();
+        if (preview != null) {
             layoutParamsPreview = new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
             if (mComm.isRemote()) {
                 layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
                         RelativeLayout.TRUE);
@@ -274,14 +318,8 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
                 layoutParamsPreview.height = (int) getResources().getDimension(R.dimen.preview_height);
                 layoutParamsPreview.rightMargin = (int) getResources().getDimension(R.dimen.preview_rightMargin);
                 layoutParamsPreview.bottomMargin = (int) getResources().getDimension(R.dimen.preview_bottomMargin);
-                if (mComm.getLocalVideo()) {
-                    preview.setBackgroundResource(R.drawable.preview);
-                }
-            } else {
-                preview.setBackground(null);
             }
-            mPreviewViewContainer.addView(preview);
-            mPreviewViewContainer.setLayoutParams(layoutParamsPreview);
+            mPreviewViewContainer.addView(preview, layoutParamsPreview);
             if (!mComm.getLocalVideo()){
                 onDisableLocalVideo(false);
             }
@@ -289,16 +327,14 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     }
 
     @Override
-    public void onRemoteViewReady(View remoteView, boolean added) {
+    public void onRemoteViewReady(View remoteView) {
         //update preview when a new participant joined to the communication
-        if (mPreviewViewContainer.getChildCount() > 0 ) {
-            onPreviewReady(mPreviewViewContainer.getChildAt(0), true); //main preview view
+        if (mPreviewViewContainer.getChildCount() > 0) {
+            onPreviewReady(mPreviewViewContainer.getChildAt(0)); //main preview view
         }
-        if (!added){
-            //clear and hide remote views
-            if ( mAudioOnlyView.getVisibility() == View.VISIBLE ){
-                mAudioOnlyView.setVisibility(View.GONE);
-            }
+        if (!mComm.isRemote()) {
+            //clear views
+            onAudioOnly(false);
             mRemoteViewContainer.removeView(remoteView);
             mRemoteViewContainer.setClickable(false);
         }
@@ -310,6 +346,12 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
             mRemoteViewContainer.removeView(remoteView);
             mRemoteViewContainer.addView(remoteView, layoutParams);
             mRemoteViewContainer.setClickable(true);
+        }
+    }
+
+    private void addLogEvent(String action, String variation){
+        if ( mAnalytics!= null ) {
+            mAnalytics.logEvent(action, variation);
         }
     }
 }

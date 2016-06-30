@@ -1,6 +1,6 @@
 ![logo](./tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample Apps<br/>Version 1.0
+# OpenTok One-to-One Communication Sample Apps<br/>Version 1.1
 
 This is where you can explore the OpenTok sample apps! These samples include the use of accelerator packs, available from your TokBox representative, which you can use to quickly and easily develop powerful OpenTok applications. 
 

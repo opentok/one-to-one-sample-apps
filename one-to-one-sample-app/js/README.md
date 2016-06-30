@@ -1,6 +1,6 @@
 ![logo](../../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for JavaScript<br/>Version 1.0
+# OpenTok One-to-One Communication Sample App for JavaScript<br/>Version 1.1
 
 This document describes how to use the OpenTok One-to-One Communication Sample App for JavaScript. You will learn best practices for managing the audio, video, and camera elements in a web-based application. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
 
@@ -69,7 +69,7 @@ _**NOTE:** The sample app contains logic used for logging. This is used to submi
 
 While TokBox hosts [OpenTok.js](https://tokbox.com/developer/sdks/js/), you must host the sample app yourself. This allows you to customize the app as desired. The sample app has the following design:
 
-* **[one-to-one-communication.js](./public/js/components/one-to-one-communication.js)**:  Sets up the listeners and handlers for the publisher and subscriber streams, and defines the callbacks for enabling and disabling local and remote media.
+* **[acc-pack-communication.js](./public/js/components/one-to-one-communication.js)**:  Sets up the listeners and handlers for the publisher and subscriber streams, and defines the callbacks for enabling and disabling local and remote media.
 
 * **[app.js](./public/js/app.js)**: Stores the information required to configure the session and authorize the app to make requests to the backend server, manages the client connection to the OpenTok session, manages the UI responses to call events, and sets up and manages the local and remote audio and video UI elements. 
 
@@ -83,26 +83,30 @@ While TokBox hosts [OpenTok.js](https://tokbox.com/developer/sdks/js/), you must
 **app.js**: This script uses the OpenTok.js API to initiate the client connection to the OpenTok session. The `init` function uses the OpenTok.js API. It initializes the session by calling [OT.initSession](https://tokbox.com/developer/sdks/js/reference/OT.html#initSession), and creates the session connection by calling [Session.connect](https://tokbox.com/developer/sdks/js/reference/Session.html#connect). The function then instantiates the `Call` object, passing the session object to it:
 
 ```javascript
-var init = function() {
+var _init = function () {
 
-  // Get session
-  _options.session = OT.initSession(_options.apiKey, _options.sessionId);
+    // Get session
+    _session = OT.initSession(_options.apiKey, _options.sessionId);
 
-  // Connect
-  _options.session.connect(_options.token, function(error) {
-    if (error) {
-      console.log('Session failed to connect');
-    } else {
-      _call = new Call(_options)
-      _addEventListeners();
-    }
-  });
+    // Connect
+    _session.connect(_options.token, function (error) {
+      if (error) {
+        console.log('Session failed to connect');
+      } else {
+        _communication = new CommunicationAccPack(_.extend(_options, {
+          session: _session,
+          localCallProperties: _options.localCallProperties
+        }));
+        _addEventListeners();
+        _initialized = true;
+        _startCall();
+      }
+    });
 
-};
+  };
 ```
 
-
-**one-to-one-communication.js**: The `Call` object is the backbone of the one-to-one communication features for the app, and can be customized for reuse in your applications. It sets up the event handling for the publisher and subscriber streams.
+**acc-pack-communication.js**: The `CommunicationAccPack` object is the backbone of the one-to-one communication features for the app, and can be customized for reuse in your applications. It sets up the event handling for the publisher and subscriber streams.
 
    - The constructor adds the participant event handlers by invoking the [Session.on](https://tokbox.com/developer/sdks/js/reference/Session.html#on) method.
    - The `_publish` function starts publishing an audio-video stream to the session by invoking the [Session.publish](https://tokbox.com/developer/sdks/js/reference/Session.html#publish) method.
@@ -110,23 +114,17 @@ var init = function() {
 
 
 
-The following `Call` prototype methods are used for session and stream management:
+The following `CommunicationAccPack` prototype methods are used for session and stream management:
 
 | Feature        | Methods  |
 | ------------- | ------------- |
 | Start and end the session connections.   | `start`, `end` |
-| Respond to subscriber connection events. | `onParticipantJoined`, `onParticipantLeft`  |
+| Enable and disable local and remote media | `enableLocalAudio`, `enableLocalVideo`, `enableRemoteAudio`, `enableRemoteVideo`  |
 
 
 
 ### User interface
 
-As described in [Web page design](#web-page-design), **app.js** manages the UI responses to call events captured by the `Call` object prototype methods, and sets up and manages the local and remote audio and video UI elements. It provides a bridge between the OpenTok communication logic and the UI, allowing you to customize the UI for events that are fired.
-
-The `_callElements` object accesses the DOM to retrieve the local and remote controls, and the `_toggleMediaProperties` function toggles the local and remote media depending on the value of its `type` parameter.
-
-
-
-
+As described in [Web page design](#web-page-design), **app.js** manages the UI responses to call events captured by the `CommunicationAccPack` object prototype methods, and sets up and manages the local and remote audio and video UI elements. It provides a bridge between the OpenTok communication logic and the UI, allowing you to customize the UI for events that are fired.
 
 

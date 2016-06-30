@@ -15,7 +15,6 @@
 		6405A5C91C696BE600441745 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5C71C696BE600441745 /* LaunchScreen.storyboard */; };
 		A03474401CCD15A800198DB4 /* OneToOneSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A034743F1CCD15A800198DB4 /* OneToOneSampleTests.m */; };
 		A0ADEF8C1C9FB2DE00D1A471 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */; };
-		A0ADEF8F1C9FB40700D1A471 /* OneToOneCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = A0ADEF8E1C9FB40700D1A471 /* OneToOneCommunicator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,8 +56,6 @@
 		A03474411CCD15A800198DB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0ADEF8A1C9FB2DE00D1A471 /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
 		A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
-		A0ADEF8D1C9FB40700D1A471 /* OneToOneCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneToOneCommunicator.h; sourceTree = "<group>"; };
-		A0ADEF8E1C9FB40700D1A471 /* OneToOneCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneToOneCommunicator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,8 +115,6 @@
 				6405A5C51C696BE600441745 /* Assets.xcassets */,
 				6405A5C71C696BE600441745 /* LaunchScreen.storyboard */,
 				6405A5CA1C696BE600441745 /* Info.plist */,
-				A0ADEF8D1C9FB40700D1A471 /* OneToOneCommunicator.h */,
-				A0ADEF8E1C9FB40700D1A471 /* OneToOneCommunicator.m */,
 				6405A5B61C696BE600441745 /* Supporting Files */,
 			);
 			path = SampleApp;
@@ -248,7 +243,6 @@
 				6405A5BB1C696BE600441745 /* AppDelegate.m in Sources */,
 				6405A5B81C696BE600441745 /* main.m in Sources */,
 				A0ADEF8C1C9FB2DE00D1A471 /* MainView.m in Sources */,
-				A0ADEF8F1C9FB40700D1A471 /* OneToOneCommunicator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

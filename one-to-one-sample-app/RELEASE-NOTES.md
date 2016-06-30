@@ -6,7 +6,8 @@
 
   - The One-to-One Communication Sample App requires the latest OpenTok SDK version on all platforms.
   - The sample app contains logic used for logging for internal TokBox purposes only, which has been updated to v2. 
-  - (_Android only_) The One-to-One Communication Sample App now includes an opentok-accelerator-pack dependency, which includes the audio/video communication code.
+  - (_Android and iOS only_) The One-to-One Communication Sample App now includes an opentok-accelerator-pack dependency, which includes the audio/video communication code.
+  - (_JS only_) The code has been refactored, and the `Call` component has been renamed to `CommunicationAccPack`.
 
 
 ### Resolved Issues

@@ -6,6 +6,13 @@ This document describes how to use the OpenTok One-to-One Communication Sample A
 
 You can configure and run this sample app within just a few minutes!
 
+
+This guide has the following sections:
+
+* [Prerequisites](#prerequisites): A checklist of everything you need to get started.
+* [Quick start](#quick-start): A step-by-step tutorial to help you quickly import and run the sample app.
+* [Exploring the code](#exploring-the-code): This describes the sample app code design, which uses recommended best practices to implement the one-to-one communication features. 
+
 ## Prerequisites
 
 To be prepared to develop your one-to-one communication app:
@@ -49,8 +56,6 @@ In **AppDelegate.m**, replace the following empty strings with the required deta
 You may also set the `selfSubscribed` constant. Its default value, `NO`, means that the app subscribes automatically to the other client’s stream. This is required to establish communication between two streams using the same Session ID.
 
 _At this point you can try running the app! You can either use a simulator or an actual mobile device._
-
-To learn more about the best practices used to design this app, see [Exploring the code](#exploring-the-code).
 
 
 ## Exploring the code

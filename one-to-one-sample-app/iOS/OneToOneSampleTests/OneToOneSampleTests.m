@@ -1,9 +1,7 @@
 //
 //  OneToOneSampleTests.m
-//  OneToOneSampleTests
 //
-//  Created by Xi Huang on 4/24/16.
-//  Copyright © 2016 AgilityFeat. All rights reserved.
+// Copyright © 2016 Tokbox, Inc. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

@@ -1,9 +1,7 @@
 //
 //  MainView.m
-//  OneToOneSample
 //
-//  Created by Xi Huang on 3/20/16.
-//  Copyright © 2016 TokBox. All rights reserved.
+// Copyright © 2016 Tokbox, Inc. All rights reserved.
 //
 
 #import "MainView.h"

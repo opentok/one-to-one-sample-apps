@@ -18,9 +18,8 @@ This guide has the following sections:
 To be prepared to develop your one-to-one communication app:
 
 1. Xcode version 5 or later.
-2. Download the [OpenTok iOS SDK](https://tokbox.com/developer/sdks/ios/). **OpenTok iOS SDK version 2.8.x** is required for this sample app.
-3. Review the [OpenTok iOS SDK Requirements](https://tokbox.com/developer/sdks/ios/).
-4. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
+2. Review the [OpenTok iOS SDK Requirements](https://tokbox.com/developer/sdks/ios/).
+3. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
 
 _**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample program. For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
 

@@ -66,7 +66,6 @@ For detail about the APIs used to develop this sample, see the [OpenTok iOS SDK 
   - [Class design](#class-design)
   - [Session and stream management](#session-and-stream-management)
   - [View Controllers](#view-controllers)
-  - [User interface](#user-interface)
 
 _**NOTE:** The sample app contains logic used for logging. This is used to submit anonymous usage data for internal TokBox purposes only. We request that you do not modify or remove any logging code in your use of this sample application._
 
@@ -149,7 +148,3 @@ As described in [Class design](#class-design), the `MainViewController` class, i
 | Publisher camera orientation (forward or selfie mode). | `publisherCameraButtonPressed`  |
 
 
-
-### User interface
-
-The `MainView` class defines the main user interfaces and contains the logic for their styling and transitions.

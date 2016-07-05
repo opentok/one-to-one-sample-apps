@@ -45,17 +45,12 @@ In **AppDelegate.m**, replace the following empty strings with the required deta
     // Override point for customization after application launch.    
     [OneToOneCommunicator setOpenTokApiKey:@""
                                  sessionId:@""
-                                     token:@""
-                            selfSubscribed:NO];
-  	return YES;
+                                     token:@""];
+    return YES;
 }
    ```
 
-
-You may also set the `selfSubscribed` constant. Its default value, `NO`, means that the app subscribes automatically to the other client’s stream. This is required to establish communication between two streams using the same Session ID.
-
 _At this point you can try running the app! You can either use a simulator or an actual mobile device._
-
 
 ## Exploring the code
 
@@ -147,9 +142,3 @@ As described in [Class design](#class-design), the `MainViewController` class, i
 | Publisher start and end call. | `publisherCallButtonPressed `  |
 | Publisher video. | `publisherVideoButtonPressed`  |
 | Publisher camera orientation (forward or selfie mode). | `publisherCameraButtonPressed`  |
-
-
-
-### User interface
-
-The `MainView` class defines the main user interfaces and contains the logic for their styling and transitions.

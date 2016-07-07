@@ -45,17 +45,12 @@ In **AppDelegate.m**, replace the following empty strings with the required deta
     // Override point for customization after application launch.    
     [OneToOneCommunicator setOpenTokApiKey:@""
                                  sessionId:@""
-                                     token:@""
-                            selfSubscribed:NO];
-  	return YES;
+                                     token:@""];
+    return YES;
 }
    ```
 
-
-You may also set the `selfSubscribed` constant. Its default value, `NO`, means that the app subscribes automatically to the other client’s stream. This is required to establish communication between two streams using the same Session ID.
-
 _At this point you can try running the app! You can either use a simulator or an actual mobile device._
-
 
 ## Exploring the code
 

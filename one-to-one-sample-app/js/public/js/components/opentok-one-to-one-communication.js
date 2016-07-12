@@ -330,6 +330,12 @@
         _subscribeToStream(subscriber);
       });
 
+      _session.streams.forEach(function (s) {
+        if (!_.contains(_this._subscribers, s)) {
+          _subscribeToStream(s);
+        }
+      });
+
       _triggerEvent('startCall');
 
       _log(_logEventData.actionStartComm, _logEventData.variationSuccess);

@@ -14,7 +14,8 @@
   "author": "adrice727@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "opentok-solutions-logging": "^1.0.1"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^9.0.1",

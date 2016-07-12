@@ -2,7 +2,7 @@
 
 # OpenTok One-to-One Communication Sample App for JavaScript<br/>Version 1.1
 
-This document describes how to use the OpenTok One-to-One Communication Sample App for JavaScript. You will learn best practices for managing the audio, video, and camera elements in a web-based application. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
+This document describes how to use the OpenTok One-to-One Communication Sample App for JavaScript. You will learn best practices for managing the audio, video, and camera elements in a web-based application. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform.
 
 You can configure and run this sample app within just a few minutes!
 
@@ -11,7 +11,7 @@ This guide has the following sections:
 
 * [Prerequisites](#prerequisites): A checklist of everything you need to get started.
 * [Quick start](#quick-start): A step-by-step tutorial to help you quickly import and run the sample app.
-* [Exploring the code](#exploring-the-code): This describes the sample app code design, which uses recommended best practices to implement the one-to-one communication features. 
+* [Exploring the code](#exploring-the-code): This describes the sample app code design, which uses recommended best practices to implement the one-to-one communication features.
 
 ## Prerequisites
 
@@ -55,7 +55,7 @@ The web page that loads the sample app for JavaScript must be served over HTTP/H
 
 ## Exploring the code
 
-This section describes how the sample app code design uses recommended best practices to implement the one-to-one communication features. 
+This section describes how the sample app code design uses recommended best practices to implement the one-to-one communication features.
 
 For detail about the APIs used to develop this sample, see the [OpenTok.js Reference](https://tokbox.com/developer/sdks/js/reference/).
 
@@ -69,11 +69,11 @@ _**NOTE:** The sample app contains logic used for logging. This is used to submi
 
 While TokBox hosts [OpenTok.js](https://tokbox.com/developer/sdks/js/), you must host the sample app yourself. This allows you to customize the app as desired. The sample app has the following design:
 
-* **[acc-pack-communication.js](./public/js/components/one-to-one-communication.js)**:  Sets up the listeners and handlers for the publisher and subscriber streams, and defines the callbacks for enabling and disabling local and remote media.
+* **[opentok-one-to-one-communication.js](./public/js/components/opentok-one-to-one-communication.js)**:  Sets up the listeners and handlers for the publisher and subscriber streams, and defines the callbacks for enabling and disabling local and remote media.
 
-* **[app.js](./public/js/app.js)**: Stores the information required to configure the session and authorize the app to make requests to the backend server, manages the client connection to the OpenTok session, manages the UI responses to call events, and sets up and manages the local and remote audio and video UI elements. 
+* **[app.js](./public/js/app.js)**: Stores the information required to configure the session and authorize the app to make requests to the backend server, manages the client connection to the OpenTok session, manages the UI responses to call events, and sets up and manages the local and remote audio and video UI elements.
 
-* **[Image files](./public/images)**: Used for the communication and media icons. 
+* **[Image files](./public/images)**: Used for the communication and media icons.
 
 * **[index.html](./public/index.html)**: This web page provides you with a quick start if you don't already have a web page making calls against OpenTok.js. Its `<head>` element loads the OpenTok.js library and other dependencies, and its `<body>` element implements the UI container for the local and remote controls on your own page.
 
@@ -106,7 +106,7 @@ var _init = function () {
   };
 ```
 
-**acc-pack-communication.js**: The `CommunicationAccPack` object is the backbone of the one-to-one communication features for the app, and can be customized for reuse in your applications. It sets up the event handling for the publisher and subscriber streams.
+**opentok-one-to-one-communication.js**: The `CommunicationAccPack` object is the backbone of the one-to-one communication features for the app, and can be customized for reuse in your applications. It sets up the event handling for the publisher and subscriber streams.
 
    - The constructor adds the participant event handlers by invoking the [Session.on](https://tokbox.com/developer/sdks/js/reference/Session.html#on) method.
    - The `_publish` function starts publishing an audio-video stream to the session by invoking the [Session.publish](https://tokbox.com/developer/sdks/js/reference/Session.html#publish) method.

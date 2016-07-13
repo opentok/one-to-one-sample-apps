@@ -43,9 +43,9 @@ In **AppDelegate.m**, replace the following empty strings with the required deta
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     // Override point for customization after application launch.    
-    [OneToOneCommunicator setOpenTokApiKey:@""
-                                 sessionId:@""
-                                     token:@""];
+    [OTOneToOneCommunicator setOpenTokApiKey:@""
+                                   sessionId:@""
+                                       token:@""];
     return YES;
 }
    ```
@@ -70,36 +70,36 @@ The following classes represent the software design for this sample app.
 
 | Class        | Description  |
 | ------------- | ------------- |
-| `OneToOneCommunicator`   | Uses the OpenTok API to initiate the client connection to the OpenTok session, and manages the audio and video stream subscriptions.  |
+| `OTOneToOneCommunicator`   | Uses the OpenTok API to initiate the client connection to the OpenTok session, and manages the audio and video stream subscriptions.  |
 | `MainViewController`   | <br/>In conjunction with **Main.storyboard**, this class implements the UI and its responses to all events associated with actions for the local and remote audio and video controls, the publisher’s start/end call button, and the publisher’s camera position (forward or selfie mode).   |
 | `MainView`  | Defines the main user interfaces of the sample app, and contains the logic for styling and transitioning for the user interfaces. <br/> |
 
 
 ### Session and stream management
 
-The `OneToOneCommunicator` class is the backbone of the one-to-one communication features for the app. 
+The `OTOneToOneCommunicator` class is the backbone of the one-to-one communication features for the app. 
 
 This class conforms to the protocols that initiate the client connection to the OpenTok session and sets up the listeners for the publisher and subscriber streams:
 
 ```objc
-@interface OneToOneCommunicator : NSObject
+@interface OTOneToOneCommunicator : NSObject
 ```
 
 #### Protocol conformance and implementation
 
-The OpenTok protocols to which the `OneToOneCommunicator` class conforms in its internally defined implementation are described in the following table. See their descriptions in the [OpenTok iOS SDK Reference](https://tokbox.com/developer/sdks/ios/reference/) for information about the methods required to implement them. 
+The OpenTok protocols to which the `OTOneToOneCommunicator` class conforms in its internally defined implementation are described in the following table. See their descriptions in the [OpenTok iOS SDK Reference](https://tokbox.com/developer/sdks/ios/reference/) for information about the methods required to implement them. 
 
 
 | Protocol        | Description  |
 | ------------- | ------------- |
-| [`OTSessionDelegate`](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/Session.SessionListener.html)   | Monitors session state, handling client connections and stream events. |
+| [`OTSessionDelegate`](https://tokbox.com/developer/sdks/ios/reference/Protocols/OTSessionDelegate.html)   | Monitors session state, handling client connections and stream events. |
 | [`OTSubscriberKitDelegate`](https://tokbox.com/developer/sdks/ios/reference/Protocols/OTSubscriberKitDelegate.html)      | Monitors subscriber events.  |
 | [`OTPublisherDelegate`](https://tokbox.com/developer/sdks/ios/reference/Protocols/OTPublisherDelegate.html) | Monitors publisher stream events and changes to the camera position.  |
 
 
 #### Methods
 
-The following `OneToOneCommunicator` methods are used for session and stream management, and in most cases are required by the protocols to which the class conforms.
+The following `OTOneToOneCommunicator` methods are used for session and stream management, and in most cases are required by the protocols to which the class conforms.
 
 | Feature        | Methods  |
 | ------------- | ------------- |
@@ -113,25 +113,25 @@ The following `OneToOneCommunicator` methods are used for session and stream man
 The following enum notifies the main controller of all session, publisher, and subscriber events:
 
 ```objc
-typedef NS_ENUM(NSUInteger, OneToOneCommunicationSignal) {
-    OneToOneCommunicationSignalSessionDidConnect = 0,
-    OneToOneCommunicationSignalSessionDidDisconnect,
-    OneToOneCommunicationSignalSessionDidFail,
-    OneToOneCommunicationSignalSessionStreamCreated,
-    OneToOneCommunicationSignalSessionStreamDestroyed,
-    OneToOneCommunicationSignalPublisherDidFail,
-    OneToOneCommunicationSignalSubscriberConnect,
-    OneToOneCommunicationSignalSubscriberDidFail,
-    OneToOneCommunicationSignalSubscriberVideoDisabled,
-    OneToOneCommunicationSignalSubscriberVideoEnabled,
-    OneToOneCommunicationSignalSubscriberVideoDisableWarning,
-    OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted,
+typedef NS_ENUM(NSUInteger, OTOneToOneCommunicationSignal) {
+    OTSignalSessionDidConnect = 0,
+    OTSignalSessionDidDisconnect,
+    OTSignalSessionDidFail,
+    OTSignalSessionStreamCreated,
+    OTSignalSessionStreamDestroyed,
+    OTSignalPublisherDidFail,
+    OTSignalSubscriberConnect,
+    OTSignalSubscriberDidFail,
+    OTSignalSubscriberVideoDisabled,
+    OTSignalSubscriberVideoEnabled,
+    OTSignalSubscriberVideoDisableWarning,
+    OTSignalSubscriberVideoDisableWarningLifted,
 };
 ```
 
 ### View Controllers
 
-As described in [Class design](#class-design), the `MainViewController` class, in conjunction with **Main.storyboard**, receives notifications from the `OneToOneCommunicator` class and manages the UI responses to media usage events, which are associated with actions for the local and remote audio and video controls, the publisher’s start/end call button, and the publisher’s camera position (forward or selfie mode).
+As described in [Class design](#class-design), the `MainViewController` class, in conjunction with **Main.storyboard**, receives notifications from the `OTOneToOneCommunicator` class and manages the UI responses to media usage events, which are associated with actions for the local and remote audio and video controls, the publisher’s start/end call button, and the publisher’s camera position (forward or selfie mode).
 
 | Feature       | Methods       |
 | ------------- | ------------- |

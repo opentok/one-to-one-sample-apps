@@ -54,6 +54,7 @@
 
   var _logAnalytics = function () {
 
+    if (!OTKAnalytics) { return; }
     // init the analytics logs
     var _source = window.location.href;
 
@@ -77,6 +78,7 @@
   };
 
   var _log = function (action, variation) {
+    if (!_otkanalytics) { return; }
     var data = {
       action: action,
       variation: variation

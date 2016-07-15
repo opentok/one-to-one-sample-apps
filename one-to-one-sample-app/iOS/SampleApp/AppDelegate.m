@@ -5,7 +5,7 @@
 //
 
 #import "AppDelegate.h"
-#import "OneToOneCommunicator.h"
+#import "OTOneToOneCommunicator.h"
 
 @interface AppDelegate ()
 
@@ -16,9 +16,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
     
-    [OneToOneCommunicator setOpenTokApiKey:@"<# Replace #>"
-                                 sessionId:@"<# Replace #>"
-                                     token:@"<# Replace #>"];
+    [OTOneToOneCommunicator setOpenTokApiKey:@"<# Replace #>"
+                                   sessionId:@"<# Replace #>"
+                                       token:@"<# Replace #>"];
   return YES;
 }
 

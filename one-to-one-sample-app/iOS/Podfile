@@ -4,7 +4,7 @@ platform :ios, '8.0'
 inhibit_all_warnings!
 
 target 'OneToOneSample' do 
-  pod 'OTAcceleratorPackUtil'
+  pod 'OTAcceleratorPackUtil', '~> 1.0.0'
   pod 'SVProgressHUD'
 end
 

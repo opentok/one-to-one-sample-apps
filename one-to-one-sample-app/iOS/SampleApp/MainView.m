@@ -1,30 +1,27 @@
 //
 //  MainView.m
-//  OneToOneSample
 //
-//  Created by Xi Huang on 3/20/16.
-//  Copyright © 2016 TokBox. All rights reserved.
+// Copyright © 2016 Tokbox, Inc. All rights reserved.
 //
 
 #import "MainView.h"
 
 @interface MainView()
-@property (strong, nonatomic) IBOutlet UIView *publisherView;
-@property (strong, nonatomic) IBOutlet UIView *subscriberView;
+@property (weak, nonatomic) IBOutlet UIView *publisherView;
+@property (weak, nonatomic) IBOutlet UIView *subscriberView;
 
 // 3 action buttons at the bottom of the view
-@property (strong, nonatomic) IBOutlet UIButton *videoHolder;
-@property (strong, nonatomic) IBOutlet UIButton *callHolder;
-@property (strong, nonatomic) IBOutlet UIButton *micHolder;
+@property (weak, nonatomic) IBOutlet UIButton *publisherVideoButton;
+@property (weak, nonatomic) IBOutlet UIButton *callButton;
+@property (weak, nonatomic) IBOutlet UIButton *publisherAudioButton;
 
-@property (strong, nonatomic) IBOutlet UIButton *subscriberVideoButton;
-@property (strong, nonatomic) IBOutlet UIButton *subscriberAudioButton;
+@property (weak, nonatomic) IBOutlet UIButton *reverseCameraButton;
 
-@property (strong, nonatomic) IBOutlet UILabel *connectingLabel;
-@property (strong, nonatomic) IBOutlet UIButton *errorMessage;
+@property (weak, nonatomic) IBOutlet UIButton *subscriberVideoButton;
+@property (weak, nonatomic) IBOutlet UIButton *subscriberAudioButton;
 
-@property (strong, nonatomic) UIImageView *subscriberPlaceHolderImageView;
-@property (strong, nonatomic) UIImageView *publisherPlaceHolderImageView;
+@property (nonatomic) UIImageView *subscriberPlaceHolderImageView;
+@property (nonatomic) UIImageView *publisherPlaceHolderImageView;
 @end
 
 @implementation MainView
@@ -32,7 +29,7 @@
 
 - (UIImageView *)publisherPlaceHolderImageView {
     if (!_publisherPlaceHolderImageView) {
-        _publisherPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page1"]];
+        _publisherPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar"]];
         _publisherPlaceHolderImageView.backgroundColor = [UIColor clearColor];
         _publisherPlaceHolderImageView.contentMode = UIViewContentModeScaleAspectFit;
         _publisherPlaceHolderImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -42,7 +39,7 @@
 
 - (UIImageView *)subscriberPlaceHolderImageView {
     if (!_subscriberPlaceHolderImageView) {
-        _subscriberPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"page1"]];
+        _subscriberPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar"]];
         _subscriberPlaceHolderImageView.backgroundColor = [UIColor clearColor];
         _subscriberPlaceHolderImageView.contentMode = UIViewContentModeScaleAspectFit;
         _subscriberPlaceHolderImageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -60,10 +57,10 @@
     self.publisherView.layer.backgroundColor = [UIColor grayColor].CGColor;
     self.publisherView.layer.cornerRadius = 3;
     
-    [self drawBorderOn:self.micHolder withWhiteBorder:YES];
-    [self drawBorderOn:self.callHolder withWhiteBorder:NO];
-    [self drawBorderOn:self.videoHolder withWhiteBorder:YES];
-    [self hideSubscriberControls];
+    [self drawBorderOn:self.publisherAudioButton withWhiteBorder:YES];
+    [self drawBorderOn:self.callButton withWhiteBorder:NO];
+    [self drawBorderOn:self.publisherVideoButton withWhiteBorder:YES];
+    [self showSubscriberControls:NO];
 }
 
 - (void)drawBorderOn:(UIView *)view
@@ -82,6 +79,8 @@
     [self.publisherView setHidden:NO];
     publisherView.frame = CGRectMake(0, 0, CGRectGetWidth(self.publisherView.bounds), CGRectGetHeight(self.publisherView.bounds));
     [self.publisherView addSubview:publisherView];
+    publisherView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addAttachedLayoutConstantsToSuperview:publisherView];
 }
 
 - (void)removePublisherView {
@@ -94,37 +93,43 @@
     [self addAttachedLayoutConstantsToSuperview:self.publisherPlaceHolderImageView];
 }
 
-- (void)callHolderConnected {
-    [self.callHolder setImage:[UIImage imageNamed:@"startCall"] forState:UIControlStateNormal];
-    self.callHolder.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
+
+
+- (void)connectCallHolder:(BOOL)connected {
+    if (connected) {
+        [self.callButton setImage:[UIImage imageNamed:@"hangUp"] forState:UIControlStateNormal];
+        self.callButton.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor;
+    }
+    else {
+        [self.callButton setImage:[UIImage imageNamed:@"startCall"] forState:UIControlStateNormal];
+        self.callButton.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
+    }
+}
+- (void)mutePubliserhMic:(BOOL)muted {
+    if (muted) {
+        [self.publisherAudioButton setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
+    }
+    else {
+        [self.publisherAudioButton setImage:[UIImage imageNamed:@"mutedMic"] forState: UIControlStateNormal];
+    }
 }
 
-- (void)callHolderDisconnected {
-    [self.callHolder setImage:[UIImage imageNamed:@"hangUp"] forState:UIControlStateNormal];
-    self.callHolder.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor;
-}
-
-- (void)publisherMicMuted {
-    [self.micHolder setImage:[UIImage imageNamed:@"mutedMicLineCopy"] forState: UIControlStateNormal];
-}
-
-- (void)publisherMicUnmuted {
-    [self.micHolder setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
-}
-
-- (void)publisherVideoConnected {
-    [self.videoHolder setImage:[UIImage imageNamed:@"videoIcon"] forState:UIControlStateNormal];
-}
-
-- (void)publisherVideoDisconnected {
-    [self.videoHolder setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
+- (void)connectPubliserVideo:(BOOL)connected {
+    if (connected) {
+        [self.publisherVideoButton setImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
+    }
+    else {
+        [self.publisherVideoButton setImage:[UIImage imageNamed:@"noVideo"] forState: UIControlStateNormal];
+    }
 }
 
 #pragma mark - subscriber view
-- (void)addSubscribeView:(UIView *)subscriberView {
+- (void)addSubscribeView:(UIView *)subsciberView {
     
-    subscriberView.frame = CGRectMake(0, 0, CGRectGetWidth(self.subscriberView.bounds), CGRectGetHeight(self.subscriberView.bounds));
-    [self.subscriberView addSubview:subscriberView];
+    subsciberView.frame = CGRectMake(0, 0, CGRectGetWidth(self.subscriberView.bounds), CGRectGetHeight(self.subscriberView.bounds));
+    [self.subscriberView addSubview:subsciberView];
+    subsciberView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addAttachedLayoutConstantsToSuperview:subsciberView];
 }
 
 - (void)removeSubscriberView {
@@ -137,85 +142,50 @@
     [self addAttachedLayoutConstantsToSuperview:self.subscriberPlaceHolderImageView];
 }
 
-- (void)subscriberMicMuted {
-    [self.subscriberAudioButton setImage:[UIImage imageNamed:@"noSoundCopy"] forState: UIControlStateNormal];
-}
-
-- (void)subscriberMicUnmuted {
-    [self.subscriberAudioButton setImage:[UIImage imageNamed:@"audio"] forState: UIControlStateNormal];
-}
-
-- (void)subscriberVideoConnected {
-    [self.subscriberVideoButton setImage:[UIImage imageNamed:@"videoIcon"] forState: UIControlStateNormal];
-}
-
-- (void)subscriberVideoDisconnected {
-    [self.subscriberVideoButton setImage:[UIImage imageNamed:@"noVideoIcon"] forState: UIControlStateNormal];
-}
-
-- (void)showSubscriberControls {
-    [self.subscriberAudioButton setAlpha:1.0];
-    [self.subscriberVideoButton setAlpha:1.0];
-}
-
-- (void)hideSubscriberControls {
-    [self.subscriberAudioButton setAlpha:0.0];
-    [self.subscriberVideoButton setAlpha:0.0];
-}
-
-#pragma mark - other controls
-- (void)showConnectingLabel {
-    
-    [UIView animateWithDuration:0.25 animations:^(){
-        
-        [self.connectingLabel setAlpha:0.5];
-        
-        [UIView animateWithDuration:0.25 animations:^(){
-            
-            [self.connectingLabel setAlpha:1.0];
-        }];
-    }];
-}
-
-- (void)hideConnectingLabel {
-    
-    [UIView animateWithDuration:0.25 animations:^(){
-        
-        [self.connectingLabel setAlpha:0.5];
-        
-        [UIView animateWithDuration:0.25 animations:^(){
-            
-            [self.connectingLabel setAlpha:0.0];
-        }];
-    }];
-}
-
-- (void)showErrorMessageLabelWithMessage:(NSString *)message
-                            dismissAfter:(CGFloat)seconds {
-    
-    [self.errorMessage setTitle:message forState:UIControlStateNormal];
-    [self.errorMessage setAlpha:1.0];
-    
-    if (seconds != 0.0) {
-        [UIView animateWithDuration:0.5
-                              delay:seconds
-                            options:UIViewAnimationOptionTransitionNone
-                         animations:^{
-                             [self.errorMessage setAlpha:0.5];
-                         }
-                         completion:^(BOOL finished){
-                             [self.errorMessage setAlpha:0.0];
-                         }];
+- (void)muteSubscriberMic:(BOOL)muted {
+    if (muted) {
+        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"audio"] forState: UIControlStateNormal];
+    }
+    else {
+        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"noAudio"] forState: UIControlStateNormal];
     }
 }
 
-- (void)hideErrorMessageLabel {
-    [self.errorMessage setAlpha:0.0];
+- (void)connectSubsciberVideo:(BOOL)connected {
+    if (connected) {
+        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"video"] forState: UIControlStateNormal];
+    }
+    else {
+        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"noVideo"] forState: UIControlStateNormal];
+    }
 }
 
+- (void)showSubscriberControls:(BOOL)shown {
+    if (shown) {
+        [self.subscriberAudioButton setHidden:NO];
+        [self.subscriberVideoButton setHidden:NO];
+    }
+    else {
+        [self.subscriberAudioButton setHidden:YES];
+        [self.subscriberVideoButton setHidden:YES];
+    }
+}
+
+#pragma mark - other controls
 - (void)removePlaceHolderImage {
     [self.publisherPlaceHolderImageView removeFromSuperview];
     [self.subscriberPlaceHolderImageView removeFromSuperview];
+}
+
+- (void)updateControlButtonsForCall: (BOOL)status; {
+    [self.subscriberAudioButton setEnabled: status];
+    [self.subscriberVideoButton setEnabled: status];
+    [self.publisherVideoButton setEnabled: status];
+    [self.publisherAudioButton setEnabled: status];
+}
+
+- (void)showReverseCameraButton; {
+    self.reverseCameraButton.hidden = NO;
 }
 
 #pragma mark - private method

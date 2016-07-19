@@ -1,13 +1,11 @@
 //
 //  AppDelegate.m
-//  OneToOneSample
 //
-//  Created by Xi Huang on 3/20/16.
-//  Copyright © 2016 TokBox. All rights reserved.
+// Copyright © 2016 Tokbox, Inc. All rights reserved.
 //
 
 #import "AppDelegate.h"
-#import "OneToOneCommunicator.h"
+#import "OTOneToOneCommunicator.h"
 
 @interface AppDelegate ()
 
@@ -18,10 +16,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
     
-    [OneToOneCommunicator setOpenTokApiKey:@""
-                                 sessionId:@""
-                                     token:@""
-                            selfSubscribed:NO];
+    [OTOneToOneCommunicator setOpenTokApiKey:@"<# Replace #>"
+                                   sessionId:@"<# Replace #>"
+                                       token:@"<# Replace #>"];
   return YES;
 }
 

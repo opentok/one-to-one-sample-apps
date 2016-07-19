@@ -1,0 +1,25 @@
+{
+  "name": "opentok-one-to-one-communication",
+  "version": "1.0.8",
+  "description": "OpenTok one-to-one communication accelerator pack",
+  "main": "opentok-one-to-one-communication.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opentok/one-to-one-sample-apps.git"
+  },
+  "keywords": [
+    "opentok",
+    "opentok-acc-pack",
+    "webrtc",
+    "communication"
+  ],
+  "author": "adrice727@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/opentok/one-to-one-sample-apps/issues"
+  },
+  "homepage": "https://github.com/opentok/one-to-one-sample-apps#readme"
+}

@@ -1,4 +1,4 @@
-# Contributing to opentok/one-to-one-sample-apps
+# Contributing to OpenTok One-to-One Communication Sample Apps
 
 ## Code of Conduct
 
@@ -6,36 +6,36 @@ Please read our [Code of Conduct](https://github.com/opentok/one-to-one-sample-a
 
 ## Opening a new issue
 
-1. Read *all* of the [`README`](https://github.com/opentok/one-to-one-sample-apps/blob/master/README.md) :speak_no_evil:
-* Search [open issues](https://github.com/opentok/one-to-one-sample-apps/issues) *and* [closed issues](https://github.com/opentok/one-to-one-sample-apps/issues?q=is%3Aissue+is%3Aclosed) to **avoid opening a duplicate issue!** :see_no_evil:
-* If your issue exists, please comment on its thread with your new information :hear_no_evil:
-* Otherwise, open a new issue with a good title and description :memo:
+1. Read *the entire* [README](https://github.com/opentok/one-to-one-sample-apps/blob/master/README.md).
+* Search [open issues](https://github.com/opentok/one-to-one-sample-apps/issues) *and* [closed issues](https://github.com/opentok/one-to-one-sample-apps/issues?q=is%3Aissue+is%3Aclosed) to **avoid opening a duplicate issue.
+* If your issue exists and you have some new information to contribute, you may add a comment to its thread.
+* Otherwise, open a new issue with a clear title and description.
 * Provide **all** of the following information:
-  - Library version(s) :octocat:
-  - iOS/Android/Browser version(s) :iphone:
-  - Devices/Simulators/Machine affected :iphone:
+  - Library version(s)
+  - iOS, Android, or browser version(s)
+  - Devices, simulators, or machines affected
   - Expected behavior vs actual behavior
-  - Complete steps to reproduce the issue :warning:
-  - Link to a project that exhibits the issue, if possible fork the repo and modify the provided demo project :construction:
-  - Screenshots/GIFs/Videos showing the issue, if applicable :camera:
-  - Full crash log, if applicable :boom:
-  - Search for and list any issues that might be related :mag_right:
+  - Complete steps to reproduce the issue
+  - Link to a project that exhibits the issue. It is recommended that you fork the repo and modify the demo project.
+  - Screenshots, GIFs, or videos depicting the issue, if applicable.
+  - Full crash log, if applicable.
+  - A list of all possibly related issues.
 
 ## Submitting a pull request
 
-1. Link to the issue that the pull request resolves. If there isn't one, create one.
+1. Link to the issue that the pull request resolves. If the issue does not exist, create one.
 2. Write unit tests that test your changes, if applicable.
-3. Update header docs, if needed.
-4. Follow existing coding style, and these [style guidelines](https://github.com/NYTimes/objective-c-style-guide).
+3. Update header documentation as needed.
+4. Follow the existing coding style. For more information, see [style guidelines](https://github.com/NYTimes/objective-c-style-guide).
 5. Resolve any merge conflicts.
 6. Squash your commits into a single commit.
 
 ## Did you read all of this?
 
-You even followed the links? Congratulations! You deserve a high-five. :tada:
+Be sure you have visited all the links in this document.
 
 ### New issue checklist
 
-Now show me how awesome you are! :smile: When opening your new issue and filling out the checklist, you'll be asked for confirmation. Confirm that you've read this with these emoji: :muscle::sunglasses::facepunch:
+When opening your new issue and filling out the checklist, you'll be asked for confirmation. Confirm that you've read this with these emoji: :muscle::sunglasses::facepunch:
 
 > - [x] I have reviewed the contributing guidelines. Confirmation: :muscle::sunglasses::facepunch:

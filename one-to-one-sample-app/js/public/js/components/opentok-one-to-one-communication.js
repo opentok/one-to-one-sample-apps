@@ -356,16 +356,16 @@
 
     },
     enableLocalAudio: function (enabled) {
-      _this.publisher.publishAudio(enabled);
+      _this.publisher && _this.publisher.publishAudio(enabled);
     },
     enableLocalVideo: function (enabled) {
-      _this.publisher.publishVideo(enabled);
+      _this.publisher && _this.publisher.publishVideo(enabled);
     },
     enableRemoteVideo: function (enabled) {
-      _this.subscriber.subscribeToVideo(enabled);
+      _this.subscriber && _this.subscriber.subscribeToVideo(enabled);
     },
     enableRemoteAudio: function (enabled) {
-      _this.subscriber.subscribeToAudio(enabled);
+      _this.subscriber && _this.subscriber.subscribeToAudio(enabled);
     }
   };
 

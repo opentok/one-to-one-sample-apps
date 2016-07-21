@@ -1,5 +1,5 @@
 #!/bin/bash
-LOGGING="../../../node_modules/opentok-solutions-logging/opentok-solutions-logging.js"
+LOGGING="../../../node_modules/opentok-solutions-logging/dist/opentok-solutions-logging.js"
 
 npm i
 npm update

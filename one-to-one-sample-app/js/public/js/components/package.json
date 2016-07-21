@@ -1,6 +1,6 @@
 {
   "name": "opentok-one-to-one-communication",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "OpenTok one-to-one communication accelerator pack",
   "main": "opentok-one-to-one-communication.js",
   "scripts": {

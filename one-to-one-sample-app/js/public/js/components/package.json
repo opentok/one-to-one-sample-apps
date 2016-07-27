@@ -1,6 +1,6 @@
 {
   "name": "opentok-one-to-one-communication",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "OpenTok one-to-one communication accelerator pack",
   "main": "opentok-one-to-one-communication.js",
   "scripts": {
@@ -21,5 +21,10 @@
   "bugs": {
     "url": "https://github.com/opentok/one-to-one-sample-apps/issues"
   },
-  "homepage": "https://github.com/opentok/one-to-one-sample-apps#readme"
+  "homepage": "https://github.com/opentok/one-to-one-sample-apps#readme",
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "opentok-solutions-logging": "^1.0.6",
+    "underscore": "^1.8.3"
+  }
 }

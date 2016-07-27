@@ -20,9 +20,9 @@
 
   // Options hash
   var _options = {
-    apiKey: '', // Replace with your OpenTok API key
-    sessionId: '', // Replace with a generated Session ID
-    token: '', // Replace with a generated token
+    apiKey: '45589022', // Replace with your OpenTok API key
+    sessionId: '1_MX40NTU4OTAyMn5-MTQ2ODM0MTA1MDk1N35DUC9JcSthblZNQkxvajhKR2crNEV3VlB-fg', // Replace with a generated Session ID
+    token: 'T1==cGFydG5lcl9pZD00NTU4OTAyMiZzaWc9NDNlODA1OTBlNjJkOTliOTE1OWU5OWFhOTllNGU0YjQ2MTM5N2ZhMzpzZXNzaW9uX2lkPTFfTVg0ME5UVTRPVEF5TW41LU1UUTJPRE0wTVRBMU1EazFOMzVEVUM5SmNTdGhibFpOUWt4dmFqaEtSMmNyTkVWM1ZsQi1mZyZjcmVhdGVfdGltZT0xNDY4MzQ2NDIwJm5vbmNlPTAuMzM2NDE1MzkxMTgyNTI2OTUmcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTQ2ODM1MDAyMA==', // Replace with a generated token
     localCallProperties: {
       insertMode: 'append',
       width: '100%',
@@ -103,16 +103,6 @@
 
   };
 
-  var _connectCall = function () {
-
-    if (!_initialized) {
-      _init();
-    } else {
-      !_callActive ? _startCall() : _endCall();
-    }
-
-  };
-
   var _endCall = function () {
 
     // End call
@@ -128,28 +118,6 @@
     if (_callActive || _remoteParticipant) {
       _swapVideoPositions('end');
     }
-  };
-
-  var _init = function () {
-
-    // Get session
-    _session = OT.initSession(_options.apiKey, _options.sessionId);
-
-    // Connect
-    _session.connect(_options.token, function (error) {
-      if (error) {
-        console.log('Session failed to connect');
-      } else {
-        _communication = new CommunicationAccPack(_.extend(_options, {
-          session: _session,
-          localCallProperties: _options.localCallProperties
-        }));
-        _addEventListeners();
-        _initialized = true;
-        _startCall();
-      }
-    });
-
   };
 
   var _addEventListeners = function () {
@@ -188,6 +156,38 @@
         _toggleMediaProperties(control);
       });
     });
+  };
+
+  var _init = function () {
+
+    // Get session
+    _session = OT.initSession(_options.apiKey, _options.sessionId);
+
+    // Connect
+    _session.connect(_options.token, function (error) {
+      if (error) {
+        console.log('Session failed to connect');
+      } else {
+        _communication = new CommunicationAccPack(_.extend(_options, {
+          session: _session,
+          localCallProperties: _options.localCallProperties
+        }));
+        _addEventListeners();
+        _initialized = true;
+        _startCall();
+      }
+    });
+
+  };
+
+  var _connectCall = function () {
+
+    if (!_initialized) {
+      _init();
+    } else {
+      !_callActive ? _startCall() : _endCall();
+    }
+
   };
 
   // Start or end call

@@ -6,13 +6,13 @@
 
 #import "MainView.h"
 #import "MainViewController.h"
-#import "OneToOneCommunicator.h"
+#import "OTOneToOneCommunicator.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 
 @interface MainViewController ()
 @property (nonatomic) MainView *mainView;
-@property (nonatomic) OneToOneCommunicator *oneToOneCommunicator;
+@property (nonatomic) OTOneToOneCommunicator *oneToOneCommunicator;
 @end
 
 @implementation MainViewController
@@ -21,7 +21,7 @@
     [super viewDidLoad];
     
     self.mainView = (MainView *)self.view;
-    self.oneToOneCommunicator = [OneToOneCommunicator oneToOneCommunicator];
+    self.oneToOneCommunicator = [OTOneToOneCommunicator communicator];
 #if !(TARGET_OS_SIMULATOR)
     [self.mainView showReverseCameraButton];
 #endif
@@ -32,7 +32,7 @@
     [SVProgressHUD show];
     
     if (!self.oneToOneCommunicator.isCallEnabled) {
-        [self.oneToOneCommunicator connectWithHandler:^(OneToOneCommunicationSignal signal, NSError *error) {
+        [self.oneToOneCommunicator connectWithHandler:^(OTOneToOneCommunicationSignal signal, NSError *error) {
             if (!error) {
                 [SVProgressHUD dismiss];
                 [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
@@ -55,64 +55,64 @@
     }
 }
 
-- (void)handleCommunicationSignal:(OneToOneCommunicationSignal)signal {
+- (void)handleCommunicationSignal:(OTOneToOneCommunicationSignal)signal {
     
     
     switch (signal) {
-        case OneToOneCommunicationSignalSessionDidConnect: {
+        case OTSessionDidConnect: {
             [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
             break;
         }
-        case OneToOneCommunicationSignalSessionDidDisconnect:{
+        case OTSessionDidDisconnect:{
             [self.mainView removePublisherView];
             [self.mainView removeSubscriberView];
             break;
         }
-        case OneToOneCommunicationSignalSessionDidFail:{
+        case OTSessionDidFail:{
             [SVProgressHUD dismiss];
             break;
         }
-        case OneToOneCommunicationSignalSessionStreamCreated:{
+        case OTSessionStreamCreated:{
             break;
         }
-        case OneToOneCommunicationSignalSessionStreamDestroyed:{
+        case OTSessionStreamDestroyed:{
             [self.mainView removeSubscriberView];
             break;
         }
-        case OneToOneCommunicationSignalPublisherDidFail:{
+        case OTPublisherDidFail:{
             [SVProgressHUD showErrorWithStatus:@"Problem when publishing"];
             break;
         }
-        case OneToOneCommunicationSignalPublisherStreamCreated: {
+        case OTPublisherStreamCreated: {
             break;
         }
-        case OneToOneCommunicationSignalPublisherStreamDestroyed:{
+        case OTPublisherStreamDestroyed:{
             break;
         }
-        case OneToOneCommunicationSignalSubscriberConnect:{
+        case OTSubscriberConnect:{
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
-        case OneToOneCommunicationSignalSubscriberDidFail:{
+        case OTSubscriberDidFail:{
             [SVProgressHUD showErrorWithStatus:@"Problem when subscribing"];
             break;
         }
-        case OneToOneCommunicationSignalSubscriberVideoDisabled:{
+        case OTSubscriberVideoDisabled:{
             [self.mainView addPlaceHolderToSubscriberView];
             break;
         }
-        case OneToOneCommunicationSignalSubscriberVideoEnabled:{
+        case OTSubscriberVideoEnabled:{
             [SVProgressHUD dismiss];
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
-        case OneToOneCommunicationSignalSubscriberVideoDisableWarning:{
+        case OTSubscriberVideoDisableWarning:{
             [self.mainView addPlaceHolderToSubscriberView];
             self.oneToOneCommunicator.subscribeToVideo = NO;
             [SVProgressHUD showErrorWithStatus:@"Network connection is unstable."];
             break;
         }
-        case OneToOneCommunicationSignalSubscriberVideoDisableWarningLifted:{
+        case OTSubscriberVideoDisableWarningLifted:{
             [SVProgressHUD dismiss];
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;

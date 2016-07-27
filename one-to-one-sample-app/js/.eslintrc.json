@@ -22,7 +22,8 @@
     "no-unused-expressions": [2, {
       "allowTernary": true,
       "allowShortCircuit": true
-    }]
+    }],
+    "global-require": 0
   },
   "globals": {
     "$": true,

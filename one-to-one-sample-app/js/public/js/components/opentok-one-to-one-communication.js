@@ -10,7 +10,7 @@
     /* eslint-disable import/no-unresolved */
     _ = require('underscore');
     $ = require('jquery');
-    OTKAnalytics = ('opentok-solutions-logging');
+    OTKAnalytics = require('opentok-solutions-logging');
     /* eslint-enable import/no-unresolved */
   } else {
     _ = this._;

@@ -2,16 +2,21 @@
 (function () {
 
   /** Include external dependencies */
-  var _require = function (dependency) {
-    var canRequire = typeof exports === 'object' && require !== undefined;
-    if (canRequire) {
-      return require(dependency);
-    }
-    throw new Error(['Please include', dependency, 'in your project'].join(' '));
-  };
-  var _ = this._ || _require('underscore');
-  var $ = this.$ || _require('jquery');
-  var OTKAnalytics = this.OTKAnalytics || _require('opentok-solutions-logging');
+  var _;
+  var $;
+  var OTKAnalytics;
+
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    /* eslint-disable import/no-unresolved */
+    _ = require('underscore');
+    $ = require('jquery');
+    OTKAnalytics = ('opentok-solutions-logging');
+    /* eslint-enable import/no-unresolved */
+  } else {
+    _ = this._;
+    $ = this.$;
+    OTKAnalytics = this.OTKAnalytics;
+  }
 
   /** Private variables */
   var _this; // Reference to instance of CommunicationAccPack

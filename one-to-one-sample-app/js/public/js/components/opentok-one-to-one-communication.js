@@ -40,6 +40,7 @@
       'startCall',
       'endCall',
       'callPropertyChanged',
+      'subscribeToVideo',
       'startViewingSharedScreen',
       'endViewingSharedScreen'
     ];
@@ -182,8 +183,9 @@
 
           _this.streams.push(subscriber);
 
-          if (stream.videoType === 'screen') {
-            console.log('starting to view shared screen here');
+          if (stream.videoType === 'video') {
+            _triggerEvent('subscribeToVideo', subscriber);
+          } else if (stream.videoType === 'screen') {
             _triggerEvent('startViewingSharedScreen', subscriber);
           }
         }

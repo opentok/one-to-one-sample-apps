@@ -357,7 +357,7 @@
         }
       });
 
-      _triggerEvent('startCall');
+      _triggerEvent('startCall', _this.publisher);
 
       _log(_logEventData.actionStartComm, _logEventData.variationSuccess);
     },

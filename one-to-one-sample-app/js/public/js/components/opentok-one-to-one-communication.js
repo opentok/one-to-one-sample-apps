@@ -40,7 +40,7 @@
       'startCall',
       'endCall',
       'callPropertyChanged',
-      'subscribeToVideo',
+      'subscribeToCamera',
       'startViewingSharedScreen',
       'endViewingSharedScreen'
     ];
@@ -183,8 +183,8 @@
 
           _this.streams.push(subscriber);
 
-          if (stream.videoType === 'video') {
-            _triggerEvent('subscribeToVideo', subscriber);
+          if (stream.videoType === 'camera') {
+            _triggerEvent('subscribeToCamera', subscriber);
           } else if (stream.videoType === 'screen') {
             _triggerEvent('startViewingSharedScreen', subscriber);
           }

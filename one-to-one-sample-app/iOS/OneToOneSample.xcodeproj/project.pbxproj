@@ -27,19 +27,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		6405A5E11C696BF700441745 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		6405A5B31C696BE600441745 /* OneToOneSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneToOneSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6405A5B71C696BE600441745 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SampleApp/main.m; sourceTree = SOURCE_ROOT; };
@@ -76,20 +63,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		58330E79441DE696829EC13D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		6405A5AA1C696BE600441745 = {
 			isa = PBXGroup;
 			children = (
 				6405A5B51C696BE600441745 /* SampleApp */,
 				A034743E1CCD15A800198DB4 /* OneToOneSampleTests */,
 				6405A5B41C696BE600441745 /* Products */,
-				58330E79441DE696829EC13D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,7 +126,6 @@
 				6405A5AF1C696BE600441745 /* Sources */,
 				6405A5B01C696BE600441745 /* Frameworks */,
 				6405A5B11C696BE600441745 /* Resources */,
-				6405A5E11C696BF700441745 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

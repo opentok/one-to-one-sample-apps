@@ -36,13 +36,13 @@
             if (!error) {
                 [SVProgressHUD dismiss];
                 [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
-                [self.mainView updateControlButtonsForCall:YES];
                 [self handleCommunicationSignal:signal];
             }
             else {
                 [SVProgressHUD showErrorWithStatus:error.localizedDescription];
             }
         }];
+        [self.mainView updateControlButtonsForCall:YES];
     }
     else {
         
@@ -52,11 +52,11 @@
         [self.mainView removePublisherView];
         [self.mainView removePlaceHolderImage];
         [self.mainView updateControlButtonsForCall:NO];
+        [self.mainView resetUIIcons];
     }
 }
 
 - (void)handleCommunicationSignal:(OTOneToOneCommunicationSignal)signal {
-    
     
     switch (signal) {
         case OTSessionDidConnect: {

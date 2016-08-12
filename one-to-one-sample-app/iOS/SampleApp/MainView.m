@@ -65,7 +65,6 @@
 
 - (void)drawBorderOn:(UIView *)view
      withWhiteBorder:(BOOL)withWhiteBorder {
-    
     view.layer.cornerRadius = (view.bounds.size.width / 2);
     if (withWhiteBorder) {
         view.layer.borderWidth = 1;
@@ -75,7 +74,6 @@
 
 #pragma mark - publisher view
 - (void)addPublisherView:(UIView *)publisherView {
-    
     [self.publisherView setHidden:NO];
     publisherView.frame = CGRectMake(0, 0, CGRectGetWidth(self.publisherView.bounds), CGRectGetHeight(self.publisherView.bounds));
     [self.publisherView addSubview:publisherView];
@@ -93,8 +91,6 @@
     [self addAttachedLayoutConstantsToSuperview:self.publisherPlaceHolderImageView];
 }
 
-
-
 - (void)connectCallHolder:(BOOL)connected {
     if (connected) {
         [self.callButton setImage:[UIImage imageNamed:@"hangUp"] forState:UIControlStateNormal];
@@ -103,8 +99,10 @@
     else {
         [self.callButton setImage:[UIImage imageNamed:@"startCall"] forState:UIControlStateNormal];
         self.callButton.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
+        [self.publisherView setHidden:YES];
     }
 }
+
 - (void)mutePubliserhMic:(BOOL)muted {
     if (muted) {
         [self.publisherAudioButton setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
@@ -125,7 +123,6 @@
 
 #pragma mark - subscriber view
 - (void)addSubscribeView:(UIView *)subsciberView {
-    
     subsciberView.frame = CGRectMake(0, 0, CGRectGetWidth(self.subscriberView.bounds), CGRectGetHeight(self.subscriberView.bounds));
     [self.subscriberView addSubview:subsciberView];
     subsciberView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -161,14 +158,8 @@
 }
 
 - (void)showSubscriberControls:(BOOL)shown {
-    if (shown) {
-        [self.subscriberAudioButton setHidden:NO];
-        [self.subscriberVideoButton setHidden:NO];
-    }
-    else {
-        [self.subscriberAudioButton setHidden:YES];
-        [self.subscriberVideoButton setHidden:YES];
-    }
+    [self.subscriberAudioButton setHidden:!shown];
+    [self.subscriberVideoButton setHidden:!shown];
 }
 
 #pragma mark - other controls
@@ -182,6 +173,13 @@
     [self.subscriberVideoButton setEnabled: status];
     [self.publisherVideoButton setEnabled: status];
     [self.publisherAudioButton setEnabled: status];
+}
+
+- (void)resetUIIcons {
+    [self muteSubscriberMic:YES];
+    [self connectSubsciberVideo:YES];
+    [self mutePubliserhMic:YES];
+    [self connectPubliserVideo:YES];
 }
 
 - (void)showReverseCameraButton; {

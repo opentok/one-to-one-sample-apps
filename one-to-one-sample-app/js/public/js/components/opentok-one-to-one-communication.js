@@ -209,7 +209,7 @@
     // TODO: check the joined participant
     _this.subscribers.push(event.stream);
     _this._remoteParticipant = event.connection;
-    _subscribeToStream(event.stream);
+    if(_this.options.inSession) _subscribeToStream(event.stream);
   };
 
   var _handleStreamDestroyed = function (event) {
@@ -257,9 +257,9 @@
   var _setEventListeners = function () {
 
     // Are we using this module in concert with other acc packs or on its own
-    if (_this.accPack) {
-      _this.accPack.registerEventListener('streamCreated', _handleStreamCreated);
-      _this.accPack.registerEventListener('streamDestroyed', _handleStreamDestroyed);
+    if (_accPack) {
+      _accPack.registerEventListener('streamCreated', _handleStreamCreated);
+      _accPack.registerEventListener('streamDestroyed', _handleStreamDestroyed);
     } else {
       _session.on('streamCreated', _handleStreamCreated);
       _session.on('streamDestroyed', _handleStreamDestroyed);
@@ -323,7 +323,7 @@
     constructor: CommunicationAccPack,
     start: function () {
       // TODO: Managing call status: calling, startCall,...using the recipient value
-
+      
       _log(_logEventData.actionStartComm, _logEventData.variationAttempt);
 
       _this.options.inSession = true;
@@ -352,7 +352,7 @@
       });
 
       _session.streams.forEach(function (s) {
-        if (!_.contains(_this._subscribers, s)) {
+        if (!_.contains(_this.subscribers, s)) {
           _subscribeToStream(s);
         }
       });
@@ -362,7 +362,6 @@
       _log(_logEventData.actionStartComm, _logEventData.variationSuccess);
     },
     end: function () {
-
       _log(_logEventData.actionStopComm, _logEventData.variationAttempt);
 
       _this.options.inSession = false;

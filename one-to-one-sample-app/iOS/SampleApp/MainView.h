@@ -30,4 +30,5 @@
 - (void)removePlaceHolderImage;
 - (void)updateControlButtonsForCall: (BOOL)status;
 - (void)showReverseCameraButton;
+- (void)resetUIIcons;
 @end

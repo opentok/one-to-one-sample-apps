@@ -323,7 +323,7 @@
     constructor: CommunicationAccPack,
     start: function () {
       // TODO: Managing call status: calling, startCall,...using the recipient value
-
+      
       _log(_logEventData.actionStartComm, _logEventData.variationAttempt);
 
       _this.options.inSession = true;
@@ -352,7 +352,7 @@
       });
 
       _session.streams.forEach(function (s) {
-        if (!_.contains(_this._subscribers, s)) {
+        if (!_.contains(_this.subscribers, s)) {
           _subscribeToStream(s);
         }
       });

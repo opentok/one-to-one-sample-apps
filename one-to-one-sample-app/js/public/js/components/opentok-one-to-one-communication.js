@@ -257,9 +257,9 @@
   var _setEventListeners = function () {
 
     // Are we using this module in concert with other acc packs or on its own
-    if (_this.accPack) {
-      _this.accPack.registerEventListener('streamCreated', _handleStreamCreated);
-      _this.accPack.registerEventListener('streamDestroyed', _handleStreamDestroyed);
+    if (_accPack) {
+      _accPack.registerEventListener('streamCreated', _handleStreamCreated);
+      _accPack.registerEventListener('streamDestroyed', _handleStreamDestroyed);
     } else {
       _session.on('streamCreated', _handleStreamCreated);
       _session.on('streamDestroyed', _handleStreamDestroyed);

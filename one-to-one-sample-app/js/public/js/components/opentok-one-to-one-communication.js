@@ -209,7 +209,9 @@
     // TODO: check the joined participant
     _this.subscribers.push(event.stream);
     _this._remoteParticipant = event.connection;
-    if(_this.options.inSession) _subscribeToStream(event.stream);
+    if (_this.options.inSession) {
+      _subscribeToStream(event.stream);
+    }
   };
 
   var _handleStreamDestroyed = function (event) {
@@ -323,7 +325,7 @@
     constructor: CommunicationAccPack,
     start: function () {
       // TODO: Managing call status: calling, startCall,...using the recipient value
-      
+
       _log(_logEventData.actionStartComm, _logEventData.variationAttempt);
 
       _this.options.inSession = true;

@@ -209,7 +209,7 @@
     // TODO: check the joined participant
     _this.subscribers.push(event.stream);
     _this._remoteParticipant = event.connection;
-    _subscribeToStream(event.stream);
+    if(_this.options.inSession) _subscribeToStream(event.stream);
   };
 
   var _handleStreamDestroyed = function (event) {
@@ -362,7 +362,6 @@
       _log(_logEventData.actionStartComm, _logEventData.variationSuccess);
     },
     end: function () {
-
       _log(_logEventData.actionStopComm, _logEventData.variationAttempt);
 
       _this.options.inSession = false;

@@ -21,7 +21,7 @@
     [super viewDidLoad];
     
     self.mainView = (MainView *)self.view;
-    self.oneToOneCommunicator = [OTOneToOneCommunicator communicator];
+    self.oneToOneCommunicator = [OTOneToOneCommunicator sharedInstance];
 #if !(TARGET_OS_SIMULATOR)
     [self.mainView showReverseCameraButton];
 #endif
@@ -34,9 +34,7 @@
     if (!self.oneToOneCommunicator.isCallEnabled) {
         [self.oneToOneCommunicator connectWithHandler:^(OTOneToOneCommunicationSignal signal, NSError *error) {
             if (!error) {
-                [SVProgressHUD dismiss];
                 [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
-                [self.mainView updateControlButtonsForCall:YES];
                 [self handleCommunicationSignal:signal];
             }
             else {
@@ -48,10 +46,7 @@
         
         [SVProgressHUD dismiss];
         [self.oneToOneCommunicator disconnect];
-        [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
-        [self.mainView removePublisherView];
-        [self.mainView removePlaceHolderImage];
-        [self.mainView updateControlButtonsForCall:NO];
+        [self.mainView resetAllControl];
     }
 }
 
@@ -60,6 +55,8 @@
     
     switch (signal) {
         case OTSessionDidConnect: {
+            [SVProgressHUD dismiss];
+            [self.mainView enableControlButtonsForCall:YES];
             [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
             break;
         }
@@ -69,10 +66,7 @@
             break;
         }
         case OTSessionDidFail:{
-            [SVProgressHUD dismiss];
-            break;
-        }
-        case OTSessionStreamCreated:{
+            [SVProgressHUD showErrorWithStatus:@"Problem when connecting"];
             break;
         }
         case OTSessionStreamDestroyed:{
@@ -81,12 +75,6 @@
         }
         case OTPublisherDidFail:{
             [SVProgressHUD showErrorWithStatus:@"Problem when publishing"];
-            break;
-        }
-        case OTPublisherStreamCreated: {
-            break;
-        }
-        case OTPublisherStreamDestroyed:{
             break;
         }
         case OTSubscriberConnect:{
@@ -102,27 +90,28 @@
             break;
         }
         case OTSubscriberVideoEnabled:{
-            [SVProgressHUD dismiss];
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
         case OTSubscriberVideoDisableWarning:{
-            [self.mainView addPlaceHolderToSubscriberView];
             self.oneToOneCommunicator.subscribeToVideo = NO;
+            [self.mainView addPlaceHolderToSubscriberView];
             [SVProgressHUD showErrorWithStatus:@"Network connection is unstable."];
             break;
         }
         case OTSubscriberVideoDisableWarningLifted:{
-            [SVProgressHUD dismiss];
+            self.oneToOneCommunicator.subscribeToVideo = YES;
+            [self.mainView removePlaceHolderImage];
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
+        default: break;
     }
 }
 
 - (IBAction)publisherAudioButtonPressed:(UIButton *)sender {
     self.oneToOneCommunicator.publishAudio = !self.oneToOneCommunicator.publishAudio;
-    [self.mainView mutePubliserhMic:self.oneToOneCommunicator.publishAudio];
+    [self.mainView updatePublisherAudio:self.oneToOneCommunicator.publishAudio];
 }
 
 - (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
@@ -134,7 +123,7 @@
         [self.mainView removePublisherView];
         [self.mainView addPlaceHolderToPublisherView];
     }
-    [self.mainView connectPubliserVideo:self.oneToOneCommunicator.publishVideo];
+    [self.mainView updatePublisherVideo:self.oneToOneCommunicator.publishVideo];
 }
 
 - (IBAction)publisherCameraButtonPressed:(UIButton *)sender {
@@ -148,18 +137,14 @@
 
 - (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
     self.oneToOneCommunicator.subscribeToVideo = !self.oneToOneCommunicator.subscribeToVideo;
-    [self.mainView connectSubsciberVideo:self.oneToOneCommunicator.subscribeToVideo];
+    [self.mainView updateSubsciberVideoButton:self.oneToOneCommunicator.subscribeToVideo];
 }
 
 - (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
     self.oneToOneCommunicator.subscribeToAudio = !self.oneToOneCommunicator.subscribeToAudio;
-    [self.mainView muteSubscriberMic:self.oneToOneCommunicator.subscribeToAudio];
+    [self.mainView updateSubscriberAudioButton:self.oneToOneCommunicator.subscribeToAudio];
 }
 
-/**
- * handles the event when the user does a touch to show and then hide the buttons for
- * subscriber actions within 7 seconds
-*/
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     if (self.oneToOneCommunicator.subscriberView){
         [self.mainView showSubscriberControls:YES];
@@ -167,14 +152,6 @@
     [self.mainView performSelector:@selector(showSubscriberControls:)
              withObject:nil
              afterDelay:7.0];
-}
-
-- (BOOL)prefersStatusBarHidden {
-    return YES;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation {
-    return YES;
 }
 
 @end

@@ -15,6 +15,7 @@
 		6405A5C91C696BE600441745 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5C71C696BE600441745 /* LaunchScreen.storyboard */; };
 		A03474401CCD15A800198DB4 /* OneToOneSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A034743F1CCD15A800198DB4 /* OneToOneSampleTests.m */; };
 		A0ADEF8C1C9FB2DE00D1A471 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */; };
+		A0F2921D1D86781200BC6A53 /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F2921C1D86781200BC6A53 /* UIView+Helper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		A03474411CCD15A800198DB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0ADEF8A1C9FB2DE00D1A471 /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
 		A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
+		A0F2921B1D86781200BC6A53 /* UIView+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Helper.h"; sourceTree = "<group>"; };
+		A0F2921C1D86781200BC6A53 /* UIView+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Helper.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +114,8 @@
 				6405A5BD1C696BE600441745 /* MainViewController.m */,
 				A0ADEF8A1C9FB2DE00D1A471 /* MainView.h */,
 				A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */,
+				A0F2921B1D86781200BC6A53 /* UIView+Helper.h */,
+				A0F2921C1D86781200BC6A53 /* UIView+Helper.m */,
 				6405A5BF1C696BE600441745 /* Main.storyboard */,
 				6405A5C51C696BE600441745 /* Assets.xcassets */,
 				6405A5C71C696BE600441745 /* LaunchScreen.storyboard */,
@@ -243,6 +248,7 @@
 				6405A5BB1C696BE600441745 /* AppDelegate.m in Sources */,
 				6405A5B81C696BE600441745 /* main.m in Sources */,
 				A0ADEF8C1C9FB2DE00D1A471 /* MainView.m in Sources */,
+				A0F2921D1D86781200BC6A53 /* UIView+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

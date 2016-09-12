@@ -14,20 +14,22 @@
 - (void)addPlaceHolderToPublisherView;
 
 - (void)connectCallHolder:(BOOL)connected;
-- (void)mutePubliserhMic:(BOOL)muted;
-- (void)connectPubliserVideo:(BOOL)connected;
+- (void)updatePublisherAudio:(BOOL)connected;
+- (void)updatePublisherVideo:(BOOL)connected;
 
 // subscriber view
 - (void)addSubscribeView:(UIView *)subscriberView;
 - (void)removeSubscriberView;
 - (void)addPlaceHolderToSubscriberView;
 
-- (void)muteSubscriberMic:(BOOL)muted;
-- (void)connectSubsciberVideo:(BOOL)connected;
+- (void)updateSubscriberAudioButton:(BOOL)connected;
+- (void)updateSubsciberVideoButton:(BOOL)connected;
 - (void)showSubscriberControls:(BOOL)shown;
 
 // other controls
 - (void)removePlaceHolderImage;
-- (void)updateControlButtonsForCall: (BOOL)status;
+- (void)enableControlButtonsForCall:(BOOL)enabled;
 - (void)showReverseCameraButton;
+
+- (void)resetAllControl;
 @end

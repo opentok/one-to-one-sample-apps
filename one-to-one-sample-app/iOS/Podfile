@@ -1,10 +1,8 @@
 
-source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
-inhibit_all_warnings!
 
 target 'OneToOneSample' do 
-  pod 'OTAcceleratorPackUtil', '~> 1.0.0'
+  pod 'OTAcceleratorPackUtil'
   pod 'SVProgressHUD'
 end
 

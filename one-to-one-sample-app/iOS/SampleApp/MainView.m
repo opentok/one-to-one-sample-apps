@@ -5,6 +5,7 @@
 //
 
 #import "MainView.h"
+#import "UIView+Helper.h"
 
 @interface MainView()
 @property (weak, nonatomic) IBOutlet UIView *publisherView;
@@ -25,7 +26,6 @@
 @end
 
 @implementation MainView
-
 
 - (UIImageView *)publisherPlaceHolderImageView {
     if (!_publisherPlaceHolderImageView) {
@@ -77,10 +77,9 @@
 - (void)addPublisherView:(UIView *)publisherView {
     
     [self.publisherView setHidden:NO];
-    publisherView.frame = CGRectMake(0, 0, CGRectGetWidth(self.publisherView.bounds), CGRectGetHeight(self.publisherView.bounds));
     [self.publisherView addSubview:publisherView];
     publisherView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addAttachedLayoutConstantsToSuperview:publisherView];
+    [publisherView addAttachedLayoutConstantsToSuperview];
 }
 
 - (void)removePublisherView {
@@ -88,12 +87,9 @@
 }
 
 - (void)addPlaceHolderToPublisherView {
-    self.publisherPlaceHolderImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.publisherView.bounds), CGRectGetHeight(self.publisherView.bounds));
     [self.publisherView addSubview:self.publisherPlaceHolderImageView];
-    [self addAttachedLayoutConstantsToSuperview:self.publisherPlaceHolderImageView];
+    [self.publisherPlaceHolderImageView addAttachedLayoutConstantsToSuperview];
 }
-
-
 
 - (void)connectCallHolder:(BOOL)connected {
     if (connected) {
@@ -105,8 +101,8 @@
         self.callButton.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
     }
 }
-- (void)mutePubliserhMic:(BOOL)muted {
-    if (muted) {
+- (void)updatePublisherAudio:(BOOL)connected {
+    if (connected) {
         [self.publisherAudioButton setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
     }
     else {
@@ -114,7 +110,7 @@
     }
 }
 
-- (void)connectPubliserVideo:(BOOL)connected {
+- (void)updatePublisherVideo:(BOOL)connected {
     if (connected) {
         [self.publisherVideoButton setImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
     }
@@ -125,11 +121,9 @@
 
 #pragma mark - subscriber view
 - (void)addSubscribeView:(UIView *)subsciberView {
-    
-    subsciberView.frame = CGRectMake(0, 0, CGRectGetWidth(self.subscriberView.bounds), CGRectGetHeight(self.subscriberView.bounds));
     [self.subscriberView addSubview:subsciberView];
     subsciberView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addAttachedLayoutConstantsToSuperview:subsciberView];
+    [subsciberView addAttachedLayoutConstantsToSuperview];
 }
 
 - (void)removeSubscriberView {
@@ -139,11 +133,11 @@
 - (void)addPlaceHolderToSubscriberView {
     self.subscriberPlaceHolderImageView.frame = self.subscriberView.bounds;
     [self.subscriberView addSubview:self.subscriberPlaceHolderImageView];
-    [self addAttachedLayoutConstantsToSuperview:self.subscriberPlaceHolderImageView];
+    [self.subscriberPlaceHolderImageView addAttachedLayoutConstantsToSuperview];
 }
 
-- (void)muteSubscriberMic:(BOOL)muted {
-    if (muted) {
+- (void)updateSubscriberAudioButton:(BOOL)connected {
+    if (connected) {
         [self.subscriberAudioButton setImage:[UIImage imageNamed:@"audio"] forState: UIControlStateNormal];
     }
     else {
@@ -151,7 +145,7 @@
     }
 }
 
-- (void)connectSubsciberVideo:(BOOL)connected {
+- (void)updateSubsciberVideoButton:(BOOL)connected {
     if (connected) {
         [self.subscriberVideoButton setImage:[UIImage imageNamed:@"video"] forState: UIControlStateNormal];
     }
@@ -177,54 +171,26 @@
     [self.subscriberPlaceHolderImageView removeFromSuperview];
 }
 
-- (void)updateControlButtonsForCall: (BOOL)status; {
-    [self.subscriberAudioButton setEnabled: status];
-    [self.subscriberVideoButton setEnabled: status];
-    [self.publisherVideoButton setEnabled: status];
-    [self.publisherAudioButton setEnabled: status];
+- (void)enableControlButtonsForCall:(BOOL)enabled {
+    [self.subscriberAudioButton setEnabled:enabled];
+    [self.subscriberVideoButton setEnabled:enabled];
+    [self.publisherVideoButton setEnabled:enabled];
+    [self.publisherAudioButton setEnabled:enabled];
 }
 
 - (void)showReverseCameraButton; {
     self.reverseCameraButton.hidden = NO;
 }
 
-#pragma mark - private method
--(void)addAttachedLayoutConstantsToSuperview:(UIView *)view {
-    
-    if (!view.superview) {
-        return;
-    }
-    
-    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:view
-                                                           attribute:NSLayoutAttributeTop
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:view.superview
-                                                           attribute:NSLayoutAttributeTop
-                                                          multiplier:1.0
-                                                            constant:0.0];
-    NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:view
-                                                               attribute:NSLayoutAttributeLeading
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:view.superview
-                                                               attribute:NSLayoutAttributeLeading
-                                                              multiplier:1.0
-                                                                constant:0.0];
-    NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:view
-                                                                attribute:NSLayoutAttributeTrailing
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:view.superview
-                                                                attribute:NSLayoutAttributeTrailing
-                                                               multiplier:1.0
-                                                                 constant:0.0];
-    NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:view
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:view.superview
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1.0
-                                                               constant:0.0];
-    [NSLayoutConstraint activateConstraints:@[top, leading, trailing, bottom]];
+- (void)resetAllControl {
+    [self removePublisherView];
+    [self removePlaceHolderImage];
+    [self connectCallHolder:NO];
+    [self updatePublisherAudio:YES];
+    [self updatePublisherVideo:YES];
+    [self updateSubscriberAudioButton:YES];
+    [self updateSubsciberVideoButton:YES];
+    [self enableControlButtonsForCall:NO];
 }
-
 
 @end

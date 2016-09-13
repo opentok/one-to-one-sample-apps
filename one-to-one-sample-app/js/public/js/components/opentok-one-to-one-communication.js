@@ -1,6 +1,24 @@
 /* global OT OTKAnalytics define */
 (function () {
 
+  /** Include external dependencies */
+  var _;
+  var $;
+  var OTKAnalytics;
+
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    /* eslint-disable import/no-unresolved */
+    _ = require('underscore');
+    $ = require('jquery');
+    OTKAnalytics = require('opentok-solutions-logging');
+    /* eslint-enable import/no-unresolved */
+  } else {
+    _ = this._;
+    $ = this.$;
+    OTKAnalytics = this.OTKAnalytics;
+  }
+
+  /** Private variables */
   var _this; // Reference to instance of CommunicationAccPack
   var _session;
 
@@ -22,6 +40,7 @@
       'startCall',
       'endCall',
       'callPropertyChanged',
+      'subscribeToCamera',
       'startViewingSharedScreen',
       'endViewingSharedScreen'
     ];
@@ -54,7 +73,6 @@
 
   var _logAnalytics = function () {
 
-    if (!OTKAnalytics) { return; }
     // init the analytics logs
     var _source = window.location.href;
 
@@ -78,7 +96,7 @@
   };
 
   var _log = function (action, variation) {
-    if (!_otkanalytics) { return; }
+
     var data = {
       action: action,
       variation: variation
@@ -133,12 +151,20 @@
 
 
   var _unsubscribeStreams = function () {
-    _.each(_this.streams, function (stream) {
-      _session.unsubscribe(stream);
+    Object.keys(_this.streams).forEach(function (streamId) {
+      _session.unsubscribe(_this.streams[streamId]);
     });
+    _this.subscriber = null;
+    _this.streams = {};
   };
 
   var _subscribeToStream = function (stream) {
+
+    if (_this.streams[stream.id]) {
+      return;
+    }
+
+    _this.streams[stream.id] = stream;
 
     var options;
     if (stream.videoType === 'screen') {
@@ -162,11 +188,9 @@
           var connectionError = error.code === 1010 ? 'Check your network connection.' : '';
           console.log(error, connectionError);
         } else {
-
-          _this.streams.push(subscriber);
-
-          if (stream.videoType === 'screen') {
-            console.log('starting to view shared screen here');
+          if (stream.videoType === 'camera') {
+            _triggerEvent('subscribeToCamera', subscriber);
+          } else if (stream.videoType === 'screen') {
             _triggerEvent('startViewingSharedScreen', subscriber);
           }
         }
@@ -187,19 +211,15 @@
   };
 
   var _handleStreamCreated = function (event) {
-    // TODO: check the joined participant
-    _this.subscribers.push(event.stream);
     _this._remoteParticipant = event.connection;
-    _subscribeToStream(event.stream);
+    if (_this.options.inSession) {
+      _subscribeToStream(event.stream);
+    }
   };
 
   var _handleStreamDestroyed = function (event) {
     console.log('Participant left the call');
     var streamDestroyedType = event.stream.videoType;
-
-    // Remove from the subscribers list
-    var index = _this.subscribers.indexOf(event.stream);
-    _this.subscribers.splice(index, 1);
 
     if (streamDestroyedType === 'camera') {
       _this.subscriber = null;
@@ -238,9 +258,9 @@
   var _setEventListeners = function () {
 
     // Are we using this module in concert with other acc packs or on its own
-    if (_this.accPack) {
-      _this.accPack.registerEventListener('streamCreated', _handleStreamCreated);
-      _this.accPack.registerEventListener('streamDestroyed', _handleStreamDestroyed);
+    if (_accPack) {
+      _accPack.registerEventListener('streamCreated', _handleStreamCreated);
+      _accPack.registerEventListener('streamDestroyed', _handleStreamDestroyed);
     } else {
       _session.on('streamCreated', _handleStreamCreated);
       _session.on('streamDestroyed', _handleStreamDestroyed);
@@ -269,7 +289,6 @@
    * @param {object} options.session
    * @param {string} options.sessionId
    * @param {string} options.apiKey
-   * @param {array} options.subscribers
    * @param {array} options.streams
    * @param {boolean} options.annotation
    */
@@ -278,11 +297,11 @@
     // Save a reference to this
     _this = this;
 
-    var nonOptionProps = ['subscribers', 'streams'];
+    var nonOptionProps = ['streams'];
     _this.options = _validateOptions(options, nonOptionProps);
+    _this.subscriber = null; // Single camera subscriber
     _.extend(_this, _.defaults(_.pick(options, nonOptionProps), {
-      subscribers: [],
-      streams: []
+      streams: {} // All subscribed streams
     }));
 
     _session = _.property('session')(options);
@@ -328,22 +347,19 @@
         }
       }); // to handle audio/video changes
 
-      _.each(_this.subscribers, function (subscriber) {
-        _subscribeToStream(subscriber);
+      Object.keys(_this.streams).forEach(function (streamId) {
+        _subscribeToStream(_this.streams[streamId]);
       });
 
-      _session.streams.forEach(function (s) {
-        if (!_.contains(_this._subscribers, s)) {
-          _subscribeToStream(s);
-        }
+      _session.streams.forEach(function (stream) {
+        _subscribeToStream(stream);
       });
 
-      _triggerEvent('startCall');
+      _triggerEvent('startCall', _this.publisher);
 
       _log(_logEventData.actionStartComm, _logEventData.variationSuccess);
     },
     end: function () {
-
       _log(_logEventData.actionStopComm, _logEventData.variationAttempt);
 
       _this.options.inSession = false;

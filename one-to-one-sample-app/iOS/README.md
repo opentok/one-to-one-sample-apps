@@ -11,7 +11,6 @@ This section shows you how to prepare, build, and run the sample application.
 Use CocoaPods to install the project files and dependencies.
 
 1. Install CocoaPods as described in [CocoaPods Getting Started](https://guides.cocoapods.org/using/getting-started.html#getting-started).
-1. Add the following line to your pod file: ` pod 'TBD'  `
 1. In Terminal, `cd` to your project directory and type `pod install`.
 1. Reopen your project in Xcode using the new `*.xcworkspace` file.
 

@@ -2,49 +2,21 @@
 
 # OpenTok One-to-One Communication Sample App for Android<br/>Version 1.1
 
-This document describes how to use the OpenTok One-to-One Communication Sample App for Android. You will learn best practices for managing the audio, video, and camera elements on an Android mobile device. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
-
-You can configure and run this sample app within just a few minutes!
-
-
-This guide has the following sections:
-
-* [Prerequisites](#prerequisites): A checklist of everything you need to get started.
-* [Quick start](#quick-start): A step-by-step tutorial to help you quickly import and run the sample app.
-* [Exploring the code](#exploring-the-code): This describes the sample app code design, which uses recommended best practices to implement the one-to-one communication features. 
-
-## Prerequisites
-
-To be prepared to develop your one-to-one communication app:
-
-1. Install [Android Studio](http://developer.android.com/intl/es/sdk/index.html)
-2. Download the [OpenTok Android SDK](https://tokbox.com/developer/sdks/android/). **OpenTok Android SDK version 2.8.x** is required for this sample app.
-3. Review the [OpenTok Android SDK Requirements](https://tokbox.com/developer/sdks/android/#developerandclientrequirements)
-4. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
-
-_**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample program. For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
-
 ## Quick start
 
-To get up and running quickly with your app, go through the following steps in the tutorial provided below:
+This section shows you how to prepare, build, and run the sample application.
 
-1. [Importing the Android Studio Project](#importing-the-android-studio-project)
-2. [Adding the OpenTok SDK](#adding-the-opentok-sdk)
-3. [Configuring the App](#configuring-the-app)
+### Install the project files
 
-To learn more about the best practices used to design this app, see [Exploring the code](#exploring-the-code).
-
-### Importing the Android Studio project
-
-1. Clone the OpenTok One-to-One Communication Sample App repository.
-2. Start Android Studio. 
-3. In the **Quick Start** panel, click **Open an existing Android Studio Project**.
-4. Navigate to the **android** folder, select the **OnetoOneSample** folder, and click **Choose**.
+1. Clone the [OpenTok One-to-One Communication Sample App for Android repository](https://github.com/opentok/one-to-one-sample-apps/tree/master/one-to-one-sample-app/android) from GitHub.
+1. Start Android Studio.
+1. In the **Quick Start** panel, click **Open an existing Android Studio Project**.
+1. Navigate to the **android** folder, select the **OnetoOneSample** folder, and click **Choose**.
 
 
-### Adding the OpenTok SDK included in the Accelerator Pack Common for Android
+### Add the OpenTok SDK
 
-There are 2 options for installing the OpenTok Android Accelerator Pack:
+There are two options for installing the OpenTok SDK  included in the Accelerator Pack Common for Android:
 
 
 #### Using the repository
@@ -61,34 +33,24 @@ compile project(':android-accelerator-pack')
 
 #### Using Maven
 
-<ol>
+1. Modify the `build.gradle` for your solution and add the following code snippet to the section labeled `repositories`:
 
-<li>Modify the <b>build.gradle</b> for your solution and add the following code snippet to the section labeled 'repositories’:
+    ```gradle
+    maven { url  "http://tokbox.bintray.com/maven" }
+    ```
 
-<code>
-maven { url  "http://tokbox.bintray.com/maven" }
-</code>
+1. Modify the `build.gradle` for your activity and add the following code snippet to the section labeled `dependencies`:
 
-</li>
-
-<li>Modify the <b>build.gradle</b> for your activity and add the following code snippet to the section labeled 'dependencies’: 
-
-
-<code>
+```gradle
 compile 'com.opentok.android:accelerator-pack:1.0.0'
-</code>
+```
+### Configure and build the app
 
-</li>
+Configure the sample app code. Then, build and run the app.
 
-</ol>
+1. Get values for **API Key**, **Session ID**, and **Token**. See [OpenTok One-to-One Communication Sample App home page](../README.md) for important information.
 
-
-### Configuring the app
-
-Now you are ready to add the configuration detail to your app. These will include the **Session ID**, **Token**, and **API Key** you retrieved earlier (see [Prerequisites](#prerequisites)).
-
-In **OpenTokConfig.java**, replace the following empty strings with the required detail:
-
+In Android Studio, open **OpenTokConfig.java** and replace the following empty strings with the corresponding **API Key**, **Session ID**, and **Token** values:
 
    ```java
     // Replace with a generated Session ID
@@ -101,46 +63,40 @@ In **OpenTokConfig.java**, replace the following empty strings with the required
     public static final String API_KEY = "";
    ```
 
+   ### Optional: Manage Annotations from Other Clients
 
-You may also set the `SUBSCRIBE_TO_SELF` constant. Its default value, `false`, means that the app subscribes automatically to the other client’s stream. This is required to establish communication between two streams using the same Session ID:
+   By default, your app receives annotations from other clients that have the same session ID. This feature is controlled by the following line of code open **OpenTokConfig.java**.
 
-```java
-public static final boolean SUBSCRIBE_TO_SELF = false;
-```
+   ```java
+   public static final boolean SUBSCRIBE_TO_SELF = false;
+   ```
 
-You can enable or disable the `SUBSCRIBE_TO_SELF` feature by invoking the `OneToOneCommunication.setSubscribeToSelf()` method:
+   To enable or disable the `SUBSCRIBE_TO_SELF` feature, you can invoke the `OneToOneCommunication.setSubscribeToSelf()` method:
 
-```java
-OneToOneCommunication comm = new OneToOneCommunication(
-  MainActivity.this, 
-  OpenTokConfig.SESSION_ID, 
-  OpenTokConfig.TOKEN, 
-  OpenTokConfig.API_KEY
-);
+   ```java
+   OneToOneCommunication comm = new OneToOneCommunication(
+     MainActivity.this,
+     OpenTokConfig.SESSION_ID,
+     OpenTokConfig.TOKEN,
+     OpenTokConfig.API_KEY
+   );
 
-comm.setSubscribeToSelf(OpenTokConfig.SUBSCRIBE_TO_SELF);
+   comm.setSubscribeToSelf(OpenTokConfig.SUBSCRIBE_TO_SELF);
 
-```
-
-_At this point you can try running the app! You can either use a simulator or an actual mobile device._
+   ```
 
 
 ## Exploring the code
 
-This section describes how the sample app code design uses recommended best practices to implement the one-to-one communication features. 
+This section describes best practices the sample app code uses to implement the one-to-one communication features.
 
 For detail about the APIs used to develop this sample, see the [OpenTok Android SDK Reference](https://tokbox.com/developer/sdks/android/reference/) and [Android API Reference](http://developer.android.com/reference/packages.html).
 
-  - [Class design](#class-design)
-  - [Session and stream management](#session-and-stream-management)
-  - [User interface](#user-interface)
-  - [Audio, video, camera](#audio-video-camera)
-
-_**NOTE:** The sample app contains logic used for logging. This is used to submit anonymous usage data for internal TokBox purposes only. We request that you do not modify or remove any logging code in your use of this sample application._
+_**NOTE:** This sample app collects anonymous usage data for internal TokBox purposes only. Please do not modify or remove any logging code from this sample application._
 
 ### Class design
 
-The following classes represent the software design for this sample app.
+This section focuses on one-to-one communication features. For more information, see the [OpenTok One-to-One Communication Sample App](https://github.com/opentok/one-to-one-sample-apps).
 
 | Class        | Description  |
 | ------------- | ------------- |
@@ -153,15 +109,15 @@ The following classes represent the software design for this sample app.
 
 ### Session and stream management
 
-The `OneToOneCommunication` class, included in the Accelerator Pack Common for Android, is the backbone of the one-to-one communication features for the app. 
+The `OneToOneCommunication` class, included in the Accelerator Pack Common for Android, is the backbone of the one-to-one communication features for the app.
 
 This class uses the OpenTok API to initiate the client connection to the OpenTok session and manage the audio and video streams.
 
 ```java
 public class OneToOneCommunication implements
-        Session.SessionListener, 
-        Publisher.PublisherListener, 
-        Subscriber.SubscriberListener, 
+        Session.SessionListener,
+        Publisher.PublisherListener,
+        Subscriber.SubscriberListener,
         Subscriber.VideoListener {
    . . .
 }
@@ -169,7 +125,7 @@ public class OneToOneCommunication implements
 
 #### Interfaces implemented by the class
 
-The `OneToOneCommunication` class implements the interfaces described in the following table. See their descriptions in the [OpenTok Android SDK Reference](https://tokbox.com/developer/sdks/android/reference/) for information about the methods required to implement them. 
+The `OneToOneCommunication` class implements the interfaces described in the following table. See their descriptions in the [OpenTok Android SDK Reference](https://tokbox.com/developer/sdks/android/reference/) for information about the methods required to implement them.
 
 
 | Interface        | Description  |
@@ -226,11 +182,10 @@ The following `OneToOneCommunication` methods are used to manage the local and r
 |  Enable and disable remote audio and video.  | `enableRemoteMedia(MediaType, boolean)`<br/> `MediaType ` is `AUDIO` or `VIDEO`<br/>`true` (enabled) or `false` (disabled) |
 |  Swap between multiple cameras on a device (normal and selfie modes).  | `swapCamera()` |
 
+## Requirements
 
+To develop your one-to-one communication app:
 
-
-
-
-
-
-
+1. Install [Android Studio](http://developer.android.com/intl/es/sdk/index.html)
+1. Download the [OpenTok Android SDK](https://tokbox.com/developer/sdks/android/). **OpenTok Android SDK version 2.8.x** is required for this sample app.
+1. Review the [OpenTok Android SDK Requirements](https://tokbox.com/developer/sdks/android/#developerandclientrequirements)

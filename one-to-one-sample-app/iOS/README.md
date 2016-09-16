@@ -2,67 +2,47 @@
 
 # OpenTok One-to-One Communication Sample App for iOS<br/>Version 1.1
 
-This document describes how to use the OpenTok One-to-One Communication Sample App for iOS. You will learn best practices for managing the audio, video, and camera elements on an iOS mobile device. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform. 
-
-You can configure and run this sample app within just a few minutes!
-
-
-This guide has the following sections:
-
-* [Prerequisites](#prerequisites): A checklist of everything you need to get started.
-* [Quick start](#quick-start): A step-by-step tutorial to help you quickly import and run the sample app.
-* [Exploring the code](#exploring-the-code): This describes the sample app code design, which uses recommended best practices to implement the one-to-one communication features. 
-
-## Prerequisites
-
-To be prepared to develop your one-to-one communication app:
-
-1. Xcode version 5 or later.
-2. Review the [OpenTok iOS SDK Requirements](https://tokbox.com/developer/sdks/ios/).
-3. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
-
-_**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample program. For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
-
 ## Quick start
 
-To get up and running quickly with your app, go through the following steps in the tutorial provided below:
+This section shows you how to prepare, build, and run the sample application.
 
-### Using CocoaPods
-1. In a terminal prompt, navigate into your project directory and type `pod install`.
-2. Reopen your project using the new *.xcworkspace file.
+### Install the project files
 
-For more information about CocoaPods, including installation instructions, visit [CocoaPods Getting Started](https://guides.cocoapods.org/using/getting-started.html#getting-started).
+Use CocoaPods to install the project files and dependencies.
 
-### Configuring the app
-Now you are ready to add the configuration detail to your app. These will include the **Session ID**, **Token**, and **API Key** you retrieved earlier (see [Prerequisites](#prerequisites)).
+1. Install CocoaPods as described in [CocoaPods Getting Started](https://guides.cocoapods.org/using/getting-started.html#getting-started).
+1. Add the following line to your pod file: ` pod 'TBD'  `
+1. In Terminal, `cd` to your project directory and type `pod install`.
+1. Reopen your project in Xcode using the new `*.xcworkspace` file.
 
-In **AppDelegate.m**, replace the following empty strings with the required detail:
+### Configure and build the app
 
+Configure the sample app code. Then, build and run the app.
 
-   ```objc
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+1. Get values for **API Key**, **Session ID**, and **Token**. See [OpenTok One-to-One Communication Sample App home page](../README.md) for important information.
+
+1. In Xcode, open **AppDelegate.h** and replace the following empty strings with the corresponding **API Key**, **Session ID**, and **Token** values:
+
+    ```objc
+    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     // Override point for customization after application launch.    
     [OTOneToOneCommunicator setOpenTokApiKey:@""
                                    sessionId:@""
                                        token:@""];
     return YES;
-}
-   ```
+    }
+    ```
 
-_At this point you can try running the app! You can either use a simulator or an actual mobile device._
+1. Use Xcode to build and run the app on an iOS simulator or device.
 
 ## Exploring the code
 
-This section describes how the sample app code design uses recommended best practices to implement the one-to-one communication features. 
+This section describes best practices the sample app code uses to implement the one-to-one communication features.
 
 For detail about the APIs used to develop this sample, see the [OpenTok iOS SDK Reference](https://tokbox.com/developer/sdks/ios/reference/).
 
-  - [Class design](#class-design)
-  - [Session and stream management](#session-and-stream-management)
-  - [View Controllers](#view-controllers)
-
-_**NOTE:** The sample app contains logic used for logging. This is used to submit anonymous usage data for internal TokBox purposes only. We request that you do not modify or remove any logging code in your use of this sample application._
+_**NOTE:** This sample app collects anonymous usage data for internal TokBox purposes only. Please do not modify or remove any logging code from this sample application._
 
 ### Class design
 
@@ -77,17 +57,17 @@ The following classes represent the software design for this sample app.
 
 ### Session and stream management
 
-The `OTOneToOneCommunicator` class is the backbone of the one-to-one communication features for the app. 
+The `OTOneToOneCommunicator` class is the backbone of the one-to-one communication features for the app.
 
 This class conforms to the protocols that initiate the client connection to the OpenTok session and sets up the listeners for the publisher and subscriber streams:
 
 ```objc
-@interface OTOneToOneCommunicator : NSObject
+@interface OTOneToOneCommunicator : NSObject;
 ```
 
 #### Protocol conformance and implementation
 
-The OpenTok protocols to which the `OTOneToOneCommunicator` class conforms in its internally defined implementation are described in the following table. See their descriptions in the [OpenTok iOS SDK Reference](https://tokbox.com/developer/sdks/ios/reference/) for information about the methods required to implement them. 
+The OpenTok protocols to which the `OTOneToOneCommunicator` class conforms in its internally defined implementation are described in the following table. See their descriptions in the [OpenTok iOS SDK Reference](https://tokbox.com/developer/sdks/ios/reference/) for information about the methods required to implement them.
 
 
 | Protocol        | Description  |
@@ -143,3 +123,9 @@ As described in [Class design](#class-design), the `MainViewController` class, i
 | Publisher camera orientation (forward or selfie mode). | `publisherCameraButtonPressed`  |
 
 
+## Requirements
+
+To develop your one-to-one communication app:
+
+1. Install Xcode version 5 or later.
+2. Review the [OpenTok iOS SDK Requirements](https://tokbox.com/developer/sdks/ios/).

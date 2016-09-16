@@ -23,7 +23,7 @@ To get started with your development, visit the following sites:
 - [OpenTok One-to-One Communication Sample App for iOS](./iOS)
 - [OpenTok One-to-One Communication Sample App for JavaScript](./js)
 
-_**NOTE:** The One-to-One Communication Sample App requires a **Session ID**, **Token**, and **API Key**. In the samples, you can get these values at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/). For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
+
 
 
 # Device interoperability with One-to-One communication
@@ -36,10 +36,9 @@ For each user’s app you must add configuration detail that includes the **Sess
 - The **Token** authenticates the user to connect to the OpenTok session. Each client’s token must have a publisher role and must be generated from the same session.
 - The **API Key** uniquely identifies your app so it can be authorized to use the OpenTok library and make requests to the backend. Both clients must use the same **API Key**.
 
+_**NOTE:** The One-to-One Communication Sample App requires a **Session ID**, **Token**, and **API Key**. In the samples, you can get these values at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/). For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
 
 For example, suppose one user is using a web (JS) version of the One-to-One Communication Sample App and another user is using a mobile version (Android or iOS). If they are both using the same **Session ID** and **API Key**, they can subscribe to each other’s audio and video streams, and the user interface rendered on both devices will allow them to interact with each other and take advantage of all the features of the sample app.
-
-_**NOTE:** The OpenTok One-to-One Communication Sample App requires a **Session ID**, **Token**, and **API Key**. In the samples, you can get these values at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/). For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
 
 Use the following approach to try this out:
 

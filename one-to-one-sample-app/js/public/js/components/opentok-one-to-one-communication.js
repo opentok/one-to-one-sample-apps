@@ -151,12 +151,20 @@
 
 
   var _unsubscribeStreams = function () {
-    _.each(_this.streams, function (stream) {
-      _session.unsubscribe(stream);
+    Object.keys(_this.streams).forEach(function (streamId) {
+      _session.unsubscribe(_this.streams[streamId]);
     });
+    _this.subscriber = null;
+    _this.streams = {};
   };
 
   var _subscribeToStream = function (stream) {
+
+    if (_this.streams[stream.id]) {
+      return;
+    }
+
+    _this.streams[stream.id] = stream;
 
     var options;
     if (stream.videoType === 'screen') {
@@ -180,9 +188,6 @@
           var connectionError = error.code === 1010 ? 'Check your network connection.' : '';
           console.log(error, connectionError);
         } else {
-
-          _this.streams.push(subscriber);
-
           if (stream.videoType === 'camera') {
             _triggerEvent('subscribeToCamera', subscriber);
           } else if (stream.videoType === 'screen') {
@@ -206,8 +211,6 @@
   };
 
   var _handleStreamCreated = function (event) {
-    // TODO: check the joined participant
-    _this.subscribers.push(event.stream);
     _this._remoteParticipant = event.connection;
     if (_this.options.inSession) {
       _subscribeToStream(event.stream);
@@ -217,10 +220,6 @@
   var _handleStreamDestroyed = function (event) {
     console.log('Participant left the call');
     var streamDestroyedType = event.stream.videoType;
-
-    // Remove from the subscribers list
-    var index = _this.subscribers.indexOf(event.stream);
-    _this.subscribers.splice(index, 1);
 
     if (streamDestroyedType === 'camera') {
       _this.subscriber = null;
@@ -290,7 +289,6 @@
    * @param {object} options.session
    * @param {string} options.sessionId
    * @param {string} options.apiKey
-   * @param {array} options.subscribers
    * @param {array} options.streams
    * @param {boolean} options.annotation
    */
@@ -299,11 +297,11 @@
     // Save a reference to this
     _this = this;
 
-    var nonOptionProps = ['subscribers', 'streams'];
+    var nonOptionProps = ['streams'];
     _this.options = _validateOptions(options, nonOptionProps);
+    _this.subscriber = null; // Single camera subscriber
     _.extend(_this, _.defaults(_.pick(options, nonOptionProps), {
-      subscribers: [],
-      streams: []
+      streams: {} // All subscribed streams
     }));
 
     _session = _.property('session')(options);
@@ -349,14 +347,12 @@
         }
       }); // to handle audio/video changes
 
-      _.each(_this.subscribers, function (subscriber) {
-        _subscribeToStream(subscriber);
+      Object.keys(_this.streams).forEach(function (streamId) {
+        _subscribeToStream(_this.streams[streamId]);
       });
 
-      _session.streams.forEach(function (s) {
-        if (!_.contains(_this.subscribers, s)) {
-          _subscribeToStream(s);
-        }
+      _session.streams.forEach(function (stream) {
+        _subscribeToStream(stream);
       });
 
       _triggerEvent('startCall', _this.publisher);

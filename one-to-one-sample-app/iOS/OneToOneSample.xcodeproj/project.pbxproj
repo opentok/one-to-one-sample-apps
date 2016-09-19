@@ -13,20 +13,9 @@
 		6405A5C11C696BE600441745 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5BF1C696BE600441745 /* Main.storyboard */; };
 		6405A5C61C696BE600441745 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5C51C696BE600441745 /* Assets.xcassets */; };
 		6405A5C91C696BE600441745 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6405A5C71C696BE600441745 /* LaunchScreen.storyboard */; };
-		A03474401CCD15A800198DB4 /* OneToOneSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A034743F1CCD15A800198DB4 /* OneToOneSampleTests.m */; };
 		A0ADEF8C1C9FB2DE00D1A471 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */; };
 		A0F2921D1D86781200BC6A53 /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F2921C1D86781200BC6A53 /* UIView+Helper.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		A03474421CCD15A800198DB4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6405A5AB1C696BE600441745 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6405A5B21C696BE600441745;
-			remoteInfo = OneToOneSample;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		6405A5E11C696BF700441745 /* Embed Frameworks */ = {
@@ -52,9 +41,6 @@
 		6405A5C51C696BE600441745 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6405A5C81C696BE600441745 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6405A5CA1C696BE600441745 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A034743D1CCD15A800198DB4 /* OneToOneSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneToOneSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A034743F1CCD15A800198DB4 /* OneToOneSampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneToOneSampleTests.m; sourceTree = "<group>"; };
-		A03474411CCD15A800198DB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0ADEF8A1C9FB2DE00D1A471 /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
 		A0ADEF8B1C9FB2DE00D1A471 /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
 		A0F2921B1D86781200BC6A53 /* UIView+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Helper.h"; sourceTree = "<group>"; };
@@ -69,13 +55,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A034743A1CCD15A800198DB4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -83,7 +62,6 @@
 			isa = PBXGroup;
 			children = (
 				6405A5B51C696BE600441745 /* SampleApp */,
-				A034743E1CCD15A800198DB4 /* OneToOneSampleTests */,
 				6405A5B41C696BE600441745 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,7 +70,6 @@
 			isa = PBXGroup;
 			children = (
 				6405A5B31C696BE600441745 /* OneToOneSample.app */,
-				A034743D1CCD15A800198DB4 /* OneToOneSampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -125,15 +102,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		A034743E1CCD15A800198DB4 /* OneToOneSampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				A034743F1CCD15A800198DB4 /* OneToOneSampleTests.m */,
-				A03474411CCD15A800198DB4 /* Info.plist */,
-			);
-			path = OneToOneSampleTests;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -155,24 +123,6 @@
 			productReference = 6405A5B31C696BE600441745 /* OneToOneSample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A034743C1CCD15A800198DB4 /* OneToOneSampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A03474461CCD15A800198DB4 /* Build configuration list for PBXNativeTarget "OneToOneSampleTests" */;
-			buildPhases = (
-				A03474391CCD15A800198DB4 /* Sources */,
-				A034743A1CCD15A800198DB4 /* Frameworks */,
-				A034743B1CCD15A800198DB4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A03474431CCD15A800198DB4 /* PBXTargetDependency */,
-			);
-			name = OneToOneSampleTests;
-			productName = OneToOneSampleTests;
-			productReference = A034743D1CCD15A800198DB4 /* OneToOneSampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -185,10 +135,6 @@
 					6405A5B21C696BE600441745 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 246HEUPQZ9;
-					};
-					A034743C1CCD15A800198DB4 = {
-						CreatedOnToolsVersion = 7.3;
-						TestTargetID = 6405A5B21C696BE600441745;
 					};
 				};
 			};
@@ -206,7 +152,6 @@
 			projectRoot = "";
 			targets = (
 				6405A5B21C696BE600441745 /* OneToOneSample */,
-				A034743C1CCD15A800198DB4 /* OneToOneSampleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -219,13 +164,6 @@
 				6405A5C91C696BE600441745 /* LaunchScreen.storyboard in Resources */,
 				6405A5C61C696BE600441745 /* Assets.xcassets in Resources */,
 				6405A5C11C696BE600441745 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A034743B1CCD15A800198DB4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,23 +182,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A03474391CCD15A800198DB4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A03474401CCD15A800198DB4 /* OneToOneSampleTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		A03474431CCD15A800198DB4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6405A5B21C696BE600441745 /* OneToOneSample */;
-			targetProxy = A03474421CCD15A800198DB4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6405A5BF1C696BE600441745 /* Main.storyboard */ = {
@@ -318,7 +240,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -356,7 +278,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -404,34 +326,6 @@
 			};
 			name = Release;
 		};
-		A03474441CCD15A800198DB4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				INFOPLIST_FILE = OneToOneSampleTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Tokbox.OneToOneSampleTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneToOneSample.app/OneToOneSample";
-			};
-			name = Debug;
-		};
-		A03474451CCD15A800198DB4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				INFOPLIST_FILE = OneToOneSampleTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Tokbox.OneToOneSampleTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneToOneSample.app/OneToOneSample";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -449,15 +343,6 @@
 			buildConfigurations = (
 				6405A5CE1C696BE600441745 /* Debug */,
 				6405A5CF1C696BE600441745 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A03474461CCD15A800198DB4 /* Build configuration list for PBXNativeTarget "OneToOneSampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A03474441CCD15A800198DB4 /* Debug */,
-				A03474451CCD15A800198DB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

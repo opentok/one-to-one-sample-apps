@@ -5,7 +5,3 @@ target 'OneToOneSample' do
   pod 'OTAcceleratorPackUtil'
   pod 'SVProgressHUD'
 end
-
-target 'OneToOneSampleTests' do 
-  pod 'Kiwi'
-end

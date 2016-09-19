@@ -43,7 +43,6 @@
         }];
     }
     else {
-        
         [SVProgressHUD dismiss];
         [self.oneToOneCommunicator disconnect];
         [self.mainView resetAllControl];
@@ -58,11 +57,6 @@
             [SVProgressHUD dismiss];
             [self.mainView enableControlButtonsForCall:YES];
             [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
-            break;
-        }
-        case OTSessionDidDisconnect:{
-            [self.mainView removePublisherView];
-            [self.mainView removeSubscriberView];
             break;
         }
         case OTSessionDidFail:{
@@ -102,7 +96,6 @@
         case OTSubscriberVideoDisableWarningLifted:{
             self.oneToOneCommunicator.subscribeToVideo = YES;
             [self.mainView removePlaceHolderImage];
-            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
         default: break;
@@ -150,8 +143,8 @@
         [self.mainView showSubscriberControls:YES];
     }
     [self.mainView performSelector:@selector(showSubscriberControls:)
-             withObject:nil
-             afterDelay:7.0];
+                        withObject:@(NO)
+                        afterDelay:7.0];
 }
 
 @end

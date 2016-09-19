@@ -155,14 +155,8 @@
 }
 
 - (void)showSubscriberControls:(BOOL)shown {
-    if (shown) {
-        [self.subscriberAudioButton setHidden:NO];
-        [self.subscriberVideoButton setHidden:NO];
-    }
-    else {
-        [self.subscriberAudioButton setHidden:YES];
-        [self.subscriberVideoButton setHidden:YES];
-    }
+    [self.subscriberAudioButton setHidden:!shown];
+    [self.subscriberVideoButton setHidden:!shown];
 }
 
 #pragma mark - other controls

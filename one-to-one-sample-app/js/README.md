@@ -2,42 +2,17 @@
 
 # OpenTok One-to-One Communication Sample App for JavaScript<br/>Version 1.1
 
-This document describes how to use the OpenTok One-to-One Communication Sample App for JavaScript. You will learn best practices for managing the audio, video, and camera elements in a web-based application. We recommend this is as your first step in delivering interoperable, production-quality audio/video solutions on the OpenTok platform.
-
-You can configure and run this sample app within just a few minutes!
-
-
-This guide has the following sections:
-
-* [Prerequisites](#prerequisites): A checklist of everything you need to get started.
-* [Quick start](#quick-start): A step-by-step tutorial to help you quickly import and run the sample app.
-* [Exploring the code](#exploring-the-code): This describes the sample app code design, which uses recommended best practices to implement the one-to-one communication features.
-
-## Prerequisites
-
-To be prepared to develop your one-to-one communication app:
-
-1. Review the [OpenTok.js](https://tokbox.com/developer/sdks/js/) requirements. **OpenTok.js version 2.8.x** is required for this sample app.
-2. Your app will need a **Session ID**, **Token**, and **API Key**, which you can get at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/).
-3. Install the OpenTok One-to-One Communication Accelerator Pack with [npm](https://www.npmjs.com/package/opentok-one-to-one-communication).
-
-_**NOTE**: The OpenTok Developer Dashboard allows you to quickly run this sample program. For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
-
 ## Quick start
 
-To get up and running quickly with your app, go through the following steps in the tutorial provided below:
-
-1. [Configuring the App](#configuring-the-app)
-2. [Deploying and running](#deploying-and-running)
-
-To learn more about the best practices used to design this app, see [Exploring the code](#exploring-the-code).
-
+This section shows you how to prepare and run the sample application.
 
 ### Configuring the app
 
-Now you are ready to add the configuration detail to your app. These will include the **Session ID**, **Token**, and **API Key** you retrieved earlier (see [Prerequisites](#prerequisites)).
+Configure the sample app code. Then, build and run the app.
 
-In **app.js**, replace the following empty strings with the required detail:
+1. Get values for **API Key**, **Session ID**, and **Token**. See [OpenTok One-to-One Communication Sample App home page](../README.md) for important information.
+
+2. In **app.js**, replace the following empty strings with the corresponding **API Key**, **Session ID**, and **Token** values:
 
 
    ```javascript
@@ -56,15 +31,11 @@ The web page that loads the sample app for JavaScript must be served over HTTP/H
 
 ## Exploring the code
 
-This section describes how the sample app code design uses recommended best practices to implement the one-to-one communication features.
+This section describes best practices the sample app code uses to implement the one-to-one communication features.
 
 For detail about the APIs used to develop this sample, see the [OpenTok.js Reference](https://tokbox.com/developer/sdks/js/reference/).
 
-  - [Web page design](#web-page-design)
-  - [Session and stream management](#session-and-stream-management)
-  - [User interface](#user-interface)
-
-_**NOTE:** The sample app contains logic used for logging. This is used to submit anonymous usage data for internal TokBox purposes only. We request that you do not modify or remove any logging code in your use of this sample application._
+_**NOTE:** This sample app collects anonymous usage data for internal TokBox purposes only. Please do not modify or remove any logging code from this sample application._
 
 ### Web page design
 
@@ -129,3 +100,9 @@ The following `CommunicationAccPack` prototype methods are used for session and 
 As described in [Web page design](#web-page-design), **app.js** manages the UI responses to call events captured by the `CommunicationAccPack` object prototype methods, and sets up and manages the local and remote audio and video UI elements. It provides a bridge between the OpenTok communication logic and the UI, allowing you to customize the UI for events that are fired.
 
 
+## Requirements
+
+To develop your one-to-one communication app:
+
+1. Review the [OpenTok.js](https://tokbox.com/developer/sdks/js/) requirements. **OpenTok.js version 2.8.x** is required for this sample app.
+1. Install the OpenTok One-to-One Communication Accelerator Pack with [npm](https://www.npmjs.com/package/opentok-one-to-one-communication).

@@ -152,7 +152,10 @@
 
   var _unsubscribeStreams = function () {
     Object.keys(_this.streams).forEach(function (streamId) {
-      _session.unsubscribe(_this.streams[streamId]);
+      var subscribers = _session.getSubscribersForStream(_this.streams[streamId]);
+      subscribers.forEach(function(subscriber){
+        _session.unsubscribe(subscriber);
+      });
     });
     _this.subscriber = null;
     _this.streams = {};

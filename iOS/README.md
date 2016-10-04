@@ -1,6 +1,6 @@
-![logo](../../tokbox-logo.png)
+![logo](../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for iOS<br/>Version 1.1
+# OpenTok One-to-One Communication Sample App for iOS<br/>Version 1.2
 
 ## Quick start
 
@@ -105,6 +105,8 @@ typedef NS_ENUM(NSUInteger, OTOneToOneCommunicationSignal) {
     OTSignalSubscriberVideoEnabled,
     OTSignalSubscriberVideoDisableWarning,
     OTSignalSubscriberVideoDisableWarningLifted,
+    OTSessionDidBeginReconnecting,
+    OTSessionDidReconnect
 };
 ```
 

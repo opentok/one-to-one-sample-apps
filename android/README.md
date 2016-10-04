@@ -1,6 +1,6 @@
-![logo](../../tokbox-logo.png)
+![logo](../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for Android<br/>Version 1.1
+# OpenTok One-to-One Communication Sample App for Android<br/>Version 1.2
 
 ## Quick start
 
@@ -42,7 +42,7 @@ compile project(':android-accelerator-pack')
 1. Modify the `build.gradle` for your activity and add the following code snippet to the section labeled `dependencies`:
 
 ```gradle
-compile 'com.opentok.android:accelerator-pack:1.0.0'
+compile 'com.opentok.android:accelerator-pack:1.1.0'
 ```
 ### Configure and build the app
 
@@ -142,14 +142,28 @@ The following `OneToOneCommunication` methods are used for session and stream ma
 
 | Feature        | Methods  |
 | ------------- | ------------- |
-| Manage the session connections.   | `start()`, `end()`, `isStarted()`, `onConnected()`, `onDisconnected()`, `isRemote()`  |
-| Manage the subscription streams.  | `onStreamCreated()`, `onStreamDestroyed()`, `onStreamReceived()`, `onStreamDropped()`  |
+| Manage the session, publisher and subscriber.   | `start()`, `end()`,  `init()`, `destroy()`, `isStarted()`, `isRemote()`, `isInitialized()`, `isScreensharing()`, `setRemoteFill()`, `getLocal()`, `getRemote()`, `setSubscribeToSelf()` |
 | Manage audio events.              | `getLocalAudio()`, `getRemoteAudio()` |
-| Manage video events.              | `getLocalVideo()`, `getRemoteVideo()`, `onVideoDataReceived()`,`onVideoEnabled()`, `onVideoDisableWarning()`, `onVideoDisableWarningLifted()` |
-| Manage camera events.              | `swapCamera()` |
+| Manage video events.              | `getLocalVideo()`, `getRemoteVideo()` |
+| Manage camera events.              | `swapCamera()`, `getCameraId()` |
+| Manage views              | `reloadViews()`, `getRemoteVideoView()`, `getRemoteScreenView()`, `getPreviewView()`  |
 
 
+The Listener interface monitors state changes in the OneToOneCommunication, and defines the following methods:
 
+```java
+      public static interface Listener {
+        void onInitialized();
+        void onError(String error);
+        void onQualityWarning(boolean warning);
+        void onAudioOnly(boolean enabled);
+        void onPreviewReady(View preview);
+        void onRemoteViewReady(View remoteView);
+        void onReconnecting();
+        void onReconnected();
+        void onCameraChanged(int newCameraId);
+    }
+````
 
 ### User interface
 

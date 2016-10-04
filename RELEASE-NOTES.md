@@ -1,5 +1,18 @@
 # RELEASE NOTES
 
+## OpenTok One-to-One Communication Sample App Version 1.2
+
+### New Features and Enhancements
+
+  - (_Android and iOS only_) The One-ti-One Communication Sample App includes the session reconnections callbacks.
+  - (_Android only_) New camera callabcks.
+
+### Resolved Issues
+
+  - (_Android only_) There was in issue with the audio and video permissions denied for Android version 6+. This issue has been resolved.
+  - (_iOS only) There was in issue with UIs didn't get reset after ending the call. This issue has been resolved.
+  - (_JS only) There was in issue trying to unsubscribe a stream from the session. This issue has been resolved.
+
 ## OpenTok One-to-One Communication Sample App Version 1.1
 
 ### New Features and Enhancements

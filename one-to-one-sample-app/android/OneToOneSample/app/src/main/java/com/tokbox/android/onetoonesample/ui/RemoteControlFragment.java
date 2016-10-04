@@ -18,7 +18,7 @@ import com.tokbox.android.onetoonesample.R;
 
 public class RemoteControlFragment extends Fragment {
 
-    private static final String LOGTAG = "opentok-remotecontrol";
+    private static final String LOGTAG = RemoteControlFragment.class.getSimpleName();
     private static final int ANIMATION_DURATION = 7000;
 
     private MainActivity mActivity;

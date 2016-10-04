@@ -34,7 +34,6 @@
     if (!self.oneToOneCommunicator.isCallEnabled) {
         [self.oneToOneCommunicator connectWithHandler:^(OTOneToOneCommunicationSignal signal, NSError *error) {
             if (!error) {
-                [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
                 [self handleCommunicationSignal:signal];
             }
             else {
@@ -55,6 +54,7 @@
     switch (signal) {
         case OTSessionDidConnect: {
             [SVProgressHUD popActivity];
+            [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
             [self.mainView enableControlButtonsForCall:YES];
             [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
             break;

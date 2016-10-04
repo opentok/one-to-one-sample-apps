@@ -1,4 +1,4 @@
-![logo](../../tokbox-logo.png)
+![logo](../tokbox-logo.png)
 
 # OpenTok One-to-One Communication Sample App for Android<br/>Version 1.2
 
@@ -142,11 +142,11 @@ The following `OneToOneCommunication` methods are used for session and stream ma
 
 | Feature        | Methods  |
 | ------------- | ------------- |
-| Manage the session, publisher and subscriber.   | `start()`, `end()`,  `init()`, `destroy()`, `isStarted()`, `isRemote()`, `isInitialized(), `isScreensharing()`, `setRemoteFill()`, `getLocal()`, `getRemote()`, `setSubscribeToSelf()` |
+| Manage the session, publisher and subscriber.   | `start()`, `end()`,  `init()`, `destroy()`, `isStarted()`, `isRemote()`, `isInitialized()`, `isScreensharing()`, `setRemoteFill()`, `getLocal()`, `getRemote()`, `setSubscribeToSelf()` |
 | Manage audio events.              | `getLocalAudio()`, `getRemoteAudio()` |
 | Manage video events.              | `getLocalVideo()`, `getRemoteVideo()` |
 | Manage camera events.              | `swapCamera()`, `getCameraId()` |
-| Manage views              | `reloadViews()`, `getRemoteVideoView()`, `getRemoteScreenView()`, `getPreviewView()`,  |
+| Manage views              | `reloadViews()`, `getRemoteVideoView()`, `getRemoteScreenView()`, `getPreviewView()`  |
 
 
 The Listener interface monitors state changes in the OneToOneCommunication, and defines the following methods:
@@ -163,8 +163,7 @@ The Listener interface monitors state changes in the OneToOneCommunication, and 
         void onReconnected();
         void onCameraChanged(int newCameraId);
     }
-
-``
+````
 
 ### User interface
 

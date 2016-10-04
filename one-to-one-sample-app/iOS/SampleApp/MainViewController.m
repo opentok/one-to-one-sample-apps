@@ -43,7 +43,7 @@
         }];
     }
     else {
-        [SVProgressHUD dismiss];
+        [SVProgressHUD popActivity];
         [self.oneToOneCommunicator disconnect];
         [self.mainView resetAllControl];
     }
@@ -54,36 +54,62 @@
     
     switch (signal) {
         case OTSessionDidConnect: {
-            [SVProgressHUD dismiss];
+            [SVProgressHUD popActivity];
             [self.mainView enableControlButtonsForCall:YES];
             [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
             break;
         }
         case OTSessionDidFail:{
-            [SVProgressHUD showErrorWithStatus:@"Problem when connecting"];
+            [SVProgressHUD showErrorWithStatus:@"Problem when connecting."];
             break;
         }
         case OTSessionStreamDestroyed:{
             [self.mainView removeSubscriberView];
             break;
         }
-        case OTPublisherDidFail:{
-            [SVProgressHUD showErrorWithStatus:@"Problem when publishing"];
+        case OTSessionDidBeginReconnecting: {
+            [SVProgressHUD showInfoWithStatus:@"Reconnecting"];
             break;
         }
-        case OTSubscriberConnect:{
-            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
+        case OTSessionDidReconnect: {
+            [SVProgressHUD popActivity];
+            break;
+        }
+        case OTPublisherStreamCreated: {
+            NSLog(@"Your publishing feed is streaming in OpenTok");
+            break;
+        }
+        case OTPublisherStreamDestroyed: {
+            NSLog(@"Your publishing feed stops streaming in OpenTok");
+            break;
+        }
+        case OTPublisherDidFail:{
+            [SVProgressHUD showErrorWithStatus:@"Problem when publishing."];
+            break;
+        }
+        case OTSubscriberDidConnect:{
+            if (self.oneToOneCommunicator.subscribeToVideo) {
+                [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
+            }
+            else {
+                [self.mainView addPlaceHolderToSubscriberView];
+            }
             break;
         }
         case OTSubscriberDidFail:{
-            [SVProgressHUD showErrorWithStatus:@"Problem when subscribing"];
+            [SVProgressHUD showErrorWithStatus:@"Problem when subscribing."];
             break;
         }
-        case OTSubscriberVideoDisabled:{
+        case OTSubscriberVideoDisabledByBadQuality:
+        case OTSubscriberVideoDisabledBySubscriber:
+        case OTSubscriberVideoDisabledByPublisher:{
+            [self.mainView removeSubscriberView];
             [self.mainView addPlaceHolderToSubscriberView];
             break;
         }
-        case OTSubscriberVideoEnabled:{
+        case OTSubscriberVideoEnabledByGoodQuality:
+        case OTSubscriberVideoEnabledBySubscriber:
+        case OTSubscriberVideoEnabledByPublisher:{
             [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }

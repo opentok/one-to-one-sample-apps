@@ -2,12 +2,15 @@ package com.tokbox.android.onetoonesample;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +34,7 @@ import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity implements OneToOneCommunication.Listener, PreviewControlFragment.PreviewControlCallbacks, RemoteControlFragment.RemoteControlCallbacks, PreviewCameraFragment.PreviewCameraCallbacks {
-    private final String LOGTAG = "opentok-main-activity";
+    private final String LOGTAG = MainActivity.class.getSimpleName();
 
     private final String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
     private final int permsRequestCode = 200;
@@ -56,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     private OTKAnalyticsData mAnalyticsData;
     private OTKAnalytics mAnalytics;
 
+    private boolean mAudioPermission = false;
+    private boolean mVideoPermission = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +95,15 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
         mLocalAudioOnlyView = (RelativeLayout) findViewById(R.id.localAudioOnlyView);
 
         //request Marshmallow camera permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(permissions, permsRequestCode);
+        //request Marshmallow camera permission
+        if (ContextCompat.checkSelfPermission(this,permissions[1]) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,permissions[0]) != PackageManager.PERMISSION_GRANTED){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(permissions, permsRequestCode);
+            }
+        }
+        else {
+            mVideoPermission = true;
+            mAudioPermission = true;
         }
 
         //init 1to1 communication object
@@ -144,13 +156,37 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     }
 
     @Override
-    public void onRequestPermissionsResult(int permsRequestCode, String[] permissions,
+    public void onRequestPermissionsResult(final int permsRequestCode, final String[] permissions,
                                            int[] grantResults) {
         switch (permsRequestCode) {
 
             case 200:
-                boolean video = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                boolean audio = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                mVideoPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                mAudioPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+
+                if ( !mVideoPermission || !mAudioPermission ){
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle(getResources().getString(R.string.permissions_denied_title));
+                    builder.setMessage(getResources().getString(R.string.alert_permissions_denied));
+                    builder.setPositiveButton("I'M SURE", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("RE-TRY", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(permissions, permsRequestCode);
+                            }
+                        }
+                    });
+                    builder.show();
+                }
+
                 break;
         }
     }
@@ -263,12 +299,16 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
 
     @Override
     public void onInitialized() {
+        Log.i(LOGTAG, "OneToOne communication has been initialized.");
+
         addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
     }
 
     //OneToOneCommunication callbacks
     @Override
     public void onError(String error) {
+        Log.i(LOGTAG, "Error: "+error);
+
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
         mComm.end(); //end communication
         cleanViewsAndControls(); //restart views
@@ -276,6 +316,8 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
 
     @Override
     public void onQualityWarning(boolean warning) {
+        Log.i(LOGTAG, "The quality has degraded");
+
         if (warning) { //quality warning
             mAlert.setBackgroundResource(R.color.quality_warning);
             mAlert.setTextColor(this.getResources().getColor(R.color.warning_text));
@@ -295,9 +337,11 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     @Override
     public void onAudioOnly(boolean enabled) {
         if (enabled) {
+            Log.i(LOGTAG, "Audio only is enabled");
             mAudioOnlyView.setVisibility(View.VISIBLE);
         }
         else {
+            Log.i(LOGTAG, "Audio only is disabled");
             mAudioOnlyView.setVisibility(View.GONE);
         }
     }
@@ -306,6 +350,7 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     public void onPreviewReady(View preview) {
         mPreviewViewContainer.removeAllViews();
         if (preview != null) {
+            Log.i(LOGTAG, "The preview view is ready to be attached");
             layoutParamsPreview = new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
@@ -339,6 +384,7 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
             mRemoteViewContainer.setClickable(false);
         }
         else {
+            Log.i(LOGTAG, "The remote view is ready to be attached.");
             //show remote view
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                     this.getResources().getDisplayMetrics().widthPixels, this.getResources()
@@ -347,6 +393,23 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
             mRemoteViewContainer.addView(remoteView, layoutParams);
             mRemoteViewContainer.setClickable(true);
         }
+    }
+
+    @Override
+    public void onReconnecting() {
+        Log.i(LOGTAG, "The session is reconnecting.");
+        Toast.makeText(this, R.string.reconnecting, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onReconnected() {
+        Log.i(LOGTAG, "The session reconnected.");
+        Toast.makeText(this, R.string.reconnected, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCameraChanged(int newCameraId) {
+        Log.i(LOGTAG, "The camera changed. New camera id is: "+newCameraId);
     }
 
     private void addLogEvent(String action, String variation){

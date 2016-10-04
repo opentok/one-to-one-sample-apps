@@ -19,7 +19,7 @@ import com.tokbox.android.onetoonesample.R;
 
 public class PreviewControlFragment extends Fragment {
 
-    private static final String LOGTAG = "opentok-previewcontrol";
+    private static final String LOGTAG = PreviewControlFragment.class.getSimpleName();
 
     private MainActivity mActivity;
 

@@ -5,7 +5,7 @@
 //
 
 #import "AppDelegate.h"
-#import "OTOneToOneCommunicator.h"
+#import <OTAcceleratorPackUtil/OTAcceleratorPackUtil.h>
 
 @interface AppDelegate ()
 
@@ -16,9 +16,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
     
-    [OTOneToOneCommunicator setOpenTokApiKey:@"<# Replace #>"
-                                   sessionId:@"<# Replace #>"
-                                       token:@"<# Replace #>"];
+    [OTAcceleratorSession setOpenTokApiKey:@"<# Replace #>"
+                                 sessionId:@"<# Replace #>"
+                                     token:@"<# Replace #>"];
   return YES;
 }
 

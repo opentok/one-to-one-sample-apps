@@ -31,13 +31,7 @@ _**NOTE: The audio-video communication logic provided in all OpenTok One-to-One 
 
 The OpenTok One-to-One Communication Sample App highlights the interoperability of web and mobile devices using the OpenTok platform. Regardless of the supported devices used, the OpenTok platform supports the ability of users to interact with each other and exchange audio and video. Even if the clients are on different platforms, they can both connect, publish, and subscribe to streams in the same session.
 
-For each user’s app you must add configuration detail that includes the **Session ID**, **Token**, and **API Key**:
-
-- The **Session ID** uniquely identifies the session on the backend server. Both clients must use the same **Session ID** in order to communicate. The OpenTok platform supports interoperability, meaning that clients on different platforms can interact using this app. For example, a web client and mobile client can both connect, publish, and subscribe to streams in the same session.
-- The **Token** authenticates the user to connect to the OpenTok session. Each client’s token must have a publisher role and must be generated from the same session.
-- The **API Key** uniquely identifies your app so it can be authorized to use the OpenTok library and make requests to the backend. Both clients must use the same **API Key**.
-
-_**NOTE:** The One-to-One Communication Sample App requires a **Session ID**, **Token**, and **API Key**. In the samples, you can get these values at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/). For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/)._
+This sample app requires a **Session ID**, **Token**, and **API Key**. In the sample, you can get these values at the [OpenTok Developer Dashboard](https://dashboard.tokbox.com/). For production deployment, you must generate the **Session ID** and **Token** values using one of the [OpenTok Server SDKs](https://tokbox.com/developer/sdks/server/).
 
 For example, suppose one user is using a web (JS) version of the One-to-One Communication Sample App and another user is using a mobile version (Android or iOS). If they are both using the same **Session ID** and **API Key**, they can subscribe to each other’s audio and video streams, and the user interface rendered on both devices will allow them to interact with each other and take advantage of all the features of the sample app.
 

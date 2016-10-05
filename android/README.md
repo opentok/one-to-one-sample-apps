@@ -16,7 +16,7 @@ This section shows you how to prepare, build, and run the sample application.
 
 ### Add the OpenTok SDK
 
-There are two options for installing the OpenTok SDK  included in the Accelerator Pack Common for Android:
+There are two options for installing the OpenTok SDK included in the Accelerator Pack Common for Android:
 
 
 #### Using the repository
@@ -42,7 +42,7 @@ compile project(':android-accelerator-pack')
 1. Modify the `build.gradle` for your activity and add the following code snippet to the section labeled `dependencies`:
 
 ```gradle
-compile 'com.opentok.android:accelerator-pack:1.0.0'
+compile 'com.opentok.android:accelerator-pack:+'
 ```
 ### Configure and build the app
 
@@ -142,14 +142,28 @@ The following `OneToOneCommunication` methods are used for session and stream ma
 
 | Feature        | Methods  |
 | ------------- | ------------- |
-| Manage the session connections.   | `start()`, `end()`, `isStarted()`, `onConnected()`, `onDisconnected()`, `isRemote()`  |
-| Manage the subscription streams.  | `onStreamCreated()`, `onStreamDestroyed()`, `onStreamReceived()`, `onStreamDropped()`  |
-| Manage audio events.              | `getLocalAudio()`, `getRemoteAudio()` |
-| Manage video events.              | `getLocalVideo()`, `getRemoteVideo()`, `onVideoDataReceived()`,`onVideoEnabled()`, `onVideoDisableWarning()`, `onVideoDisableWarningLifted()` |
-| Manage camera events.              | `swapCamera()` |
+| Manage call.   | `start()`, `end()`, `init()`, `destroy()`, `isStarted()`, `isRemote()`, `isInitialized()`,  `setRemoteFill()`, `getLocal()`, `getRemote()`, `setSubscribeToSelf()` |
+| Manage audio. Enable and disable local audio and video.              | `getLocalAudio()`, `getRemoteAudio()`, `enableLocalMedia(MediaType, boolean)`<br/> `MediaType ` is `AUDIO` or `VIDEO`<br/>`true` (enabled) or `false` (disabled) |
+| Manage video. Enable and disable remote audio and video.              | `getLocalVideo()`, `getRemoteVideo()`, `enableRemoteMedia(MediaType, boolean)`<br/> `MediaType ` is `AUDIO` or `VIDEO`<br/>`true` (enabled) or `false` (disabled) |
+| Manage camera. Swap between multiple cameras on a device (normal and selfie modes).           | `swapCamera()`, `getCameraId()` |
+| Manage views.             | `reloadViews()`, `getRemoteVideoView()`, `getRemoteScreenView()`, `getPreviewView() |
+ |
 
+The Listener interface monitors state changes in the OneToOneCommunication, and defines the following methods:
 
-
+```java
+public static interface Listener {
+        void onInitialized();
+        void onError(String error);
+        void onQualityWarning(boolean warning);
+        void onAudioOnly(boolean enabled);
+        void onPreviewReady(View preview);
+        void onRemoteViewReady(View remoteView);
+        void onReconnecting();
+        void onReconnected();
+        void onCameraChanged(int newCameraId);
+    }
+```
 
 ### User interface
 
@@ -168,24 +182,10 @@ These classes work with the following `MainActivity` methods, which manage the v
 | Reload the UI views whenever the device [configuration](http://developer.android.com/reference/android/content/res/Configuration.html), such as screen size or orientation, changes. | `onConfigurationChanged()`  |
 | Manage the UI for local and remote controls. | `onDisableLocalAudio()`, `onDisableLocalVideo()`, `onCall()`, `onDisableRemoteAudio()`, `onDisableRemoteVideo()`, `showRemoteControlBar()`, `onCameraSwap()` |
 
-You can also create custom UI responses to OpenTok events fired in your implementation of the `OneToOneCommunication.Listener` interface. For example, if a communication error occurs, you can develop and display a custom alert in the `MainActivity` class.
-
-
-
-### Audio, video, camera
-
-The following `OneToOneCommunication` methods are used to manage the local and remote media devices.
-
-| Feature        | Methods  |
-| ------------- | ------------- |
-|  Enable and disable local audio and video.  | `enableLocalMedia(MediaType, boolean)`<br/> `MediaType ` is `AUDIO` or `VIDEO`<br/>`true` (enabled) or `false` (disabled) |
-|  Enable and disable remote audio and video.  | `enableRemoteMedia(MediaType, boolean)`<br/> `MediaType ` is `AUDIO` or `VIDEO`<br/>`true` (enabled) or `false` (disabled) |
-|  Swap between multiple cameras on a device (normal and selfie modes).  | `swapCamera()` |
 
 ## Requirements
 
 To develop your one-to-one communication app:
 
 1. Install [Android Studio](http://developer.android.com/intl/es/sdk/index.html)
-1. Download the [OpenTok Android SDK](https://tokbox.com/developer/sdks/android/). **OpenTok Android SDK version 2.8.x** is required for this sample app.
 1. Review the [OpenTok Android SDK Requirements](https://tokbox.com/developer/sdks/android/#developerandclientrequirements)

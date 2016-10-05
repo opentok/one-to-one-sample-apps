@@ -26,7 +26,8 @@ _At this point you can try running the app! See [Deploying and running](#deployi
 
 ### Deploying and running
 
-The web page that loads the sample app for JavaScript must be served over HTTP/HTTPS. Browser security limitations prevent you from publishing video using a `file://` path, as discussed in the OpenTok.js [Release Notes](https://www.tokbox.com/developer/sdks/js/release-notes.html#knownIssues). To support clients running [Chrome 47 or later](https://groups.google.com/forum/#!topic/discuss-webrtc/sq5CVmY69sc), HTTPS is required. A web server such as [MAMP](https://www.mamp.info/) or [XAMPP](https://www.apachefriends.org/index.html) will work, or you can use a cloud service such as [Heroku](https://www.heroku.com/) to host the application.
+The web page that loads the sample app for JavaScript must be served over HTTP/HTTPS. Browser security limitations prevent you from publishing video using a `file://` path, as discussed in the OpenTok.js [Release Notes](https://www.tokbox.com/developer/sdks/js/release-notes.html#knownIssues). To support clients running [Chrome 47 or later](https://groups.google.com/forum/#!topic/discuss-webrtc/sq5CVmY69sc), HTTPS is required. A [Node](https://nodejs.org/en/) server will work, as will [MAMP](https://www.mamp.info/) or [XAMPP](https://www.apachefriends.org/index.html).  You can also use a cloud service such as [Heroku](https://www.heroku.com/) to host the application.
+
 
 
 ## Exploring the code
@@ -52,7 +53,7 @@ While TokBox hosts [OpenTok.js](https://tokbox.com/developer/sdks/js/), you must
 
 ### Session and stream management
 
-**app.js**: This script uses the OpenTok.js API to initiate the client connection to the OpenTok session. The `init` function uses the OpenTok.js API. It initializes the session by calling [OT.initSession](https://tokbox.com/developer/sdks/js/reference/OT.html#initSession), and creates the session connection by calling [Session.connect](https://tokbox.com/developer/sdks/js/reference/Session.html#connect). The function then instantiates the `Call` object, passing the session object to it:
+**app.js**: This script uses the OpenTok.js API to initiate the client connection to the OpenTok session. The `init` function initializes the session by calling [OT.initSession](https://tokbox.com/developer/sdks/js/reference/OT.html#initSession), and connects to the session by calling [Session.connect](https://tokbox.com/developer/sdks/js/reference/Session.html#connect). The function then creates an instance of the `Communication` accelerator pack,  passing the session object to it:
 
 ```javascript
 var _init = function () {
@@ -78,15 +79,15 @@ var _init = function () {
   };
 ```
 
-**opentok-one-to-one-communication.js**: The `CommunicationAccPack` object is the backbone of the one-to-one communication features for the app, and can be customized for reuse in your applications. It sets up the event handling for the publisher and subscriber streams.
+**opentok-one-to-one-communication.js**: The `CommunicationAccPack` provides the backbone of the app, and can be customized for reuse in your applications. It sets up event handling and manages publisher and subscriber streams.
 
-   - The constructor adds the participant event handlers by invoking the [Session.on](https://tokbox.com/developer/sdks/js/reference/Session.html#on) method.
+   - The module adds the participant event handlers by invoking the [Session.on](https://tokbox.com/developer/sdks/js/reference/Session.html#on) method.
    - The `_publish` function starts publishing an audio-video stream to the session by invoking the [Session.publish](https://tokbox.com/developer/sdks/js/reference/Session.html#publish) method.
    - The `start` prototype method sets up the stream handlers that manage the call status.
 
 
 
-The following `CommunicationAccPack` prototype methods are used for session and stream management:
+The following `CommunicationAccPack` methods are used for session and stream management:
 
 | Feature        | Methods  |
 | ------------- | ------------- |
@@ -97,7 +98,7 @@ The following `CommunicationAccPack` prototype methods are used for session and 
 
 ### User interface
 
-As described in [Web page design](#web-page-design), **app.js** manages the UI responses to call events captured by the `CommunicationAccPack` object prototype methods, and sets up and manages the local and remote audio and video UI elements. It provides a bridge between the OpenTok communication logic and the UI, allowing you to customize the UI for events that are fired.
+As described in [Web page design](#web-page-design), **app.js** manages the UI responses to call events captured by the `CommunicationAccPack` , sets up and manages the local and remote audio/video UI elements. It provides a bridge between the OpenTok communication logic and the UI, allowing for event-based customization.
 
 
 ## Requirements
@@ -105,4 +106,4 @@ As described in [Web page design](#web-page-design), **app.js** manages the UI r
 To develop your one-to-one communication app:
 
 1. Review the [OpenTok.js](https://tokbox.com/developer/sdks/js/) requirements. **OpenTok.js version 2.8.x** is required for this sample app.
-1. Install the OpenTok One-to-One Communication Accelerator Pack with [npm](https://www.npmjs.com/package/opentok-one-to-one-communication).
+1. Install the OpenTok One-to-One Communication Accelerator Pack with [npm](https://www.npmjs.com/package/opentok-one-to-one-communication) or get it from [GitHub](https://github.com/opentok/one-to-one-sample-apps/blob/master/js/public/js/components/opentok-one-to-one-communication.js).

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">OneToOneSample</string>
+    <string name="network_quality">Network connection is unstable.</string>
+    <string name="reconnecting">The session is reconnecting</string>
+    <string name="reconnected">The session reconnected</string>
+    <string name="permissions_denied_title">Permissions Denied</string>
+    <string name="permissions_denied">Cannot use this app without requested permission. Please, grant audio and video permissions</string>
+    <string name="alert_permissions_denied">Without these permissions the app is unable to make call.Are you sure you want to deny these permissions?</string>
+</resources>

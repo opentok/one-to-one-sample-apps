@@ -50,7 +50,12 @@ The `OTOneToOneCommunicator` class is the backbone of the one-to-one communicati
 ```objc
 [self.oneToOneCommunicator connectWithHandler:^(OTOneToOneCommunicationSignal signal, NSError *error) {
     if (!error) {
-        
+        if (signal == OTSessionDidConnect) {
+            // publisher view is available, now you can add subscriber view to your desired view
+        }
+        else if (signal == OTSubscriberDidConnect) {
+            // subscriber view is available, now you can add subscriber view to your desired view
+        }
     }
     else {
         

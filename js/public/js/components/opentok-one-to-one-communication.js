@@ -193,13 +193,12 @@
         } else {
           if (stream.videoType === 'camera') {
             _triggerEvent('subscribeToCamera', subscriber);
+            _this.subscriber = subscriber;
           } else if (stream.videoType === 'screen') {
             _triggerEvent('startViewingSharedScreen', subscriber);
           }
         }
       });
-
-    _this.subscriber = subscriber;
   };
 
 

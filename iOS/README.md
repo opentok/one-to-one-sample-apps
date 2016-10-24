@@ -47,6 +47,22 @@ _**NOTE:** This sample app collects anonymous usage data for internal TokBox pur
 
 The `OTOneToOneCommunicator` class is the backbone of the one-to-one communication features for the app. This class conforms to the protocols that initiate the client connection to the OpenTok session and sets up the listeners for the publisher and subscriber streams:
 
+```objc
+[self.oneToOneCommunicator connectWithHandler:^(OTOneToOneCommunicationSignal signal, NSError *error) {
+    if (!error) {
+        if (signal == OTSessionDidConnect) {
+            // publisher view is available, now you can add subscriber view to your desired view
+        }
+        else if (signal == OTSubscriberDidConnect) {
+            // subscriber view is available, now you can add subscriber view to your desired view
+        }
+    }
+    else {
+        
+    }
+}];
+```
+
 The following enum notifies the main controller of all session, publisher, and subscriber events:
 
 ```objc

@@ -63,15 +63,11 @@ In Android Studio, open **OpenTokConfig.java** and replace the following empty s
     public static final String API_KEY = "";
    ```
 
-   ### Optional: Manage Annotations from Other Clients
-
-   By default, your app receives annotations from other clients that have the same session ID. This feature is controlled by the following line of code open **OpenTokConfig.java**.
+   To enable or disable the `SUBSCRIBE_TO_SELF` feature, you can invoke the `OneToOneCommunication.setSubscribeToSelf()` method:
 
    ```java
    public static final boolean SUBSCRIBE_TO_SELF = false;
    ```
-
-   To enable or disable the `SUBSCRIBE_TO_SELF` feature, you can invoke the `OneToOneCommunication.setSubscribeToSelf()` method:
 
    ```java
    OneToOneCommunication comm = new OneToOneCommunication(
@@ -113,41 +109,18 @@ The `OneToOneCommunication` class, included in the Accelerator Pack Common for A
 
 This class uses the OpenTok API to initiate the client connection to the OpenTok session and manage the audio and video streams.
 
-```java
-public class OneToOneCommunication implements
-        Session.SessionListener,
-        Publisher.PublisherListener,
-        Subscriber.SubscriberListener,
-        Subscriber.VideoListener {
-   . . .
-}
-```
-
-#### Interfaces implemented by the class
-
-The `OneToOneCommunication` class implements the interfaces described in the following table. See their descriptions in the [OpenTok Android SDK Reference](https://tokbox.com/developer/sdks/android/reference/) for information about the methods required to implement them.
-
-
-| Interface        | Description  |
-| ------------- | ------------- |
-| [`Session.SessionListener`](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/Session.SessionListener.html)   | Monitors session state, handling client connections and stream events. |
-| [`Publisher.PublisherListener`](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/PublisherKit.PublisherListener.html)      | Monitors publisher stream events.  |
-| [`Subscriber.SubscriberListener`](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/SubscriberKit.SubscriberListener.html) | Monitors subscriber events.  |
-| [`Subscriber.VideoListener`](https://tokbox.com/developer/sdks/android/reference/com/opentok/android/SubscriberKit.VideoListener.html) | Monitors subscriber video events.  |
-
 
 #### Methods
 
-The following `OneToOneCommunication` methods are used for session and stream management, and in most cases are required by the interfaces implemented by the class.
+The following `OneToOneCommunication` methods are used for session and stream management.
 
 | Feature        | Methods  |
 | ------------- | ------------- |
-| Manage call.   | `start()`, `end()`, `init()`, `destroy()`, `isStarted()`, `isRemote()`, `isInitialized()`,  `setRemoteFill()`, `getLocal()`, `getRemote()`, `setSubscribeToSelf()` |
+| Manage session and stream.   | `start()`, `end()`, `init()`, `destroy()`, `isStarted()`, `isRemote()`, `isInitialized()`,  `setRemoteFill()`, `getLocal()`, `getRemote()`, `setSubscribeToSelf()` |
 | Manage audio. Enable and disable local audio and video.              | `getLocalAudio()`, `getRemoteAudio()`, `enableLocalMedia(MediaType, boolean)`<br/> `MediaType ` is `AUDIO` or `VIDEO`<br/>`true` (enabled) or `false` (disabled) |
 | Manage video. Enable and disable remote audio and video.              | `getLocalVideo()`, `getRemoteVideo()`, `enableRemoteMedia(MediaType, boolean)`<br/> `MediaType ` is `AUDIO` or `VIDEO`<br/>`true` (enabled) or `false` (disabled) |
 | Manage camera. Swap between multiple cameras on a device (normal and selfie modes).           | `swapCamera()`, `getCameraId()` |
 | Manage views.             | `reloadViews()`, `getRemoteVideoView()`, `getRemoteScreenView()`, `getPreviewView() |
- |
 
 The Listener interface monitors state changes in the OneToOneCommunication, and defines the following methods:
 
@@ -175,13 +148,6 @@ As described in [Class design](#class-design), the following classes set up and 
 
 
 These classes work with the following `MainActivity` methods, which manage the views as the publisher and subscriber participate in the session.
-
-| Feature        | Methods  |
-| ------------- | ------------- |
-| Manage the UI containers. | `onCreate()`  |
-| Reload the UI views whenever the device [configuration](http://developer.android.com/reference/android/content/res/Configuration.html), such as screen size or orientation, changes. | `onConfigurationChanged()`  |
-| Manage the UI for local and remote controls. | `onDisableLocalAudio()`, `onDisableLocalVideo()`, `onCall()`, `onDisableRemoteAudio()`, `onDisableRemoteVideo()`, `showRemoteControlBar()`, `onCameraSwap()` |
-
 
 ## Requirements
 

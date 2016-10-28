@@ -33,6 +33,8 @@ import com.tokbox.android.onetoonesample.ui.RemoteControlFragment;
 import com.tokbox.android.otsdkwrapper.listeners.AdvancedListener;
 import com.tokbox.android.otsdkwrapper.listeners.BasicListener;
 import com.tokbox.android.otsdkwrapper.listeners.ListenerException;
+import com.tokbox.android.otsdkwrapper.listeners.PausableAdvancedListener;
+import com.tokbox.android.otsdkwrapper.listeners.PausableBasicListener;
 import com.tokbox.android.otsdkwrapper.utils.MediaType;
 import com.tokbox.android.otsdkwrapper.utils.OTConfig;
 import com.tokbox.android.otsdkwrapper.utils.PreviewConfig;
@@ -41,7 +43,7 @@ import com.tokbox.android.otsdkwrapper.wrapper.OTWrapper;
 import java.util.UUID;
 
 
-public class MainActivity extends AppCompatActivity implements BasicListener, AdvancedListener, PreviewControlFragment.PreviewControlCallbacks, RemoteControlFragment.RemoteControlCallbacks, PreviewCameraFragment.PreviewCameraCallbacks {
+public class MainActivity extends AppCompatActivity implements PreviewControlFragment.PreviewControlCallbacks, RemoteControlFragment.RemoteControlCallbacks, PreviewCameraFragment.PreviewCameraCallbacks {
     private final String LOGTAG = MainActivity.class.getSimpleName();
 
     private final String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
@@ -132,7 +134,8 @@ public class MainActivity extends AppCompatActivity implements BasicListener, Ad
                         OpenTokConfig.API_KEY).name("one-to-one-sample-app").subscribeAutomatically(true).subscribeToSelf(false).build();
 
         mWrapper = new OTWrapper(MainActivity.this, config);
-        mWrapper.setBasicListener(this);
+        mWrapper.addBasicListener(mBasicListener);
+        mWrapper.addAdvancedListener(mAdvancedListener);
 
         if ( mWrapper != null ) {
             mWrapper.connect();
@@ -316,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements BasicListener, Ad
         if ( mWrapper != null && isConnected ) {
             if ( !isCallInProgress ) {
                 mWrapper.startSharingMedia(new PreviewConfig.PreviewConfigBuilder().
-                        name("Tokboxer").build());
+                        name("Tokboxer").build(), false);
                 if ( mPreviewFragment != null ) {
                     mPreviewFragment.setEnabled(true);
                 }
@@ -332,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements BasicListener, Ad
                     }
                 }
             } else {
-                mWrapper.stopSharingMedia();
+                mWrapper.stopSharingMedia(false);
                 isCallInProgress = false;
                 cleanViewsAndControls();
             }
@@ -445,154 +448,172 @@ public class MainActivity extends AppCompatActivity implements BasicListener, Ad
     }
 
     //Advanced Listener from OTWrapper
-    @Override
-    public void onCameraChanged(Object o) throws ListenerException {
-        Log.i(LOGTAG, "The camera changed");
-    }
+    private AdvancedListener mAdvancedListener =
+            new PausableAdvancedListener(new AdvancedListener<OTWrapper>() {
 
-    @Override
-    public void onReconnecting(Object o) throws ListenerException {
-        Log.i(LOGTAG, "The session is reconnecting.");
-        Toast.makeText(this, R.string.reconnecting, Toast.LENGTH_LONG).show();
-    }
+                @Override
+                public void onCameraChanged(OTWrapper otWrapper) throws ListenerException {
+                    Log.i(LOGTAG, "The camera changed");
+                }
 
-    @Override
-    public void onReconnected(Object o) throws ListenerException {
-        Log.i(LOGTAG, "The session reconnected.");
-        Toast.makeText(this, R.string.reconnected, Toast.LENGTH_LONG).show();
-    }
+                @Override
+                public void onReconnecting(OTWrapper otWrapper) throws ListenerException {
+                    Log.i(LOGTAG, "The session is reconnecting.");
+                    Toast.makeText(MainActivity.this, R.string.reconnecting, Toast.LENGTH_LONG).show();
+                }
 
-    @Override
-    public void onVideoQualityWarning(Object o, String remoteId) throws ListenerException {
-        Log.i(LOGTAG, "The quality has degraded");
+                @Override
+                public void onReconnected(OTWrapper otWrapper) throws ListenerException {
+                    Log.i(LOGTAG, "The session reconnected.");
+                    Toast.makeText(MainActivity.this, R.string.reconnected, Toast.LENGTH_LONG).show();
+                }
 
-        mAlert.setBackgroundResource(R.color.quality_warning);
-        mAlert.setTextColor(this.getResources().getColor(R.color.warning_text));
+                @Override
+                public void onVideoQualityWarning(OTWrapper otWrapper, String remoteId) throws ListenerException {
+                    Log.i(LOGTAG, "The quality has degraded");
 
-        mAlert.bringToFront();
-        mAlert.setVisibility(View.VISIBLE);
-        mAlert.postDelayed(new Runnable() {
-            public void run() {
-                mAlert.setVisibility(View.GONE);
-            }
-        }, 7000);
-    }
+                    mAlert.setBackgroundResource(R.color.quality_warning);
+                    mAlert.setTextColor(MainActivity.this.getResources().getColor(R.color.warning_text));
 
-    @Override
-    public void onVideoQualityWarningLifted(Object o, String remoteId) throws ListenerException {
-        Log.i(LOGTAG, "The quality has improved");
-    }
+                    mAlert.bringToFront();
+                    mAlert.setVisibility(View.VISIBLE);
+                    mAlert.postDelayed(new Runnable() {
+                        public void run() {
+                            mAlert.setVisibility(View.GONE);
+                        }
+                    }, 7000);
+                }
+
+                @Override
+                public void onVideoQualityWarningLifted(OTWrapper otWrapper, String remoteId) throws ListenerException {
+                    Log.i(LOGTAG, "The quality has improved");
+                }
+
+                @Override
+                public void onError(OTWrapper otWrapper, OpentokError error) throws ListenerException {
+                    Log.i(LOGTAG, "Error " + error.getErrorCode() + "-" + error.getMessage());
+                    Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                    mWrapper.disconnect(); //end communication
+                    mProgressDialog.dismiss();
+                    cleanViewsAndControls(); //restart views
+                }
+            });
 
     //Basic Listener from OTWrapper
-    @Override
-    public void onConnected(Object o, int participantsCount, String connId, String data) throws ListenerException {
-        Log.i(LOGTAG, "Connected to the session. Number of participants: "+participantsCount);
-        isConnected = true;
-        mProgressDialog.dismiss();
-        addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
-    }
+    private BasicListener mBasicListener =
+            new PausableBasicListener(new BasicListener<OTWrapper>() {
+                @Override
+                public void onConnected(OTWrapper otWrapper, int participantsCount, String connId, String data) throws ListenerException {
+                    Log.i(LOGTAG, "Connected to the session. Number of participants: "+participantsCount);
+                    isConnected = true;
+                    mProgressDialog.dismiss();
+                    addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
+                }
 
-    @Override
-    public void onDisconnected(Object o, int participantsCount, String connId, String data) throws ListenerException {
-        Log.i(LOGTAG, "Connection dropped: "+connId);
-        if ( connId == mWrapper.getOwnConnId() ) {
-            Log.i(LOGTAG, "Disconnected to the session");
-            cleanViewsAndControls();
-        }
-    }
-
-    @Override
-    public void onPreviewViewReady(Object o, View localView) throws ListenerException {
-        Log.i(LOGTAG, "Local preview view is ready");
-        setLocalView(localView);
-    }
-
-    @Override
-    public void onPreviewViewDestroyed(Object o, View localView) throws ListenerException {
-        Log.i(LOGTAG, "Local preview view is destroyed");
-        setLocalView(null);
-    }
-
-    @Override
-    public void onRemoteViewReady(Object o, View remoteView, String remoteId, String data) throws ListenerException {
-        Log.i(LOGTAG, "Remove view is ready");
-        if ( remoteId == mRemoteId ) {
-            if (isCallInProgress()) {
-                setRemoteView(remoteView);
-            }
-            mRemoteView = remoteView;
-            isRemote = true;
-        }
-    }
-
-    @Override
-    public void onRemoteViewDestroyed(Object o, View remoteView, String remoteId) throws ListenerException {
-        Log.i(LOGTAG, "Remote view is destroyed");
-        setRemoteView(null);
-        mRemoteView = null;
-    }
-
-    @Override
-    public void onStartedSharingMedia(Object o) throws ListenerException {
-        Log.i(LOGTAG, "Local started streaming video.");
-    }
-
-    @Override
-    public void onStoppedSharingMedia(Object o) throws ListenerException {
-        Log.i(LOGTAG, "Local stopped streaming video.");
-    }
-
-    @Override
-    public void onRemoteJoined(Object o, String remoteId) throws ListenerException {
-        Log.i(LOGTAG, "A new remote joined.");
-        if (mRemoteId == null){ //one-to-one, the first to arrive, will be the used
-            this.mRemoteId = remoteId;
-            isRemote = true;
-            initRemoteFragment(remoteId);
-        }
-    }
-
-    @Override
-    public void onRemoteLeft(Object o, String remoteId) throws ListenerException {
-        Log.i(LOGTAG, "A new remote left.");
-        if ( mRemoteId != null && remoteId == mRemoteId ) { //one-to-one
-            isRemote = false;
-            mRemoteId = null;
-        }
-    }
-
-    @Override
-    public void onRemoteVideoChange(Object o, String remoteId, String reason, boolean videoActive, boolean subscribed) throws ListenerException {
-        Log.i(LOGTAG, "Remote video changed");
-        if (isCallInProgress) {
-            if (reason.equals("quality")) {
-                //network quality alert
-                mAlert.setBackgroundResource(R.color.quality_alert);
-                mAlert.setTextColor(this.getResources().getColor(R.color.white));
-                mAlert.bringToFront();
-                mAlert.setVisibility(View.VISIBLE);
-                mAlert.postDelayed(new Runnable() {
-                    public void run() {
-                        mAlert.setVisibility(View.GONE);
+                @Override
+                public void onDisconnected(OTWrapper otWrapper, int participantsCount, String connId, String data) throws ListenerException {
+                    Log.i(LOGTAG, "Connection dropped: "+connId);
+                    if ( connId == mWrapper.getOwnConnId() ) {
+                        Log.i(LOGTAG, "Disconnected to the session");
+                        cleanViewsAndControls();
                     }
-                }, 7000);
-            }
+                }
 
-           if (!videoActive) {
-                onAudioOnly(true); //video is not active
-            } else {
-                onAudioOnly(false);
-            }
-        }
-    }
+                @Override
+                public void onPreviewViewReady(OTWrapper otWrapper, View localView) throws ListenerException {
+                    Log.i(LOGTAG, "Local preview view is ready");
+                    setLocalView(localView);
+                }
 
-    @Override
-    public void onError(Object o, OpentokError error) throws ListenerException {
-        Log.i(LOGTAG, "Error "+error.getErrorCode()+"-"+error.getMessage());
+                @Override
+                public void onPreviewViewDestroyed(OTWrapper otWrapper, View localView) throws ListenerException {
+                    Log.i(LOGTAG, "Local preview view is destroyed");
+                    setLocalView(null);
+                }
 
-        Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
-        mWrapper.disconnect(); //end communication
-        mProgressDialog.dismiss();
-        cleanViewsAndControls(); //restart views
-    }
+                @Override
+                public void onRemoteViewReady(OTWrapper otWrapper, View remoteView, String remoteId, String data) throws ListenerException {
+                    Log.i(LOGTAG, "Remove view is ready");
+                    if ( remoteId == mRemoteId ) {
+                        if (isCallInProgress()) {
+                            setRemoteView(remoteView);
+                        }
+                        mRemoteView = remoteView;
+                        isRemote = true;
+                    }
+                }
+
+                @Override
+                public void onRemoteViewDestroyed(OTWrapper otWrapper, View remoteView, String remoteId) throws ListenerException {
+                    Log.i(LOGTAG, "Remote view is destroyed");
+                    setRemoteView(null);
+                    mRemoteView = null;
+                }
+
+
+                @Override
+                public void onStartedSharingMedia(OTWrapper otWrapper, boolean screensharing) throws ListenerException {
+                    Log.i(LOGTAG, "Local started streaming video.");
+                }
+
+                @Override
+                public void onStoppedSharingMedia(OTWrapper otWrapper, boolean screensharing) throws ListenerException {
+                    Log.i(LOGTAG, "Local stopped streaming video.");
+                }
+
+                @Override
+                public void onRemoteJoined(OTWrapper otWrapper, String remoteId) throws ListenerException {
+                    Log.i(LOGTAG, "A new remote joined.");
+                    if (mRemoteId == null){ //one-to-one, the first to arrive, will be the used
+                        MainActivity.this.mRemoteId = remoteId;
+                        isRemote = true;
+                        initRemoteFragment(remoteId);
+                    }
+                }
+
+                @Override
+                public void onRemoteLeft(OTWrapper otWrapper, String remoteId) throws ListenerException {
+                    Log.i(LOGTAG, "A new remote left.");
+                    if ( mRemoteId != null && remoteId == mRemoteId ) { //one-to-one
+                        isRemote = false;
+                        mRemoteId = null;
+                    }
+                }
+
+                @Override
+                public void onRemoteVideoChange(OTWrapper otWrapper, String remoteId, String reason, boolean videoActive, boolean subscribed) throws ListenerException {
+                    Log.i(LOGTAG, "Remote video changed");
+                    if (isCallInProgress) {
+                        if (reason.equals("quality")) {
+                            //network quality alert
+                            mAlert.setBackgroundResource(R.color.quality_alert);
+                            mAlert.setTextColor(MainActivity.this.getResources().getColor(R.color.white));
+                            mAlert.bringToFront();
+                            mAlert.setVisibility(View.VISIBLE);
+                            mAlert.postDelayed(new Runnable() {
+                                public void run() {
+                                    mAlert.setVisibility(View.GONE);
+                                }
+                            }, 7000);
+                        }
+
+                        if (!videoActive) {
+                            onAudioOnly(true); //video is not active
+                        } else {
+                            onAudioOnly(false);
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(OTWrapper otWrapper, OpentokError error) throws ListenerException {
+                    Log.i(LOGTAG, "Error "+error.getErrorCode()+"-"+error.getMessage());
+
+                    Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                    mWrapper.disconnect(); //end communication
+                    mProgressDialog.dismiss();
+                    cleanViewsAndControls(); //restart views
+                }
+            });
+
 }

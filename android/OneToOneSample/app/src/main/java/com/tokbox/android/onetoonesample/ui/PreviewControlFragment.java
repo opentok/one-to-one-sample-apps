@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import com.tokbox.android.accpack.OneToOneCommunication;
 import com.tokbox.android.onetoonesample.MainActivity;
 import com.tokbox.android.onetoonesample.R;
 import com.tokbox.android.otsdkwrapper.utils.MediaType;

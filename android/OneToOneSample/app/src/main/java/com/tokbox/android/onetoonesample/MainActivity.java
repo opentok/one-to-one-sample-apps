@@ -494,8 +494,11 @@ public class MainActivity extends AppCompatActivity implements BasicListener, Ad
 
     @Override
     public void onDisconnected(Object o, int participantsCount, String connId, String data) throws ListenerException {
-        Log.i(LOGTAG, "Disconnected to the session");
-        cleanViewsAndControls();
+        Log.i(LOGTAG, "Connection dropped: "+connId);
+        if ( connId == mWrapper.getOwnConnId() ) {
+            Log.i(LOGTAG, "Disconnected to the session");
+            cleanViewsAndControls();
+        }
     }
 
     @Override

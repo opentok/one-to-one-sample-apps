@@ -335,21 +335,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
 
     //cleans views and controls
     private void cleanViewsAndControls() {
-        /*if (isRemote) {
-            mRemoteView = null;
-            isRemote = false;
-            setRemoteView(null, mRemoteId);
-        }
-        if (isLocal) {
-            isLocal = false;
-            setLocalView(null);
-        }
-
-        if (mPreviewFragment != null)
-            mPreviewFragment.restart();
-        if (mRemoteFragment != null)
-            mRemoteFragment.restart();*/
-
         if ( mRemoteId != null ) {
             setRemoteView(null, mRemoteId);
         }
@@ -363,9 +348,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
             mRemoteFragment.restart();
 
     }
-
-
-
 
     private void reloadViews(){
         mRemoteViewContainer.removeAllViews();
@@ -404,7 +386,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
         if (mPreviewViewContainer.getChildCount() > 0) {
             setLocalView(mPreviewViewContainer.getChildAt(0)); //main preview view
         }
-
         if (remoteView != null) {
             //show remote view
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
@@ -422,7 +403,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
             mRemoteViewContainer.setClickable(false);
             mAudioOnlyView.setVisibility(View.GONE);
         }
-
     }
 
     private void checkRemotes(){
@@ -522,6 +502,7 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
                     if ( connId == mWrapper.getOwnConnId() ) {
                         Log.i(LOGTAG, "Disconnected to the session");
                         cleanViewsAndControls();
+                        addLogEvent(OpenTokConfig.LOG_ACTION_END_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
                     }
                 }
 

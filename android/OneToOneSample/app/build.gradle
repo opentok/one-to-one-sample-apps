@@ -31,6 +31,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.+'
     compile 'com.android.support:design:24.+'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    compile 'com.opentok.android:sdk-wrapper:1.0.0'
+    compile 'com.opentok.android:opentok-sdk-wrapper:1.0.0'
     compile 'com.opentok.android:opentok-solutions-logging:+'
 }

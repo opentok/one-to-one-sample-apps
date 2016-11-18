@@ -296,14 +296,14 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
         Log.i(LOGTAG, "OnCall");
         if ( mWrapper != null && isConnected ) {
             if ( !isCallInProgress ) {
-                mWrapper.startSharingMedia(new PreviewConfig.PreviewConfigBuilder().
+                mWrapper.startPublishingMedia(new PreviewConfig.PreviewConfigBuilder().
                         name("Tokboxer").build(), false);
                 if ( mPreviewFragment != null ) {
                     mPreviewFragment.setEnabled(true);
                 }
                 isCallInProgress = true;
             } else {
-                mWrapper.stopSharingMedia(false);
+                mWrapper.stopPublishingMedia(false);
                 isCallInProgress = false;
                 cleanViewsAndControls();
             }
@@ -314,14 +314,14 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
     @Override
     public void onDisableRemoteAudio(boolean audio) {
         if (mWrapper != null) {
-            mWrapper.enableRemoteMedia(mRemoteId, MediaType.AUDIO, audio);
+            mWrapper.enableReceivedMedia(mRemoteId, MediaType.AUDIO, audio);
         }
     }
 
     @Override
     public void onDisableRemoteVideo(boolean video) {
         if (mWrapper != null) {
-            mWrapper.enableRemoteMedia(mRemoteId, MediaType.VIDEO, video);
+            mWrapper.enableReceivedMedia(mRemoteId, MediaType.VIDEO, video);
         }
     }
 
@@ -407,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
 
     private void checkRemotes(){
         if ( mRemoteId != null ){
-            if (!mWrapper.isRemoteMediaEnabled(mRemoteId, MediaType.VIDEO)){
+            if (!mWrapper.isReceivedMediaEnabled(mRemoteId, MediaType.VIDEO)){
                 onAudioOnly(true);
             }
             else {
@@ -418,12 +418,12 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
 
     private void onAudioOnly(boolean enabled) {
         if (enabled) {
-            mRemoteView.setVisibility(View.GONE);
+            mWrapper.getRemoteStreamStatus(mRemoteId).getView().setVisibility(View.GONE);
             mAudioOnlyView.setVisibility(View.VISIBLE);
         }
         else {
             mAudioOnlyView.setVisibility(View.GONE);
-            mRemoteView.setVisibility(View.VISIBLE);
+            mWrapper.getRemoteStreamStatus(mRemoteId).getView().setVisibility(View.VISIBLE);
         }
     }
 
@@ -538,14 +538,14 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
 
 
                 @Override
-                public void onStartedSharingMedia(OTWrapper otWrapper, boolean screensharing) throws ListenerException {
+                public void onStartedPublishingMedia(OTWrapper otWrapper, boolean screensharing) throws ListenerException {
                     Log.i(LOGTAG, "Local started streaming video.");
                     //Check if there are some connected remotes
                     checkRemotes();
                 }
 
                 @Override
-                public void onStoppedSharingMedia(OTWrapper otWrapper, boolean screensharing) throws ListenerException {
+                public void onStoppedPublishingMedia(OTWrapper otWrapper, boolean screensharing) throws ListenerException {
                     Log.i(LOGTAG, "Local stopped streaming video.");
                 }
 
@@ -567,7 +567,7 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
                 }
 
                 @Override
-                public void onRemoteVideoChange(OTWrapper otWrapper, String remoteId, String reason, boolean videoActive, boolean subscribed) throws ListenerException {
+                public void onRemoteVideoChanged(OTWrapper otWrapper, String remoteId, String reason, boolean videoActive, boolean subscribed) throws ListenerException {
                     Log.i(LOGTAG, "Remote video changed");
                     if (isCallInProgress) {
                         if (reason.equals("quality")) {

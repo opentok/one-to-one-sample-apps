@@ -122,7 +122,7 @@ public class RemoteControlFragment extends Fragment {
     }
 
     public void updateRemoteAudio(){
-        if(mRemoteId != null && !mActivity.getWrapper().isRemoteMediaEnabled(mRemoteId, MediaType.AUDIO)){
+        if(mRemoteId != null && !mActivity.getWrapper().isReceivedMediaEnabled(mRemoteId, MediaType.AUDIO)){
             mControlCallbacks.onDisableRemoteAudio(true);
             mAudioBtn.setImageResource(R.drawable.audio);
         }
@@ -133,7 +133,7 @@ public class RemoteControlFragment extends Fragment {
     }
 
     public void updateRemoteVideo(){
-        if(mRemoteId != null && !mActivity.getWrapper().isRemoteMediaEnabled(mRemoteId, MediaType.VIDEO)){
+        if(mRemoteId != null && !mActivity.getWrapper().isReceivedMediaEnabled(mRemoteId, MediaType.VIDEO)){
             mControlCallbacks.onDisableRemoteVideo(true);
             mVideoBtn.setImageResource(R.drawable.video_icon);
         }

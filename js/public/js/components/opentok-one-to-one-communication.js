@@ -116,7 +116,7 @@
       props.name = _this.options.user.name;
     }
 
-    _this.publisher = OT.initPublisher('videoHolderSmall', props, function (error) {
+    _this.publisher = OT.initPublisher(_getStreamContainer('publisher'), props, function (error) {
       if (error) {
         console.log('Error starting a call', error);
       }
@@ -128,7 +128,7 @@
 
     _initPublisherCamera();
 
-    return _session.publish(_this.publisher, function (error) {
+    var publisher = _session.publish(_this.publisher, function (error) {
       if (error) {
         console.log(['Error starting a call', error.code, '-', error.message].join(''));
         var message;
@@ -139,8 +139,12 @@
         }
         console.log(error, message);
         _log(_logEventData.actionStartComm, _logEventData.variationError);
+      } else {
+        _triggerEvent('startCall', publisher)
       }
     });
+
+    return publisher;
   };
 
   var _unpublish = function () {
@@ -153,12 +157,49 @@
   var _unsubscribeStreams = function () {
     Object.keys(_this.streams).forEach(function (streamId) {
       var subscribers = _session.getSubscribersForStream(_this.streams[streamId]);
-      subscribers.forEach(function(subscriber){
+      subscribers.forEach(function (subscriber) {
         _session.unsubscribe(subscriber);
       });
     });
     _this.subscriber = null;
     _this.streams = {};
+  };
+
+  /**
+   * Get the container element for the publisher/subscriber stream
+   * @param {String} type - 'publisher' or 'subcriber'
+   * @param {Object} stream - An OpenTok stream object
+   * @returns {Object} - The container DOM element
+   *
+   */
+  var _getStreamContainer = function (type, stream) {
+
+    var userDefined = _this.options[`${type}Container`];
+
+    var getUserDefinedContainer = function () {
+      if (typeof userDefined === 'function') {
+        var container = userDefined(stream);
+        return typeof container === 'string' ? document.querySelector(container) : container;
+      } else if (typeof userDefined === 'string') {
+        return document.querySelector(userDefined);
+      } else {
+        return userDefined;
+      }
+    };
+
+    if (userDefined) {
+      return getUserDefinedContainer();
+    } else {
+      if (type === 'publisher') {
+        return document.getElementById('videoHolderSmall');
+      } else if (type === 'subscriber') {
+        if (stream.videoType === 'screen') {
+          return 'videoHolderSharedScreen';
+        } else {
+          return 'videoHolderBig';
+        }
+      }
+    }
   };
 
   var _subscribeToStream = function (stream) {
@@ -176,15 +217,11 @@
       options = _this.options.localCallProperties;
     }
 
-    var videoContainer;
-    if (stream.videoType === 'screen') {
-      videoContainer = 'videoHolderSharedScreen';
-    } else {
-      videoContainer = 'videoHolderBig';
-    }
+
+    var container = _getStreamContainer('subscriber', stream);
 
     var subscriber = _session.subscribe(stream,
-      videoContainer,
+      container,
       options,
       function (error) {
         if (error) {
@@ -220,7 +257,6 @@
   };
 
   var _handleStreamDestroyed = function (event) {
-    console.log('Participant left the call');
     var streamDestroyedType = event.stream.videoType;
 
     if (streamDestroyedType === 'camera') {
@@ -287,12 +323,14 @@
   /**
    * @constructor
    * Represents a one-to-one AV communication layer
-   * @param {object} options
-   * @param {object} options.session
-   * @param {string} options.sessionId
-   * @param {string} options.apiKey
-   * @param {array} options.streams
-   * @param {boolean} options.annotation
+   * @param {Object} options
+   * @param {Object} options.session
+   * @param {String} options.sessionId
+   * @param {String} options.apiKey
+   * @param {Array} options.streams
+   * @param {Boolean} options.annotation
+   * @param {String | Function} [options.publisherContainer]
+   * @param {String | Function} [options.subscriberContainer]
    */
   var CommunicationAccPack = function (options) {
 
@@ -356,8 +394,6 @@
       _session.streams.forEach(function (stream) {
         _subscribeToStream(stream);
       });
-
-      _triggerEvent('startCall', _this.publisher);
 
       _log(_logEventData.actionStartComm, _logEventData.variationSuccess);
     },

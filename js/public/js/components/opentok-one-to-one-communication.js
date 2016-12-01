@@ -342,6 +342,8 @@
    * @param {String} options.apiKey
    * @param {Array} options.streams
    * @param {Boolean} options.annotation
+   * @param {String | Function} [options.localCallProperties]
+   * @param {String | Function} [options.localScreenProperties]
    * @param {String | Function} [options.publisherContainer]
    * @param {String | Function} [options.subscriberContainer]
    */

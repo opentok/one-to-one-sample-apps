@@ -110,7 +110,12 @@
 
   var _initPublisherCamera = function () {
 
-    var props = _this.options.localCallProperties;
+    var props;
+    if (typeof _this.options.localCallProperties === 'function') {
+      props = _this.options.localCallProperties('publisher');
+    } else {
+      props = _this.options.localCallProperties;
+    }
 
     if (_this.options.user) {
       props.name = _this.options.user.name;
@@ -212,9 +217,17 @@
 
     var options;
     if (stream.videoType === 'screen') {
-      options = _this.options.localScreenProperties;
+      if (typeof _this.options.localScreenProperties === 'function') {
+        options = _this.options.localScreenProperties('subscriber');
+      } else {
+        options = _this.options.localScreenProperties;
+      }
     } else {
-      options = _this.options.localCallProperties;
+      if (typeof _this.options.localCallProperties === 'function') {
+        options = _this.options.localCallProperties('subscriber');
+      } else {
+        options = _this.options.localCallProperties;
+      }
     }
 
 

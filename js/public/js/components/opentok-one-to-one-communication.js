@@ -241,7 +241,7 @@
           var connectionError = error.code === 1010 ? 'Check your network connection.' : '';
           console.log(error, connectionError);
         } else {
-          if (stream.videoType === 'camera') {
+          if (stream.videoType === 'camera' || stream.videoType === undefined) {
             _triggerEvent('subscribeToCamera', subscriber);
             _this.subscriber = subscriber;
           } else if (stream.videoType === 'screen') {
@@ -272,7 +272,7 @@
   var _handleStreamDestroyed = function (event) {
     var streamDestroyedType = event.stream.videoType;
 
-    if (streamDestroyedType === 'camera') {
+    if (streamDestroyedType === 'camera' || streamDestroyedType === undefined) {
       _this.subscriber = null;
       _this._remoteParticipant = null;
 

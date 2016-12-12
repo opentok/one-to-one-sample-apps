@@ -108,6 +108,38 @@
 
   /** Private Methods */
 
+  /**
+   * Get the container element for the publisher/subscriber stream
+   * @param {String} type - 'publisher' or 'subcriber'
+   * @param {Object} stream - An OpenTok stream object
+   * @returns {Object} - The container DOM element
+   *
+   */
+  var _getStreamContainer = function (type, stream) {
+
+    var userDefined = _this.options[[type, 'Container'].join('')];
+
+    var getUserDefinedContainer = function () {
+      if (typeof userDefined === 'function') {
+        var container = userDefined(stream);
+        return typeof container === 'string' ? document.querySelector(container) : container;
+      } else if (typeof userDefined === 'string') {
+        return document.querySelector(userDefined);
+      }
+      return userDefined;
+    };
+
+    if (!userDefined) {
+      if (type === 'publisher') {
+        return document.getElementById('videoHolderSmall');
+      } else if (type === 'subscriber') {
+        return stream.videoType === 'screen' ? 'videoHolderSharedScreen' : 'videoHolderBig';
+      }
+    }
+
+    return getUserDefinedContainer();
+  };
+
   var _initPublisherCamera = function () {
 
     var props;
@@ -170,42 +202,6 @@
     _this.streams = {};
   };
 
-  /**
-   * Get the container element for the publisher/subscriber stream
-   * @param {String} type - 'publisher' or 'subcriber'
-   * @param {Object} stream - An OpenTok stream object
-   * @returns {Object} - The container DOM element
-   *
-   */
-  var _getStreamContainer = function (type, stream) {
-
-    var userDefined = _this.options[`${type}Container`];
-
-    var getUserDefinedContainer = function () {
-      if (typeof userDefined === 'function') {
-        var container = userDefined(stream);
-        return typeof container === 'string' ? document.querySelector(container) : container;
-      } else if (typeof userDefined === 'string') {
-        return document.querySelector(userDefined);
-      } else {
-        return userDefined;
-      }
-    };
-
-    if (userDefined) {
-      return getUserDefinedContainer();
-    } else {
-      if (type === 'publisher') {
-        return document.getElementById('videoHolderSmall');
-      } else if (type === 'subscriber') {
-        if (stream.videoType === 'screen') {
-          return 'videoHolderSharedScreen';
-        } else {
-          return 'videoHolderBig';
-        }
-      }
-    }
-  };
 
   var _subscribeToStream = function (stream) {
 

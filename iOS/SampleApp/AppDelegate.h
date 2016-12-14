@@ -6,8 +6,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class OTAcceleratorSession;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong, readonly) OTAcceleratorSession* acceleratorSession;
 
 @end

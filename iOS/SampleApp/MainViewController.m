@@ -61,24 +61,6 @@
 
 - (void)handleCommunicationSignal:(OTOneToOneCommunicationSignal)signal {
     
-    /*
-     OTPublisherCreated,
-     OTPublisherDestroyed,
-     OTSubscriberCreated,
-    -> OTSubscriberReady,
-     OTSubscriberDestroyed,
-     OTSubscriberVideoDisabledByPublisher,
-     OTSubscriberVideoDisabledBySubscriber,
-     OTSubscriberVideoDisabledByBadQuality,
-     OTSubscriberVideoEnabledByPublisher,
-     OTSubscriberVideoEnabledBySubscriber,
-     OTSubscriberVideoEnabledByGoodQuality,
-     OTSubscriberVideoDisableWarning,
-     OTSubscriberVideoDisableWarningLifted,
-     OTOneToOneCommunicationError,
-     OTSessionDidBeginReconnecting,
-     OTSessionDidReconnect
-*/
     switch (signal) {
         case OTSubscriberReady: {
             [SVProgressHUD popActivity];
@@ -87,10 +69,6 @@
             [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
             break;
         }
-//        case OTSessionDidFail:{
-//            [SVProgressHUD showErrorWithStatus:@"Problem when connecting."];
-//            break;
-//        }
         case OTSubscriberDestroyed:{
             [self.mainView removeSubscriberView];
             break;
@@ -109,10 +87,6 @@
         }
         case OTPublisherDestroyed: {
             NSLog(@"Your publishing feed stops streaming in OpenTok");
-            break;
-        }
-        case OTOneToOneCommunicationError:{
-            [SVProgressHUD showErrorWithStatus:@"Problem when publishing/subscribing."];
             break;
         }
         case OTSubscriberCreated:{

@@ -195,12 +195,10 @@
 				TargetAttributes = {
 					70F017971E00458D008EF97D = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 56SNGDQLYY;
 						ProvisioningStyle = Automatic;
 					};
 					70F017B01E00458D008EF97D = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = MGD69Q275W;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 70F017971E00458D008EF97D;
 					};
@@ -437,10 +435,10 @@
 			baseConfigurationReference = 40397C53A9E153F6AF9AEC83 /* Pods-OneToOneSample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 56SNGDQLYY;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SampleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fuchs.tokbox.OneToOneSample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tokbox.OneToOneSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -450,10 +448,10 @@
 			baseConfigurationReference = C018346E654336B2D36853E2 /* Pods-OneToOneSample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 56SNGDQLYY;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SampleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fuchs.tokbox.OneToOneSample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tokbox.OneToOneSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -461,7 +459,7 @@
 		70F017BE1E00458D008EF97D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = MGD69Q275W;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = OneToOneSampleUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tokbox.OneToOneSampleUITests;
@@ -473,7 +471,7 @@
 		70F017BF1E00458D008EF97D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = MGD69Q275W;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = OneToOneSampleUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tokbox.OneToOneSampleUITests;

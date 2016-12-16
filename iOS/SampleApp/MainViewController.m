@@ -43,9 +43,12 @@
     if (!self.oneToOneCommunicator.isCallEnabled) {
         [SVProgressHUD show];
 
+        MAKE_WEAK(self);
         [self.oneToOneCommunicator connectWithHandler:^(OTOneToOneCommunicationSignal signal, NSError *error) {
+            MAKE_STRONG(self);
+            strongself.oneToOneCommunicator.publisherView.showAudioVideoControl = NO;
             if (!error) {
-                [self handleCommunicationSignal:signal];
+                [strongself handleCommunicationSignal:signal];
             }
             else {
                 [SVProgressHUD showErrorWithStatus:error.localizedDescription];
@@ -61,12 +64,17 @@
 
 - (void)handleCommunicationSignal:(OTOneToOneCommunicationSignal)signal {
     
+    NSLog(@"signal = %d", signal);
     switch (signal) {
         case OTSubscriberReady: {
             [SVProgressHUD popActivity];
             [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
             [self.mainView enableControlButtonsForCall:YES];
             [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
+            if (self.oneToOneCommunicator.subscribeToVideo) {
+                [self.mainView removeSubscriberView];
+                [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
+            }
             break;
         }
         case OTSubscriberDestroyed:{
@@ -94,34 +102,28 @@
                 [self.mainView removeSubscriberView];
                 [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             }
-            else {
-                [self.mainView addPlaceHolderToSubscriberView];
-            }
             break;
         }
         case OTSubscriberVideoDisabledByBadQuality:
         case OTSubscriberVideoDisabledBySubscriber:
-        case OTSubscriberVideoDisabledByPublisher:{
-            [self.mainView removeSubscriberView];
-            [self.mainView addPlaceHolderToSubscriberView];
+        case OTSubscriberVideoDisabledByPublisher:
+        {
+            self.oneToOneCommunicator.subscribeToVideo = NO;
             break;
         }
         case OTSubscriberVideoEnabledByGoodQuality:
         case OTSubscriberVideoEnabledBySubscriber:
         case OTSubscriberVideoEnabledByPublisher:{
-            [self.mainView removeSubscriberView];
-            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
+            self.oneToOneCommunicator.subscribeToVideo = YES;
             break;
         }
         case OTSubscriberVideoDisableWarning:{
             self.oneToOneCommunicator.subscribeToVideo = NO;
-            [self.mainView addPlaceHolderToSubscriberView];
             [SVProgressHUD showErrorWithStatus:@"Network connection is unstable."];
             break;
         }
         case OTSubscriberVideoDisableWarningLifted:{
             self.oneToOneCommunicator.subscribeToVideo = YES;
-            [self.mainView removePlaceHolderImage];
             break;
         }
         default: break;
@@ -140,7 +142,6 @@
     }
     else {
         [self.mainView removePublisherView];
-        [self.mainView addPlaceHolderToPublisherView];
     }
     [self.mainView updatePublisherVideo:self.oneToOneCommunicator.publishVideo];
 }
@@ -156,7 +157,7 @@
 
 - (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
     self.oneToOneCommunicator.subscribeToVideo = !self.oneToOneCommunicator.subscribeToVideo;
-    [self.mainView updateSubsciberVideoButton:self.oneToOneCommunicator.subscribeToVideo];
+    [self.mainView updateSubscriberVideoButton:self.oneToOneCommunicator.subscribeToVideo];
 }
 
 - (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {

@@ -50,10 +50,8 @@
 - (OTAcceleratorSession *)acceleratorSession {
     if (!_acceleratorSession) {
         _acceleratorSession = [[OTAcceleratorSession alloc] initWithOpenTokApiKey:kApiKey
-                                                                                                      sessionId:kSessionId
-                                                                                                          token:kToken];
-        
-
+                                                                        sessionId:kSessionId
+                                                                            token:kToken];
     }
     return _acceleratorSession;
 }

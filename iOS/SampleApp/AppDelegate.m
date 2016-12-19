@@ -7,10 +7,6 @@
 #import "AppDelegate.h"
 #import <OTAcceleratorPackUtil/OTAcceleratorSession.h>
 
-#define kApiKey @"<# Replace #>"
-#define kSessionId @"<# Replace #>"
-#define kToken @"<# Replace #>"
-
 @interface AppDelegate ()
 @property (nonatomic, strong) OTAcceleratorSession* acceleratorSession;
 @end
@@ -18,10 +14,11 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  // Override point for customization after application launch.
-    __unused OTAcceleratorSession* acceleratorSession = self.acceleratorSession;
-    
-  return YES;
+    // Override point for customization after application launch.
+    self.acceleratorSession = [[OTAcceleratorSession alloc] initWithOpenTokApiKey:@"<# Replace #>"
+                                                                        sessionId:@"<# Replace #>"
+                                                                            token:@"<# Replace #>"];
+    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -47,12 +44,4 @@
   // Saves changes in the application's managed object context before the application terminates.
 }
 
-- (OTAcceleratorSession *)acceleratorSession {
-    if (!_acceleratorSession) {
-        _acceleratorSession = [[OTAcceleratorSession alloc] initWithOpenTokApiKey:kApiKey
-                                                                        sessionId:kSessionId
-                                                                            token:kToken];
-    }
-    return _acceleratorSession;
-}
 @end

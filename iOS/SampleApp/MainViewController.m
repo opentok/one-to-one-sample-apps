@@ -26,12 +26,8 @@
     
     self.mainView = (MainView *)self.view;
     
-    MAKE_WEAK(self);
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        MAKE_STRONG(self);
-        strongself.oneToOneCommunicator = [[OTOneToOneCommunicator alloc] init];
-        strongself.oneToOneCommunicator.dataSource = self;
-    });
+    self.oneToOneCommunicator = [[OTOneToOneCommunicator alloc] init];
+    self.oneToOneCommunicator.dataSource = self;
     
 #if !(TARGET_OS_SIMULATOR)
     [self.mainView showReverseCameraButton];
@@ -106,8 +102,7 @@
         }
         case OTSubscriberVideoDisabledByBadQuality:
         case OTSubscriberVideoDisabledBySubscriber:
-        case OTSubscriberVideoDisabledByPublisher:
-        {
+        case OTSubscriberVideoDisabledByPublisher:{
             self.oneToOneCommunicator.subscribeToVideo = NO;
             break;
         }

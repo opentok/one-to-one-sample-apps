@@ -101,13 +101,19 @@
             break;
         }
         case OTSubscriberVideoDisabledByBadQuality:
-        case OTSubscriberVideoDisabledBySubscriber:
+        case OTSubscriberVideoDisabledBySubscriber: {
+            NSLog(@"The remote has disabled the video");
+            break;
+        }
         case OTSubscriberVideoDisabledByPublisher:{
             self.oneToOneCommunicator.subscribeToVideo = NO;
             break;
         }
         case OTSubscriberVideoEnabledByGoodQuality:
-        case OTSubscriberVideoEnabledBySubscriber:
+        case OTSubscriberVideoEnabledBySubscriber:{
+            NSLog(@"The remote has enabled the video");
+            break;
+        }
         case OTSubscriberVideoEnabledByPublisher:{
             self.oneToOneCommunicator.subscribeToVideo = YES;
             break;

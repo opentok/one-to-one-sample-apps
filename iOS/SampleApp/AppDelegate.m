@@ -5,7 +5,7 @@
 //
 
 #import "AppDelegate.h"
-#import <OTAcceleratorPackUtil/OTAcceleratorSession.h>
+#import "OTAcceleratorSession.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong) OTAcceleratorSession* acceleratorSession;

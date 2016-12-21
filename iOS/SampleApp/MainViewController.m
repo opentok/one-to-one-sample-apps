@@ -7,10 +7,14 @@
 #import "MainView.h"
 #import "MainViewController.h"
 #import "OTOneToOneCommunicator.h"
+#import "AppDelegate.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 
-@interface MainViewController ()
+#define MAKE_WEAK(self) __weak typeof(self) weak##self = self
+#define MAKE_STRONG(self) __strong typeof(weak##self) strong##self = weak##self
+
+@interface MainViewController () <OTOneToOneCommunicatorDataSource>
 @property (nonatomic) MainView *mainView;
 @property (nonatomic) OTOneToOneCommunicator *oneToOneCommunicator;
 @end
@@ -21,7 +25,10 @@
     [super viewDidLoad];
     
     self.mainView = (MainView *)self.view;
-    self.oneToOneCommunicator = [OTOneToOneCommunicator sharedInstance];
+    
+    self.oneToOneCommunicator = [[OTOneToOneCommunicator alloc] init];
+    self.oneToOneCommunicator.dataSource = self;
+    
 #if !(TARGET_OS_SIMULATOR)
     [self.mainView showReverseCameraButton];
 #endif
@@ -29,12 +36,15 @@
 
 - (IBAction)publisherCallButtonPressed:(UIButton *)sender {
     
-    [SVProgressHUD show];
-    
     if (!self.oneToOneCommunicator.isCallEnabled) {
+        [SVProgressHUD show];
+
+        MAKE_WEAK(self);
         [self.oneToOneCommunicator connectWithHandler:^(OTOneToOneCommunicationSignal signal, NSError *error) {
+            MAKE_STRONG(self);
+            strongself.oneToOneCommunicator.publisherView.showAudioVideoControl = NO;
             if (!error) {
-                [self handleCommunicationSignal:signal];
+                [strongself handleCommunicationSignal:signal];
             }
             else {
                 [SVProgressHUD showErrorWithStatus:error.localizedDescription];
@@ -50,20 +60,20 @@
 
 - (void)handleCommunicationSignal:(OTOneToOneCommunicationSignal)signal {
     
-    
+    NSLog(@"signal = %d", signal);
     switch (signal) {
-        case OTSessionDidConnect: {
+        case OTSubscriberReady: {
             [SVProgressHUD popActivity];
             [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
             [self.mainView enableControlButtonsForCall:YES];
             [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
+            if (self.oneToOneCommunicator.subscribeToVideo) {
+                [self.mainView removeSubscriberView];
+                [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
+            }
             break;
         }
-        case OTSessionDidFail:{
-            [SVProgressHUD showErrorWithStatus:@"Problem when connecting."];
-            break;
-        }
-        case OTSessionStreamDestroyed:{
+        case OTSubscriberDestroyed:{
             [self.mainView removeSubscriberView];
             break;
         }
@@ -75,53 +85,46 @@
             [SVProgressHUD popActivity];
             break;
         }
-        case OTPublisherStreamCreated: {
+        case OTPublisherCreated: {
             NSLog(@"Your publishing feed is streaming in OpenTok");
             break;
         }
-        case OTPublisherStreamDestroyed: {
+        case OTPublisherDestroyed: {
             NSLog(@"Your publishing feed stops streaming in OpenTok");
             break;
         }
-        case OTPublisherDidFail:{
-            [SVProgressHUD showErrorWithStatus:@"Problem when publishing."];
-            break;
-        }
-        case OTSubscriberDidConnect:{
+        case OTSubscriberCreated:{
             if (self.oneToOneCommunicator.subscribeToVideo) {
+                [self.mainView removeSubscriberView];
                 [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             }
-            else {
-                [self.mainView addPlaceHolderToSubscriberView];
-            }
-            break;
-        }
-        case OTSubscriberDidFail:{
-            [SVProgressHUD showErrorWithStatus:@"Problem when subscribing."];
             break;
         }
         case OTSubscriberVideoDisabledByBadQuality:
-        case OTSubscriberVideoDisabledBySubscriber:
+        case OTSubscriberVideoDisabledBySubscriber: {
+            NSLog(@"The remote has disabled the video");
+            break;
+        }
         case OTSubscriberVideoDisabledByPublisher:{
-            [self.mainView removeSubscriberView];
-            [self.mainView addPlaceHolderToSubscriberView];
+            self.oneToOneCommunicator.subscribeToVideo = NO;
             break;
         }
         case OTSubscriberVideoEnabledByGoodQuality:
-        case OTSubscriberVideoEnabledBySubscriber:
+        case OTSubscriberVideoEnabledBySubscriber:{
+            NSLog(@"The remote has enabled the video");
+            break;
+        }
         case OTSubscriberVideoEnabledByPublisher:{
-            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
+            self.oneToOneCommunicator.subscribeToVideo = YES;
             break;
         }
         case OTSubscriberVideoDisableWarning:{
             self.oneToOneCommunicator.subscribeToVideo = NO;
-            [self.mainView addPlaceHolderToSubscriberView];
             [SVProgressHUD showErrorWithStatus:@"Network connection is unstable."];
             break;
         }
         case OTSubscriberVideoDisableWarningLifted:{
             self.oneToOneCommunicator.subscribeToVideo = YES;
-            [self.mainView removePlaceHolderImage];
             break;
         }
         default: break;
@@ -140,7 +143,6 @@
     }
     else {
         [self.mainView removePublisherView];
-        [self.mainView addPlaceHolderToPublisherView];
     }
     [self.mainView updatePublisherVideo:self.oneToOneCommunicator.publishVideo];
 }
@@ -156,7 +158,7 @@
 
 - (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {
     self.oneToOneCommunicator.subscribeToVideo = !self.oneToOneCommunicator.subscribeToVideo;
-    [self.mainView updateSubsciberVideoButton:self.oneToOneCommunicator.subscribeToVideo];
+    [self.mainView updateSubscriberVideoButton:self.oneToOneCommunicator.subscribeToVideo];
 }
 
 - (IBAction)subscriberAudioButtonPressed:(UIButton *)sender {
@@ -173,4 +175,9 @@
                         afterDelay:7.0];
 }
 
+
+- (OTAcceleratorSession *)sessionOfOTOneToOneCommunicator:(OTOneToOneCommunicator *)oneToOneCommunicator {
+    AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    return appDelegate.acceleratorSession;
+}
 @end

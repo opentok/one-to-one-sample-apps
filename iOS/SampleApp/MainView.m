@@ -21,31 +21,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *subscriberVideoButton;
 @property (weak, nonatomic) IBOutlet UIButton *subscriberAudioButton;
 
-@property (nonatomic) UIImageView *subscriberPlaceHolderImageView;
-@property (nonatomic) UIImageView *publisherPlaceHolderImageView;
 @end
 
 @implementation MainView
-
-- (UIImageView *)publisherPlaceHolderImageView {
-    if (!_publisherPlaceHolderImageView) {
-        _publisherPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar"]];
-        _publisherPlaceHolderImageView.backgroundColor = [UIColor clearColor];
-        _publisherPlaceHolderImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _publisherPlaceHolderImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    return _publisherPlaceHolderImageView;
-}
-
-- (UIImageView *)subscriberPlaceHolderImageView {
-    if (!_subscriberPlaceHolderImageView) {
-        _subscriberPlaceHolderImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar"]];
-        _subscriberPlaceHolderImageView.backgroundColor = [UIColor clearColor];
-        _subscriberPlaceHolderImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _subscriberPlaceHolderImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    return _subscriberPlaceHolderImageView;
-}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -86,11 +64,6 @@
     [self.publisherView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
 
-- (void)addPlaceHolderToPublisherView {
-    [self.publisherView addSubview:self.publisherPlaceHolderImageView];
-    [self.publisherPlaceHolderImageView addAttachedLayoutConstantsToSuperview];
-}
-
 - (void)connectCallHolder:(BOOL)connected {
     if (connected) {
         [self.callButton setImage:[UIImage imageNamed:@"hangUp"] forState:UIControlStateNormal];
@@ -120,20 +93,14 @@
 }
 
 #pragma mark - subscriber view
-- (void)addSubscribeView:(UIView *)subsciberView {
-    [self.subscriberView addSubview:subsciberView];
-    subsciberView.translatesAutoresizingMaskIntoConstraints = NO;
-    [subsciberView addAttachedLayoutConstantsToSuperview];
+- (void)addSubscribeView:(UIView *)subscriberView {
+    [self.subscriberView addSubview:subscriberView];
+    subscriberView.translatesAutoresizingMaskIntoConstraints = NO;
+    [subscriberView addAttachedLayoutConstantsToSuperview];
 }
 
 - (void)removeSubscriberView {
     [self.subscriberView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-}
-
-- (void)addPlaceHolderToSubscriberView {
-    self.subscriberPlaceHolderImageView.frame = self.subscriberView.bounds;
-    [self.subscriberView addSubview:self.subscriberPlaceHolderImageView];
-    [self.subscriberPlaceHolderImageView addAttachedLayoutConstantsToSuperview];
 }
 
 - (void)updateSubscriberAudioButton:(BOOL)connected {
@@ -145,7 +112,7 @@
     }
 }
 
-- (void)updateSubsciberVideoButton:(BOOL)connected {
+- (void)updateSubscriberVideoButton:(BOOL)connected {
     if (connected) {
         [self.subscriberVideoButton setImage:[UIImage imageNamed:@"video"] forState: UIControlStateNormal];
     }
@@ -160,11 +127,6 @@
 }
 
 #pragma mark - other controls
-- (void)removePlaceHolderImage {
-    [self.publisherPlaceHolderImageView removeFromSuperview];
-    [self.subscriberPlaceHolderImageView removeFromSuperview];
-}
-
 - (void)enableControlButtonsForCall:(BOOL)enabled {
     [self.subscriberAudioButton setEnabled:enabled];
     [self.subscriberVideoButton setEnabled:enabled];
@@ -178,12 +140,11 @@
 
 - (void)resetAllControl {
     [self removePublisherView];
-    [self removePlaceHolderImage];
     [self connectCallHolder:NO];
     [self updatePublisherAudio:YES];
     [self updatePublisherVideo:YES];
     [self updateSubscriberAudioButton:YES];
-    [self updateSubsciberVideoButton:YES];
+    [self updateSubscriberVideoButton:YES];
     [self enableControlButtonsForCall:NO];
 }
 

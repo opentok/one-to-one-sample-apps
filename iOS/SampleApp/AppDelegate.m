@@ -5,21 +5,20 @@
 //
 
 #import "AppDelegate.h"
-#import <OTAcceleratorPackUtil/OTAcceleratorPackUtil.h>
+#import "OTAcceleratorSession.h"
 
 @interface AppDelegate ()
-
+@property (nonatomic, strong) OTAcceleratorSession* acceleratorSession;
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  // Override point for customization after application launch.
-    
-    [OTAcceleratorSession setOpenTokApiKey:@"<# Replace #>"
-                                 sessionId:@"<# Replace #>"
-                                     token:@"<# Replace #>"];
-  return YES;
+    // Override point for customization after application launch.
+    self.acceleratorSession = [[OTAcceleratorSession alloc] initWithOpenTokApiKey:@"<# Replace #>"
+                                                                        sessionId:@"<# Replace #>"
+                                                                            token:@"<# Replace #>"];
+    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -40,7 +40,7 @@
         [SVProgressHUD show];
 
         MAKE_WEAK(self);
-        [self.oneToOneCommunicator connectWithHandler:^(OTOneToOneCommunicationSignal signal, NSError *error) {
+        [self.oneToOneCommunicator connectWithHandler:^(OTCommunicationSignal signal, NSError *error) {
             MAKE_STRONG(self);
             strongself.oneToOneCommunicator.publisherView.showAudioVideoControl = NO;
             if (!error) {
@@ -58,9 +58,8 @@
     }
 }
 
-- (void)handleCommunicationSignal:(OTOneToOneCommunicationSignal)signal {
+- (void)handleCommunicationSignal:(OTCommunicationSignal)signal {
     
-    NSLog(@"signal = %d", signal);
     switch (signal) {
         case OTSubscriberReady: {
             [SVProgressHUD popActivity];

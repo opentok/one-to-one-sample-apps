@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		70F017B61E00458D008EF97D /* OneToOneSampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F017B51E00458D008EF97D /* OneToOneSampleUITests.m */; };
 		70F017EE1E004A7A008EF97D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F017E01E004A7A008EF97D /* AppDelegate.m */; };
 		70F017EF1E004A7A008EF97D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70F017E11E004A7A008EF97D /* Assets.xcassets */; };
 		70F017F01E004A7A008EF97D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70F017E21E004A7A008EF97D /* LaunchScreen.storyboard */; };
@@ -16,24 +15,10 @@
 		70F017F41E004A7A008EF97D /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F017E91E004A7A008EF97D /* MainView.m */; };
 		70F017F51E004A7A008EF97D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F017EB1E004A7A008EF97D /* MainViewController.m */; };
 		70F017F61E004A7A008EF97D /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F017ED1E004A7A008EF97D /* UIView+Helper.m */; };
-		AD75DC9BD5B293C1F748B81D /* libPods-OneToOneSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0133907B2DB439357368BF /* libPods-OneToOneSample.a */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		70F017B21E00458D008EF97D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 70F017901E00458D008EF97D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 70F017971E00458D008EF97D;
-			remoteInfo = OneToOneSample;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		40397C53A9E153F6AF9AEC83 /* Pods-OneToOneSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneToOneSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneToOneSample/Pods-OneToOneSample.debug.xcconfig"; sourceTree = "<group>"; };
 		70F017981E00458D008EF97D /* OneToOneSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneToOneSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		70F017B11E00458D008EF97D /* OneToOneSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneToOneSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		70F017B51E00458D008EF97D /* OneToOneSampleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneToOneSampleUITests.m; sourceTree = "<group>"; };
 		70F017DF1E004A7A008EF97D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		70F017E01E004A7A008EF97D /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		70F017E11E004A7A008EF97D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -47,20 +32,10 @@
 		70F017EB1E004A7A008EF97D /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		70F017EC1E004A7A008EF97D /* UIView+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Helper.h"; sourceTree = "<group>"; };
 		70F017ED1E004A7A008EF97D /* UIView+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Helper.m"; sourceTree = "<group>"; };
-		8D0133907B2DB439357368BF /* libPods-OneToOneSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OneToOneSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C018346E654336B2D36853E2 /* Pods-OneToOneSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneToOneSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneToOneSample/Pods-OneToOneSample.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		70F017951E00458D008EF97D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AD75DC9BD5B293C1F748B81D /* libPods-OneToOneSample.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		70F017AE1E00458D008EF97D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -74,10 +49,7 @@
 			isa = PBXGroup;
 			children = (
 				70F017DE1E004A7A008EF97D /* SampleApp */,
-				70F017B41E00458D008EF97D /* OneToOneSampleUITests */,
 				70F017991E00458D008EF97D /* Products */,
-				779EF9379124F06A1AF85ED8 /* Pods */,
-				96D464EAA7C869B9A7B66259 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,17 +57,8 @@
 			isa = PBXGroup;
 			children = (
 				70F017981E00458D008EF97D /* OneToOneSample.app */,
-				70F017B11E00458D008EF97D /* OneToOneSampleUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		70F017B41E00458D008EF97D /* OneToOneSampleUITests */ = {
-			isa = PBXGroup;
-			children = (
-				70F017B51E00458D008EF97D /* OneToOneSampleUITests.m */,
-			);
-			path = OneToOneSampleUITests;
 			sourceTree = "<group>";
 		};
 		70F017DE1E004A7A008EF97D /* SampleApp */ = {
@@ -126,23 +89,6 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		779EF9379124F06A1AF85ED8 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				40397C53A9E153F6AF9AEC83 /* Pods-OneToOneSample.debug.xcconfig */,
-				C018346E654336B2D36853E2 /* Pods-OneToOneSample.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		96D464EAA7C869B9A7B66259 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				8D0133907B2DB439357368BF /* libPods-OneToOneSample.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -150,12 +96,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70F017BA1E00458D008EF97D /* Build configuration list for PBXNativeTarget "OneToOneSample" */;
 			buildPhases = (
-				1A4E5254D5742A2BD79714FB /* [CP] Check Pods Manifest.lock */,
 				70F017941E00458D008EF97D /* Sources */,
 				70F017951E00458D008EF97D /* Frameworks */,
 				70F017961E00458D008EF97D /* Resources */,
-				30E84A21F9E8BF14D3CCC45F /* [CP] Embed Pods Frameworks */,
-				97534CE9CDA744B312009F96 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -165,24 +108,6 @@
 			productName = OneToOneSample;
 			productReference = 70F017981E00458D008EF97D /* OneToOneSample.app */;
 			productType = "com.apple.product-type.application";
-		};
-		70F017B01E00458D008EF97D /* OneToOneSampleUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 70F017BD1E00458D008EF97D /* Build configuration list for PBXNativeTarget "OneToOneSampleUITests" */;
-			buildPhases = (
-				70F017AD1E00458D008EF97D /* Sources */,
-				70F017AE1E00458D008EF97D /* Frameworks */,
-				70F017AF1E00458D008EF97D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				70F017B31E00458D008EF97D /* PBXTargetDependency */,
-			);
-			name = OneToOneSampleUITests;
-			productName = OneToOneSampleUITests;
-			productReference = 70F017B11E00458D008EF97D /* OneToOneSampleUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -196,11 +121,6 @@
 					70F017971E00458D008EF97D = {
 						CreatedOnToolsVersion = 8.1;
 						ProvisioningStyle = Automatic;
-					};
-					70F017B01E00458D008EF97D = {
-						CreatedOnToolsVersion = 8.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 70F017971E00458D008EF97D;
 					};
 				};
 			};
@@ -218,7 +138,6 @@
 			projectRoot = "";
 			targets = (
 				70F017971E00458D008EF97D /* OneToOneSample */,
-				70F017B01E00458D008EF97D /* OneToOneSampleUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -234,62 +153,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		70F017AF1E00458D008EF97D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		1A4E5254D5742A2BD79714FB /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		30E84A21F9E8BF14D3CCC45F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OneToOneSample/Pods-OneToOneSample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		97534CE9CDA744B312009F96 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OneToOneSample/Pods-OneToOneSample-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		70F017941E00458D008EF97D /* Sources */ = {
@@ -304,23 +168,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		70F017AD1E00458D008EF97D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				70F017B61E00458D008EF97D /* OneToOneSampleUITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		70F017B31E00458D008EF97D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 70F017971E00458D008EF97D /* OneToOneSample */;
-			targetProxy = 70F017B21E00458D008EF97D /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		70F017E21E004A7A008EF97D /* LaunchScreen.storyboard */ = {
@@ -432,7 +280,6 @@
 		};
 		70F017BB1E00458D008EF97D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 40397C53A9E153F6AF9AEC83 /* Pods-OneToOneSample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
@@ -445,7 +292,6 @@
 		};
 		70F017BC1E00458D008EF97D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C018346E654336B2D36853E2 /* Pods-OneToOneSample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
@@ -453,30 +299,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tokbox.OneToOneSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		70F017BE1E00458D008EF97D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = OneToOneSampleUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tokbox.OneToOneSampleUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = OneToOneSample;
-			};
-			name = Debug;
-		};
-		70F017BF1E00458D008EF97D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = OneToOneSampleUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tokbox.OneToOneSampleUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = OneToOneSample;
 			};
 			name = Release;
 		};
@@ -497,15 +319,6 @@
 			buildConfigurations = (
 				70F017BB1E00458D008EF97D /* Debug */,
 				70F017BC1E00458D008EF97D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		70F017BD1E00458D008EF97D /* Build configuration list for PBXNativeTarget "OneToOneSampleUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				70F017BE1E00458D008EF97D /* Debug */,
-				70F017BF1E00458D008EF97D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

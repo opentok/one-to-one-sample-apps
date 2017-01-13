@@ -4,7 +4,7 @@
 
 ### New Features and Enhancements
 
-  - Update OpenTok versions
+  - Update OpenTok SDK versions
   - (_JS only_) Check videoTypes
   - (iOS only_) Add subscriber video disabled/enabled cases
 

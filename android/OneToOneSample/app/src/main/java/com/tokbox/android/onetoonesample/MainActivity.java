@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
 
         mAnalyticsData = new OTKAnalyticsData.Builder(OpenTokConfig.LOG_CLIENT_VERSION, source, OpenTokConfig.LOG_COMPONENTID, guidVSol).build();
         mAnalytics = new OTKAnalytics(mAnalyticsData);
+        mAnalytics.enableConsoleLog(false);
 
         //add INITIALIZE attempt log event
         addLogEvent(OpenTokConfig.LOG_ACTION_INITIALIZE, OpenTokConfig.LOG_VARIATION_ATTEMPT);
@@ -94,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
         mAudioOnlyView = (RelativeLayout) findViewById(R.id.audioOnlyView);
         mLocalAudioOnlyView = (RelativeLayout) findViewById(R.id.localAudioOnlyView);
 
-        //request Marshmallow camera permission
         //request Marshmallow camera permission
         if (ContextCompat.checkSelfPermission(this,permissions[1]) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this,permissions[0]) != PackageManager.PERMISSION_GRANTED){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
                     mAudioOnlyImage = new ImageView(this);
                     mAudioOnlyImage.setImageResource(R.drawable.avatar);
                     mAudioOnlyImage.setBackgroundResource(R.drawable.bckg_audio_only);
-                    mPreviewViewContainer.addView(mAudioOnlyImage);
+                    mPreviewViewContainer.addView(mAudioOnlyImage, layoutParamsPreview);
                 } else {
                     mPreviewViewContainer.removeView(mAudioOnlyImage);
                 }
@@ -300,7 +300,9 @@ public class MainActivity extends AppCompatActivity implements OneToOneCommunica
     @Override
     public void onInitialized() {
         Log.i(LOGTAG, "OneToOne communication has been initialized.");
-
+        //update logging for internal use
+        mAnalyticsData.setConnectionId(mComm.getSession().getConnection().getConnectionId());
+        mAnalytics.setData(mAnalyticsData);
         addLogEvent(OpenTokConfig.LOG_ACTION_START_COMM, OpenTokConfig.LOG_VARIATION_SUCCESS);
     }
 

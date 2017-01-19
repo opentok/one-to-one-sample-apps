@@ -60,7 +60,7 @@
 
   // vars for the analytics logs. Internal use
   var _logEventData = {
-    clientVersion: 'js-vsol-1.0.0',
+    clientVersion: 'js-vsol-1.3.0',
     componentId: 'oneToOneSample',
     name: 'guidOneToOneSample',
     actionInitialize: 'Init',
@@ -108,15 +108,52 @@
 
   /** Private Methods */
 
+  /**
+   * Get the container element for the publisher/subscriber stream
+   * @param {String} type - 'publisher' or 'subcriber'
+   * @param {Object} stream - An OpenTok stream object
+   * @returns {Object} - The container DOM element
+   *
+   */
+  var _getStreamContainer = function (type, stream) {
+
+    var userDefined = _this.options[[type, 'Container'].join('')];
+
+    var getUserDefinedContainer = function () {
+      if (typeof userDefined === 'function') {
+        var container = userDefined(stream);
+        return typeof container === 'string' ? document.querySelector(container) : container;
+      } else if (typeof userDefined === 'string') {
+        return document.querySelector(userDefined);
+      }
+      return userDefined;
+    };
+
+    if (!userDefined) {
+      if (type === 'publisher') {
+        return document.getElementById('videoHolderSmall');
+      } else if (type === 'subscriber') {
+        return stream.videoType === 'screen' ? 'videoHolderSharedScreen' : 'videoHolderBig';
+      }
+    }
+
+    return getUserDefinedContainer();
+  };
+
   var _initPublisherCamera = function () {
 
-    var props = _this.options.localCallProperties;
+    var props;
+    if (typeof _this.options.localCallProperties === 'function') {
+      props = _this.options.localCallProperties('publisher');
+    } else {
+      props = _this.options.localCallProperties;
+    }
 
     if (_this.options.user) {
       props.name = _this.options.user.name;
     }
 
-    _this.publisher = OT.initPublisher('videoHolderSmall', props, function (error) {
+    _this.publisher = OT.initPublisher(_getStreamContainer('publisher'), props, function (error) {
       if (error) {
         console.log('Error starting a call', error);
       }
@@ -128,7 +165,7 @@
 
     _initPublisherCamera();
 
-    return _session.publish(_this.publisher, function (error) {
+    var publisher = _session.publish(_this.publisher, function (error) {
       if (error) {
         console.log(['Error starting a call', error.code, '-', error.message].join(''));
         var message;
@@ -139,8 +176,12 @@
         }
         console.log(error, message);
         _log(_logEventData.actionStartComm, _logEventData.variationError);
+      } else {
+        _triggerEvent('startCall', publisher)
       }
     });
+
+    return publisher;
   };
 
   var _unpublish = function () {
@@ -153,13 +194,14 @@
   var _unsubscribeStreams = function () {
     Object.keys(_this.streams).forEach(function (streamId) {
       var subscribers = _session.getSubscribersForStream(_this.streams[streamId]);
-      subscribers.forEach(function(subscriber){
+      subscribers.forEach(function (subscriber) {
         _session.unsubscribe(subscriber);
       });
     });
     _this.subscriber = null;
     _this.streams = {};
   };
+
 
   var _subscribeToStream = function (stream) {
 
@@ -171,35 +213,38 @@
 
     var options;
     if (stream.videoType === 'screen') {
-      options = _this.options.localScreenProperties;
+      if (typeof _this.options.localScreenProperties === 'function') {
+        options = _this.options.localScreenProperties('subscriber');
+      } else {
+        options = _this.options.localScreenProperties;
+      }
     } else {
-      options = _this.options.localCallProperties;
+      if (typeof _this.options.localCallProperties === 'function') {
+        options = _this.options.localCallProperties('subscriber');
+      } else {
+        options = _this.options.localCallProperties;
+      }
     }
 
-    var videoContainer;
-    if (stream.videoType === 'screen') {
-      videoContainer = 'videoHolderSharedScreen';
-    } else {
-      videoContainer = 'videoHolderBig';
-    }
+
+    var container = _getStreamContainer('subscriber', stream);
 
     var subscriber = _session.subscribe(stream,
-      videoContainer,
+      container,
       options,
       function (error) {
         if (error) {
           var connectionError = error.code === 1010 ? 'Check your network connection.' : '';
           console.log(error, connectionError);
         } else {
-          if (stream.videoType === 'camera') {
+          if (stream.videoType === 'camera' || stream.videoType === undefined) {
             _triggerEvent('subscribeToCamera', subscriber);
+            _this.subscriber = subscriber;
           } else if (stream.videoType === 'screen') {
             _triggerEvent('startViewingSharedScreen', subscriber);
           }
         }
       });
-
-    _this.subscriber = subscriber;
   };
 
 
@@ -221,10 +266,9 @@
   };
 
   var _handleStreamDestroyed = function (event) {
-    console.log('Participant left the call');
     var streamDestroyedType = event.stream.videoType;
 
-    if (streamDestroyedType === 'camera') {
+    if (streamDestroyedType === 'camera' || streamDestroyedType === undefined) {
       _this.subscriber = null;
       _this._remoteParticipant = null;
 
@@ -288,12 +332,16 @@
   /**
    * @constructor
    * Represents a one-to-one AV communication layer
-   * @param {object} options
-   * @param {object} options.session
-   * @param {string} options.sessionId
-   * @param {string} options.apiKey
-   * @param {array} options.streams
-   * @param {boolean} options.annotation
+   * @param {Object} options
+   * @param {Object} options.session
+   * @param {String} options.sessionId
+   * @param {String} options.apiKey
+   * @param {Array} options.streams
+   * @param {Boolean} options.annotation
+   * @param {String | Function} [options.localCallProperties]
+   * @param {String | Function} [options.localScreenProperties]
+   * @param {String | Function} [options.publisherContainer]
+   * @param {String | Function} [options.subscriberContainer]
    */
   var CommunicationAccPack = function (options) {
 
@@ -357,8 +405,6 @@
       _session.streams.forEach(function (stream) {
         _subscribeToStream(stream);
       });
-
-      _triggerEvent('startCall', _this.publisher);
 
       _log(_logEventData.actionStartComm, _logEventData.variationSuccess);
     },

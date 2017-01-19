@@ -1,6 +1,6 @@
 ![logo](../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for iOS<br/>Version 1.2
+# OpenTok One-to-One Communication Sample App for iOS<br/>Version 1.3
 
 ## Quick start
 

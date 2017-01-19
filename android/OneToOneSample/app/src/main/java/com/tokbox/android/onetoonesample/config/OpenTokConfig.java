@@ -16,7 +16,7 @@ public class OpenTokConfig {
     public static final boolean SUBSCRIBE_TO_SELF = false;
 
     // For internal use only. Please do not modify or remove this code.
-    public static final String LOG_CLIENT_VERSION = "android-vsol-1.1.0";
+    public static final String LOG_CLIENT_VERSION = "android-vsol-1.3.0";
     public static final String LOG_COMPONENTID = "oneToOneSample";
     public static final String LOG_ACTION_INITIALIZE = "Init";
     public static final String LOG_ACTION_START_COMM = "Start";

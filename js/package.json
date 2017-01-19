@@ -1,6 +1,6 @@
 {
   "name": "one-to-one-sample",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "One to One sample app",
   "main": "server.js",
   "repository": {
@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.4",
-    "opentok-solutions-logging": "^1.0.1"
+    "opentok-solutions-logging": "^1.0.7"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^9.0.1",

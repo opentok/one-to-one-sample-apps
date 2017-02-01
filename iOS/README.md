@@ -20,8 +20,6 @@ Configure the sample app code. Then, build and run the app.
 
 1. Get values for **API Key**, **Session ID**, and **Token**. See [OpenTok One-to-One Communication Sample App home page](../README.md) for important information.
 
-1. In XCode, open **AppDelegate.h** and add [OTAcceleratorPackUtil](https://cocoapods.org/pods/OTAcceleratorPackUtil) by `#import <OTAcceleratorPackUtil/OTAcceleratorPackUtil.h>`
-
 1. Replace the following empty strings with the corresponding **API Key**, **Session ID**, and **Token** values:
 
     ```objc

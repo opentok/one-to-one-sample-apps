@@ -37,5 +37,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.+'
     compile 'com.android.support:design:25.+'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    compile 'com.opentok.android:opentok-accelerator-core:1.0.0'
+    compile 'com.opentok.android:opentok-accelerator-core:2.0.0'
 }

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6405A5B21C696BE600441745"
+               BlueprintIdentifier = "70F017971E00458D008EF97D"
                BuildableName = "OneToOneSample.app"
                BlueprintName = "OneToOneSample"
                ReferencedContainer = "container:OneToOneSample.xcodeproj">
@@ -38,11 +38,21 @@
                ReferencedContainer = "container:OneToOneSample.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "70F017B01E00458D008EF97D"
+               BuildableName = "OneToOneSampleUITests.xctest"
+               BlueprintName = "OneToOneSampleUITests"
+               ReferencedContainer = "container:OneToOneSample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6405A5B21C696BE600441745"
+            BlueprintIdentifier = "70F017971E00458D008EF97D"
             BuildableName = "OneToOneSample.app"
             BlueprintName = "OneToOneSample"
             ReferencedContainer = "container:OneToOneSample.xcodeproj">
@@ -65,7 +75,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6405A5B21C696BE600441745"
+            BlueprintIdentifier = "70F017971E00458D008EF97D"
             BuildableName = "OneToOneSample.app"
             BlueprintName = "OneToOneSample"
             ReferencedContainer = "container:OneToOneSample.xcodeproj">
@@ -84,7 +94,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6405A5B21C696BE600441745"
+            BlueprintIdentifier = "70F017971E00458D008EF97D"
             BuildableName = "OneToOneSample.app"
             BlueprintName = "OneToOneSample"
             ReferencedContainer = "container:OneToOneSample.xcodeproj">

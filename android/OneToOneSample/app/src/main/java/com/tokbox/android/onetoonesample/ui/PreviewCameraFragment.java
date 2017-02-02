@@ -17,18 +17,15 @@ import com.tokbox.android.onetoonesample.MainActivity;
 import com.tokbox.android.onetoonesample.R;
 
 public class PreviewCameraFragment extends Fragment {
-
     private static final String LOGTAG = PreviewCameraFragment.class.getSimpleName();
-    private MainActivity mActivity;
 
-    private RelativeLayout mContainer;
     private View mRootView;
     private ImageButton mCameraBtn;
 
     private PreviewCameraCallbacks mCameraCallbacks = cameraCallbacks;
 
     public interface PreviewCameraCallbacks {
-        public void onCameraSwap();
+        void onCameraSwap();
     }
 
     private static PreviewCameraCallbacks cameraCallbacks = new PreviewCameraCallbacks() {
@@ -48,8 +45,6 @@ public class PreviewCameraFragment extends Fragment {
         Log.i(LOGTAG, "OnAttach PreviewCameraFragment");
 
         super.onAttach(context);
-
-        this.mActivity = (MainActivity) context;
         this.mCameraCallbacks = (PreviewCameraCallbacks) context;
     }
 
@@ -59,11 +54,8 @@ public class PreviewCameraFragment extends Fragment {
         super.onAttach(activity);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-
-            this.mActivity = (MainActivity) activity;
             this.mCameraCallbacks = (PreviewCameraCallbacks) activity;
         }
-
     }
 
     @Override
@@ -81,10 +73,7 @@ public class PreviewCameraFragment extends Fragment {
         Log.i(LOGTAG, "onCreate PreviewCameraFragment");
 
         mRootView = inflater.inflate(R.layout.preview_camera_fragment, container, false);
-
-        mContainer = (RelativeLayout) this.mActivity.findViewById(R.id.camera_preview_fragment_container);
         mCameraBtn = (ImageButton) mRootView.findViewById(R.id.camera);
-
         mCameraBtn.setOnClickListener(mBtnClickListener);
 
         return mRootView;

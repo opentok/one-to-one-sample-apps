@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
     private RelativeLayout mAudioOnlyView;
     private RelativeLayout mLocalAudioOnlyView;
     private RelativeLayout.LayoutParams layoutParamsPreview;
-    private FrameLayout mTextChatContainer;
     private RelativeLayout mCameraFragmentContainer;
     private RelativeLayout mActionBarContainer;
 
@@ -90,16 +89,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
 
         super.onCreate(savedInstanceState);
 
-        //Init the analytics logging for internal use
-        String source = this.getPackageName();
-
-        SharedPreferences prefs = this.getSharedPreferences("opentok", Context.MODE_PRIVATE);
-        String guidVSol = prefs.getString("guidVSol", null);
-        if (null == guidVSol) {
-            guidVSol = UUID.randomUUID().toString();
-            prefs.edit().putString("guidVSol", guidVSol).commit();
-        }
-
         setContentView(R.layout.activity_main);
 
         mPreviewViewContainer = (RelativeLayout) findViewById(R.id.publisherview);
@@ -120,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
             mAudioPermission = true;
         }
 
-        //init the sdk-wrapper
+        //init the wrapper
         OTConfig config =
                 new OTConfig.OTConfigBuilder(OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN,
                         OpenTokConfig.API_KEY).name("one-to-one-sample-app").subscribeAutomatically(true).subscribeToSelf(false).build();
@@ -152,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
             Toast.makeText(MainActivity.this, "Credentials are invalid", Toast.LENGTH_LONG).show();
             this.finish();
         }
-
     }
 
     @Override
@@ -160,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
         super.onConfigurationChanged(newConfig);
         reloadViews();
     }
-
 
     @Override
     protected void onPause() {
@@ -195,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
             case 200:
                 mVideoPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 mAudioPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-
 
                 if (!mVideoPermission || !mAudioPermission) {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -259,7 +245,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
                 .add(R.id.actionbar_remote_fragment_container, mRemoteFragment).commit();
     }
 
-
     private void initCameraFragment() {
         mCameraFragment = new PreviewCameraFragment();
         getSupportFragmentManager().beginTransaction()
@@ -279,25 +264,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
             mCameraFragmentContainer.setVisibility(View.GONE);
         }
     }
-
-    private void restartTextChatLayout(boolean restart) {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mTextChatContainer.getLayoutParams();
-
-        if (restart) {
-            //restart to the original size
-            params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-            params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-            params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-        } else {
-            //go to the minimized size
-            params.height = dpToPx(40);
-            params.addRule(RelativeLayout.ABOVE, R.id.actionbar_preview_fragment_container);
-            params.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-        }
-        mTextChatContainer.setLayoutParams(params);
-    }
-
 
     //Converts dp to real pixels, according to the screen density.
     private int dpToPx(int dp) {
@@ -652,5 +618,4 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
             }
         }
     }
-
 }

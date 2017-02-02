@@ -18,7 +18,6 @@ import com.tokbox.android.onetoonesample.R;
 import com.tokbox.android.otsdkwrapper.utils.MediaType;
 
 public class RemoteControlFragment extends Fragment {
-
     private static final String LOGTAG = RemoteControlFragment.class.getSimpleName();
     private static final int ANIMATION_DURATION = 7000;
 
@@ -34,9 +33,9 @@ public class RemoteControlFragment extends Fragment {
     private String mRemoteId;
 
     public interface RemoteControlCallbacks {
-        public void onDisableRemoteAudio(boolean audio);
+        void onDisableRemoteAudio(boolean audio);
 
-        public void onDisableRemoteVideo(boolean video);
+        void onDisableRemoteVideo(boolean video);
     }
 
     private static RemoteControlCallbacks remoteCallbacks = new RemoteControlCallbacks() {
@@ -84,15 +83,12 @@ public class RemoteControlFragment extends Fragment {
         if ( mRemoteId == null ) {
             mRemoteId = getArguments().getString("remoteId");
         }
-
     }
 
     @Override
     public void onDetach() {
         Log.i(LOGTAG, "OnDetach RemoteControlFragment");
-
         super.onDetach();
-
         mControlCallbacks = remoteCallbacks;
     }
 
@@ -109,15 +105,6 @@ public class RemoteControlFragment extends Fragment {
 
         mAudioBtn.setOnClickListener(mBtnClickListener);
         mVideoBtn.setOnClickListener(mBtnClickListener);
-
-       /* todo mAudioBtn.setImageResource(mActivity.getComm().getRemoteAudio()
-                ? R.drawable.audio
-                : R.drawable.no_audio);
-
-        mVideoBtn.setImageResource(mActivity.getComm().getRemoteVideo()
-                ? R.drawable.video_icon
-                : R.drawable.no_video_icon);*/
-
         return mRootView;
     }
 

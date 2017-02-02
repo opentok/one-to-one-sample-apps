@@ -20,31 +20,28 @@ import com.tokbox.android.otsdkwrapper.utils.MediaType;
 
 
 public class PreviewControlFragment extends Fragment {
-
     private static final String LOGTAG = MainActivity.class.getName();
 
     private MainActivity mActivity;
 
-    private RelativeLayout mContainer;
-    View rootView;
-
+    private View rootView;
     private ImageButton mAudioBtn;
     private ImageButton mVideoBtn;
     private ImageButton mCallBtn;
-    VectorDrawableCompat drawableStartCall;
-    VectorDrawableCompat drawableEndCall;
-    VectorDrawableCompat drawableBckBtn;
+
+    private VectorDrawableCompat drawableStartCall;
+    private VectorDrawableCompat drawableEndCall;
+    private VectorDrawableCompat drawableBckBtn;
 
     private PreviewControlCallbacks mControlCallbacks = previewCallbacks;
 
     public interface PreviewControlCallbacks {
 
-        public void onDisableLocalAudio(boolean audio);
+        void onDisableLocalAudio(boolean audio);
 
-        public void onDisableLocalVideo(boolean video);
+        void onDisableLocalVideo(boolean video);
 
-        public void onCall();
-
+        void onCall();
     }
 
     private static PreviewControlCallbacks previewCallbacks = new PreviewControlCallbacks() {
@@ -122,8 +119,6 @@ public class PreviewControlFragment extends Fragment {
         Log.i(LOGTAG, "OnCreate PreviewControlFragment");
 
         rootView = inflater.inflate(R.layout.preview_actionbar_fragment, container, false);
-
-        mContainer = (RelativeLayout) this.mActivity.findViewById(R.id.actionbar_preview_fragment_container);
         mAudioBtn = (ImageButton) rootView.findViewById(R.id.localAudio);
         mVideoBtn = (ImageButton) rootView.findViewById(R.id.localVideo);
         mCallBtn = (ImageButton) rootView.findViewById(R.id.call);
@@ -206,7 +201,6 @@ public class PreviewControlFragment extends Fragment {
 
     public void restart() {
         setEnabled(false);
-
         mCallBtn.setBackground(drawableStartCall);
         mCallBtn.setImageResource(R.drawable.start_call);
 

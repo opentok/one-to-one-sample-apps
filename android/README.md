@@ -8,7 +8,7 @@ This section shows you how to prepare, build, and run the sample application.
 
 ### Install the project files
 
-1. Clone the [OpenTok One-to-One Communication Sample App for Android repository](https://github.com/opentok/one-to-one-sample-apps/tree/master/one-to-one-sample-app/android) from GitHub.
+1. Clone the [OpenTok One-to-One Communication Sample App for Android repository](https://github.com/opentok/one-to-one-sample-apps/tree/master/android) from GitHub.
 1. Start Android Studio.
 1. In the **Quick Start** panel, click **Open an existing Android Studio Project**.
 1. Navigate to the **android** folder, select the **OnetoOneSample** folder, and click **Choose**.

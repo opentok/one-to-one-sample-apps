@@ -15,6 +15,8 @@
 		70F017F41E004A7A008EF97D /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F017E91E004A7A008EF97D /* MainView.m */; };
 		70F017F51E004A7A008EF97D /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F017EB1E004A7A008EF97D /* MainViewController.m */; };
 		70F017F61E004A7A008EF97D /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F017ED1E004A7A008EF97D /* UIView+Helper.m */; };
+		A0A0E85D1E441C6C003F319C /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A0A0E85C1E441C6C003F319C /* Podfile */; };
+		A0A0E85F1E441C70003F319C /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = A0A0E85E1E441C70003F319C /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		70F017EB1E004A7A008EF97D /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		70F017EC1E004A7A008EF97D /* UIView+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Helper.h"; sourceTree = "<group>"; };
 		70F017ED1E004A7A008EF97D /* UIView+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Helper.m"; sourceTree = "<group>"; };
+		A0A0E85C1E441C6C003F319C /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		A0A0E85E1E441C70003F319C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +52,8 @@
 		70F0178F1E00458D008EF97D = {
 			isa = PBXGroup;
 			children = (
+				A0A0E85E1E441C70003F319C /* README.md */,
+				A0A0E85C1E441C6C003F319C /* Podfile */,
 				70F017DE1E004A7A008EF97D /* SampleApp */,
 				70F017991E00458D008EF97D /* Products */,
 			);
@@ -149,6 +155,7 @@
 			files = (
 				70F017F11E004A7A008EF97D /* Main.storyboard in Resources */,
 				70F017F01E004A7A008EF97D /* LaunchScreen.storyboard in Resources */,
+				A0A0E85D1E441C6C003F319C /* Podfile in Resources */,
 				70F017EF1E004A7A008EF97D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -160,6 +167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0A0E85F1E441C70003F319C /* README.md in Sources */,
 				70F017EE1E004A7A008EF97D /* AppDelegate.m in Sources */,
 				70F017F61E004A7A008EF97D /* UIView+Helper.m in Sources */,
 				70F017F51E004A7A008EF97D /* MainViewController.m in Sources */,
@@ -284,6 +292,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SampleApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tokbox.OneToOneSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -296,6 +305,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SampleApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tokbox.OneToOneSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";

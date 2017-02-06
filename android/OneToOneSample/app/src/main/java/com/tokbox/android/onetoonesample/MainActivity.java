@@ -2,12 +2,9 @@ package com.tokbox.android.onetoonesample;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -54,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
     private RelativeLayout mPreviewViewContainer;
     private RelativeLayout mRemoteViewContainer;
     private RelativeLayout.LayoutParams mLayoutParamsPreview;
-    private RelativeLayout mCameraFragmentContainer;
-    private RelativeLayout mActionBarContainer;
     private String mRemoteId;
     private View mRemoteView;
     private TextView mAlert;
@@ -100,9 +95,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
         //remote and local audio only view
         mRemoteAudioOnlyView = (RelativeLayout) findViewById(R.id.remoteAudioOnlyView);
         mLocalAudioOnlyView = (RelativeLayout) findViewById(R.id.localAudioOnlyView);
-
-        mCameraFragmentContainer = (RelativeLayout) findViewById(R.id.camera_preview_fragment_container);
-        mActionBarContainer = (RelativeLayout) findViewById(R.id.actionbar_preview_fragment_container);
 
         //request Marshmallow camera permission
         if (ContextCompat.checkSelfPermission(this, permissions[1]) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, permissions[0]) != PackageManager.PERMISSION_GRANTED) {

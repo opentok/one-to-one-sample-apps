@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -52,14 +53,17 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
 
     private RelativeLayout mPreviewViewContainer;
     private RelativeLayout mRemoteViewContainer;
-    private RelativeLayout mAudioOnlyView;
-    private RelativeLayout mLocalAudioOnlyView;
-    private RelativeLayout.LayoutParams layoutParamsPreview;
+    private RelativeLayout.LayoutParams mLayoutParamsPreview;
     private RelativeLayout mCameraFragmentContainer;
     private RelativeLayout mActionBarContainer;
-
+    private String mRemoteId;
+    private View mRemoteView;
     private TextView mAlert;
-    private ImageView mAudioOnlyImage;
+
+    //Audio only views
+    private RelativeLayout mLocalAudioOnlyView;
+    private RelativeLayout mRemoteAudioOnlyView;
+    private ImageView mLocalAudioOnlyImage;
 
     //UI control bars fragments
     private PreviewControlFragment mPreviewFragment;
@@ -67,21 +71,19 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
     private PreviewCameraFragment mCameraFragment;
     private FragmentTransaction mFragmentTransaction;
 
-    //Dialog
+    //Loading dialog
     ProgressDialog mProgressDialog;
 
+    //Permissions
     private boolean mAudioPermission = false;
     private boolean mVideoPermission = false;
 
-    private OTWrapper mWrapper;
-
-    //status
+    //Communication status
     private boolean isConnected = false;
     private boolean isLocal = false;
     private boolean isCallInProgress = false;
 
-    private String mRemoteId;
-    private View mRemoteView;
+    private OTWrapper mWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +96,11 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
         mPreviewViewContainer = (RelativeLayout) findViewById(R.id.publisherview);
         mRemoteViewContainer = (RelativeLayout) findViewById(R.id.subscriberview);
         mAlert = (TextView) findViewById(R.id.quality_warning);
-        mAudioOnlyView = (RelativeLayout) findViewById(R.id.audioOnlyView);
+
+        //remote and local audio only view
+        mRemoteAudioOnlyView = (RelativeLayout) findViewById(R.id.remoteAudioOnlyView);
         mLocalAudioOnlyView = (RelativeLayout) findViewById(R.id.localAudioOnlyView);
+
         mCameraFragmentContainer = (RelativeLayout) findViewById(R.id.camera_preview_fragment_container);
         mActionBarContainer = (RelativeLayout) findViewById(R.id.actionbar_preview_fragment_container);
 
@@ -112,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
         //init the wrapper
         OTConfig config =
                 new OTConfig.OTConfigBuilder(OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN,
-                        OpenTokConfig.API_KEY).name("one-to-one-sample-app").subscribeAutomatically(true).subscribeToSelf(false).build();
+                        OpenTokConfig.API_KEY).name("one-to-one-sample-app").subscribeAutomatically(false).subscribeToSelf(false).build();
         if ( config != null ) {
             mWrapper = new OTWrapper(MainActivity.this, config);
             mWrapper.addBasicListener(mBasicListener);
@@ -152,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
     @Override
     protected void onPause() {
         super.onPause();
-
         if (mWrapper != null) {
             mWrapper.pause();
         }
@@ -169,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         if ( mWrapper != null && isConnected ){
             mWrapper.disconnect();
         }
@@ -204,7 +207,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
                     });
                     builder.show();
                 }
-
                 break;
         }
     }
@@ -213,10 +215,6 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
         if ( mRemoteFragment != null && mRemoteId != null ) {
             mRemoteFragment.show();
         }
-    }
-
-    public boolean isConnected() {
-        return isConnected;
     }
 
     public boolean isCallInProgress() {
@@ -228,12 +226,14 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
     }
 
     //Private methods
+    //Init the local fragment
     private void initPreviewFragment() {
         mPreviewFragment = new PreviewControlFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.actionbar_preview_fragment_container, mPreviewFragment).commit();
     }
 
+    //Inti the remote fragment
     private void initRemoteFragment(String remoteId) {
         mRemoteFragment = new RemoteControlFragment();
 
@@ -245,97 +245,83 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
                 .add(R.id.actionbar_remote_fragment_container, mRemoteFragment).commit();
     }
 
+    //Init the local camera fragment
     private void initCameraFragment() {
         mCameraFragment = new PreviewCameraFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.camera_preview_fragment_container, mCameraFragment).commit();
     }
 
-    private void showAVCall(boolean show) {
-        if (show) {
-            mActionBarContainer.setVisibility(View.VISIBLE);
-            mPreviewViewContainer.setVisibility(View.VISIBLE);
-            mRemoteViewContainer.setVisibility(View.VISIBLE);
-            mCameraFragmentContainer.setVisibility(View.VISIBLE);
-        } else {
-            mActionBarContainer.setVisibility(View.GONE);
-            mPreviewViewContainer.setVisibility(View.GONE);
-            mRemoteViewContainer.setVisibility(View.GONE);
-            mCameraFragmentContainer.setVisibility(View.GONE);
-        }
-    }
-
-    //Converts dp to real pixels, according to the screen density.
-    private int dpToPx(int dp) {
-        double screenDensity = this.getResources().getDisplayMetrics().density;
-        return (int) (screenDensity * (double) dp);
-    }
-
-    //cleans views and controls
+    //Clean views
     private void cleanViewsAndControls() {
         if ( mRemoteId != null ) {
+            mWrapper.removeRemote(mRemoteId);
             mRemoteView = null;
-            setRemoteView(null, mRemoteId);
+            setRemoteView(null);
         }
         if (isLocal) {
             isLocal = false;
             setLocalView(null);
         }
-
         if (mPreviewFragment != null)
             mPreviewFragment.restart();
         if (mRemoteFragment != null)
             mRemoteFragment.restart();
     }
 
+    //Reload views
     private void reloadViews(){
         mRemoteViewContainer.removeAllViews();
 
-        if ( mRemoteId != null ){
-            setRemoteView(mWrapper.getRemoteStreamStatus(mRemoteId).getView(), mRemoteId);
+        if (mRemoteId != null){
+            setRemoteView(mWrapper.getRemoteStreamStatus(mRemoteId).getView());
         }
     }
 
+    //Check if there are some connected remotes in the session
     private void checkRemotes(){
-        if ( mRemoteId != null ){
+        if (mRemoteId != null){
+            //add the remote participant to the communication
+            mWrapper.addRemote(mRemoteId);
+            //check the status of the remote video stream
             if (!mWrapper.isReceivedMediaEnabled(mRemoteId, MediaType.VIDEO)){
-                onAudioOnly(true);
+                onRemoteAudioOnly(true);
             }
             else {
-                setRemoteView(mWrapper.getRemoteStreamStatus(mRemoteId).getView(), mRemoteId);
+                setRemoteView(mWrapper.getRemoteStreamStatus(mRemoteId).getView());
             }
         }
     }
 
+    //Set the local participant view
     private void setLocalView(View localView){
         if (localView != null) {
             mPreviewViewContainer.removeAllViews();
             isLocal = true;
-            layoutParamsPreview = new RelativeLayout.LayoutParams(
+            mLayoutParamsPreview = new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-            if ( mRemoteId != null ) {
-                layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
+            if (mRemoteId != null) {
+                mLayoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
                         RelativeLayout.TRUE);
-                layoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,
+                mLayoutParamsPreview.addRule(RelativeLayout.ALIGN_PARENT_RIGHT,
                         RelativeLayout.TRUE);
-                layoutParamsPreview.width = (int) getResources().getDimension(R.dimen.preview_width);
-                layoutParamsPreview.height = (int) getResources().getDimension(R.dimen.preview_height);
-                layoutParamsPreview.rightMargin = (int) getResources().getDimension(R.dimen.preview_rightMargin);
-                layoutParamsPreview.bottomMargin = (int) getResources().getDimension(R.dimen.preview_bottomMargin);
+                mLayoutParamsPreview.width = (int) getResources().getDimension(R.dimen.preview_width);
+                mLayoutParamsPreview.height = (int) getResources().getDimension(R.dimen.preview_height);
+                mLayoutParamsPreview.rightMargin = (int) getResources().getDimension(R.dimen.preview_rightMargin);
+                mLayoutParamsPreview.bottomMargin = (int) getResources().getDimension(R.dimen.preview_bottomMargin);
             }
-            mPreviewViewContainer.addView(localView, layoutParamsPreview);
+            mPreviewViewContainer.addView(localView, mLayoutParamsPreview);
         }
         else {
             mPreviewViewContainer.removeAllViews();
         }
     }
 
-    private void setRemoteView(View remoteView, String remoteId) {
+    //Set the remote participant view
+    private void setRemoteView(View remoteView) {
         if (mPreviewViewContainer.getChildCount() > 0) {
             setLocalView(mPreviewViewContainer.getChildAt(0)); //main preview view
         }
-
         if (remoteView != null) {
             //show remote view
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
@@ -348,22 +334,30 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
                 mRemoteFragment.show();
         } else { //view null --> remove view
             if (mRemoteViewContainer.getChildCount() > 0) {
-                mRemoteViewContainer.removeView(remoteView);
+                mRemoteViewContainer.removeAllViews();
             }
             mRemoteViewContainer.setClickable(false);
-            mAudioOnlyView.setVisibility(View.GONE);
+            mRemoteAudioOnlyView.setVisibility(View.GONE);
         }
     }
 
-    private void onAudioOnly(boolean enabled) {
-        if (enabled) {
-            mRemoteView.setVisibility(View.GONE);
-            mAudioOnlyView.setVisibility(View.VISIBLE);
+    //Set the remote audio only view
+    private void onRemoteAudioOnly(boolean enabled) {
+        if (mRemoteView != null) {
+            if (enabled) {
+                mRemoteView.setVisibility(View.GONE);
+                mRemoteAudioOnlyView.setVisibility(View.VISIBLE);
+            } else {
+                mRemoteAudioOnlyView.setVisibility(View.GONE);
+                mRemoteView.setVisibility(View.VISIBLE);
+            }
         }
-        else {
-            mAudioOnlyView.setVisibility(View.GONE);
-            mRemoteView.setVisibility(View.VISIBLE);
-        }
+    }
+
+    //Converts dp to real pixels, according to the screen density.
+    private int dpToPx(int dp) {
+        double screenDensity = this.getResources().getDisplayMetrics().density;
+        return (int) (screenDensity * (double) dp);
     }
 
     //Basic Listener from OTWrapper
@@ -402,7 +396,7 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
                     Log.i(LOG_TAG, "Remove view is ready");
                     if ( remoteId == mRemoteId ) {
                         if (isCallInProgress()) {
-                            setRemoteView(remoteView, mRemoteId);
+                            setRemoteView(remoteView);
                         }
                         mRemoteView = remoteView;
                     }
@@ -411,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
                 @Override
                 public void onRemoteViewDestroyed(OTWrapper otWrapper, View remoteView, String remoteId) throws ListenerException {
                     Log.i(LOG_TAG, "Remote view is destroyed");
-                    setRemoteView(null, remoteId);
+                    setRemoteView(null);
                     mRemoteView = null;
                 }
 
@@ -434,6 +428,9 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
                     if (mRemoteId == null){ //one-to-one, the first to arrive, will be the used
                         MainActivity.this.mRemoteId = remoteId;
                         initRemoteFragment(remoteId);
+                        if (mWrapper.isPublishing()){
+                            mWrapper.addRemote(mRemoteId);
+                        }
                     }
                 }
 
@@ -463,9 +460,9 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
                         }
 
                         if (!videoActive) {
-                            onAudioOnly(true); //video is not active
+                            onRemoteAudioOnly(true); //video is not active
                         } else {
-                            onAudioOnly(false);
+                            onRemoteAudioOnly(false);
                         }
                     }
                 }
@@ -505,10 +502,8 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
                 @Override
                 public void onVideoQualityWarning(OTWrapper otWrapper, String remoteId) throws ListenerException {
                     Log.i(LOG_TAG, "The quality has degraded");
-
                     mAlert.setBackgroundResource(R.color.quality_warning);
                     mAlert.setTextColor(MainActivity.this.getResources().getColor(R.color.warning_text));
-
                     mAlert.bringToFront();
                     mAlert.setVisibility(View.VISIBLE);
                     mAlert.postDelayed(new Runnable() {
@@ -545,15 +540,14 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
     public void onDisableLocalVideo(boolean video) {
         if (mWrapper != null) {
             mWrapper.enableLocalMedia(MediaType.VIDEO, video);
-
-            if ( mRemoteId != null ) {
+            if (mRemoteId != null) {
                 if (!video) {
-                    mAudioOnlyImage = new ImageView(this);
-                    mAudioOnlyImage.setImageResource(R.drawable.avatar);
-                    mAudioOnlyImage.setBackgroundResource(R.drawable.bckg_audio_only);
-                    mPreviewViewContainer.addView(mAudioOnlyImage, layoutParamsPreview);
+                    mLocalAudioOnlyImage = new ImageView(this);
+                    mLocalAudioOnlyImage.setImageResource(R.drawable.avatar);
+                    mLocalAudioOnlyImage.setBackgroundResource(R.drawable.bckg_audio_only);
+                    mPreviewViewContainer.addView(mLocalAudioOnlyImage, mLayoutParamsPreview);
                 } else {
-                    mPreviewViewContainer.removeView(mAudioOnlyImage);
+                    mPreviewViewContainer.removeView(mLocalAudioOnlyImage);
                 }
             } else {
                 if (!video) {
@@ -592,25 +586,14 @@ public class MainActivity extends AppCompatActivity implements PreviewControlFra
 
     @Override
     public void onCall() {
-        Log.i(LOG_TAG, "OnCall");
-        if ( mWrapper != null && isConnected ) {
-            if ( !isCallInProgress ) {
+        if (mWrapper != null && isConnected) {
+            if (!isCallInProgress) {
                 mWrapper.startPublishingMedia(new PreviewConfig.PreviewConfigBuilder().
                         name("Tokboxer").build(), false);
                 if ( mPreviewFragment != null ) {
                     mPreviewFragment.setEnabled(true);
                 }
                 isCallInProgress = true;
-
-                //Check if there are some connected remotes
-                if ( mRemoteId != null ){
-                    if (!mWrapper.isReceivedMediaEnabled(mRemoteId, MediaType.VIDEO)){
-                        onAudioOnly(true);
-                    }
-                    else {
-                        setRemoteView(mRemoteView, mRemoteId);
-                    }
-                }
             } else {
                 mWrapper.stopPublishingMedia(false);
                 isCallInProgress = false;

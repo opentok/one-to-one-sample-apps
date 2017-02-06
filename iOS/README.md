@@ -4,7 +4,7 @@
 
 ## Quick start
 
-This section shows you how to prepare, build, and run the sample application.
+This section shows you how to prepare, build, and run the sample application. The app is built by the [Accelerator Core iOS](https://github.com/opentok/accelerator-core-ios).
 
 ### Install the project files
 

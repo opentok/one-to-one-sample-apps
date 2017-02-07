@@ -4,8 +4,6 @@
 
 The OpenTok One-to-One Communication Sample App is an open-source solution that enables you to quickly get started in your development efforts to set up interoperable, production-quality audio/video communication between users.
 
-As you get started with this OpenTok sample, you will learn the best practices used to develop and manage the audio, video, and camera elements on mobile devices or in the browser. We recommend this is as your first step in delivering [Real Time Communications (WebRTC)](https://tokbox.com/about-webrtc) solutions on the OpenTok platform.
-
 With this sample app, you can:
 
 - Start and end audio/visual communication between two users.
@@ -15,17 +13,11 @@ With this sample app, you can:
 - Control the camera to point in the forward direction or in the reverse direction (selfie mode).
 - Customize the UI features and layout.
 
-You can create mobile apps for Android and iOS, or embed the interactive session between users into any website.
-
-To get started with your development, visit the following sites:
+You can create mobile apps for Android and iOS, or embed the interactive session between users into any website. To get started with your development, visit the following sites:
 
 - [OpenTok One-to-One Communication Sample App for Android](./android)
 - [OpenTok One-to-One Communication Sample App for iOS](./iOS)
 - [OpenTok One-to-One Communication Sample App for JavaScript](./js)
-
-_**NOTE: The audio-video communication logic provided in all OpenTok One-to-One Communication Sample Apps is contained in the [OpenTok Common Accelerator Session Pack](https://github.com/opentok/acc-pack-common).**_
-
-
 
 # Device interoperability with One-to-One communication
 
@@ -39,16 +31,16 @@ Use the following approach to try this out:
 
 1. Configure a web and mobile user with the required  **Session ID**, **Token**, and **API Key** values, using the same **Session ID** and **API Key** for each.
 
-2. For mobile users, ensure that `SUBSCRIBE_TO_SELF = false` (Android) and `subscribeToSelf = NO` (iOS) in the configuration.
-
-3. Start the web and mobile apps. You will observe the following interactions:
+2. Start the web and mobile apps. You will observe the following interactions:
 
    - Both apps connect to the session.
    - Both apps start publishing and subscribing to each other’s streams.
 
-4. Observe what happens for each user when you:
+3. Observe what happens for each user when you:
 
    - Enable or disable local audio/video on the mobile app.
    - Enable or disable local audio/video on the web app.
    - Enable or disable remote audio/video on the mobile app.
    - Enable or disable remote audio/video on the web app.
+
+As you get started with this OpenTok sample, you will learn the best practices used to develop and manage the audio, video, and camera elements on mobile devices or in the browser. We recommend this is as your first step in delivering [Real Time Communications (WebRTC)](https://tokbox.com/about-webrtc) solutions on the OpenTok platform.

@@ -31,7 +31,7 @@
             android:onClick="showRemoteControlBar">
 
             <RelativeLayout
-                android:id="@+id/audioOnlyView"
+                android:id="@+id/remoteAudioOnlyView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"

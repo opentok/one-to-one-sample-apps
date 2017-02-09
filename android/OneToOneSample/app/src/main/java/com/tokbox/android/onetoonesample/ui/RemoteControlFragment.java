@@ -15,9 +15,9 @@ import android.widget.RelativeLayout;
 
 import com.tokbox.android.onetoonesample.MainActivity;
 import com.tokbox.android.onetoonesample.R;
+import com.tokbox.android.otsdkwrapper.utils.MediaType;
 
 public class RemoteControlFragment extends Fragment {
-
     private static final String LOGTAG = RemoteControlFragment.class.getSimpleName();
     private static final int ANIMATION_DURATION = 7000;
 
@@ -30,10 +30,12 @@ public class RemoteControlFragment extends Fragment {
 
     private RemoteControlCallbacks mControlCallbacks = remoteCallbacks;
 
-    public interface RemoteControlCallbacks {
-        public void onDisableRemoteAudio(boolean audio);
+    private String mRemoteId;
 
-        public void onDisableRemoteVideo(boolean video);
+    public interface RemoteControlCallbacks {
+        void onDisableRemoteAudio(boolean audio);
+
+        void onDisableRemoteVideo(boolean video);
     }
 
     private static RemoteControlCallbacks remoteCallbacks = new RemoteControlCallbacks() {
@@ -74,18 +76,19 @@ public class RemoteControlFragment extends Fragment {
         super.onAttach(activity);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-
             this.mActivity = (MainActivity) activity;
             this.mControlCallbacks = (RemoteControlCallbacks) activity;
+        }
+
+        if ( mRemoteId == null ) {
+            mRemoteId = getArguments().getString("remoteId");
         }
     }
 
     @Override
     public void onDetach() {
         Log.i(LOGTAG, "OnDetach RemoteControlFragment");
-
         super.onDetach();
-
         mControlCallbacks = remoteCallbacks;
     }
 
@@ -102,20 +105,11 @@ public class RemoteControlFragment extends Fragment {
 
         mAudioBtn.setOnClickListener(mBtnClickListener);
         mVideoBtn.setOnClickListener(mBtnClickListener);
-
-        mAudioBtn.setImageResource(mActivity.getComm().getRemoteAudio()
-                ? R.drawable.audio
-                : R.drawable.no_audio);
-
-        mVideoBtn.setImageResource(mActivity.getComm().getRemoteVideo()
-                ? R.drawable.video_icon
-                : R.drawable.no_video_icon);
-
         return mRootView;
     }
 
     public void updateRemoteAudio(){
-        if(!mActivity.getComm().getRemoteAudio()){
+        if(mRemoteId != null && !mActivity.getWrapper().isReceivedMediaEnabled(mRemoteId, MediaType.AUDIO)){
             mControlCallbacks.onDisableRemoteAudio(true);
             mAudioBtn.setImageResource(R.drawable.audio);
         }
@@ -126,7 +120,7 @@ public class RemoteControlFragment extends Fragment {
     }
 
     public void updateRemoteVideo(){
-        if(!mActivity.getComm().getRemoteVideo()){
+        if(mRemoteId != null && !mActivity.getWrapper().isReceivedMediaEnabled(mRemoteId, MediaType.VIDEO)){
             mControlCallbacks.onDisableRemoteVideo(true);
             mVideoBtn.setImageResource(R.drawable.video_icon);
         }
@@ -145,6 +139,20 @@ public class RemoteControlFragment extends Fragment {
                 mContainer.setVisibility(View.INVISIBLE);
             }
         }, ANIMATION_DURATION);
+    }
+
+    private void setEnabled(boolean enabled) {
+        if (mVideoBtn != null && mAudioBtn != null) {
+            if (!enabled) {
+                mAudioBtn.setImageResource(R.drawable.audio);
+                mVideoBtn.setImageResource(R.drawable.video_icon);
+            }
+        }
+    }
+
+    public void restart() {
+        setEnabled(false);
+        mContainer.setVisibility(View.INVISIBLE);
     }
 
 }

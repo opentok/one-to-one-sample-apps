@@ -1,6 +1,6 @@
 ![logo](../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for Android<br/>Version 1.3
+# OpenTok One-to-One Communication Sample App for Android
 
 ## Quick start
 
@@ -8,26 +8,26 @@ This section shows you how to prepare, build, and run the sample application.
 
 ### Install the project files
 
-1. Clone the [OpenTok One-to-One Communication Sample App for Android repository](https://github.com/opentok/one-to-one-sample-apps/tree/master/one-to-one-sample-app/android) from GitHub.
+1. Clone the [OpenTok One-to-One Communication Sample App for Android repository](https://github.com/opentok/one-to-one-sample-apps/tree/master/android) from GitHub.
 1. Start Android Studio.
 1. In the **Quick Start** panel, click **Open an existing Android Studio Project**.
 1. Navigate to the **android** folder, select the **OnetoOneSample** folder, and click **Choose**.
 
 
-### Add the OpenTok SDK
+### Add the Accelerator Core Android
 
 There are two options for installing the OpenTok SDK included in the Accelerator Pack Common for Android:
 
 
 #### Using the repository
 
-1. Clone the [OpenTok Accelerator Pack repo](https://github.com/opentok/acc-pack-common).
+1. Clone the [OpenTok Accelerator Core repo](https://github.com/opentok/accelerator-core-android).
 2. From your app project, right-click the app name and select **New > Module > Import Gradle Project**.
-3. Navigate to the directory in which you cloned **OpenTok Accelerator Pack**, select **android-accelerator-pack**, and click **Finish**.
+3. Navigate to the directory in which you cloned **OpenTok Accelerator Pack**, select **accelerator-core**, and click **Finish**.
 4. Open the **build.gradle** file for the app and ensure the following lines have been added to the `dependencies` section:
 
 ```
-compile project(':android-accelerator-pack')
+compile project(':accelerator-core-android')
 
 ```
 
@@ -35,15 +35,16 @@ compile project(':android-accelerator-pack')
 
 1. Modify the `build.gradle` for your solution and add the following code snippet to the section labeled `repositories`:
 
-    ```gradle
+  ```gradle
     maven { url  "http://tokbox.bintray.com/maven" }
-    ```
+  ```
 
 1. Modify the `build.gradle` for your activity and add the following code snippet to the section labeled `dependencies`:
+  
+  ```gradle
+    compile 'com.opentok.android:accelerator-core-android:+'
+  ```
 
-```gradle
-compile 'com.opentok.android:accelerator-pack:+'
-```
 ### Configure and build the app
 
 Configure the sample app code. Then, build and run the app.
@@ -52,7 +53,7 @@ Configure the sample app code. Then, build and run the app.
 
 In Android Studio, open **OpenTokConfig.java** and replace the following empty strings with the corresponding **API Key**, **Session ID**, and **Token** values:
 
-   ```java
+  ```java
     // Replace with a generated Session ID
     public static final String SESSION_ID = "";
 
@@ -61,26 +62,22 @@ In Android Studio, open **OpenTokConfig.java** and replace the following empty s
 
     // Replace with your OpenTok API key
     public static final String API_KEY = "";
-   ```
+  ```
 
-   To enable or disable the `SUBSCRIBE_TO_SELF` feature, you can invoke the `OneToOneCommunication.setSubscribeToSelf()` method:
+  ```java
+    //init the wrapper
+    OTConfig config =
+          new OTConfig.OTConfigBuilder(OpenTokConfig.SESSION_ID, OpenTokConfig.TOKEN,
+            OpenTokConfig.API_KEY).name("one-to-one-sample-app").subscribeAutomatically(true).subscribeToSelf(false).build();
+    
+    if ( config != null ) {
+      mWrapper = new OTWrapper(MainActivity.this, config);
+      mWrapper.addBasicListener(mBasicListener);
+      mWrapper.addAdvancedListener(mAdvancedListener);
 
-   ```java
-   public static final boolean SUBSCRIBE_TO_SELF = false;
-   ```
-
-   ```java
-   OneToOneCommunication comm = new OneToOneCommunication(
-     MainActivity.this,
-     OpenTokConfig.SESSION_ID,
-     OpenTokConfig.TOKEN,
-     OpenTokConfig.API_KEY
-   );
-
-   comm.setSubscribeToSelf(OpenTokConfig.SUBSCRIBE_TO_SELF);
-
-   ```
-
+      //...
+    }
+  ```
 
 ## Exploring the code
 
@@ -88,7 +85,6 @@ This section describes best practices the sample app code uses to implement the 
 
 For detail about the APIs used to develop this sample, see the [OpenTok Android SDK Reference](https://tokbox.com/developer/sdks/android/reference/) and [Android API Reference](http://developer.android.com/reference/packages.html).
 
-_**NOTE:** This sample app collects anonymous usage data for internal TokBox purposes only. Please do not modify or remove any logging code from this sample application._
 
 ### Class design
 
@@ -105,39 +101,57 @@ This section focuses on one-to-one communication features. For more information,
 
 ### Session and stream management
 
-The `OneToOneCommunication` class, included in the Accelerator Pack Common for Android, is the backbone of the one-to-one communication features for the app.
+The `OTWrapper` class, included in the Accelerator Core for Android, is the backbone of the one-to-one communication features for the app.
 
 This class uses the OpenTok API to initiate the client connection to the OpenTok session and manage the audio and video streams.
-
-
-#### Methods
-
-The following `OneToOneCommunication` methods are used for session and stream management.
-
-| Feature        | Methods  |
-| ------------- | ------------- |
-| Manage session and stream.   | `start()`, `end()`, `init()`, `destroy()`, `isStarted()`, `isRemote()`, `isInitialized()`,  `setRemoteFill()`, `getLocal()`, `getRemote()`, `setSubscribeToSelf()` |
-| Manage audio. Enable and disable local audio and video.              | `getLocalAudio()`, `getRemoteAudio()`, `enableLocalMedia(MediaType, boolean)`<br/> `MediaType ` is `AUDIO` or `VIDEO`<br/>`true` (enabled) or `false` (disabled) |
-| Manage video. Enable and disable remote audio and video.              | `getLocalVideo()`, `getRemoteVideo()`, `enableRemoteMedia(MediaType, boolean)`<br/> `MediaType ` is `AUDIO` or `VIDEO`<br/>`true` (enabled) or `false` (disabled) |
-| Manage camera. Swap between multiple cameras on a device (normal and selfie modes).           | `swapCamera()`, `getCameraId()` |
-| Manage views.             | `reloadViews()`, `getRemoteVideoView()`, `getRemoteScreenView()`, `getPreviewView() |
-
-The Listener interface monitors state changes in the OneToOneCommunication, and defines the following methods:
-
 ```java
-public static interface Listener {
-        void onInitialized();
-        void onError(String error);
-        void onQualityWarning(boolean warning);
-        void onAudioOnly(boolean enabled);
-        void onPreviewReady(View preview);
-        void onRemoteViewReady(View remoteView);
-        void onReconnecting();
-        void onReconnected();
-        void onCameraChanged(int newCameraId);
-    }
+  
+  mWrapper.connect();
+  
+  mWrapper.startPublishingMedia(new PreviewConfig.PreviewConfigBuilder().
+                        name("Tokboxer").build(), false);
+
+  mWrapper.enableLocalMedia(MediaType.AUDIO, audio);
+  
+  mWrapper.disconnect();
+
 ```
 
+The BasicListener and AdvancedListener interface monitor state changes in the communication, and defines the following methods:
+
+```java
+  //Basic Listener from OTWrapper
+  private BasicListener mBasicListener =
+    new PausableBasicListener(new BasicListener<OTWrapper>() {
+    @Override
+    public void onConnected(OTWrapper otWrapper, int participantsCount, String connId, String data) throws ListenerException { //...}
+    @Override
+    public void onDisconnected(OTWrapper otWrapper, int participantsCount, String connId, String data) throws ListenerException { //...}
+    @Override
+    public void onPreviewViewReady(OTWrapper otWrapper, View localView) throws ListenerException { //...}
+    @Override
+    public void onRemoteViewReady(OTWrapper otWrapper, View remoteView, String remoteId, String data) throws ListenerException { //...}
+    @Override
+    public void onStartedPublishingMedia(OTWrapper otWrapper, boolean screensharing) throws ListenerException { //...}
+    //...
+  });
+
+```
+```java
+  //Advanced Listener from OTWrapper
+  private AdvancedListener mAdvancedListener =
+    new PausableAdvancedListener(new AdvancedListener<OTWrapper>() {
+    @Override
+    public void onCameraChanged(OTWrapper otWrapper) throws ListenerException { //... }
+    @Override
+    public void onReconnecting(OTWrapper otWrapper) throws ListenerException { //... }
+    @Override
+    public void onReconnected(OTWrapper otWrapper) throws ListenerException { //... }
+    @Override
+    public void onVideoQualityWarning(OTWrapper otWrapper, String remoteId) throws ListenerException { //... }
+    //...
+  });
+```
 ### User interface
 
 As described in [Class design](#class-design), the following classes set up and manage the UI fragments for the local and remote controls:

@@ -1,6 +1,7 @@
 package com.tokbox.android.onetoonesample.ui;
 
 import android.app.Activity;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Build;
@@ -15,31 +16,32 @@ import android.widget.RelativeLayout;
 
 import com.tokbox.android.onetoonesample.MainActivity;
 import com.tokbox.android.onetoonesample.R;
+import com.tokbox.android.otsdkwrapper.utils.MediaType;
 
 
 public class PreviewControlFragment extends Fragment {
-
-    private static final String LOGTAG = PreviewControlFragment.class.getSimpleName();
+    private static final String LOGTAG = MainActivity.class.getName();
 
     private MainActivity mActivity;
 
-    private RelativeLayout mContainer;
-    View rootView;
-
+    private View rootView;
     private ImageButton mAudioBtn;
     private ImageButton mVideoBtn;
     private ImageButton mCallBtn;
+
+    private VectorDrawableCompat drawableStartCall;
+    private VectorDrawableCompat drawableEndCall;
+    private VectorDrawableCompat drawableBckBtn;
 
     private PreviewControlCallbacks mControlCallbacks = previewCallbacks;
 
     public interface PreviewControlCallbacks {
 
-        public void onDisableLocalAudio(boolean audio);
+        void onDisableLocalAudio(boolean audio);
 
-        public void onDisableLocalVideo(boolean video);
+        void onDisableLocalVideo(boolean video);
 
-        public void onCall();
-
+        void onCall();
     }
 
     private static PreviewControlCallbacks previewCallbacks = new PreviewControlCallbacks() {
@@ -51,6 +53,7 @@ public class PreviewControlFragment extends Fragment {
 
         @Override
         public void onCall() { }
+
     };
 
     private View.OnClickListener mBtnClickListener = new View.OnClickListener() {
@@ -102,45 +105,55 @@ public class PreviewControlFragment extends Fragment {
         mControlCallbacks = previewCallbacks;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Retain this fragment across configuration changes.
+        setRetainInstance(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i(LOGTAG, "OnCreate PreviewControlFragment");
 
         rootView = inflater.inflate(R.layout.preview_actionbar_fragment, container, false);
-
-        mContainer = (RelativeLayout) this.mActivity.findViewById(R.id.actionbar_preview_fragment_container);
         mAudioBtn = (ImageButton) rootView.findViewById(R.id.localAudio);
         mVideoBtn = (ImageButton) rootView.findViewById(R.id.localVideo);
         mCallBtn = (ImageButton) rootView.findViewById(R.id.call);
 
+        drawableStartCall = VectorDrawableCompat.create(getResources(), R.drawable.initiate_call_button, null);
+        drawableEndCall = VectorDrawableCompat.create(getResources(), R.drawable.end_call_button, null);
+        drawableBckBtn = VectorDrawableCompat.create(getResources(), R.drawable.bckg_icon, null);
 
-        mAudioBtn.setImageResource(mActivity.getComm().getLocalAudio()
+        mAudioBtn.setImageResource(mActivity.getWrapper().isLocalMediaEnabled(MediaType.AUDIO)
                 ? R.drawable.mic_icon
                 : R.drawable.muted_mic_icon);
+        mAudioBtn.setBackground(drawableBckBtn);
 
-        mVideoBtn.setImageResource(mActivity.getComm().getLocalVideo()
+        mVideoBtn.setImageResource(mActivity.getWrapper().isLocalMediaEnabled(MediaType.VIDEO)
                 ? R.drawable.video_icon
                 : R.drawable.no_video_icon);
+        mVideoBtn.setBackground(drawableBckBtn);
 
-
-        mCallBtn.setImageResource(mActivity.getComm().isStarted()
+        mCallBtn.setImageResource(mActivity.isCallInProgress()
                 ? R.drawable.hang_up
                 : R.drawable.start_call);
 
-        mCallBtn.setBackgroundResource(mActivity.getComm().isStarted()
-                ? R.drawable.end_call_button
-                : R.drawable.initiate_call_button);
+        mCallBtn.setBackground(mActivity.isCallInProgress()
+                ? drawableEndCall
+                : drawableStartCall);
 
         mCallBtn.setOnClickListener(mBtnClickListener);
-        setEnabled(mActivity.getComm().isStarted());
+
+        setEnabled(mActivity.isCallInProgress());
 
         return rootView;
-
     }
 
     public void updateLocalAudio() {
-        if (!mActivity.getComm().getLocalAudio()) {
+        if (!mActivity.getWrapper().isLocalMediaEnabled(MediaType.AUDIO)) {
             mControlCallbacks.onDisableLocalAudio(true);
             mAudioBtn.setImageResource(R.drawable.mic_icon);
         } else {
@@ -150,7 +163,7 @@ public class PreviewControlFragment extends Fragment {
     }
 
     public void updateLocalVideo() {
-        if (!mActivity.getComm().getLocalVideo()) {
+        if (!mActivity.getWrapper().isLocalMediaEnabled(MediaType.VIDEO)){
             mControlCallbacks.onDisableLocalVideo(true);
             mVideoBtn.setImageResource(R.drawable.video_icon);
         } else {
@@ -160,15 +173,16 @@ public class PreviewControlFragment extends Fragment {
     }
 
     public void updateCall() {
-        mCallBtn.setImageResource(!mActivity.getComm().isStarted()
+        mCallBtn.setImageResource(!mActivity.isCallInProgress()
                 ? R.drawable.hang_up
                 : R.drawable.start_call);
 
-        mCallBtn.setBackgroundResource(!mActivity.getComm().isStarted()
-                ? R.drawable.end_call_button
-                : R.drawable.initiate_call_button);
+        mCallBtn.setBackground(!mActivity.isCallInProgress()
+                ? drawableEndCall
+                : drawableStartCall);
 
-        mControlCallbacks.onCall();
+        if ( mControlCallbacks != null )
+            mControlCallbacks.onCall();
     }
 
     public void setEnabled(boolean enabled) {
@@ -185,11 +199,10 @@ public class PreviewControlFragment extends Fragment {
         }
     }
 
-    public void restartFragment(boolean restart){
-        if ( restart ) {
-            setEnabled(false);
-            mCallBtn.setBackgroundResource(R.drawable.initiate_call_button);
-            mCallBtn.setImageResource(R.drawable.start_call);
-        }
+    public void restart() {
+        setEnabled(false);
+        mCallBtn.setBackground(drawableStartCall);
+        mCallBtn.setImageResource(R.drawable.start_call);
+
     }
 }

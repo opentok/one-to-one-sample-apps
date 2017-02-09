@@ -24,6 +24,7 @@ Configure the sample app code. Then, build and run the app.
 
 ```javascript
 $ npm install
+$ npm run build
 $ node server.js
 ```
 

@@ -1,28 +1,29 @@
+/* eslint-env es6 */
+
 /*
- * Express Dependencies
+ * Dependencies
  */
 const express = require('express');
-const app = express();
-const port = 8080;
+const bodyParser = require('body-parser');
 
 /*
  * Config
  */
-app.use(express.static([__dirname, '/public'].join('')));
+const app = express();
+const port = process.env.PORT || 8080;
+app.use(express.static(`${__dirname}/public`));
+app.use(bodyParser.json());
 
 /*
- * Routes
+ * User Routes
  */
-app.get('/', function (req, res) {
-  res.render('index.html');
-});
 
-app.get('*', function (req, res) {
-  res.redirect('/');
+app.get('/', (req, res) => {
+  res.sendfile('public/index.html');
 });
 
 /*
  * Listen
  */
 app.listen(process.env.PORT || port);
-console.log(['app listening on port', port].join(' '));
+console.log(`app listening on port ${port}`);

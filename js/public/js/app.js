@@ -1,198 +1,173 @@
-/* global OT CommunicationAccPack */
-(function () {
+/* global otCore */
+const options = {
+  credentials: {
+    apiKey: "",  //Replace with your OpenTok API key 
+    sessionId: "", //Replace with a generated Session ID
+    token: "", //Replace with a generated token (from the dashboard or using an OpenTok server SDK)
+  },
+   // A container can either be a query selector or an HTMLElement
+  streamContainers: function streamContainers(pubSub, type, data) {
+    return {
+      publisher: {
+        camera: '#cameraPublisherContainer',
+      },
+      subscriber: {
+        camera: '#cameraSubscriberContainer',
+      },
+    }[pubSub][type];
+  },
+  controlsContainer: '#controls',
+  packages: [],
+  communication: {
+    callProperites: null, // Using default
+  }
+};
 
-  // Modules
-  var _communication;
-
-  // OpenTok session
-  var _session;
-
-  // Application State
-  var _initialized = false;
-  var _callActive = false;
-  var _remoteParticipant = false;
-  var _callProps = {
-    enableLocalAudio: true,
-    enableLocalVideo: true,
-    enableRemoteAudio: true,
-    enableRemoteVideo: true,
+/** Application Logic */
+const app = () => {
+  const state = {
+    connected: false,
+    active: false,
+    publishers: null,
+    subscribers: null,
+    meta: null,
+    localAudioEnabled: true,
+    localVideoEnabled: true,
   };
 
-  // Options hash
-  var _options = {
-    apiKey: '', // Replace with your OpenTok API key
-    sessionId: '', // Replace with a generated Session ID
-    token: '', // Replace with a generated token
-    localCallProperties: {
-      insertMode: 'append',
-      width: '100%',
-      height: '100%',
-      showControls: false,
-      style: {
-        buttonDisplayMode: 'off'
-      }
-    }
-  };
+  /**
+   * Update the size and position of video containers based on the number of
+   * publishers and subscribers specified in the meta property returned by otCore.
+   */
+  const updateVideoContainers = () => {
+    const { meta } = state;
+    const activeCameraSubscribers = meta ? meta.subscriber.camera : 0;
+   
+    const videoContainerClass = `App-video-container ${''}`;
+    document.getElementById('appVideoContainer').setAttribute('class', videoContainerClass);
 
-  /** DOM Helper Methods */
-  var _makePrimaryVideo = function (element) {
-    $(element).addClass('primary-video');
-    $(element).removeClass('secondary-video');
-  };
+    const cameraPublisherClass =
+      `video-container ${!!activeCameraSubscribers? 'small' : ''} ${!!activeCameraSubscribers? 'small' : ''}`;
+    document.getElementById('cameraPublisherContainer').setAttribute('class', cameraPublisherClass);
 
-  var _makeSecondaryVideo = function (element) {
-    $(element).removeClass('primary-video');
-    $(element).addClass('secondary-video');
-  };
-
-  // Swap positions of the small and large video elements when participant joins or leaves call
-  var _swapVideoPositions = function (type) {
-
-    if (type === 'start' || type === 'joined') {
-
-      _makePrimaryVideo('#videoHolderBig');
-      _makeSecondaryVideo('#videoHolderSmall');
-
-      /**
-       * The other participant may or may not have joined the call at this point.
-       */
-      if (!!_remoteParticipant) {
-        $('#remoteControls').show();
-        $('#videoHolderBig').show();
-      }
-
-    } else if ((type === 'end' && !!_remoteParticipant) || type === 'left') {
-
-      _makePrimaryVideo('#videoHolderSmall');
-      _makeSecondaryVideo('#videoHolderBig');
-
-      $('#remoteControls').hide();
-      $('#videoHolderBig').hide();
-    }
-
-  };
-
-  // Toggle local or remote audio/video
-  var _toggleMediaProperties = function (type) {
-
-    _callProps[type] = !_callProps[type];
-
-    _communication[type](_callProps[type]);
-
-    $(['#', type].join('')).toggleClass('disabled');
-
+    const cameraSubscriberClass =
+      `video-container ${!activeCameraSubscribers ? 'hidden' : ''} active-${activeCameraSubscribers}`;
+    document.getElementById('cameraSubscriberContainer').setAttribute('class', cameraSubscriberClass);
   };
 
 
-  var _startCall = function () {
+  /**
+   * Update the UI
+   * @param {String} update - 'connected', 'active', or 'meta'
+   */
+  const updateUI = (update) => {
+    const { connected, active } = state;
 
-    // Start call
-    _communication.start();
-    _callActive = true;
-
-    // Update UI
-    $('#callActive').addClass('active');
-    $('#videoHolderSmall').addClass('active');
-
-    $('#enableLocalAudio').show();
-    $('#enableLocalVideo').show();
-
-    if (_remoteParticipant) {
-      _swapVideoPositions('start');
-    }
-
-  };
-
-  var _endCall = function () {
-
-    // End call
-    _communication.end();
-    _callActive = false;
-
-    // Update UI
-    $('#callActive').toggleClass('active');
-
-    $('#enableLocalAudio').hide();
-    $('#enableLocalVideo').hide();
-
-    if (_callActive || _remoteParticipant) {
-      _swapVideoPositions('end');
-    }
-  };
-
-  var _addEventListeners = function () {
-
-    // Call events
-    _session.on('streamCreated', function (event) {
-
-      if (event.stream.videoType === 'camera') {
-        _remoteParticipant = true;
-        if (_callActive) {
-          _swapVideoPositions('joined');
+    switch (update) {
+      case 'connected':
+        if (connected) {
+          document.getElementById('connecting-mask').classList.add('hidden');
+          document.getElementById('start-mask').classList.remove('hidden');
         }
-      }
-
-    });
-
-    _session.on('streamDestroyed', function (event) {
-
-      if (event.stream.videoType === 'camera') {
-        _remoteParticipant = false;
-        if (_callActive) {
-          _swapVideoPositions('left');
+        break;
+      case 'active':
+        if (active) {
+          document.getElementById('cameraPublisherContainer').classList.remove('hidden');
+          document.getElementById('start-mask').classList.add('hidden');
+          document.getElementById('controls').classList.remove('hidden');
         }
-      }
-    });
+        else {
+          document.getElementById('start-mask').classList.remove('hidden');
+          document.getElementById('controls').classList.add('hidden');
+          document.getElementById('cameraPublisherContainer').classList.add('hidden');
+          document.getElementById('toggleLocalVideo').classList.remove('muted');
+          document.getElementById('toggleLocalAudio').classList.remove('muted');
+        }
+        break;
+      case 'meta':
+        updateVideoContainers();
+        break;
+      default:
+        console.log('nothing to do, nowhere to go');
+    }
+  };
 
-    // Click events for enabling/disabling audio/video
-    var controls = [
-      'enableLocalAudio',
-      'enableLocalVideo',
-      'enableRemoteAudio',
-      'enableRemoteVideo'
+  /**
+   * Update the state and UI
+   */
+  const updateState = (updates) => {
+    Object.assign(state, updates);
+    Object.keys(updates).forEach(update => updateUI(update));
+  };
+
+  /**
+   * Start publishing video/audio and subscribe to streams
+   */
+  const startCall = () => {
+    otCore.startCall()
+      .then(({ publishers, subscribers, meta }) => {
+        updateState({ publishers, subscribers, meta, active: true });
+      }).catch(error => console.log(error));
+  };
+
+  /**
+   * Toggle publishing local audio
+   */
+  const toggleLocalAudio = () => {
+    const enabled = state.localAudioEnabled;
+    otCore.toggleLocalAudio(!enabled);
+    updateState({ localAudioEnabled: !enabled });
+    const action = enabled ? 'add' : 'remove';
+    document.getElementById('toggleLocalAudio').classList[action]('muted');
+  };
+
+  /**
+   * Toggle publishing local video
+   */
+  const toggleLocalVideo = () => {
+    const enabled = state.localVideoEnabled;
+    otCore.toggleLocalVideo(!enabled);
+    updateState({ localVideoEnabled: !enabled });
+    const action = enabled ? 'add' : 'remove';
+    document.getElementById('toggleLocalVideo').classList[action]('muted');
+  };
+
+  /**
+   * Toggle end call
+   */
+  const toggleEndCall = () => {
+    updateState({ active: false });
+    otCore.endCall();
+  };
+
+  /**
+   * Subscribe to otCore and UI events
+   */
+  const createEventListeners = () => {
+    const events = [
+      'subscribeToCamera',
+      'unsubscribeFromCamera',
     ];
-    controls.forEach(function (control) {
-      $(['#', control].join('')).on('click', function () {
-        _toggleMediaProperties(control);
-      });
-    });
+    events.forEach(event => otCore.on(event, ({ publishers, subscribers, meta }) => {
+      updateState({ publishers, subscribers, meta });
+    }));
+
+    document.getElementById('start').addEventListener('click', startCall);
+    document.getElementById('toggleLocalAudio').addEventListener('click', toggleLocalAudio);
+    document.getElementById('toggleLocalVideo').addEventListener('click', toggleLocalVideo);
+    document.getElementById('toggleEndCall').addEventListener('click', toggleEndCall);
   };
 
-  var _init = function () {
-
-    // Get session
-    _session = OT.initSession(_options.apiKey, _options.sessionId);
-
-    // Connect
-    _session.connect(_options.token, function (error) {
-      if (error) {
-        console.log('Session failed to connect');
-      } else {
-        _communication = new CommunicationAccPack(_.extend(_options, {
-          session: _session,
-          localCallProperties: _options.localCallProperties
-        }));
-        _addEventListeners();
-        _initialized = true;
-        _startCall();
-      }
-    });
-
+  /**
+   * Initialize otCore, connect to the session, and listen to events
+   */
+  const init = () => {
+    otCore.init(options);
+    otCore.connect().then(() => updateState({ connected: true }));
+    createEventListeners();
   };
 
-  var _connectCall = function () {
+  init();
+};
 
-    if (!_initialized) {
-      _init();
-    } else {
-      !_callActive ? _startCall() : _endCall();
-    }
-
-  };
-
-  // Start or end call
-  document.addEventListener('DOMContentLoaded', function () {
-    $('#callActive').on('click', _connectCall);
-  });
-
-}());
+document.addEventListener('DOMContentLoaded', app);

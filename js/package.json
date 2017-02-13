@@ -9,16 +9,14 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cp ./node_modules/opentok-accelerator-core/browser/opentok-acc-core.js ./public/js/components/opentok-acc-core.js",
     "start": "node server.js"
   },
   "author": "adrice727@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.13.4",
-    "opentok-solutions-logging": "^1.0.7"
-  },
-  "devDependencies": {
-    "eslint-config-airbnb": "^9.0.1",
-    "eslint-plugin-react": "^5.1.1"
+    "express": "^4.14.1",
+    "body-parser": "^1.16.0",
+    "opentok-accelerator-core": "*"
   }
 }

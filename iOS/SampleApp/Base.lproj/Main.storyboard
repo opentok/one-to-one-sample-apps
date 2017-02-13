@@ -1,9 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Main View Controller-->
@@ -15,25 +18,25 @@
                         <viewControllerLayoutGuide type="bottom" id="g1w-3N-XuV"/>
                     </layoutGuides>
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="HtV-zK-mFJ" customClass="MainView">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zJt-pm-lIX">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </view>
                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="EoV-Kh-ae4">
-                                <rect key="frame" x="490" y="404" width="90" height="90"/>
+                                <rect key="frame" x="265" y="471" width="90" height="90"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="2ZZ-pD-0bi"/>
                                     <constraint firstAttribute="width" secondItem="EoV-Kh-ae4" secondAttribute="height" multiplier="1:1" id="HVT-by-pPc"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QaT-qb-Mgd">
-                                <rect key="frame" x="197" y="514" width="206" height="66"/>
+                                <rect key="frame" x="84.5" y="581" width="206" height="66"/>
                                 <subviews>
                                     <button opaque="NO" alpha="0.5" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lI4-Iv-Bhv" userLabel="publisherVideoButton">
                                         <rect key="frame" x="8" y="8" width="50" height="50"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="WHA-xY-mGi"/>
                                             <constraint firstAttribute="width" secondItem="lI4-Iv-Bhv" secondAttribute="height" multiplier="1:1" id="atV-3z-CfA"/>
@@ -45,7 +48,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8fW-9l-wlb" userLabel="publisherCallButton">
                                         <rect key="frame" x="78" y="8" width="50" height="50"/>
-                                        <color key="backgroundColor" red="0.41568627450000001" green="0.67843137249999996" blue="0.74901960779999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.41568627450000001" green="0.67843137249999996" blue="0.74901960779999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="7Lw-oa-woS"/>
                                             <constraint firstAttribute="width" secondItem="8fW-9l-wlb" secondAttribute="height" multiplier="1:1" id="DuI-oP-9Bu"/>
@@ -57,7 +60,7 @@
                                     </button>
                                     <button opaque="NO" alpha="0.5" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bwb-uu-g2a" userLabel="publisherMicButton">
                                         <rect key="frame" x="148" y="8" width="50" height="50"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="ip2-ay-ESy"/>
                                             <constraint firstAttribute="width" secondItem="Bwb-uu-g2a" secondAttribute="height" multiplier="1:1" id="vkb-t2-Kh2"/>
@@ -102,7 +105,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xR7-mn-zpN" userLabel="publisherCameraButton">
-                                <rect key="frame" x="550" y="60" width="30" height="21"/>
+                                <rect key="frame" x="325" y="60" width="30" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="xR7-mn-zpN" secondAttribute="height" multiplier="55:39" id="E2O-Tz-PqK"/>
                                     <constraint firstAttribute="width" constant="30" id="Xky-0a-JDU"/>
@@ -113,7 +116,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="EoV-Kh-ae4" secondAttribute="trailing" constant="20" id="9Fu-eZ-Rs1"/>
                             <constraint firstItem="TaE-Jx-zZR" firstAttribute="leading" secondItem="HtV-zK-mFJ" secondAttribute="leading" constant="20" id="C2K-eN-JaA"/>
@@ -148,10 +151,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="audio" width="25" height="25"/>
+        <image name="audio" width="24" height="25"/>
         <image name="mic" width="21" height="26"/>
         <image name="reverse cameras" width="55" height="39"/>
-        <image name="startCall" width="16" height="30"/>
+        <image name="startCall" width="15" height="30"/>
         <image name="video" width="24" height="14"/>
     </resources>
 </document>

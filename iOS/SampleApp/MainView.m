@@ -61,6 +61,7 @@
 }
 
 - (void)removePublisherView {
+    [self.publisherView setHidden:YES];
     [self.publisherView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
 

@@ -61,15 +61,24 @@
 - (void)handleCommunicationSignal:(OTCommunicationSignal)signal {
     
     switch (signal) {
-        case OTSubscriberReady: {
+        case OTPublisherCreated: {
             [SVProgressHUD popActivity];
             [self.mainView connectCallHolder:self.oneToOneCommunicator.isCallEnabled];
             [self.mainView enableControlButtonsForCall:YES];
             [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
-            if (self.oneToOneCommunicator.subscribeToVideo) {
-                [self.mainView removeSubscriberView];
-                [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
-            }
+            break;
+        }
+        case OTPublisherDestroyed: {
+            [self.mainView removePublisherView];
+            NSLog(@"Your publishing feed stops streaming in OpenTok");
+            break;
+        }
+        case OTSubscriberCreated: {
+            [SVProgressHUD show];
+        }
+        case OTSubscriberReady: {
+            [SVProgressHUD popActivity];
+            [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
             break;
         }
         case OTSubscriberDestroyed:{
@@ -82,21 +91,6 @@
         }
         case OTSessionDidReconnect: {
             [SVProgressHUD popActivity];
-            break;
-        }
-        case OTPublisherCreated: {
-            NSLog(@"Your publishing feed is streaming in OpenTok");
-            break;
-        }
-        case OTPublisherDestroyed: {
-            NSLog(@"Your publishing feed stops streaming in OpenTok");
-            break;
-        }
-        case OTSubscriberCreated:{
-            if (self.oneToOneCommunicator.subscribeToVideo) {
-                [self.mainView removeSubscriberView];
-                [self.mainView addSubscribeView:self.oneToOneCommunicator.subscriberView];
-            }
             break;
         }
         case OTSubscriberVideoDisabledByBadQuality:
@@ -137,12 +131,6 @@
 
 - (IBAction)publisherVideoButtonPressed:(UIButton *)sender {
     self.oneToOneCommunicator.publishVideo = !self.oneToOneCommunicator.publishVideo;
-    if (self.oneToOneCommunicator.publishVideo) {
-        [self.mainView addPublisherView:self.oneToOneCommunicator.publisherView];
-    }
-    else {
-        [self.mainView removePublisherView];
-    }
     [self.mainView updatePublisherVideo:self.oneToOneCommunicator.publishVideo];
 }
 
@@ -174,9 +162,9 @@
                         afterDelay:7.0];
 }
 
-
 - (OTAcceleratorSession *)sessionOfOTOneToOneCommunicator:(OTOneToOneCommunicator *)oneToOneCommunicator {
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     return appDelegate.acceleratorSession;
 }
+
 @end

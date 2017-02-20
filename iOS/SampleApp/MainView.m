@@ -66,31 +66,15 @@
 }
 
 - (void)connectCallHolder:(BOOL)connected {
-    if (connected) {
-        [self.callButton setImage:[UIImage imageNamed:@"hangUp"] forState:UIControlStateNormal];
-        self.callButton.layer.backgroundColor = [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor;
-    }
-    else {
-        [self.callButton setImage:[UIImage imageNamed:@"startCall"] forState:UIControlStateNormal];
-        self.callButton.layer.backgroundColor = [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
-    }
+    [self.callButton setImage:connected ? [UIImage imageNamed:@"hangUp"] : [UIImage imageNamed:@"startCall"]  forState:UIControlStateNormal];
+    self.callButton.layer.backgroundColor = connected ? [UIColor colorWithRed:(205/255.0) green:(32/255.0) blue:(40/255.0) alpha:1.0].CGColor : [UIColor colorWithRed:(106/255.0) green:(173/255.0) blue:(191/255.0) alpha:1.0].CGColor;
 }
 - (void)updatePublisherAudio:(BOOL)connected {
-    if (connected) {
-        [self.publisherAudioButton setImage:[UIImage imageNamed:@"mic"] forState: UIControlStateNormal];
-    }
-    else {
-        [self.publisherAudioButton setImage:[UIImage imageNamed:@"mutedMic"] forState: UIControlStateNormal];
-    }
+    [self.publisherAudioButton setImage:connected ? [UIImage imageNamed:@"mic"] : [UIImage imageNamed:@"mutedMic"] forState:UIControlStateNormal];
 }
 
 - (void)updatePublisherVideo:(BOOL)connected {
-    if (connected) {
-        [self.publisherVideoButton setImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
-    }
-    else {
-        [self.publisherVideoButton setImage:[UIImage imageNamed:@"noVideo"] forState: UIControlStateNormal];
-    }
+    [self.publisherVideoButton setImage:connected ? [UIImage imageNamed:@"video"] : [UIImage imageNamed:@"noVideo"] forState:UIControlStateNormal];
 }
 
 #pragma mark - subscriber view
@@ -105,21 +89,11 @@
 }
 
 - (void)updateSubscriberAudioButton:(BOOL)connected {
-    if (connected) {
-        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"audio"] forState: UIControlStateNormal];
-    }
-    else {
-        [self.subscriberAudioButton setImage:[UIImage imageNamed:@"noAudio"] forState: UIControlStateNormal];
-    }
+    [self.subscriberAudioButton setImage:connected ? [UIImage imageNamed:@"audio"] : [UIImage imageNamed:@"noAudio"] forState:UIControlStateNormal];
 }
 
 - (void)updateSubscriberVideoButton:(BOOL)connected {
-    if (connected) {
-        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"video"] forState: UIControlStateNormal];
-    }
-    else {
-        [self.subscriberVideoButton setImage:[UIImage imageNamed:@"noVideo"] forState: UIControlStateNormal];
-    }
+    [self.subscriberVideoButton setImage:connected ? [UIImage imageNamed:@"video"] : [UIImage imageNamed:@"noVideo"] forState:UIControlStateNormal];
 }
 
 - (void)showSubscriberControls:(BOOL)shown {

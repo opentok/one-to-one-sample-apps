@@ -135,12 +135,7 @@
 }
 
 - (IBAction)publisherCameraButtonPressed:(UIButton *)sender {
-    if (self.oneToOneCommunicator.cameraPosition == AVCaptureDevicePositionBack) {
-        self.oneToOneCommunicator.cameraPosition = AVCaptureDevicePositionFront;
-    }
-    else {
-        self.oneToOneCommunicator.cameraPosition = AVCaptureDevicePositionBack;
-    }
+    self.oneToOneCommunicator.cameraPosition = self.oneToOneCommunicator.cameraPosition == AVCaptureDevicePositionBack ? AVCaptureDevicePositionFront : AVCaptureDevicePositionBack
 }
 
 - (IBAction)subscriberVideoButtonPressed:(UIButton *)sender {

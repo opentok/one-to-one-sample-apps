@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>OT Accelerator Core</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://assets.tokbox.com/solutions/css/style.css">
+    <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+    <script src="js/components/opentok-solutions-logging.js"></script>
+    <script src="js/components/opentok-acc-core.js"></script>
+     <script src="js/components/opentok-text-chat.js"></script>
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <div class="App">
+        <div class="App-header">
+            <img src="./images/logo.svg" class="App-logo" alt="logo" />
+            <h1>OpenTok Accelerator Core</h1>
+        </div>
+        <div class="App-main">
+            <div id="controls" class='App-control-container hidden'>
+                <div class="ots-video-control circle audio" id="toggleLocalAudio"></div>
+                <div class="ots-video-control circle video" id="toggleLocalVideo"></div>
+                <div class="ots-video-control circle end-call" id="toggleEndCall"></div>
+            </div>
+            <div class="App-video-container" id="appVideoContainer">
+                <div class="App-mask" id="connecting-mask">
+                    <progress-spinner dark style="font-size:50px"></progress-spinner>
+                    <div class="message with-spinner">Connecting</div>
+                </div>
+                <div class="App-mask hidden" id="start-mask">
+                    <div class="message button clickable" id="start">Click to Start Call</div>
+                </div>
+                <div id="cameraPublisherContainer" class="video-container hidden"></div>
+                <div id="screenPublisherContainer" class="video-container hidden"></div>
+                <div id="cameraSubscriberContainer" class="video-container-hidden"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

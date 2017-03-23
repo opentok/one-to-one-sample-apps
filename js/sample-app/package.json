@@ -1,0 +1,24 @@
+{
+  "name": "one-to-one-textchat-sample",
+  "version": "1.0.4",
+  "description": "One to One textchat sample app",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opentok/one-to-one-textchat-sample-apps"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cp ./node_modules/opentok-accelerator-core/browser/opentok-acc-core.js ./public/js/components/opentok-acc-core.js && cp ./node_modules/opentok-text-chat/dist/opentok-text-chat.js ./public/js/components/opentok-text-chat.js && cp ./node_modules/opentok-solutions-logging/dist/opentok-solutions-logging.js ./public/js/components/opentok-solutions-logging.js",
+    "start": "node server.js"
+  },
+  "author": "adrice727@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.1",
+    "body-parser": "^1.16.0",
+    "opentok-accelerator-core": "*",
+    "opentok-text-chat": "^1.0.23",
+    "opentok-solutions-logging": "^1.0.7"
+  }
+}

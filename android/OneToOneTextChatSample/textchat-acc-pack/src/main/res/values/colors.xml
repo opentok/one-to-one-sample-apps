@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="secondary_dark">#b3b3b3</color>
+    <color name="secondary">#f2f2f2</color>
+    <color name="primary_dark">#5cacbd</color>
+    <color name="primary">#3352abbd</color>
+    <color name="white">#ffffff</color>
+    <color name="accent">#043742</color>
+    <color name="primary_text">#888888</color>
+    <color name="input_text">#828286</color>
+    <color name="info_text">#afafaf</color>
+    <color name="alert">#fefac7</color>
+    <color name="alert_text">#ad7212</color>
+    <color name="info">#AAAAAA</color>
+</resources>

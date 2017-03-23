@@ -1,0 +1,6 @@
+node_modules
+
+# OSX files
+.DS_Store
+public/css
+public/js/components/text-chat-acc-pack.js

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/primary_dark">
+
+        <TextView
+            android:id="@+id/titlebar"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/title_bar_height"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"></TextView>
+
+        <ImageButton
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="14.9dp"
+            android:layout_marginTop="14.5dp"
+            android:background="@drawable/close"
+            android:clickable="true" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/action_bar"
+        android:layout_above="@+id/send_msg"></include>
+
+    <RelativeLayout
+        android:id="@+id/send_msg"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/accent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_height"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/input_text">
+
+        <EditText
+            android:id="@+id/edit_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/input_height"
+            android:hint="Type message"
+            android:paddingLeft="15dp"
+            android:textSize="@dimen/input_text"
+            android:textColor="@color/input_text"
+            android:fontFamily="sans-serif"
+            android:focusable="true"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:background="@null"/>
+
+        <TextView
+            android:id="@+id/characteres_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/info"
+            android:text="1000"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:layout_toRightOf="@+id/edit_msg"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="right"
+            android:maxLines="1"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

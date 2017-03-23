@@ -1,16 +1,16 @@
 ![logo](../tokbox-logo.png)
 
-# OpenTok One-to-One Communication Sample App for JavaScript<br/>Version 1.3
+# OpenTok One-to-One Text Chat Sample App for JavaScript
 
 ## Quick start
 
-This section shows you how to prepare and run the sample application. The app is built by the [Accelerator Core JS](https://github.com/opentok/accelerator-core-js).
+This section shows you how to prepare and run the sample application. The app is built by the [Accelerator Core JS](https://github.com/opentok/accelerator-core-js) and [Accelerator Text Chat JS](https://github.com/opentok/accelerator-textchat-js)
 
 ### Configuring the app
 
 Configure the sample app code. Then, build and run the app.
 
-1. Get values for **API Key**, **Session ID**, and **Token**. See [OpenTok One-to-One Communication Sample App home page](../README.md) for important information.
+1. Get values for **API Key**, **Session ID**, and **Token**.
 
 2. In **app.js**, replace the following empty strings with the corresponding **API Key**, **Session ID**, and **Token** values:
 
@@ -34,4 +34,3 @@ The web page that loads the sample app for JavaScript must be served over HTTP/H
 ## Exploring the code
 
 For details about how to use the Accelerator Core in the sample app, see [here](https://github.com/opentok/accelerator-core-js#sample-applications).
-

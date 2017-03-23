@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toLeftOf="@+id/initial"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/msg_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="22.5dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="2dp"
+            android:singleLine="true"
+            android:textColor="@color/info_text"
+            android:textSize="@dimen/info_text"
+            android:gravity="left"
+            android:fontFamily="sans-serif" />
+
+            <TextView
+                android:id="@+id/msg_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/msg_info"
+                android:layout_marginLeft="22.5dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingRight="15dp"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_size"
+                android:textColor="@color/primary_text"
+                android:layout_toLeftOf="@+id/initial"
+                android:fontFamily="sans-serif"
+                android:singleLine="false"
+                android:background="@drawable/blue_bubble4" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/initial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="22.5dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/initial_letter"
+            android:background="@drawable/blue_chat"
+            android:layout_marginTop="30dp"/>
+</RelativeLayout>

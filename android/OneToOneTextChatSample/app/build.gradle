@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+
+    android {
+        compileSdkVersion 25
+        buildToolsVersion "25.0.0"
+
+        defaultConfig {
+            applicationId "com.tokbox.android.textchatsample"
+            minSdkVersion 16
+            targetSdkVersion 25
+            versionCode 1
+            versionName "1.0"
+            vectorDrawables.useSupportLibrary = true
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+
+        packagingOptions {
+            exclude 'META-INF/ASL2.0'
+            exclude 'META-INF/LICENSE'
+        }
+
+        lintOptions {
+            checkReleaseBuilds false
+            abortOnError false
+        }
+    }
+
+    dependencies {
+        compile fileTree(include: ['*.jar'], dir: 'libs')
+        testCompile 'junit:junit:4.12'
+        compile 'com.android.support:appcompat-v7:25.+'
+        compile 'com.android.support:design:25.+'
+        compile 'com.opentok.android:opentok-accelerator-textchat:1.0.+'
+    }
+

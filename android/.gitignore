@@ -26,5 +26,3 @@ build/
 *.ipr
 *.iws
 
-#libs
-*.so

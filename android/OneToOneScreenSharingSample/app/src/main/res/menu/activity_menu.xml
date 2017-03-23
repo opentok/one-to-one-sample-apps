@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/menu_calendar"
+        android:orderInCategory="1"
+        android:title="Calendar"/>
+    <item
+        android:id="@+id/menu_graphs"
+        android:orderInCategory="2"
+        android:title="Graphs"/>
+    <item
+        android:id="@+id/menu_info"
+        android:orderInCategory="3"
+        android:title="Info"/>
+    <item
+        android:id="@+id/menu_call"
+        android:orderInCategory="4"
+        android:title="Call"/>
+    <item
+        android:id="@+id/menu_settings"
+        android:orderInCategory="5"
+        android:title="Settings"/>
+</menu>

@@ -1,0 +1,804 @@
+.ots-app-container {
+    width: 90vw;
+    height: 90vh;
+    min-width: 720px;
+    min-height: calc(720px/(1024/760));
+    margin: 35px auto;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.ots-hidden {
+    display: none !important;
+}
+
+.ots-app-container *,
+.ots-app-container *:before,
+.ots-app-container *:after {
+    box-sizing: inherit;
+}
+
+.ots-widget-container {
+    width: 100%;
+    height: 100%;
+    font-family: helvetica, arial, sans-serif;
+    border: 1px solid rgba(87, 193, 228, .85);
+    padding: 5px;
+}
+
+/* Moves text chat next to the primary video feed */
+.ots-widget-container.display-text-chat {
+    display: -webkit-box;
+    display: flex;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    -webkitalign-items: center;
+    align-items: center;
+}
+
+.ots-widget-container.viewing-shared-screen {
+    padding-bottom: 65px;
+}
+
+.ots-widget-container .video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.ots-widget-container .video-container.partial {
+    width: 65%;
+}
+
+.ots-widget-container .chat-container {
+    width: 30%;
+}
+
+.ots-icon-check {
+    background-image: url("https://assets.tokbox.com/solutions/images/text-chat-check.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio:1.5),
+only screen and (min--moz-device-pixel-ratio:1.5),
+only screen and (min-device-pixel-ratio:1.5) {
+    .ots-icon-check {
+        background-image: url("https://assets.tokbox.com/solutions/images/text-chat-check@2x.png");
+        background-size: 27px 21px;
+    }
+}
+
+/* Aspect Ratio for Screen Sharing */
+.ots-aspect-ratio {
+    height: 54vw;
+    min-width: 600px;
+    min-height: 360px;
+    padding: 0;
+}
+
+.ots-aspect-ratio > .video-container {
+    position: absolute;
+}
+
+.ots-widget-container .shared-screen {
+    display: flex;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+}
+
+.ots-widget-container .shared-screen canvas {
+    top: 0;
+    left: 0;
+}
+
+.ots-widget-container .sharing-mask {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.ots-widget-container .sharing-mask .sharing-text {
+    color: lightblue;
+    font-size: 1.2em;
+    font-weight: 300;
+    text-align: center;
+}
+
+.ots-widget-container .video-wrap {
+    border-radius: 6px;
+    overflow: hidden;
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+}
+
+.ots-widget-container .video-wrap.secondary-video .OT_publisher {
+    position: absolute;
+    top: 0;
+}
+
+.ots-widget-container .video-background {
+    background-image: url("https://assets.tokbox.com/solutions/images/widget-background.png");
+    background-size: contain;
+}
+
+.ots-widget-container .primary-video {
+    width: 100%;
+    height: 100%;
+    display: flex !important;
+}
+
+.ots-widget-container .local-controls {
+    height: 60px;
+    width: 100%;
+    background-image: url("https://assets.tokbox.com/solutions/images/widget-control-bar.png");
+    background-size: contain;
+    position: absolute;
+    bottom: 0;
+    border-radius: 0 0 6px 6px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    z-index: 1001;
+}
+
+
+/* Move down so as to not cover canvas */
+.ots-widget-container .local-controls.viewing-shared-screen {
+    height: 65px;
+    bottom: -60px;
+}
+
+.ots-widget-container .secondary-video {
+    position: absolute;
+    bottom: 75px;
+    right: 30px;
+    width: 174px;
+    height: 150px;
+    z-index: 11;
+}
+
+.ots-widget-container .secondary-video.active {
+    border: 1px solid rgba(255, 255, 255, .8);
+}
+
+.ots-widget-container .remote-controls {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    z-index: 12;
+}
+
+.ots-widget-container .ots-video-control {
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.ots-widget-container .ots-video-control.circle {
+    border: 1px solid rgba(128, 128, 128, .5);
+    border-radius: 50%;
+}
+
+.ots-widget-container .ots-video-control.circle:hover {
+    border: 1px solid rgba(128, 128, 128, 1);
+}
+
+.ots-widget-container .ots-video-control.call {
+    background-color: rgba(87, 193, 228, .85);
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-call.png");
+    margin: 0 15px;
+}
+
+.ots-widget-container .ots-video-control.call:hover {
+    background-color: rgba(87, 193, 228, 1);
+}
+
+.ots-widget-container .ots-video-control.call.active {
+    background-color: red;
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-hang-up.png");
+}
+
+.ots-video-control.text-chat {
+    margin-left: 10px;
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-message.png");
+}
+
+.ots-video-control.text-chat.disabled,
+.ots-video-control.text-chat:hover {
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-message.png");
+    background-color: brown;
+}
+
+.ots-video-control.text-chat.active {
+    background-color: brown;
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-message.png");
+}
+
+.ots-video-control.archiving {
+    margin-left: 10px;
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-not-recording.png");
+}
+
+.ots-video-control.archiving.active,
+.ots-video-control.archiving:hover {
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-recording.png");
+}
+
+.ots-video-control.share-screen {
+    margin-left: 10px;
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-screen-share.png");
+}
+
+.ots-video-control.share-screen.disabled,
+.ots-video-control.share-screen:hover {
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-screen-share.png");
+}
+
+.ots-video-control.share-screen.active {
+    background-color: red;
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-screen-share.png");
+}
+
+.ots-video-control.video {
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-video.png");
+}
+
+.ots-video-control.video.disabled,
+.ots-video-control.video:hover {
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-no-video.png");
+}
+
+.ots-video-control.audio {
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-audio.png");
+}
+
+.ots-video-control.audio.disabled,
+.ots-video-control.audio:hover {
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-no-audio.png");
+}
+
+.ots-video-control.microphone {
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-mic.png");
+}
+
+.ots-video-control.microphone.disabled,
+.ots-video-control.microphone:hover {
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-muted-mic.png");
+}
+
+/*Text Chat */
+
+.ots-text-chat {
+    position: relative;
+    margin-top: 20px;
+    border: 1px solid #c6c6c6;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #fff;
+    font-family: helvetica, arial, sans-serif;
+    color: #343c3e;
+    font-weight: normal;
+}
+
+.ots-text-chat .ots-messages-header {
+    width: 100%;
+    display: block;
+    text-align: center;
+    line-height: 28px;
+    font-size: 13px;
+    color: #9f9f9f;
+    border-bottom: 1px solid #c6c6c6;
+    background: #f2f2f2;
+    -webkit-border-top-right-radius: 2px;
+    -webkit-border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-top-left-radius: 2px;
+    -moz-border-radius-topright: 2px;
+    -moz-border-radius-bottomright: 0;
+    -moz-border-radius-bottomleft: 0;
+    -moz-border-radius-topleft: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 2px;
+    -moz-background-clip: padding-box;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box
+}
+
+.ots-text-chat .ots-messages-header.hidden {
+    display: none;
+}
+
+.ots-text-chat .ots-messages-holder {
+    height: 365px;
+    overflow: hidden;
+    overflow-y: scroll
+}
+
+.ots-text-chat .ots-messages-holder .ots-messages-alert {
+    position: relative;
+    padding: 30px;
+    min-height: 65px;
+    background: rgba(248, 231, 28, 0.25);
+    margin: 25px;
+    text-align: center;
+    color: #ad7212;
+    font-size: 14px;
+    line-height: 1.4;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px
+}
+
+.ots-text-chat .ots-messages-holder .ots-message-item {
+    position: relative;
+    padding: 0 0 0 50px;
+    margin: 40px 25px 10px 20px
+}
+
+.ots-text-chat .ots-messages-holder .ots-message-item .ots-user-name-initial {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    text-transform: uppercase;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background: #b3b3b3;
+    color: #fff;
+    font-size: 24px
+}
+
+.ots-text-chat .ots-messages-holder .ots-message-item .ots-item-text {
+    position: relative;
+    padding: 12px;
+    min-height: 65px;
+    background: #f2f2f2;
+    margin-left: 14px;
+    color: #7c7c7c;
+    font-size: 15px;
+    line-height: 1.2;
+    -webkit-border-top-right-radius: 8px;
+    -webkit-border-bottom-right-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topright: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    -moz-border-radius-topleft: 0;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 0;
+    -moz-background-clip: padding-box;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box
+}
+
+.ots-text-chat .ots-messages-holder .ots-message-item .ots-item-text:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -12px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 14px 14px 0;
+    border-color: transparent #f2f2f2 transparent transparent
+}
+
+.ots-text-chat .ots-messages-holder .ots-message-item .ots-item-text span {
+    display: block;
+    margin-bottom: 6px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto
+}
+
+.ots-text-chat .ots-messages-holder .ots-message-item .ots-item-timestamp {
+    position: absolute;
+    top: -18px;
+    right: 20px;
+    color: #b3b3b3;
+    font-size: 12px
+}
+
+.ots-text-chat .ots-messages-holder .ots-message-item.ots-message-sent {
+    padding: 0 50px 0 0;
+    margin: 40px 20px 10px 25px
+}
+
+.ots-text-chat .ots-messages-holder .ots-message-item.ots-message-sent .ots-user-name-initial {
+    left: inherit;
+    right: 0;
+    background: #259de8
+}
+
+.ots-text-chat .ots-messages-holder .ots-message-item.ots-message-sent .ots-item-text {
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -webkit-border-top-left-radius: 8px;
+    -moz-border-radius-topright: 0;
+    -moz-border-radius-bottomright: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    -moz-border-radius-topleft: 8px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    -moz-background-clip: padding-box;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    margin-left: 0;
+    margin-right: 14px
+}
+
+.ots-text-chat .ots-messages-holder .ots-message-item.ots-message-sent .ots-item-text:before {
+    left: inherit;
+    right: -12px;
+    border-width: 14px 14px 0 0;
+    border-color: #f2f2f2 transparent transparent transparent
+}
+
+.ots-text-chat .ots-messages-holder .ots-message-item.ots-message-sent .ots-item-timestamp {
+    right: 80px
+}
+
+.ots-text-chat .ots-send-message-box {
+    position: relative;
+    width: 100%;
+    height: 70px;
+    border-top: 1px solid #c6c6c6;
+    padding-right: 70px
+}
+
+.ots-text-chat .ots-send-message-box input[type="text"],
+.ots-text-chat .ots-send-message-box textarea {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: 0;
+    padding: 25px 25px 0;
+    font-size: 16px;
+    resize: none
+}
+
+.ots-text-chat .ots-send-message-box button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70px;
+    height: 69px;
+    background-color: #f2f2f2;
+    border-left: 1px solid #c6c6c6;
+    outline: 0;
+    border: 0;
+    border-left: 1px solid #c6c6c6;
+}
+
+.ots-text-chat .ots-send-message-box button:hover {
+    background-color: #259de8;
+}
+
+.ots-text-chat .ots-send-message-box .ots-character-count {
+    position: absolute;
+    bottom: -18px;
+    right: 0;
+    color: #cf2027;
+    font-size: 12px;
+}
+
+.ots-text-chat .ots-user-prof-info {
+    width: auto;
+    height: 430px;
+    padding: 32px 46px;
+}
+
+.ots-text-chat .ots-user-prof-info span {
+    display: block;
+    margin-bottom: 10px;
+    color: #5f5a5a
+}
+
+.ots-text-chat .ots-user-prof-info span em {
+    color: #867f7f;
+    font-style: normal;
+}
+
+.ots-text-chat .ots-user-prof-info hr {
+    margin: 36px 0;
+}
+
+
+/* Screensharing styles */
+
+.ots-ss-modal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.ots-ss-modal .ots-ss-modal-body {
+    position: relative;
+    width: 456px;
+    height: 286px;
+    margin: 100px auto 0;
+    padding: 62px 70px;
+    background: #ffffff;
+    border: 1px solid #c7c7c7;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.35);
+    color: #282828;
+}
+
+.ots-ss-modal .ots-ss-modal-body .ots-ss-modal-title span {
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: bold;
+}
+
+.ots-ss-modal .ots-ss-modal-body .ots-ss-modal-title.with-icon {
+    position: relative;
+    padding-left: 70px;
+}
+
+.ots-ss-modal .ots-ss-modal-body .ots-ss-modal-title.with-icon i {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 60px;
+    height: 41px;
+    margin-top: -23px;
+    max-width: 60px;
+    max-height: 42px;
+}
+
+.ots-ss-modal .ots-ss-modal-body p {
+    font-size: 14px;
+    margin: 20px 0;
+}
+
+.ots-ss-modal .ots-ss-modal-body .ots-btn-install {
+    display: block;
+    width: 316px;
+    height: 44px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 44px;
+    color: #fff;
+    font-size: 14px;
+    background: #259de8;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.ots-ss-modal .ots-ss-modal-body .ots-cancel-btn-install {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 25px;
+    height: 25px;
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-oval-281-x.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: transparent;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (min-device-pixel-ratio: 1.5) {
+    .ots-ss-modal .ots-ss-modal-body .ots-cancel-btn-install {
+        background-image: url("https://assets.tokbox.com/solutions/images/icon-oval-281-x@2x.png");
+        background-size: 25px 25px;
+    }
+}
+
+.ots-icon-share-large {
+    background-image: url("https://assets.tokbox.com/solutions/images/icon-screenshare-large.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (min-device-pixel-ratio: 1.5) {
+    .ots-icon-share-large {
+        background-image: url("https://assets.tokbox.com/solutions/images/icon-screenshare-large@2x.png");
+        background-size: 60px 41px;
+    }
+}
+
+/*Annotation Styles*/
+
+.ots-annotation-toolbar-container {
+    position: fixed;
+    top: 125px;
+    right: 0;
+    width: 40px;
+    z-index: 1000;
+}
+
+.ots-annotation-toolbar-container> div input {
+    display: block;
+    top: 0 !important;
+    transform: none !important;
+}
+
+.ots-annotation-toolbar-container> div input#OT_colors {
+    width: 30px;
+    margin-right: 5px !important;
+    margin-left: 5px !important;
+    padding: 0;
+}
+
+.ots-annotation-toolbar-container> div .OT_subpanel,
+.ots-annotation-toolbar-container> div .color-picker {
+    position: absolute;
+    top: 0;
+    right: 40px;
+    padding-left: 0 !important;
+}
+
+.ots-annotation-toolbar-container> div .OT_subpanel {
+    left: -40px;
+    overflow: hidden;
+}
+
+.ots-annotation-toolbar-container> div .OT_subpanel> div {
+    top: 0 !important;
+    transform: none !important;
+}
+
+.ots-annotation-toolbar-container> div .color-picker {
+    left: -30px;
+}
+
+.ots-annotation-toolbar-container> div .color-picker .color-choice {
+    display: block !important;
+    height: 20px !important;
+    width: 20px !important;
+}
+
+
+/* Archiving */
+
+
+/* The Modal (background) */
+
+.ots-archiving-modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+
+/* Modal Content */
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    position: relative;
+    text-align: center;
+}
+
+
+/* The Close Button */
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #aaaaaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+.download {
+    width: 68px;
+    height: 17px;
+    object-fit: contain;
+    font-family: Muli;
+    font-size: 14px;
+    color: #0099cc;
+}
+
+.archive-name {
+    font-family: helvetica, arial, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 10px auto;
+}
+
+.archive-details {
+    width: 90px;
+    height: 16px;
+    object-fit: contain;
+    font-family: Muli;
+    font-size: 13px;
+    color: #000000;
+}
+
+.date-time {
+    width: 76px;
+    height: 80px;
+    object-fit: contain;
+    opacity: 0.5;
+    font-family: Muli;
+    font-size: 13px;
+    text-align: right;
+    color: #202a2f;
+}
+
+.archive-information {
+    width: 300px;
+    height: 80px;
+    object-fit: contain;
+    font-family: Muli;
+    font-size: 13px;
+    line-height: 1.2;
+    color: #000000;
+}

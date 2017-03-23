@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settings_table"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/toolbar_bckg">
+
+    <!-- 2 columns -->
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:text="Settings"
+            android:textSize="24dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:padding="20dip" />
+    </TableRow>
+
+    <!-- just draw a red line -->
+    <View
+        android:layout_height="2dip"
+        android:background="@color/white" />
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:text="General"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:padding="10dip" />
+    </TableRow>
+
+    <!-- just draw a red line -->
+    <View
+        android:layout_height="2dip"
+        android:background="@color/white" />
+
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:text="Notifications"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:padding="10dip"/>
+
+        <CheckBox
+            android:id="@+id/checkbox"/>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <TextView
+            android:id="@+id/textView4"
+            android:text="Auto-update"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:padding="10dip"/>
+
+        <CheckBox
+            android:id="@+id/checkbox2"
+            android:checked="true"/>
+    </TableRow>
+
+    <!-- just draw a red line -->
+    <View
+        android:layout_height="2dip"
+        android:background="@color/white" />
+
+    <TableRow
+        android:id="@+id/tableRow5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <TextView
+            android:id="@+id/textView5"
+            android:text="User controls"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:padding="10dip" />
+    </TableRow>
+
+    <!-- just draw a red line -->
+    <View
+        android:layout_height="2dip"
+        android:background="@color/white" />
+
+    <TableRow
+        android:id="@+id/tableRow6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <TextView
+            android:id="@+id/textView6"
+            android:text="Username"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:padding="10dip" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <TextView
+            android:id="@+id/textView7"
+            android:text="Password"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:padding="10dip" />
+    </TableRow>
+
+    <!-- just draw a red line -->
+    <View
+        android:layout_height="2dip"
+        android:background="@color/white" />
+
+</TableLayout>

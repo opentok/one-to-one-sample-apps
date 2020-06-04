@@ -1,6 +1,16 @@
-![logo](./tokbox-logo.png)
+# DEPRECATED: OpenTok One-to-One Communication Sample App<br/>Version 1.3
 
-# OpenTok One-to-One Communication Sample App<br/>Version 1.3
+<img src="https://assets.tokbox.com/img/vonage/Vonage_VideoAPI_black.svg" height="48px" alt="Tokbox is now known as Vonage" />
+
+> This repository has been deprecated and is superseded by the following repositories:
+>
+> [accelerator-sample-apps-js](https://github.com/opentok/accelerator-sample-apps-js)
+>
+> [accelerator-sample-apps-android](https://github.com/opentok/accelerator-sample-apps-android)
+>
+> [accelerator-sample-apps-ios](https://github.com/opentok/accelerator-sample-apps-ios)
+
+---
 
 The OpenTok One-to-One Communication Sample App is an open-source solution that enables you to quickly get started in your development efforts to set up interoperable, production-quality audio/video communication between users.
 
@@ -29,7 +39,7 @@ For example, suppose one user is using a web (JS) version of the One-to-One Comm
 
 Use the following approach to try this out:
 
-1. Configure a web and mobile user with the required  **Session ID**, **Token**, and **API Key** values, using the same **Session ID** and **API Key** for each.
+1. Configure a web and mobile user with the required **Session ID**, **Token**, and **API Key** values, using the same **Session ID** and **API Key** for each.
 
 2. Start the web and mobile apps. You will observe the following interactions:
 
@@ -44,3 +54,11 @@ Use the following approach to try this out:
    - Enable or disable remote audio/video on the web app.
 
 As you get started with this OpenTok sample, you will learn the best practices used to develop and manage the audio, video, and camera elements on mobile devices or in the browser. We recommend this is as your first step in delivering [Real Time Communications (WebRTC)](https://tokbox.com/about-webrtc) solutions on the OpenTok platform.
+
+## Getting Help
+
+We love to hear from you so if you have questions or comments, let us know! You can either:
+
+- See <https://support.tokbox.com/> for support options
+- Tweet at us! We're [@VonageDev on Twitter](https://twitter.com/VonageDev)
+- Or [join the Vonage Developer Community Slack](https://developer.nexmo.com/community/slack)
